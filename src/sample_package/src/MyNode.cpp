@@ -18,7 +18,7 @@ MyClass::MyClass(int argc, char** argv, std::string node_name) {
     // default
     std::string parameter_name    = "my_node/character";
     std::string default_character = "!";
-    if (!nh.getParam(parameter_name, suffix)){
+    if (!private_nh.getParam(parameter_name, suffix)){
         ROS_INFO_STREAM(nh.getNamespace() 
                 << ": no value given for " << parameter_name
                 << ", using default value " << default_character);
