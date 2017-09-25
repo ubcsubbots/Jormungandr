@@ -10,13 +10,13 @@
 #define SAMPLE_PACKAGE_MYNODE_H
 
 #include <iostream>
-#include <std_msgs/String.h>
 #include <ros/ros.h>
 #include <sb_utils.h>
+#include <std_msgs/String.h>
 
 class MyClass {
-public:
-    MyClass(int argc, char **argv, std::string node_name);
+  public:
+    MyClass(int argc, char** argv, std::string node_name);
     /**
      * Adds an exclamation point to a given string
      *
@@ -26,10 +26,11 @@ public:
      *
      * @return input_string with an exclamation point added to it
      */
-     static std::string addCharacterToString(std::string input_string, std::string suffix);
-     std::string suffix;
+    static std::string addCharacterToString(std::string input_string,
+                                            std::string suffix);
+    std::string suffix;
 
-private:
+  private:
     /**
      * Callback function for when a new string is received
      *
@@ -46,4 +47,4 @@ private:
     ros::Subscriber my_subscriber;
     ros::Publisher my_publisher;
 };
-#endif //SAMPLE_PACKAGE_MYNODE_H
+#endif // SAMPLE_PACKAGE_MYNODE_H

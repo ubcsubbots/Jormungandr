@@ -8,8 +8,7 @@
 
 #include <MyNode.h>
 
-
-int main(int argc, char **argv){
+int main(int argc, char** argv) {
     // Setup your ROS node
     std::string node_name = "my_node";
 

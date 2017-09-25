@@ -8,24 +8,26 @@
 
 #include <MyNode.h>
 
-MyClass::MyClass(int argc, char **argv, std::string node_name) {
+MyClass::MyClass(int argc, char** argv, std::string node_name) {
     // Setup NodeHandles
     ros::init(argc, argv, node_name);
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
-    // Obtains character from the parameter server (or launch file), sets '!' as default
-    std::string parameter_name = "my_node/character";
+    // Obtains character from the parameter server (or launch file), sets '!' as
+    // default
+    std::string parameter_name    = "my_node/character";
     std::string default_character = "!";
     SB_getParam(nh, parameter_name, suffix, default_character);
 
     // Setup Subscriber(s)
     std::string topic_to_subscribe_to = "subscribe_topic";
-    int refresh_rate = 10;
-    my_subscriber = nh.subscribe(topic_to_subscribe_to, refresh_rate, &MyClass::subscriberCallBack, this);
+    int refresh_rate                  = 10;
+    my_subscriber                     = nh.subscribe(
+    topic_to_subscribe_to, refresh_rate, &MyClass::subscriberCallBack, this);
 
     // Setup Publisher(s)
-    std::string topic = private_nh.resolveName("publish_topic");
+    std::string topic   = private_nh.resolveName("publish_topic");
     uint32_t queue_size = 1;
     my_publisher = private_nh.advertise<std_msgs::String>(topic, queue_size);
 }
@@ -33,11 +35,12 @@ MyClass::MyClass(int argc, char **argv, std::string node_name) {
 void MyClass::subscriberCallBack(const std_msgs::String::ConstPtr& msg) {
     ROS_INFO("Received message");
     std::string input_string = msg->data.c_str();
-    std::string new_msg = addCharacterToString(input_string, suffix);
+    std::string new_msg      = addCharacterToString(input_string, suffix);
     republishMsg(new_msg);
 }
 
-std::string MyClass::addCharacterToString(std::string input_string, std::string suffix) {
+std::string MyClass::addCharacterToString(std::string input_string,
+                                          std::string suffix) {
     return input_string.append(suffix);
 }
 
