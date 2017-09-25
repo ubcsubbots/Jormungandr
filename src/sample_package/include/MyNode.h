@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include <ros/ros.h>
-#include <sb_utils.h>
 #include <std_msgs/String.h>
 
 class MyClass {
