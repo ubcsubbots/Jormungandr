@@ -18,3 +18,5 @@ cmake-build-debug
 *_REMOTE_*.txt
 *.orig
 
+# External Packages we use that are installed via `rosdep`
+src/uwsim
