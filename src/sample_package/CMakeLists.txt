@@ -132,6 +132,7 @@ include_directories(
 ## Declare a C++ executable
 # add_executable(sample_package_node src/sample_package_node.cpp)
 add_executable(my_node src/my_node.cpp src/MyNode.cpp include/MyNode.h)
+add_executable(hsv_filter src/hsv_filter.cpp src/HSVFilter.cpp include/HSVFilter.h)
 
 
 ## Add cmake target dependencies of the executable
@@ -143,6 +144,7 @@ add_executable(my_node src/my_node.cpp src/MyNode.cpp include/MyNode.h)
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(my_node ${catkin_LIBRARIES})
+target_link_libraries(hsv_filter ${catkin_LIBRARIES})
 
 #############
 ## Install ##
