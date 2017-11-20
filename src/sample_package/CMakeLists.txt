@@ -133,6 +133,7 @@ include_directories(
 # add_executable(sample_package_node src/sample_package_node.cpp)
 add_executable(my_node src/my_node.cpp src/MyNode.cpp include/MyNode.h)
 
+
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(sample_package_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
