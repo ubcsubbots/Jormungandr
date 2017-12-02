@@ -16,7 +16,7 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     ros::NodeHandle private_nh("~");
     image_transport::ImageTransport it(nh);
 
-    filter_ = HSVFilter(1,2,3,4,5,6);
+    filter_ = HSVFilter();
 
     int refresh_rate = 1;
     subscriber_ = it.subscribe(kSubscribeTopic, refresh_rate, &HSVFilterNode::subscriberCallBack, this);

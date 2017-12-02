@@ -16,12 +16,13 @@ HSVFilter::HSVFilter(int hue_lower, int hue_upper, int sat_lower, int sat_upper,
 }
 
 HSVFilter::HSVFilter() {
-    hue_lower_ = 0;
-    hue_upper_ = 0;
-    sat_lower_ = 0;
-    sat_upper_ = 0;
-    val_lower_ = 0;
-    val_upper_ = 0;
+    // default will be international orange
+    hue_lower_ = 10;
+    hue_upper_ = 30;
+    sat_lower_ = 80;
+    sat_upper_ = 100;
+    val_lower_ = 80;
+    val_upper_ = 100;
 }
 
 void HSVFilter::apply(const cv::Mat& original, cv::Mat& filtered) {
