@@ -15,6 +15,15 @@ HSVFilter::HSVFilter(int hue_lower, int hue_upper, int sat_lower, int sat_upper,
     val_upper_ = val_upper;
 }
 
+HSVFilter::HSVFilter() {
+    hue_lower_ = 0;
+    hue_upper_ = 0;
+    sat_lower_ = 0;
+    sat_upper_ = 0;
+    val_lower_ = 0;
+    val_upper_ = 0;
+}
+
 void HSVFilter::apply(const cv::Mat& original, cv::Mat& filtered) {
     cv::Mat input_hsv;
     cv::cvtColor(original, input_hsv, cv::COLOR_BGR2HSV, 0);

@@ -5,7 +5,6 @@
  */
 
 #include <HSVFilterNode.h>
-#include <HSVFilter.h>
 
 const std::string HSVFilterNode::kSubscribeTopic = "/camera/image_raw";
 const std::string HSVFilterNode::kPublishTopic = "/vision/output";
@@ -17,6 +16,7 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     ros::NodeHandle private_nh("~");
     image_transport::ImageTransport it(nh);
 
+    filter_ = HSVFilter(1,2,3,4,5,6);
 
     int refresh_rate = 1;
     subscriber_ = it.subscribe(kSubscribeTopic, refresh_rate, &HSVFilterNode::subscriberCallBack, this);
@@ -37,9 +37,8 @@ void HSVFilterNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image) 
         return;
     }
 
-    HSVFilter filter(1,2,3,4,5,6);
     cv::Mat filtered;
-    filter.apply(cv_ptr->image, filtered);
+    filter_.apply(cv_ptr->image, filtered);
     publishFilteredImage(filtered);
 
 }

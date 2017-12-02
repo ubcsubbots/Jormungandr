@@ -13,12 +13,14 @@
 #include <sensor_msgs/image_encodings.h>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include "HSVFilter.h"
 
 class HSVFilterNode {
     static const std::string kSubscribeTopic;
     static const std::string kPublishTopic;
     image_transport::Subscriber subscriber_;
     image_transport::Publisher publisher_;
+    HSVFilter filter_;
 
 public:
     HSVFilterNode(int argc, char** argv, std::string node_name);

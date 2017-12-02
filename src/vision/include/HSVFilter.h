@@ -19,6 +19,7 @@ class HSVFilter {
     int val_upper_;
 public:
     HSVFilter(int hue_lower, int hue_upper, int sat_lower, int sat_upper, int val_lower, int val_upper);
+    HSVFilter();
     void apply(const cv::Mat& original, cv::Mat& filtered);
 
 private:
