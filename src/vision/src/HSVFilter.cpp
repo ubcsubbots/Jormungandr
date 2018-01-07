@@ -5,6 +5,7 @@
  */
 
 #include <HSVFilter.h>
+#include <opencv-3.2.0-dev/opencv2/highgui.hpp>
 
 HSVFilter::HSVFilter(int hue_lower, int hue_upper, int sat_lower, int sat_upper, int val_lower, int val_upper) {
     hue_lower_ = hue_lower;
@@ -17,12 +18,12 @@ HSVFilter::HSVFilter(int hue_lower, int hue_upper, int sat_lower, int sat_upper,
 
 HSVFilter::HSVFilter() {
     // default will be international orange
-    hue_lower_ = 10;
-    hue_upper_ = 30;
-    sat_lower_ = 80;
-    sat_upper_ = 100;
-    val_lower_ = 80;
-    val_upper_ = 100;
+    hue_lower_ = 5;
+    hue_upper_ = 15;
+    sat_lower_ = 230;
+    sat_upper_ = 255;
+    val_lower_ = 230;
+    val_upper_ = 255;
 }
 
 void HSVFilter::apply(const cv::Mat& original, cv::Mat& filtered) {

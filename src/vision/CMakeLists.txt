@@ -136,7 +136,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(hsv_filter
-        src/hsv_filter.cpp
+        src/hsv_filter_node.cpp
         src/HSVFilter.cpp
         src/HSVFilterNode.cpp
         include/HSVFilter.h
@@ -199,6 +199,20 @@ target_link_libraries(hsv_filter ${catkin_LIBRARIES})
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
+if (CATKIN_ENABLE_TESTING)
+
+    # Adding gtests to the package
+    catkin_add_gtest(hsv-filter-test test/hsv-filter-test.cpp src/HSVFilter.cpp
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+    target_link_libraries(hsv-filter-test ${catkin_LIBRARIES})
+
+    # Adding rostest to the package
+    #find_package(rostest REQUIRED)
+    # name the test and link it to the .test file and the .cpp file itself, this will allow
+    # "catkin_make run_tests" to be able to find and run this rostest
+    #add_rostest_gtest(hsv_filter_rostest test/hsv_filter_test.test test/hsv_filter_rostest.cpp)
+    #target_link_libraries(hsv_filter_rostest ${catkin_LIBRARIES})
+endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
