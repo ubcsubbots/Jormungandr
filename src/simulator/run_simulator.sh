@@ -10,4 +10,6 @@ if [ "$#" -ne 1 ]; then
 fi
 SCENE_FILENAME=$1
 
-rosrun uwsim uwsim scenes/ $SCENE_FILENAME --dataPath data
+echo $SCENE_FILENAME
+
+rosrun uwsim uwsim_binary --dataPath data --configfile "scenes/${SCENE_FILENAME}"

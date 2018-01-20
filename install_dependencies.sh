@@ -25,7 +25,7 @@ rosws update
 
 # Install all required dependencies to build this repo
 rosdep install --from-paths src --ignore-src --rosdistro kinetic -y
-catkin_make install
+catkin_make_isolated --install
 
 echo "================================================================"
 echo "Finished installing ROS dependencies."
