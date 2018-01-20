@@ -115,14 +115,14 @@
       <resw> 320</resw>
       <resh> 240 </resh>
       <position>
-        <x> -.50</x>
+        <x> -0.5</x>
         <y> 0 </y>
         <z> 0 </z>
       </position>  
       <orientation>
-        <r>0</r>
-        <p>1.57</p>
-        <y>1.57 </y>
+        <r>-1.57</r>
+        <p>0</p>
+        <y>-1.57</y>
       </orientation>
     </virtualCamera>
     <rangeSensor>
