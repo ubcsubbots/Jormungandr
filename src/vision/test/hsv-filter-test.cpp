@@ -18,6 +18,7 @@ bool compareMat(cv::Mat& first, cv::Mat& second) {
     unsigned char *data = first.data;
     int r, c;
 
+    // initial dimension checks
     if(first.dims != second.dims){
         return false;
     }
@@ -30,20 +31,24 @@ bool compareMat(cv::Mat& first, cv::Mat& second) {
         return false;
     }
 
-    int hsv_first[first.rows][first.cols][3];
-    int hsv_second[second.rows][second.cols][3];
-
+    // extract data and check
     for(int i = 0; i < r; i++) {
         for(int j = 0; j < c; j++) {
-            hsv_first[i][j][0] = data[(int)(*first.step.p) * i + 3 * j];
-            hsv_first[i][j][1] = data[(int)(*first.step.p) * i + 3 * j + 1];
-            hsv_first[i][j][2] = data[(int)(*first.step.p) * i + 3 * j + 2];
+            int first_h = data[(int)(*first.step.p) * i + 3 * j];
+            int first_s = data[(int)(*first.step.p) * i + 3 * j + 1];;
+            int first_v = data[(int)(*first.step.p) * i + 3 * j + 2];
 
-            hsv_second[i][j][0] = data[(int)(*second.step.p) * i + 3 * j];
-            hsv_second[i][j][1] = data[(int)(*second.step.p) * i + 3 * j + 1];
-            hsv_second[i][j][2] = data[(int)(*second.step.p) * i + 3 * j + 2];
+            int second_h = data[(int)(*second.step.p) * i + 3 * j];
+            int second_s = data[(int)(*second.step.p) * i + 3 * j + 1];
+            int second_v = data[(int)(*second.step.p) * i + 3 * j + 2];
+
+            if (first_h != second_h || first_s != second_s || first_v != second_v) {
+                return false;
+            }
         }
     }
+
+    return true;
 }
 
 TEST(HSVFilter, filterImage) {
@@ -53,13 +58,11 @@ TEST(HSVFilter, filterImage) {
     expected = cv::imread("test_img/result1.png", CV_LOAD_IMAGE_COLOR);
     if(!img.empty() && !expected.empty()) {
         filter.apply(img, result);
-        EXPECT_EQ(expected.data, result.data);
+        EXPECT_TRUE(compareMat(expected, result));
     } else {
         std::cout << "could not find test images" << std::endl;
         FAIL();
     }
-
-
 }
 
 int main(int argc, char** argv) {
