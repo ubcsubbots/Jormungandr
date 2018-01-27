@@ -16,13 +16,13 @@
 #include "HSVFilter.h"
 
 class HSVFilterNode {
-    static const std::string kSubscribeTopic;
-    static const std::string kPublishTopic;
     image_transport::Subscriber subscriber_;
     image_transport::Publisher publisher_;
     HSVFilter filter_;
 
 public:
+    static const std::string kSubscribeTopic;
+    static const std::string kPublishTopic;
     HSVFilterNode(int argc, char** argv, std::string node_name);
 
 private:

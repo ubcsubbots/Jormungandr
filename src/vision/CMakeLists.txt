@@ -203,15 +203,17 @@ if (CATKIN_ENABLE_TESTING)
 
     # Adding gtests to the package
     catkin_add_gtest(hsv-filter-test test/hsv-filter-test.cpp src/HSVFilter.cpp
+            test/ImageTestUtils.h test/ImageTestUtils.cpp
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
     target_link_libraries(hsv-filter-test ${catkin_LIBRARIES})
 
     # Adding rostest to the package
-    #find_package(rostest REQUIRED)
+    find_package(rostest REQUIRED)
     # name the test and link it to the .test file and the .cpp file itself, this will allow
     # "catkin_make run_tests" to be able to find and run this rostest
-    #add_rostest_gtest(hsv_filter_rostest test/hsv_filter_test.test test/hsv_filter_rostest.cpp)
-    #target_link_libraries(hsv_filter_rostest ${catkin_LIBRARIES})
+    add_rostest_gtest(hsv_filter_rostest test/hsv_filter_test.test test/hsv_filter_rostest.cpp
+            test/ImageTestUtils.h test/ImageTestUtils.cpp)
+    target_link_libraries(hsv_filter_rostest ${catkin_LIBRARIES})
 endif()
 
 ## Add folders to be run by python nosetests

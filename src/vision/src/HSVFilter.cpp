@@ -17,7 +17,7 @@ HSVFilter::HSVFilter(int hue_lower, int hue_upper, int sat_lower, int sat_upper,
 }
 
 HSVFilter::HSVFilter() {
-    // default will be international orange
+    // default is international orange
     hue_lower_ = 5;
     hue_upper_ = 15;
     sat_lower_ = 230;
