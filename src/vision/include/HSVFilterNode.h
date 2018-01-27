@@ -21,8 +21,6 @@ class HSVFilterNode {
     HSVFilter filter_;
 
 public:
-    static const std::string kSubscribeTopic;
-    static const std::string kPublishTopic;
     HSVFilterNode(int argc, char** argv, std::string node_name);
 
 private:

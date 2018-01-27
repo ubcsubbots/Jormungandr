@@ -6,7 +6,6 @@
 #ifndef PROJECT_HSVFILTER_H
 #define PROJECT_HSVFILTER_H
 
-
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc.hpp>
 

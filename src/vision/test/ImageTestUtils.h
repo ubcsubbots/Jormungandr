@@ -6,6 +6,8 @@
 #ifndef PROJECT_IMAGETESTUTILS_H
 #define PROJECT_IMAGETESTUTILS_H
 
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc.hpp>
 
 class ImageTestUtils {
 

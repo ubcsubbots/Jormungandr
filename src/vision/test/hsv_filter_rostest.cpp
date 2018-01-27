@@ -25,9 +25,13 @@
 class HSVNodeTest : public testing::Test {
 protected:
     virtual void SetUp() {
-        it = image_transport::ImageTransport(nh_);
-        test_publisher = it.advertise(HSVFilterNode::kSubscribeTopic, 1);
-        test_subscriber = it.subscribe(HSVFilterNode::kPublishTopic, 1, &HSVNodeTest::callback, this);
+        image_transport::ImageTransport it = image_transport::ImageTransport(nh_);
+
+        std::string publishTopic = "/camera/image_raw";
+        std::string subscribeTopic = "/vision/output";
+
+        test_publisher = it.advertise(publishTopic, 1);
+        test_subscriber = it.subscribe(subscribeTopic, 1, &HSVNodeTest::callback, this);
 
         // Let the publishers and subscribers set itself up timely
         ros::Rate loop_rate(1);
@@ -35,7 +39,6 @@ protected:
     }
 
     ros::NodeHandle nh_;
-    image_transport::ImageTransport it;
     cv::Mat image_output;
     image_transport::Publisher test_publisher;
     image_transport::Subscriber test_subscriber;
@@ -51,7 +54,8 @@ TEST_F(HSVNodeTest, filterImage) {
     image = cv::imread("test_img/test1.png", CV_LOAD_IMAGE_COLOR);
     expected = cv::imread("test_img/result1.png", CV_LOAD_IMAGE_COLOR);
 
-    test_publisher.publish(cv_bridge::CvImage(std_msgs::Header(), "mono8", image).toImageMsg());
+    cv_bridge::CvImage img(std_msgs::Header(), "rgb8", image);
+    test_publisher.publish(img.toImageMsg());
 
     // Wait for the message to get passed around
     ros::Rate loop_rate(1);
@@ -62,13 +66,20 @@ TEST_F(HSVNodeTest, filterImage) {
     // http://answers.ros.org/question/11887/significance-of-rosspinonce/
     ros::spinOnce();
 
+//    cv::namedWindow("expected");
+//    cv::namedWindow("output");
+//    cv::imshow("expected", expected);
+//    cv::imshow("output", image_output);
+//    cv::moveWindow("expected", 200, 200);
+//    cv::moveWindow("output", 400, 200);
+//    cv::waitKey(0);
     EXPECT_TRUE(ImageTestUtils::compareMat(expected, image_output));
 }
 
 int main(int argc, char** argv) {
     // !! Don't forget to initialize ROS, since this is a test within the ros
     // framework !!
-    ros::init(argc, argv, "my_node_rostest");
+    ros::init(argc, argv, "hsv_node_rostest");
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

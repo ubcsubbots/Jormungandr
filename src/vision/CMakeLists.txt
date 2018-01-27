@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(hsv_filter)
+project(vision)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -135,7 +135,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(hsv_filter
+add_executable(hsv_filter_node
         src/hsv_filter_node.cpp
         src/HSVFilter.cpp
         src/HSVFilterNode.cpp
@@ -153,7 +153,7 @@ add_executable(hsv_filter
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(hsv_filter ${catkin_LIBRARIES})
+target_link_libraries(hsv_filter_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##

@@ -11,7 +11,7 @@
  * @param second
  * @return true if they are equal, else false
  */
-static bool ImageTestUtils::compareMat(cv::Mat& first, cv::Mat& second) {
+bool ImageTestUtils::compareMat(cv::Mat& first, cv::Mat& second) {
     unsigned char *data = first.data;
     int r, c;
 
