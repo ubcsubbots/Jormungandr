@@ -36,8 +36,6 @@ bool ImageTestUtils::compareMat(cv::Mat& first, cv::Mat& second) {
     // extract data and check
     for(int i = 0; i < r; i++) {
         for(int j = 0; j < c; j++) {
-
-            // deal with different data types...
             for(int v = 0; v < numVals; v++) {
                 int val1 = f_data[(int)(*first.step.p) * i + numVals * j + v];
                 int val2 = s_data[(int)(*second.step.p) * i + numVals * j + v];

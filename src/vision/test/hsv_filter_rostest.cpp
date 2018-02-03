@@ -47,7 +47,7 @@ protected:
 
 public:
     void callback(const sensor_msgs::ImageConstPtr& image) {
-        image_output = cv_bridge::toCvCopy(image, sensor_msgs::image_encodings::BGR8)->image;
+        image_output = cv_bridge::toCvCopy(image, sensor_msgs::image_encodings::MONO8)->image;
     }
 };
 
