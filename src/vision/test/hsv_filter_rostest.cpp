@@ -4,12 +4,12 @@
  * Description:
  */
 
-#include <gtest/gtest.h>
-#include <sensor_msgs/Image.h>
-#include <ros/ros.h>
-#include <image_transport/image_transport.h>
-#include <HSVFilterNode.h>
 #include "./ImageTestUtils.h"
+#include <HSVFilterNode.h>
+#include <gtest/gtest.h>
+#include <image_transport/image_transport.h>
+#include <ros/ros.h>
+#include <sensor_msgs/Image.h>
 
 using namespace cv;
 
@@ -25,15 +25,17 @@ using namespace cv;
  * the message recieved
  */
 class HSVNodeTest : public testing::Test {
-protected:
+  protected:
     virtual void SetUp() {
-        image_transport::ImageTransport it = image_transport::ImageTransport(nh_);
+        image_transport::ImageTransport it =
+        image_transport::ImageTransport(nh_);
 
-        std::string publishTopic = "/camera/image_raw";
+        std::string publishTopic   = "/camera/image_raw";
         std::string subscribeTopic = "/vision/output";
 
         test_publisher = it.advertise(publishTopic, 1);
-        test_subscriber = it.subscribe(subscribeTopic, 1, &HSVNodeTest::callback, this);
+        test_subscriber =
+        it.subscribe(subscribeTopic, 1, &HSVNodeTest::callback, this);
 
         // Let the publishers and subscribers set itself up timely
         ros::Rate loop_rate(1);
@@ -45,27 +47,27 @@ protected:
     image_transport::Publisher test_publisher;
     image_transport::Subscriber test_subscriber;
 
-public:
+  public:
     void callback(const sensor_msgs::ImageConstPtr& image) {
-        image_output = cv_bridge::toCvCopy(image, sensor_msgs::image_encodings::MONO8)->image;
+        image_output =
+        cv_bridge::toCvCopy(image, sensor_msgs::image_encodings::MONO8)->image;
     }
 };
 
 TEST_F(HSVNodeTest, filterImage) {
     Mat image, expected;
-    image = Mat(2,2, CV_8UC3, Scalar(0,0,0));
-    image.at<Vec3b>(Point(0,0)) = Vec3b(0,79,255); //intl orange
-    image.at<Vec3b>(Point(0,1)) = Vec3b(0,79,255); //intl orange
+    image = Mat(2, 2, CV_8UC3, Scalar(0, 0, 0));
+    image.at<Vec3b>(Point(0, 0)) = Vec3b(0, 79, 255); // intl orange
+    image.at<Vec3b>(Point(0, 1)) = Vec3b(0, 79, 255); // intl orange
 
-    expected = Mat(2,2, CV_8UC1, Scalar(0));
-    image.at<Scalar>(Point(0,0)) = Scalar(255);
-    image.at<Scalar>(Point(0,1)) = Scalar(255);
-
+    expected = Mat(2, 2, CV_8UC1, Scalar(0));
+    image.at<Scalar>(Point(0, 0)) = Scalar(255);
+    image.at<Scalar>(Point(0, 1)) = Scalar(255);
 
     cv_bridge::CvImage img;
-    img.header = std_msgs::Header();
+    img.header   = std_msgs::Header();
     img.encoding = "bgr8";
-    img.image = image;
+    img.image    = image;
     test_publisher.publish(img.toImageMsg());
 
     // Wait for the message to get passed around

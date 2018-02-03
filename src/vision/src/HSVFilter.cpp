@@ -7,7 +7,12 @@
 #include <HSVFilter.h>
 #include <opencv-3.2.0-dev/opencv2/highgui.hpp>
 
-HSVFilter::HSVFilter(int hue_lower, int hue_upper, int sat_lower, int sat_upper, int val_lower, int val_upper) {
+HSVFilter::HSVFilter(int hue_lower,
+                     int hue_upper,
+                     int sat_lower,
+                     int sat_upper,
+                     int val_lower,
+                     int val_upper) {
     hue_lower_ = hue_lower;
     hue_upper_ = hue_upper;
     sat_lower_ = sat_lower;

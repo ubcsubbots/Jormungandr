@@ -7,16 +7,13 @@
 #define PROJECT_IMAGETESTUTILS_H
 
 #include <opencv2/core/core.hpp>
-#include <opencv2/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 
 class ImageTestUtils {
-
-public:
+  public:
     static bool compareMat(cv::Mat& first, cv::Mat& second);
     static void compareImg(cv::Mat& expected, cv::Mat& actual);
-
 };
 
-
-#endif //PROJECT_IMAGETESTUTILS_H
+#endif // PROJECT_IMAGETESTUTILS_H

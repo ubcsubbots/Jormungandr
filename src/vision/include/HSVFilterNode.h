@@ -7,23 +7,23 @@
 #ifndef PROJECT_HSV_H
 #define PROJECT_HSV_H
 
-#include <ros/ros.h>
-#include <image_transport/image_transport.h>
-#include <cv_bridge/cv_bridge.h>
-#include <sensor_msgs/image_encodings.h>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
 #include "HSVFilter.h"
+#include <cv_bridge/cv_bridge.h>
+#include <image_transport/image_transport.h>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <ros/ros.h>
+#include <sensor_msgs/image_encodings.h>
 
 class HSVFilterNode {
     image_transport::Subscriber subscriber_;
     image_transport::Publisher publisher_;
     HSVFilter filter_;
 
-public:
+  public:
     HSVFilterNode(int argc, char** argv, std::string node_name);
 
-private:
+  private:
     /**
      * Callback function for when a new image is received
      *
@@ -38,4 +38,4 @@ private:
     void publishFilteredImage(const cv::Mat& filtered_image);
 };
 
-#endif //PROJECT_HSV_H
+#endif // PROJECT_HSV_H
