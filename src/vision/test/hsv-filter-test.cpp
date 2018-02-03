@@ -13,7 +13,8 @@ TEST(HSVFilter, filterImage) {
     cv::Mat img, result, expected;
     HSVFilter filter;
     img = cv::imread("test_img/test1.png", CV_LOAD_IMAGE_COLOR);
-    expected = cv::imread("test_img/result1.png", CV_LOAD_IMAGE_COLOR);
+    expected = cv::imread("test_img/result1.png", CV_LOAD_IMAGE_GRAYSCALE);
+//    expected = cv::imread("test_img/result1.png", CV_LOAD_IMAGE_COLOR);
     if(!img.empty() && !expected.empty()) {
         filter.apply(img, result);
         EXPECT_TRUE(ImageTestUtils::compareMat(expected, result));

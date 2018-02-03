@@ -33,5 +33,6 @@ void HSVFilter::apply(const cv::Mat& original, cv::Mat& filtered) {
     cv::Scalar lower_bound(hue_lower_, sat_lower_, val_lower_);
     cv::Scalar upper_bound(hue_upper_, sat_upper_, val_upper_);
 
+    // remember filter is of type CV_8U
     cv::inRange(input_hsv, lower_bound, upper_bound, filtered);
 }

@@ -11,6 +11,8 @@
 #include <HSVFilterNode.h>
 #include "./ImageTestUtils.h"
 
+using namespace cv;
+
 /**
  * This is the helper class which will publish and subscribe messages which will
  * test the node being instantiated
@@ -50,11 +52,20 @@ public:
 };
 
 TEST_F(HSVNodeTest, filterImage) {
-    cv::Mat image, expected;
-    image = cv::imread("test_img/test1.png", CV_LOAD_IMAGE_COLOR);
-    expected = cv::imread("test_img/result1.png", CV_LOAD_IMAGE_COLOR);
+    Mat image, expected;
+    image = Mat(2,2, CV_8UC3, Scalar(0,0,0));
+    image.at<Vec3b>(Point(0,0)) = Vec3b(0,79,255); //intl orange
+    image.at<Vec3b>(Point(0,1)) = Vec3b(0,79,255); //intl orange
 
-    cv_bridge::CvImage img(std_msgs::Header(), "rgb8", image);
+    expected = Mat(2,2, CV_8UC1, Scalar(0));
+    image.at<Scalar>(Point(0,0)) = Scalar(255);
+    image.at<Scalar>(Point(0,1)) = Scalar(255);
+
+
+    cv_bridge::CvImage img;
+    img.header = std_msgs::Header();
+    img.encoding = "bgr8";
+    img.image = image;
     test_publisher.publish(img.toImageMsg());
 
     // Wait for the message to get passed around
@@ -66,13 +77,6 @@ TEST_F(HSVNodeTest, filterImage) {
     // http://answers.ros.org/question/11887/significance-of-rosspinonce/
     ros::spinOnce();
 
-//    cv::namedWindow("expected");
-//    cv::namedWindow("output");
-//    cv::imshow("expected", expected);
-//    cv::imshow("output", image_output);
-//    cv::moveWindow("expected", 200, 200);
-//    cv::moveWindow("output", 400, 200);
-//    cv::waitKey(0);
     EXPECT_TRUE(ImageTestUtils::compareMat(expected, image_output));
 }
 

@@ -8,11 +8,13 @@
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 class ImageTestUtils {
 
 public:
     static bool compareMat(cv::Mat& first, cv::Mat& second);
+    static void compareImg(cv::Mat& expected, cv::Mat& actual);
 
 };
 
