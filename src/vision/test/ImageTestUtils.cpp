@@ -26,7 +26,7 @@ bool ImageTestUtils::compareMat(cv::Mat& first, cv::Mat& second) {
         return false;
     }
 
-    compareImg(first, second);
+    //compareImg(first, second);
 
     unsigned char *f_data = first.data;
     unsigned char *s_data = second.data;
