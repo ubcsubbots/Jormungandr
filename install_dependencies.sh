@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #######################################################################
-# STOP: If the dependency you want to add is required for the project # 
+# STOP: If the dependency you want to add is required for the project #
 #       to build, it should be added as a rosdep. This script should  #
 #       only contain other dependecies, like those required for gazebo#
 #######################################################################
@@ -32,11 +32,22 @@ echo "Finished installing ROS dependencies."
 echo "================================================================"
 echo ""
 echo "================================================================"
+echo "Installing Project Dependent ROS packages."
+echo "================================================================"
+
+# Setup rosinstall
+sudo mkdir -p /usr/share/ros/
+sudo chmod a+rwx /usr/share/ros
+rosinstall .
+echo "bash $CURR_DIR/setup.sh" >> ~/.bashrc
+
+echo "================================================================"
 echo "Installing Misc. Utilities"
 echo "================================================================"
 
 sudo apt-get install -y\
     clang-format
+
 
 echo "================================================================"
 echo "Finished Installing Utilities"
