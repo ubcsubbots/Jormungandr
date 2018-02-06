@@ -3,8 +3,8 @@
 # IF YOU WANT TO CHANGE THE ROS ENVIRONMENT VARIABLES
 # USE THE rosinstall TOOL INSTEAD.
 # IF YOU CHANGE IT, USE rosinstall FOR THE CHANGES TO TAKE EFFECT
-- git: {local-name: /usr/share/ros/uwsim, 
-        uri: 'https://github.com/uji-ros-pkg/underwater_simulation.git', 
-        version: kinetic-devel}
-- git: {local-name: /usr/share/ros/phidget_api,
-        uri: 'https://github.com/ros-drivers/phidgets_drivers.git'}
+- setup-file: {local-name: /opt/ros/kinetic/setup.sh}
+- git: {local-name: /usr/share/ros/uwsim, uri: 'https://github.com/uji-ros-pkg/underwater_simulation.git',
+    version: kinetic-devel}
+- git: {local-name: /usr/share/ros/phidgets_api, uri: 'https://github.com/ros-drivers-gbp/phidgets_drivers-release.git',
+    version: release/kinetic/phidgets_api/0.7.5-0}
