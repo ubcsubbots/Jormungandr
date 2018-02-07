@@ -20,3 +20,5 @@ cmake-build-debug
 
 # External Packages we use that are installed via `rosdep`
 src/uwsim
+setup.*
+*.bak
