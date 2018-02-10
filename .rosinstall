@@ -10,3 +10,4 @@
     version: release/kinetic/phidgets_api/0.7.5-0}
 - git: {local-name: /usr/share/ros/usb_cam, uri: 'https://github.com/ros-gbp/usb_cam-release.git',
     version: release/kinetic/usb_cam/0.3.5-0}
+
