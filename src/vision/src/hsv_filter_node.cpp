@@ -13,8 +13,6 @@ int main(int argc, char** argv) {
     // Create an instance of your class
     HSVFilterNode filter(argc, argv, node_name);
 
-    // Start up ros. This will continue to run until the node is killed
-    ros::spin();
 
     // Once the node stops, return 0
     return 0;

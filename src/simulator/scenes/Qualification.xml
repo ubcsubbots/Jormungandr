@@ -356,6 +356,11 @@
       <imageTopic> /uwsim/camera1 </imageTopic>
       <infoTopic> /uwsim/camera1_info </infoTopic>
     </VirtualCameraToROSImage>
+    <VirtualCameraToROSImage> 
+      <cameraName>bowtech2</cameraName>
+      <imageTopic> /uwsim/camera2 </imageTopic>
+      <infoTopic> /uwsim/camera2_info </infoTopic>
+    </VirtualCameraToROSImage>
     <ROSTwistToPAT>
       <topic> /g500/twist</topic>
       <vehicleName> girona500 </vehicleName>

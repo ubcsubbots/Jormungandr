@@ -13,9 +13,15 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
+  dynamic_reconfigure
+  rospy
 )
 
 find_package(OpenCV REQUIRED)
+
+generate_dynamic_reconfigure_options(
+  cfg/Tutorials.cfg
+)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -143,7 +149,10 @@ add_executable(hsv_filter_node
         src/HSVFilter.cpp
         src/HSVFilterNode.cpp
         include/HSVFilter.h
-        include/HSVFilterNode.h)
+        include/HSVFilterNode.h	
+)
+
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -155,6 +164,8 @@ add_executable(hsv_filter_node
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_dependencies(hsv_filter_node ${PROJECT_NAME}_gencfg)
+
 ## Specify libraries to link a library or executable target against
 target_link_libraries(hsv_filter_node
         ${catkin_LIBRARIES}
@@ -163,6 +174,10 @@ target_link_libraries(hsv_filter_node
 #############
 ## Install ##
 #############
+
+
+
+
 
 # all install targets should use catkin DESTINATION variables
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
