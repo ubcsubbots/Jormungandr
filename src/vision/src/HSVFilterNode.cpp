@@ -5,17 +5,7 @@
  */
 
 #include <HSVFilterNode.h>
-#include <dynamic_reconfigure/server.h>
-#include <vision/TutorialsConfig.h>
 
-void callback(vision::TutorialsConfig &config, uint32_t level) {
-    ROS_INFO("Reconfigure Request: %i %i %i %i %i %i",
-             config.h_low, config.s_low,
-             config.v_low,
-             config.h_high,
-             config.s_high,
-             config.v_high);
-}
 
 HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     // Setup NodeHandles
@@ -26,32 +16,16 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
 
     std::string subscribeTopic = "/uwsim/camera2";
     std::string publishTopic   = "/vision/output";
-    
+
     dynamic_reconfigure::Server<vision::TutorialsConfig> server;
     dynamic_reconfigure::Server<vision::TutorialsConfig>::CallbackType f;
 
-    f = boost::bind(&callback, _1, _2);
-    server.setCallback(f);
-
-    XmlRpc::XmlRpcValue hsv;
-
-    int hlo, hhi, vlo, vhi, slo, shi;
-    nh.getParam("h_low",hlo);
-    nh.getParam("h_high",hhi);
-    nh.getParam("v_low",vlo);
-    nh.getParam("v_high",vhi);
-    nh.getParam("s_low",slo);
-    nh.getParam("s_high",shi);
-    if (!nh.getParam("hsv", hsv)) {
-        ROS_INFO_STREAM(nh.getNamespace()
-                        << ": no value given for hsv, using default values");
-        filter_ = HSVFilter();
-    } else {
-        filter_ = HSVFilter(hlo,hhi,slo,shi,vlo,vhi);
-    }
+    filter_ = HSVFilter();
 
     int refresh_rate = 1;
 
+    f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
+    server.setCallback(f);
 
     subscriber_      = it.subscribe(
     subscribeTopic, refresh_rate, &HSVFilterNode::subscriberCallBack, this);
@@ -73,6 +47,7 @@ const sensor_msgs::ImageConstPtr& image) {
     }
 
     cv::Mat filtered;
+
     filter_.apply(cv_ptr->image, filtered);
     publishFilteredImage(filtered);
 }
@@ -83,4 +58,19 @@ void HSVFilterNode::publishFilteredImage(const cv::Mat& filtered_image) {
     .toImageMsg());
 }
 
+void HSVFilterNode::dynamicreconfigCallback(const vision::TutorialsConfig &config, uint32_t level) {
+    ROS_INFO("Reconfigure Request: %i %i %i %i %i %i",
+             config.h_low, config.s_low,
+             config.v_low,
+             config.h_high,
+             config.s_high,
+             config.v_high);
+
+    //Reconfigure filter based on new parameters
+    filter_ = HSVFilter(config.h_low,config.h_high,
+                        config.s_low,
+                        config.s_high,
+                        config.v_low,
+                        config.v_high);
+}
 

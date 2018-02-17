@@ -13,7 +13,6 @@ int main(int argc, char** argv) {
     // Create an instance of your class
     HSVFilterNode filter(argc, argv, node_name);
 
-
     // Once the node stops, return 0
     return 0;
 }
