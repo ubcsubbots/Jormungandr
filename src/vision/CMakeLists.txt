@@ -20,7 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(OpenCV REQUIRED)
 
 generate_dynamic_reconfigure_options(
-  cfg/Tutorials.cfg
+        cfg/hsv-filter-node.cfg
 )
 
 ## System dependencies are found with CMake's conventions
