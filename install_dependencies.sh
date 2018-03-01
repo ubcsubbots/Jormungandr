@@ -64,6 +64,7 @@ SHELL_CONFIG_FILES=(
 # listed above, if they are not present already
 declare -a new_shell_config_lines=(
     #"source $CURR_DIR/setup.sh"
+    "source /opt/ros/kinetic/setup.sh"
     )
 
 # Add all of our new shell config options to all the shell
