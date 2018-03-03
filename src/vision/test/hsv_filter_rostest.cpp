@@ -4,7 +4,7 @@
  * Description:
  */
 
-#include "./ImageTestUtils.h"
+#include "ImageTestUtils.h"
 #include <HSVFilterNode.h>
 #include <gtest/gtest.h>
 #include <image_transport/image_transport.h>

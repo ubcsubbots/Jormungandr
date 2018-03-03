@@ -4,8 +4,8 @@
  * Description: Performs an HSV filter on incoming data and republishes it
  */
 
-#ifndef PROJECT_HSV_H
-#define PROJECT_HSV_H
+#ifndef VISION_HSV_H
+#define VISION_HSV_H
 
 #include "HSVFilter.h"
 #include <cv_bridge/cv_bridge.h>
@@ -38,4 +38,4 @@ class HSVFilterNode {
     void publishFilteredImage(const cv::Mat& filtered_image);
 };
 
-#endif // PROJECT_HSV_H
+#endif // VISION_HSV_H

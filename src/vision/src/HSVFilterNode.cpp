@@ -17,7 +17,7 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     std::string publishTopic   = "/vision/output";
 
     XmlRpc::XmlRpcValue hsv;
-    if (!nh.getParam("hsv", hsv)) {
+    if (!private_nh.getParam("hsv", hsv)) {
         ROS_INFO_STREAM(nh.getNamespace()
                         << ": no value given for hsv, using default values");
         filter_ = HSVFilter();
