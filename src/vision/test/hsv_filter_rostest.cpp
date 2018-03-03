@@ -56,13 +56,13 @@ class HSVNodeTest : public testing::Test {
 
 TEST_F(HSVNodeTest, filterImage) {
     Mat image, expected;
-    image = Mat(2, 2, CV_8UC3, Scalar(0, 0, 0));
+    image = Mat(2, 2, CV_8UC3, Vec3b(0, 0, 0));
     image.at<Vec3b>(Point(0, 0)) = Vec3b(0, 79, 255); // intl orange
     image.at<Vec3b>(Point(0, 1)) = Vec3b(0, 79, 255); // intl orange
 
     expected = Mat(2, 2, CV_8UC1, Scalar(0));
-    image.at<Scalar>(Point(0, 0)) = Scalar(255);
-    image.at<Scalar>(Point(0, 1)) = Scalar(255);
+    image.at<uchar>(Point(0, 0)) = 255;
+    image.at<uchar>(Point(0, 1)) = 255;
 
     cv_bridge::CvImage img;
     img.header   = std_msgs::Header();
