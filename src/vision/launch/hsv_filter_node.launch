@@ -1,0 +1,10 @@
+<launch>
+    <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
+        <param name="hsv/h_low" value="5" type="int" />
+        <param name="hsv/s_low" value="230" type="int" />
+        <param name="hsv/v_low" value="230" type="int" />
+        <param name="hsv/h_high" value="15" type="int" />
+        <param name="hsv/s_high" value="255" type="int" />
+        <param name="hsv/v_high" value="255" type="int" />
+    </node>
+</launch>
