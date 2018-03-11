@@ -26,7 +26,7 @@ Main Software Repository for Subbots
 
 ### RosInstall
 
-Rostinstall is addressed and run in `install_dependencies.sh`, should there be any need to run manual, rosinstall should be run after all steps from installation and setup has been completed. 
+Rosinstall is addressed and run in `install_dependencies.sh`, should there be any need to run manual, rosinstall should be run after all steps from installation and setup has been completed. 
 
 ## Conventions
 
