@@ -45,8 +45,3 @@ catkin_package(
    LIBRARIES gate_detect
    CATKIN_DEPENDS message_runtime
 )
-
-add_dependencies(gateMsgTest ${catkin_EXPORTED_TARGETS})
-add_dependencies(gateMsgTest gate_detect_generate_messages_cpp)
-
-
