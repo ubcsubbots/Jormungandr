@@ -21,6 +21,11 @@ void DecisionNode::subscriberCallback(const std_msgs::Int32::ConstPtr& msg) {
 
     state_t state = msg->data;
 
+    if(subroutines_.find(state) == subroutines_.end()) {
+        // TODO This is really bad, what do we want to do?
+        return;
+    }
+
     Subroutine *newState = subroutines_[state];
     if(newState == running_) {
         return;
@@ -34,5 +39,4 @@ void DecisionNode::subscriberCallback(const std_msgs::Int32::ConstPtr& msg) {
 
 void DecisionNode::setupSubroutineMap(int argc, char **argv) {
     // subroutines_[enumId] = new SomeSubroutine(argc, argv, "someSubroutine");
-
 }
