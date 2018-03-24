@@ -17,7 +17,9 @@ DecisionNode::DecisionNode(int argc, char **argv, std::string node_name) {
     subscriber_ = nh.subscribe(state_topic, refresh_rate, &DecisionNode::subscriberCallback, this);
 }
 
-void DecisionNode::subscriberCallback(state_t state) {
+void DecisionNode::subscriberCallback(const std_msgs::Int32::ConstPtr& msg) {
+
+    state_t state = msg->data;
 
     Subroutine *newState = subroutines_[state];
     if(newState == running_) {
