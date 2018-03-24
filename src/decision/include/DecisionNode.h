@@ -13,7 +13,7 @@
 #include "Subroutine.h"
 
 // subroutines
-// #include "SomeSubroutine.h"
+#include "LocateGate.h"
 
 
 typedef int32_t state_t; // temp until world state msg comes in

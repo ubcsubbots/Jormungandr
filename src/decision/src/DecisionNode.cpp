@@ -38,5 +38,5 @@ void DecisionNode::subscriberCallback(const std_msgs::Int32::ConstPtr& msg) {
 }
 
 void DecisionNode::setupSubroutineMap(int argc, char **argv) {
-    // subroutines_[enumId] = new SomeSubroutine(argc, argv, "someSubroutine");
+    subroutines_[0] = new LocateGate(argc, argv, "locate_gate");
 }
