@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(gate_detect)
 
+add_definitions(-std=c++14)
 
 find_package(catkin REQUIRED COMPONENTS
 		cv_bridge
@@ -10,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
 		std_msgs
 		rospy
 		dynamic_reconfigure
+		message_generation
 		)
 
 find_package(OpenCV REQUIRED)
@@ -28,7 +30,16 @@ include_directories(
 	${catkin_INCLUDE_DIRS}
 	${Open_CV_NCLUDE_DIRS}
 	./include
+)
 
+generate_messages(
+		DEPENDENCIES
+		std_msgs
+)
+
+add_message_files(
+		FILES
+		gateDetect.msg
 )
 
 add_executable(gate_detect
@@ -48,6 +59,7 @@ add_executable(gateTest
         test/gate.png)
 
 add_dependencies(gate_detect ${PROJECT_NAME}_gencfg)
+add_dependencies(gate_detect gate_detect_generate_messages_cpp)
 
 target_link_libraries(gate_detect
 		${catkin_LIBRARIES}
@@ -55,5 +67,7 @@ target_link_libraries(gate_detect
 
 target_link_libraries(gateTest
 		${catkin_LIBRARIES}
-		${OpenCV_LIBS})
+		${OpenCV_LIBS}
+		LIBRARIES worldstate
+		CATKIN_DEPENDS message_runtime)
 
