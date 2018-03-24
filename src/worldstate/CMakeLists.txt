@@ -6,7 +6,6 @@ project(worldstate)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  sensor_msgs
   std_msgs
   message_generation
 )
@@ -20,7 +19,7 @@ add_definitions(-std=c++14)
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-  states.msg
+  state_msg.msg
 )
 
 ## Generate added messages and services with any dependencies listed here
