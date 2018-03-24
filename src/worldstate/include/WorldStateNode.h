@@ -8,16 +8,10 @@
 #ifndef JORMUNGANDR_WORLDSTATENODE_H
 #define JORMUNGANDR_WORLDSTATENODE_H
 
-#include <image_transport/image_transport.h>
 #include <ros/ros.h>
-#include <sensor_msgs/image_encodings.h>
 #include <worldstate/states.h>
+#include <worldstate/state_msg.h>
 #include <std_msgs/builtin_int8.h>
-
-//#include <cv_bridge/cv_bridge.h>
-//#include <opencv2/highgui/highgui.hpp>
-//#include <opencv2/imgproc/imgproc.hpp>
-//#include <vision/TutorialsConfig.h>
 
 class WorldStateNode {
 
@@ -32,11 +26,6 @@ private:
      * @param gate detection node discretized messages
      */
     void gateDetectCallBack(const std_msgs::Int8ConstPtr &num);
-
-    /**
-     *
-     */
-    void publishWorldState(int8_t num);
 
     enum internalWorldStates {
         locatingGate,

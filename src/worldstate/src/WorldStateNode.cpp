@@ -12,13 +12,14 @@ WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name){
     ros::init(argc, argv, node_name);
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
+
     //image_transport::ImageTransport it(nh);
 
     //Change the subscribe topics as needed
     std::string gateDetectionSubscription = "/vision/output";
     std::string publishTopic   = "worldstate/output";
 
-    world_state_publisher_ = nh.advertise<worldstate::states>(publishTopic, 100);
+    world_state_publisher_ = nh.advertise<worldstate::state_msg>(publishTopic, 100);
     test_      = nh.subscribe(
             "test/temp", 1, &WorldStateNode::gateDetectCallBack, this);
 
@@ -32,35 +33,34 @@ WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name){
      * @param image the image received in the callback
      */
 void WorldStateNode::gateDetectCallBack(const std_msgs::Int8ConstPtr &num){
-    publishWorldState(num->data);
-}
+    worldstate::state_msg msg;
+    worldstate::state_msg_<int8_t> test;
 
-void WorldStateNode::publishWorldState(int num){
-
-    switch (num){
-        /*case 0:
-            world_state_publisher_.publish(worldstate::states::locatingGate);
+    switch (num->data){
+        case 0:
+            msg.state = test.locatingPole; //worldstate::state_msg_::locatingGate;
             break;
         case 1:
-            world_state_publisher_.publish(worldstate::states::aligningWithGate);
+            msg.state = test.aligningWithGate; //worldstate::state_msg_::aligningWithGate;
             break;
         case 2:
-            world_state_publisher_.publish(worldstate::states::passingGate);
+            msg.state = test.passingGate; //worldstate::state_msg_::passingGate;
             break;
         case 3:
-            world_state_publisher_.publish(worldstate::states::locatingPole);
+            msg.state = test.locatingPole; //worldstate::state_msg_::locatingPole;
             break;
         case 4:
-            world_state_publisher_.publish(worldstate::states::approachingPole);
+            msg.state = test.approachingPole; //worldstate::state_msg_::approachingPole;
             break;
         case 5:
-            world_state_publisher_.publish(worldstate::states::pivotingPole);
-            break;*/
-        default:
+            msg.state = test.pivotingPole; //worldstate::state_msg_::pivotingPole;
             break;
-
+        default:
+            msg.state = test.locatingGate; //worldstate::state_msg_::locatingGate;
+            break;
     }
 
-    world_state_publisher_.publish();
+    world_state_publisher_.publish(msg);
 }
+
 

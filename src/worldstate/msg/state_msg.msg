@@ -1,3 +1,4 @@
+int8 state
 int8 locatingGate        = 0
 int8 aligningWithGate    = 1
 int8 passingGate         = 2
