@@ -11,18 +11,16 @@
 
 class Subroutine {
 public:
-    Subroutine(int argc, char **argv, std::string node_name) {
-        ros::init(argc, argv, node_name);
-    }
+    Subroutine(int argc, char **argv, std::string node_name);
 
-    virtual void startup() = 0;
-    virtual void shutdown() = 0;
-    void publishCommand(const geometry_msgs::Twist &msg) {
-        publisher_.publish(msg);
-    }
+    void startup();
+    void shutdown();
 
 protected:
     ros::Publisher publisher_;
+    void publishCommand(const geometry_msgs::Twist &msg);
+    geometry_msgs::Vector3 makeVector(double x, double y, double z);
+    virtual void setupSubscriptions(ros::NodeHandle nh) = 0;
 };
 
 #endif //DECISION_SUBROUTINE_H

@@ -1,17 +1,17 @@
 /*
  * Created By: Reid Oliveira
- * Created On: March 17, 2018
+ * Created On: March 24, 2018
  * Description:
  */
 
-#include "LocateGate.h"
+#include "LineUpWithGate.h"
 
-void LocateGate::setupSubscriptions(ros::NodeHandle nh) {
+void LineUpWithGate::setupSubscriptions(ros::NodeHandle nh) {
 
-    nh.subscribe("gate", 10, &LocateGate::decisionCallback, this);
+    nh.subscribe("gate", 10, &LineUpWithGate::decisionCallback, this);
 }
 
-void LocateGate::decisionCallback(const std_msgs::String::ConstPtr& msg) {
+void LineUpWithGate::decisionCallback(const std_msgs::String::ConstPtr& msg) {
 
     // processing logic: rotate until we can see the whole gate
 
