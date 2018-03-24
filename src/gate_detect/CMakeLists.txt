@@ -20,6 +20,7 @@ generate_dynamic_reconfigure_options(
 
 catkin_package(INCLUDE_DIRS
 		include
+		test
 )
 
 
@@ -27,6 +28,7 @@ include_directories(
 	${catkin_INCLUDE_DIRS}
 	${Open_CV_NCLUDE_DIRS}
 	./include
+
 )
 
 add_executable(gate_detect
@@ -37,9 +39,21 @@ add_executable(gate_detect
 		include/Gate.h
 		)
 
+enable_testing()
+
+add_executable(gateTest
+		test/gateDetectTest.cpp
+		include/Gate.h
+		src/Gate.cpp
+        test/gate.png)
+
 add_dependencies(gate_detect ${PROJECT_NAME}_gencfg)
 
 target_link_libraries(gate_detect
+		${catkin_LIBRARIES}
+		${OpenCV_LIBS})
+
+target_link_libraries(gateTest
 		${catkin_LIBRARIES}
 		${OpenCV_LIBS})
 

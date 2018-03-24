@@ -4,9 +4,11 @@
 
 #include "GateDetectNode.h"
 
+using namespace cv;
+
 int main(int argc, char** argv){
 
-    GateDetectNode(argc, argv, "gate_detect");
+    GateDetectNode gateDetect = GateDetectNode(argc,argv,"gateDetect");
 
     return 0;
 }

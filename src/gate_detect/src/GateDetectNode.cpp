@@ -12,7 +12,7 @@ GateDetectNode::GateDetectNode(int argc, char** argv , std::string nodeName) {
     dynamic_reconfigure::Server<gate_detect::gatedetectConfig> server;
     dynamic_reconfigure::Server<gate_detect::gatedetectConfig>::CallbackType f;
 
-    subscribeTopic = "/vision/output";
+    subscribeTopic = "/uwsim/camera2";
     publishTopic   = "/gateDetect/output";
 
     subscriber_ = it.subscribe(subscribeTopic, 1, &GateDetectNode::subscriberCallBack, this);
@@ -36,11 +36,11 @@ void GateDetectNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& msg) {
         return;
     }
 
-    gate = Gate();
+    if (!gate.checkMat()){
+        gate = Gate();
+    }
 
-    lineImg = gate.initialize(cv_ptr->image);
-
-    GateDetectNode::publishOutputImage(lineImg);
+    gate.initialize(cv_ptr->image);
 
 }
 

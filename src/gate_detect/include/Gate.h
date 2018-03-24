@@ -12,21 +12,31 @@
 class Gate{
     int maskWidth;
     cv::Mat cdst, dst, matout;
-    int lowThreshold, lowVertThresh, lowHorThresh, poles;
+    int lowThreshold, lowVertThresh, lowHorThresh, poles, cannyLow, cannyHigh, poleLow, counter;
+    std::set<int> vertLines,vertPoles, horLines, horPoles;
 
 public:
-    Gate(const cv::Mat mat);
-
     Gate();
 
-private:
-    cv::Mat initialize(const cv::Mat mat);
+    /*
+     *
+     *
+     */
+
+    void initialize(const cv::Mat mat);
 
     bool checkMat();
 
-    std::vector<cv::Vec4i> filterHorLines(std::vector<cv::Vec4i> allLines);
+private:
 
-    std::vector<cv::Vec4i> filterVertLines(std::vector<cv::Vec4i> allLines);
+    /*
+     *
+     *
+     */
+
+    std::set<int> filterHorLines(std::vector<cv::Vec4i> allLines);
+
+    std::set<int> filterVertLines(std::vector<cv::Vec4i> allLines);
 
 };
 
