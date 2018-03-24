@@ -31,7 +31,6 @@ void DecisionNode::subscriberCallback(state_t state) {
 }
 
 void DecisionNode::setupSubroutineMap(int argc, char **argv) {
-    // not super elegant kind of sad setup where we make each subroutine and put a pointer to it in the map.
-    subroutines_[0] = new LocateGate(argc, argv, "locate_gate");
+    // subroutines_[enumId] = new SomeSubroutine(argc, argv, "someSubroutine");
 
 }
