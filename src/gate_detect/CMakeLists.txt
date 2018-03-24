@@ -19,11 +19,6 @@ include_directories(
         ${catkin_INCLUDE_DIRS}
 )
 
-
-target_link_libraries(gateMsgTest
-        ${catkin_LIBRARIES}
-        )
-
 ################################################
 ## Declare ROS messages, services and actions ##
 ################################################
