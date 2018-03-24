@@ -1,0 +1,57 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(gate_detect)
+
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  sensor_msgs
+  std_msgs
+  message_generation
+)
+
+add_definitions(-std=c++14)
+
+## Specify additional locations of header files
+## Your package locations should be listed before other locations
+include_directories(
+        ${catkin_INCLUDE_DIRS}
+)
+
+
+target_link_libraries(gateMsgTest
+        ${catkin_LIBRARIES}
+        )
+
+################################################
+## Declare ROS messages, services and actions ##
+################################################
+
+## Generate messages in the 'msg' folder
+add_message_files(
+  FILES
+  gateDetect.msg
+)
+
+
+
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
+###################################
+## catkin specific configuration ##
+###################################
+
+catkin_package(
+   LIBRARIES gate_detect
+   CATKIN_DEPENDS message_runtime
+)
+
+add_dependencies(gateMsgTest ${catkin_EXPORTED_TARGETS})
+add_dependencies(gateMsgTest gate_detect_generate_messages_cpp)
+
+
