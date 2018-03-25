@@ -9,10 +9,12 @@
 #include <gate_detect/gatedetectConfig.h>
 #include "Gate.h"
 #include <sensor_msgs/image_encodings.h>
+#include <gate_detect/gateDetectMsg.h>
+
 
 class GateDetectNode{
     image_transport::Subscriber subscriber_;
-    image_transport::Publisher publisher_;
+    ros::Publisher publisher_;
     std::string subscribeTopic;
     std::string publishTopic;
     cv::Mat lineImg;
@@ -28,7 +30,7 @@ private:
 
     void reconfigCallBack(const gate_detect::gatedetectConfig &config, uint32_t level);
 
-    void publishOutputImage(const cv::Mat mat);
+    void publishGateDetectMsg(const std::vector<float> gateVector);
 };
 
 #endif //GATE_DETECT_GATEDETECT_H

@@ -11,9 +11,10 @@
 
 class Gate {
     cv::Mat dst;
-    int lowThreshold, lowVertThresh, lowHorThresh, cannyLow, cannyHigh, poleMax, counter;
-    std::set<int> vertLines, vertPoles, horLines, horPoles;
-    std::vector<int> poleVector;
+    int lowThreshold, lowVertThresh, lowHorThresh, cannyLow, cannyHigh, poleMax, counter, fiveMetreWidthofPole;
+    std::set<int> vertLines, horLines;
+    std::set<std::vector<float> > vertPoles,horPoles;
+    std::vector<float> poleVector;
 
 public:
     Gate();
@@ -25,7 +26,7 @@ public:
      *
      */
 
-    std::vector<int>  initialize(const cv::Mat mat);
+    std::vector<float>  initialize(const cv::Mat matin);
 
     /*
      * Function to check if Gate object has been initialized
@@ -76,7 +77,7 @@ private:
     *
     */
 
-    std::set<int> findHorPoles(std::set<int> horLines);
+    std::set<std::vector<float> > findHorPoles(const std::set<int> horLines);
 
     /*
      * Function to filter through set of vertical lines to determine which lines constitute a pole
@@ -85,9 +86,9 @@ private:
      *
      */
 
-    std::set<int> findVertPoles(std::set<int> vertLines);
+    std::set<std::vector<float> > findVertPoles(const std::set<int> vertLines);
 
-    std::vector<int> gateVector(std::set<int> vertPoles, std::set<int> horPoles);
+    std::vector<float> gateVector(std::set<std::vector<float> > vertPoles, std::set<std::vector<float> > horPoles);
 
 
 };

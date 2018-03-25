@@ -20,9 +20,20 @@ generate_dynamic_reconfigure_options(
 		cfg/gatedetect.cfg
 )
 
+add_message_files(
+		FILES
+		msg/gateDetectMsg.msg
+)
+
+generate_messages(
+		DEPENDENCIES
+		std_msgs
+)
+
 catkin_package(INCLUDE_DIRS
 		include
-		test
+		LIBRARIES gate_detect
+		CATKIN_DEPENDS message_runtime
 )
 
 
@@ -32,15 +43,6 @@ include_directories(
 	./include
 )
 
-generate_messages(
-		DEPENDENCIES
-		std_msgs
-)
-
-add_message_files(
-		FILES
-		gateDetect.msg
-)
 
 add_executable(gate_detect
 		src/GateDetectNode.cpp
@@ -58,16 +60,17 @@ add_executable(gateTest
 		src/Gate.cpp
         test/gate.png)
 
-add_dependencies(gate_detect ${PROJECT_NAME}_gencfg)
-add_dependencies(gate_detect gate_detect_generate_messages_cpp)
-
 target_link_libraries(gate_detect
 		${catkin_LIBRARIES}
-		${OpenCV_LIBS})
+		${OpenCV_LIBS}
+)
 
 target_link_libraries(gateTest
 		${catkin_LIBRARIES}
 		${OpenCV_LIBS}
-		LIBRARIES worldstate
-		CATKIN_DEPENDS message_runtime)
+		)
+
+add_dependencies(gate_detect ${PROJECT_NAME}_gencfg)
+add_dependencies(gate_detect ${catkin_EXPORTED_TARGETS})
+add_dependencies(gate_detect gate_detect_generate_messages_cpp)
 

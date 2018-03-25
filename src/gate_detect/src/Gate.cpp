@@ -11,7 +11,7 @@ Gate::Gate() {
     counter = 0; //Resets counter
 }
 
-std::vector<int> Gate::initialize(const cv::Mat matin) {
+std::vector<float> Gate::initialize(const cv::Mat matin) {
     ROS_INFO("Initialize");
     cv::Canny(matin, dst, cannyLow, cannyHigh, 3);
 
@@ -28,11 +28,11 @@ std::vector<int> Gate::initialize(const cv::Mat matin) {
 
         horPoles = findHorPoles(horLines);
 
+        poleVector = gateVector(vertPoles , horPoles);
+
         counter = 0;
 
     } else counter++;
-
-
 
     return poleVector;
 
@@ -74,8 +74,8 @@ std::set<int> Gate::filterHorLines(std::vector<cv::Vec4i> allLines) {
     return horLines;
 }
 
-std::set<int> Gate::findVertPoles(std::set<int> vertLines){
-    std::set<int> vertPoles;
+std::set<std::vector<float> > Gate::findVertPoles(const std::set<int> vertLines){
+    std::set<std::vector<float> > vertPoles;
     vertPoles.clear();
 
     for (std::set<int>::iterator it1 = vertLines.begin(); it1 != vertLines.end(); it1++) {
@@ -83,9 +83,12 @@ std::set<int> Gate::findVertPoles(std::set<int> vertLines){
         for (std::set<int>::iterator it2 = vertLines.begin(); it2 != vertLines.end(); it2++) {
 
             if ((*it1 != *it2) && (abs(*it1 - *it2) < poleMax)) {
-
-                vertPoles.insert((*it1 + *it2) / 2);
-
+                float topDist = (abs(*it1 - *it2) / (fiveMetreWidthofPole) * 5);
+                float topAngle = atan(abs((*it1 - *it2) - (dst.rows/2))/ topDist);
+                float a = (( *it1 +  *it2) /  2);
+                float array[] = { a , topAngle , topDist};
+                std::vector<float> newVec(*array,3);
+                vertPoles.insert(newVec);
             }
         }
     }
@@ -94,8 +97,8 @@ std::set<int> Gate::findVertPoles(std::set<int> vertLines){
 
 }
 
-std::set<int> Gate::findHorPoles(std::set<int> horLines){
-    std::set<int> horPoles;
+std::set<std::vector<float> > Gate::findHorPoles(const std::set<int> horLines){
+    std::set<std::vector<float> > horPoles;
     horPoles.clear();
 
     for (std::set<int>::iterator it1 = horLines.begin(); it1 != horLines.end(); it1++) {
@@ -103,9 +106,12 @@ std::set<int> Gate::findHorPoles(std::set<int> horLines){
         for (std::set<int>::iterator it2 = horLines.begin(); it2 != horLines.end(); it2++) {
 
             if ((*it1 != *it2) && (abs(*it1 - *it2) < poleMax)) {
-
-                horPoles.insert((*it1 + *it2) / 2);
-
+                float topDist = (abs(*it1 - *it2) / (fiveMetreWidthofPole) * 5);
+                float topAngle = (float) atan(abs((*it1 - *it2) - (dst.rows/2.0f))/ topDist);
+                float a = (( *it1 +  *it2) /  2.0f);
+                float array[] = { a , topAngle , topDist};
+                std::vector<float> newVec(*array,3);
+                horPoles.insert(newVec);
             }
         }
     }
@@ -114,41 +120,73 @@ std::set<int> Gate::findHorPoles(std::set<int> horLines){
 
 }
 
-std::vector<int> gateVector(std::set<int> vertPoles, std::set<int> horPoles){
+std::vector<float> Gate::gateVector(std::set<std::vector<float> > vertPoles, std::set<std::vector<float> > horPoles){
 
-    std::vector<int> gateCoord(9);
+    std::vector<float> gateCoord(9);
 
-    if (horPoles.size() > 1){
+    if (horPoles.size() >= 1){
 
-        std::set::iterator it = horPoles.begin();
-        gateCoord[6] = *it;
+        std::set<std::vector<float> >::iterator it = horPoles.begin();
 
-        for(*it ; *it != horPoles.end(); it++){
+        std::vector<float> newVec = *it;
 
-            if (*it > gateCoord[6]){
-                gateCoord[6] = *it;
-                gateCoord[7] = 0;
-                gateCoord[8] = 0;
+        gateCoord[6] = newVec[0];
+        gateCoord[7] = newVec[1];
+        gateCoord[8] = newVec[2];
+
+        for(*it ; it != horPoles.end(); it++){
+
+            std::vector<float> newVec1 = *it;
+
+            if (newVec1[0] > gateCoord[6]){
+                gateCoord[6] = newVec1[0];
+                gateCoord[7] = newVec1[1];
+                gateCoord[8] = newVec1[2];
             }
         }
     }
-    else if (horPoles.size() ==0) gateCoord[6] =0, gateCoord[7] = 9, gateCoord[8] = 0;
-    else gateCoord[6] = *horPoles.begin(), gateCoord[7] = 9, gateCoord[8] = 0;
+    else if (horPoles.empty()) gateCoord[6] =0, gateCoord[7] = 0, gateCoord[8] = 0;
 
-    if (vertPoles.size() > 2){
 
-        std::set::iterator it = vertPoles.begin();
-        gateCoord[6] = *it;
+    if (vertPoles.size() >= 2){
 
-        for(*it ; *it != vertPoles.end(); it++){
+        std::set<std::vector<float> >::iterator it = horPoles.begin();
 
-            if (*it > gateCoord[6]){
-                gateCoord[6] = *it;
+        std::vector<float> newVec = *it;
+
+        gateCoord[0] = newVec[0];
+        gateCoord[1] = newVec[1];
+        gateCoord[2] = newVec[2];
+
+        std::advance(it,1);
+
+        std::vector<float> newVec0 = *it;
+
+        gateCoord[3] = newVec0[0];
+        gateCoord[4] = newVec0[1];
+        gateCoord[5] = newVec0[2];
+
+        for(*it ; it != horPoles.end(); it++){
+
+            std::vector<float> newVec1 = *it;
+
+            if (newVec1[0] > gateCoord[3]){
+                gateCoord[3] = newVec1[0];
+                gateCoord[4] = newVec1[1];
+                gateCoord[5] = newVec1[2];
+            }
+            else if( newVec1[0] < gateCoord[0]){
+                gateCoord[3] = newVec1[0];
+                gateCoord[4] = newVec1[1];
+                gateCoord[5] = newVec1[2];
             }
         }
     }
-    else if (horPoles.size() ==0) gateCoord[0] =0, gateCoord[1] = 9, gateCoord[2] = 0, gateCoord[3] =0, gateCoord[4] = 9, gateCoord[5] = 0;
-    else gateCoord[6] = *horPoles.begin(), gateCoord[7] = 9, gateCoord[8] = 0;
+    else if(horPoles.size() == 1){
+
+
+    }
+    else if (horPoles.empty()) gateCoord[6] =0, gateCoord[7] = 0, gateCoord[8] = 0;
 
     return gateCoord;
 
