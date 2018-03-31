@@ -44,7 +44,7 @@ private:
      * Configurable parameters adjusted according to the physical dimensions
      * of the robot and the competition surface
      */
-    const u_int_16 kClearanceGateHeight;
+    const int kClearanceGateHeight = 16;
 
     /* Robot should always start off by searching for the starting gate*/
     internalWorldStates current_state_ = locatingGate;

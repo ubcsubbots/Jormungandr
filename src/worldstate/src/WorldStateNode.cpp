@@ -16,7 +16,7 @@ WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name){
     //image_transport::ImageTransport it(nh);
 
     //Change the subscribe topics as needed
-    std::string gateDetectionSubscription = "/vision/output";
+    std::string gateDetectionSubscription = "/test/temp";
     std::string publishTopic   = "worldstate/output";
 
     world_state_publisher_ = nh.advertise<worldstate::state_msg>(publishTopic, 100);
@@ -69,7 +69,7 @@ void WorldStateNode::gateDetectCallBack(const std_msgs::Int8ConstPtr &num){
      * -If (D_1 == D_2) and possibly if D_3 <= clearanceHeight, then "passingGate"
      *
      */
-    
+
     switch (num->data){
         case 0:
             msg.state = worldstate::state_msg_<u_int8_t>::locatingGate;
