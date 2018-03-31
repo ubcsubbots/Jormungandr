@@ -9,7 +9,6 @@
 #define JORMUNGANDR_WORLDSTATENODE_H
 
 #include <ros/ros.h>
-#include <worldstate/states.h>
 #include <worldstate/state_msg.h>
 #include <std_msgs/builtin_int8.h>
 
@@ -38,8 +37,14 @@ private:
 
     /* Temporarily directly receive hsv-filtered msgs */
     //image_transport::Subscriber gate_node_subscriber_;
-    ros::Subscriber test_;
+    ros::Subscriber gate_detect_listener_;
     ros::Publisher world_state_publisher_;
+
+    /*
+     * Configurable parameters adjusted according to the physical dimensions
+     * of the robot and the competition surface
+     */
+    const u_int_16 kClearanceGateHeight;
 
     /* Robot should always start off by searching for the starting gate*/
     internalWorldStates current_state_ = locatingGate;
