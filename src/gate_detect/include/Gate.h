@@ -11,7 +11,8 @@
 
 class Gate {
     cv::Mat dst;
-    int lowThreshold, lowVertThresh, lowHorThresh, cannyLow, cannyHigh, poleMax, counter, fiveMetreWidthofPole;
+    int lowThreshold, lowVertThresh, lowHorThresh, cannyLow, cannyHigh, poleMax, counter;
+    float fiveMetreWidthofPole;
     std::set<int> vertLines, horLines;
     std::set<std::vector<float> > vertPoles,horPoles;
     std::vector<float> poleVector;
@@ -26,7 +27,7 @@ public:
      *
      */
 
-    std::vector<float>  initialize(const cv::Mat matin);
+    std::vector<float> initialize(const cv::Mat matin);
 
     /*
      * Function to check if Gate object has been initialized

@@ -1,9 +1,9 @@
 bool detectLeft
-float64 angleLeft
-float64 distanceLeft
+float32 angleLeft
+float32 distanceLeft
 bool detectRight
-float64 angleRight
-float64 distanceRight
+float32 angleRight
+float32 distanceRight
 bool detectTop
-float64 angleTop
-float64 distanceTop
+float32 angleTop
+float32 distanceTop

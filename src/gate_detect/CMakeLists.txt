@@ -7,8 +7,6 @@ find_package(catkin REQUIRED COMPONENTS
 		cv_bridge
 		image_transport
 		roscpp
-		sensor_msgs
-		std_msgs
 		rospy
 		dynamic_reconfigure
 		message_generation
@@ -22,7 +20,7 @@ generate_dynamic_reconfigure_options(
 
 add_message_files(
 		FILES
-		msg/gateDetectMsg.msg
+		gateDetectMsg.msg
 )
 
 generate_messages(
@@ -33,16 +31,19 @@ generate_messages(
 catkin_package(INCLUDE_DIRS
 		include
 		LIBRARIES gate_detect
-		CATKIN_DEPENDS message_runtime
+
 )
 
+catkin_package(
+		CATKIN_DEPENDS message_runtime
+
+)
 
 include_directories(
 	${catkin_INCLUDE_DIRS}
 	${Open_CV_NCLUDE_DIRS}
 	./include
 )
-
 
 add_executable(gate_detect
 		src/GateDetectNode.cpp
@@ -52,23 +53,10 @@ add_executable(gate_detect
 		include/Gate.h
 		)
 
-enable_testing()
-
-add_executable(gateTest
-		test/gateDetectTest.cpp
-		include/Gate.h
-		src/Gate.cpp
-        test/gate.png)
-
 target_link_libraries(gate_detect
 		${catkin_LIBRARIES}
 		${OpenCV_LIBS}
 )
-
-target_link_libraries(gateTest
-		${catkin_LIBRARIES}
-		${OpenCV_LIBS}
-		)
 
 add_dependencies(gate_detect ${PROJECT_NAME}_gencfg)
 add_dependencies(gate_detect ${catkin_EXPORTED_TARGETS})

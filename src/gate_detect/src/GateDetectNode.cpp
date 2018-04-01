@@ -2,6 +2,7 @@
  * Created By: Cameron Newton
  * Created On: February 27th, 2018
  */
+#include <vtk-6.2/vtkType.h>
 #include "GateDetectNode.h"
  
 GateDetectNode::GateDetectNode(int argc, char** argv , std::string nodeName) {
@@ -13,7 +14,7 @@ GateDetectNode::GateDetectNode(int argc, char** argv , std::string nodeName) {
     dynamic_reconfigure::Server<gate_detect::gatedetectConfig> server;
     dynamic_reconfigure::Server<gate_detect::gatedetectConfig>::CallbackType f;
 
-    subscribeTopic = "/uwsim/camera2";
+    subscribeTopic = "/vision/output";
     publishTopic   = "/gateDetect/output";
 
     subscriber_ = it.subscribe(subscribeTopic, 1, &GateDetectNode::subscriberCallBack, this);
@@ -43,18 +44,24 @@ void GateDetectNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& msg) {
 
     std::vector<float> gateVector = gate.initialize(cv_ptr->image);
 
-    //publishGateDetectMsg(gateVector);
+    publishGateDetectMsg(gateVector);
 
 
 }
 
-void GateDetectNode::publishGateDetectMsg(std::vector<float> gateVector){
-
+void GateDetectNode::publishGateDetectMsg(std::vector<float> gateVectorIn){
     gate_detect::gateDetectMsg msg;
 
-    if(!(gateVector[0] == 0)) msg.detectLeft = true; msg.angleLeft = gateVector[1]; msg.distanceLeft = gateVector[2];
-    if(!(gateVector[3] == 0)) msg.detectRight = true; msg.angleRight = gateVector[4]; msg.distanceRight = gateVector[5];
-    if(!(gateVector[6] == 0)) msg.detectTop = true; msg.angleTop = gateVector[7]; msg.distanceTop = gateVector[8];
+
+    if(gateVectorIn[0] != 0.0) msg.detectLeft = 1; else msg.detectLeft = 0;
+    msg.angleLeft = gateVectorIn[1];
+    msg.distanceLeft = gateVectorIn[2];
+    if(gateVectorIn[3] != 0.0) msg.detectRight = 1; else msg.detectRight = 0;
+    msg.angleRight = gateVectorIn[4];
+    msg.distanceRight = gateVectorIn[5];
+    if(gateVectorIn[6] != 0.0) msg.detectTop = 1; else msg.detectTop = 0;
+    msg.angleTop = gateVectorIn[7];
+    msg.distanceTop = gateVectorIn[8];
 
     publisher_.publish(msg);
 }
