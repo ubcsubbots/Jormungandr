@@ -25,7 +25,7 @@ include_directories(
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-  gateDetect.msg
+  gateDetectMsg.msg
 )
 
 
@@ -36,6 +36,10 @@ generate_messages(
   std_msgs
 )
 
+catkin_package(INCLUDE_DIRS
+        LIBRARIES gate_detect
+        )
+
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -45,7 +49,12 @@ catkin_package(
    CATKIN_DEPENDS message_runtime
 )
 
+
 # Adding gtests to the package
 catkin_add_gtest(gate-detect-test test/gate-detect-test.cpp)
 target_link_libraries(gate-detect-test ${catkin_LIBRARIES})
+
 add_dependencies(gate-detect-test ${catkin_EXPORTED_TARGETS})
+add_dependencies(gate-detect-test gate_detect_generate_messages_cpp)
+
+

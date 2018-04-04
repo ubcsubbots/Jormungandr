@@ -6,4 +6,4 @@ float64 angleRight
 float64 distanceRight
 bool detectTop
 float64 angleTop
-float64 angleBot
+float64 distanceTop
