@@ -44,3 +44,8 @@ catkin_package(
    LIBRARIES gate_detect
    CATKIN_DEPENDS message_runtime
 )
+
+# Adding gtests to the package
+catkin_add_gtest(gate-detect-test test/gate-detect-test.cpp)
+target_link_libraries(gate-detect-test ${catkin_LIBRARIES})
+add_dependencies(gate-detect-test ${catkin_EXPORTED_TARGETS})
