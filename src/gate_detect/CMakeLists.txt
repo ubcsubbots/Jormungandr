@@ -58,7 +58,16 @@ target_link_libraries(gate_detect
 		${OpenCV_LIBS}
 )
 
+
+
 add_dependencies(gate_detect ${PROJECT_NAME}_gencfg)
 add_dependencies(gate_detect ${catkin_EXPORTED_TARGETS})
 add_dependencies(gate_detect gate_detect_generate_messages_cpp)
+
+if (CATKIN_ENABLE_TESTING)
+	# Adding gtests to the package
+	catkin_add_gtest(gateDetectTest test/gateDetectTest.cpp src/Gate.cpp)
+	target_link_libraries(gateDetectTest ${catkin_LIBRARIES} ${OpenCV_LIBS})
+endif()
+
 

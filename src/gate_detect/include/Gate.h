@@ -13,8 +13,8 @@ class Gate {
     cv::Mat dst;
     int lowThreshold, lowVertThresh, lowHorThresh, cannyLow, cannyHigh, poleMax, counter;
     float fiveMetreWidthofPole;
-    std::set<int> vertLines, horLines;
-    std::set<std::vector<float> > vertPoles,horPoles;
+    std::vector<int> vertLines, horLines;
+    std::vector<std::vector<float> > vertPoles,horPoles;
     std::vector<float> poleVector;
 
 public:
@@ -35,6 +35,10 @@ public:
 
     bool checkMat();
 
+    void vertLineCheck();
+
+    void horLineCheck();
+
 private:
 
     /*
@@ -52,7 +56,7 @@ private:
      *
      */
 
-    std::set<int> filterHorLines(std::vector<cv::Vec4i> allLines);
+    std::vector<int> filterHorLines(std::vector<cv::Vec4i> allLines);
 
     /*
      * Function to filter through vector of cv::Vector4i objects and filter out the Vertical lines
@@ -69,7 +73,7 @@ private:
      *
      */
 
-    std::set<int> filterVertLines(std::vector<cv::Vec4i> allLines);
+    std::vector<int> filterVertLines(std::vector<cv::Vec4i> allLines);
 
     /*
     * Function to filter through set of horizontal lines to determine which lines constitute a pole
@@ -78,7 +82,7 @@ private:
     *
     */
 
-    std::set<std::vector<float> > findHorPoles(const std::set<int> horLines);
+    std::vector<std::vector<float> > findHorPoles(std::vector<int> horLines);
 
     /*
      * Function to filter through set of vertical lines to determine which lines constitute a pole
@@ -87,9 +91,10 @@ private:
      *
      */
 
-    std::set<std::vector<float> > findVertPoles(const std::set<int> vertLines);
+    std::vector<std::vector<float> > findVertPoles(std::vector<int> vertLines);
 
-    std::vector<float> gateVector(std::set<std::vector<float> > vertPoles, std::set<std::vector<float> > horPoles);
+
+    std::vector<float> gateVector(std::vector<std::vector<float> > vertPoles, std::vector<std::vector<float> > horPoles);
 
 
 };
