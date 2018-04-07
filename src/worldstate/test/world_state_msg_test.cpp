@@ -4,7 +4,6 @@
  *  Purpose: Unit test to instantiate and message correctly outputs
  */
 #include <ros/ros.h>
-#include <worldstate::
 
 int main(int argc, char** argv){
     std::string node_name = "world_state";
