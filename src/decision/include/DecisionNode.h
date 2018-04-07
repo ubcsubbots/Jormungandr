@@ -9,14 +9,16 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <unordered_map>
-#include <std_msgs/Int32.h>
 #include "Subroutine.h"
 
+// state msg
+#include <worldstate/state_msg.h>
 // subroutines
 #include "LocateGate.h"
+#include "LineUpWithGate.h"
 
 
-typedef int32_t state_t; // temp until world state msg comes in
+typedef int8_t state_t;
 
 class DecisionNode {
 public:
@@ -26,7 +28,7 @@ private:
     Subroutine* running_;
     ros::Subscriber subscriber_;
 
-    void subscriberCallback(const std_msgs::Int32::ConstPtr& msg);
+    void subscriberCallback(const worldstate::state_msg::ConstPtr& msg);
     void setupSubroutineMap(int argc, char **argv);
 };
 #endif //DECISION_DECISION_H_H

@@ -12,17 +12,18 @@ DecisionNode::DecisionNode(int argc, char **argv, std::string node_name) {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
-    std::string state_topic = "states";
+    std::string state_topic = "states"; // TODO whatever the real one is
     int refresh_rate = 10;
     subscriber_ = nh.subscribe(state_topic, refresh_rate, &DecisionNode::subscriberCallback, this);
 }
 
-void DecisionNode::subscriberCallback(const std_msgs::Int32::ConstPtr& msg) {
+void DecisionNode::subscriberCallback(const worldstate::state_msg::ConstPtr& msg) {
 
-    state_t state = msg->data;
+    state_t state = msg->state;
 
     if(subroutines_.find(state) == subroutines_.end()) {
-        // TODO This is really bad, what do we want to do?
+        // We forgot to add a subroutine to the map. This is bad.
+        // TODO do something
         return;
     }
 
@@ -38,5 +39,6 @@ void DecisionNode::subscriberCallback(const std_msgs::Int32::ConstPtr& msg) {
 }
 
 void DecisionNode::setupSubroutineMap(int argc, char **argv) {
-    subroutines_[0] = new LocateGate(argc, argv, "locate_gate");
+    subroutines_[worldstate::state_msg::locatingGate] = new LocateGate(argc, argv, "locate_gate");
+    subroutines_[worldstate::state_msg::aligningWithGate] = new LineUpWithGate(argc, argv, "align_with_gate");
 }

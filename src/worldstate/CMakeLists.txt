@@ -33,6 +33,6 @@ generate_messages(
 ###################################
 
 catkin_package(
-   LIBRARIES worldstate
    CATKIN_DEPENDS message_runtime
 )
+
