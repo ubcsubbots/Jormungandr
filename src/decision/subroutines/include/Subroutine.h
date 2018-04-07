@@ -20,6 +20,7 @@ protected:
     ros::Publisher publisher_;
     void publishCommand(const geometry_msgs::Twist &msg);
     geometry_msgs::Vector3 makeVector(double x, double y, double z);
+
     virtual void setupSubscriptions(ros::NodeHandle nh) = 0;
 };
 

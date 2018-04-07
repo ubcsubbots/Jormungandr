@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
     roscpp
     std_msgs
     worldstate
+    gate_detect
 )
 
 add_definitions(-std=c++14)

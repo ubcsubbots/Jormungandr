@@ -12,7 +12,7 @@ DecisionNode::DecisionNode(int argc, char **argv, std::string node_name) {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
-    std::string state_topic = "states"; // TODO whatever the real one is
+    std::string state_topic = "worldstate";
     int refresh_rate = 10;
     subscriber_ = nh.subscribe(state_topic, refresh_rate, &DecisionNode::subscriberCallback, this);
 }

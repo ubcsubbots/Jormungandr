@@ -8,20 +8,24 @@
 
 void LocateGate::setupSubscriptions(ros::NodeHandle nh) {
 
-    nh.subscribe("gate", 10, &LocateGate::decisionCallback, this);
+    nh.subscribe("gate_location", 10, &LocateGate::decisionCallback, this);
 }
 
-void LocateGate::decisionCallback(const std_msgs::String::ConstPtr& msg) {
+void LocateGate::decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg) {
 
-    // processing logic: rotate until we can see the whole gate
+    // logic: rotate on z to attempt to make the gate in view
+    double z;
 
-    // attempt to rotate until the whole gate is in view
+    if (msg->detectLeft && !msg->detectRight) {
+        z = -1.0;
+    } else if (msg->detectRight && !msg->detectLeft) {
+        z = 1.0;
+    } else {
+        z = 2.0;
+    }
 
-
-    // send the message
     geometry_msgs::Twist command;
-    command.angular = makeVector(0.0,0.0,0.0);
+    command.angular = makeVector(0.0,0.0,z);
     command.linear = makeVector(0.0,0.0,0.0);
     publishCommand(command);
-
 }

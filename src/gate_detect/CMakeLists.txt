@@ -45,7 +45,6 @@ catkin_package(INCLUDE_DIRS
 ###################################
 
 catkin_package(
-   LIBRARIES gate_detect
    CATKIN_DEPENDS message_runtime
 )
 
