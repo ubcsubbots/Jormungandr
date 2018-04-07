@@ -53,10 +53,10 @@ catkin_package(
 if (CATKIN_ENABLE_TESTING)
 
     # Adding gtests to the package
-    catkin_add_gtest(world-state-msg-test test/world_state_msg_test.cpp)
-    target_link_libraries(world-state-msg-test ${catkin_LIBRARIES})
+    catkin_add_gtest(world_state_msg_test test/world_state_msg_test.cpp)
+    target_link_libraries(world_state_msg_test ${catkin_LIBRARIES})
 endif()
 
-add_dependencies(world-state-msg-test ${catkin_EXPORTED_TARGETS})
-add_dependencies(world-state-msg-test world_state_msg_test_generate_messages_cpp)
+add_dependencies(world_state_msg_test ${catkin_EXPORTED_TARGETS})
+add_dependencies(world_state_msg_test world_state_msg_test_generate_messages_cpp)
 
