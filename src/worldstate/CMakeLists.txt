@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   message_generation
+  gate_detect
 )
 
 add_definitions(-std=c++14)
@@ -41,7 +42,6 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
    INCLUDE_DIRS include
-   LIBRARIES worldstate
    CATKIN_DEPENDS message_runtime
 )
 

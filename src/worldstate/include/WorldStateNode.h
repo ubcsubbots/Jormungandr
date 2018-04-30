@@ -11,6 +11,7 @@
 #include <ros/ros.h>
 #include <worldstate/state_msg.h>
 #include <std_msgs/builtin_int8.h>
+#include <gate_detect/gateDetectMsg.h>
 
 class WorldStateNode {
 
@@ -24,15 +25,15 @@ private:
      *
      * @param gate detection node discretized messages
      */
-    void gateDetectCallBack(const std_msgs::Int8ConstPtr &num);
+    void gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr & gateDetMsg);
 
     enum internalWorldStates {
         locatingGate,
         aligningWithGate,
         passingGate,
-        locatingPole,
-        approachingPole,
-        pivotingPole
+//        locatingPole,
+//        approachingPole,
+//        pivotingPole
     };
 
     /* Temporarily directly receive hsv-filtered msgs */
