@@ -2,13 +2,11 @@
 
 
 Gate::Gate() {
-    lowThreshold = 200;
-    lowVertThresh = 5; //Sets the minimum deviation from start to finish that will constitute a vertical line
-    lowHorThresh = 5; //Sets the minimum deviation from start to finish that will constitute a horizontal line
+    lowVertThresh = 50; //Sets the minimum deviation from start to finish that will constitute a vertical line
+    lowHorThresh = 100; //Sets the minimum deviation from start to finish that will constitute a horizontal line
     cannyLow = 80; //Sets the low threshold for the canny filter, adjust if dst is not displaying all lines
     cannyHigh = 200; //Sets the high threshold for the canny filter, adjust if dst not displaying all lines
     poleMax = 60; //Sets the minimum threshold for two lines to be called a pole
-    counter = 0; //Resets counter
     fiveMetreWidthofPole = 10.0f;
 }
 
@@ -16,8 +14,9 @@ std::vector<float> Gate::initialize(const cv::Mat matin) {
 
     cv::Canny(matin, dst, cannyLow, cannyHigh, 3);
 
-    cv::imshow("after filter" , dst);
-    cv::waitKey(0);
+    /*   cv::imshow("after filter" , dst);
+        cv::waitKey(0);
+    */
 
     std::vector<cv::Vec4i> lines;
 
@@ -66,10 +65,9 @@ std::vector<int> Gate::filterVertLines(std::vector<cv::Vec4i> allLines) {
     std::vector<int> vertLines;
     vertLines.clear();
 
-
     for (int i = 0; i < (allLines.size() - 1); i++) {
         cv::Vec4i newLine = allLines[i];
-        if ((abs(newLine[0] - newLine[2]) < lowVertThresh) && abs(newLine[1] - newLine[3]) > 20) {
+        if ((abs(newLine[0] - newLine[2]) < lowVertThresh)) {
             vertLines.push_back((newLine[0] + newLine[2]) / 2);
         }
     }
@@ -86,7 +84,7 @@ std::vector<int> Gate::filterHorLines(std::vector<cv::Vec4i> allLines) {
         cv::Vec4i newLine = allLines[i];
 
         if (abs(newLine[1] - newLine[3]) < lowHorThresh) {
-            horLines.push_back(newLine[i]);
+            horLines.push_back((newLine[1] + newLine[3]) / 2);
         }
     }
 
@@ -112,7 +110,7 @@ std::vector<std::vector<float> > Gate::findVertPoles(std::vector<int> vertLines)
         }
     }
 
-    //for (int vertLine : vertLines) ROS_INFO(" %i " , vertLine);
+    for (int vertLine : vertLines) ROS_INFO(" %i " , vertLine);
 
     for (auto it3 = vertLines.begin(); it3 != vertLines.end();it3++) {
         //ROS_INFO("First Line %i", *it3);
@@ -120,15 +118,14 @@ std::vector<std::vector<float> > Gate::findVertPoles(std::vector<int> vertLines)
         for (auto it4 = vertLines.begin(); it4 != vertLines.end();) {
             //ROS_INFO("Second Line %i", *it4);
 
-
             if ((abs(*it3 - *it4) < poleMax) && (*it3!=*it4)) {
                 //ROS_INFO("Line is a Pole at %f", (float) ((*it3 + *it4) / 2));
-                float topDist = (abs(*it3 - *it4) / (fiveMetreWidthofPole)) * 5;
-                float topAngle = atan(abs((*it3 - *it4) - (dst.cols / 2)) / topDist);
+                float vertPoleDist = (abs(*it3 - *it4) / (fiveMetreWidthofPole)) * 5;
+                float vertPoleAngle = atan(((abs((*it3 - *it4) - (dst.cols / 2)) / fiveMetreWidthofPole) * 5) / vertPoleDist);
                 float a = ((*it3 + *it4) / 2);
-                float array[] = {a, topAngle, topDist};
-                std::vector<float> newVec(array, array + sizeof(array) / sizeof(array[0]));
-                vertPoles.push_back(newVec);
+                float array[] = {a, vertPoleAngle, vertPoleDist};
+                std::vector<float> vertPoleVector(array, array + sizeof(array) / sizeof(array[0]));
+                vertPoles.push_back(vertPoleVector);
                 vertLines.erase(it4);
             }
             else{
@@ -138,7 +135,6 @@ std::vector<std::vector<float> > Gate::findVertPoles(std::vector<int> vertLines)
         }
     }
 
-
     return vertPoles;
 
 }
@@ -147,44 +143,70 @@ std::vector<std::vector<float> > Gate::findHorPoles(std::vector<int> horLines) {
     std::vector<std::vector<float> > horPoles;
     horPoles.clear();
 
-    for (auto it1 = horLines.begin(); it1 != horLines.end(); it1++) {
+    if(horLines.empty()){
+        ROS_INFO("horLines empty");
+        return horPoles;
+    }
 
+    for (auto it1 = horLines.begin(); it1 != horLines.end(); it1++){
+        for (auto it2 = horLines.begin(); it2 != horLines.end(); ) {
+            if ((abs(*it1 - *it2) < 10)&&(*it1 != *it2)) {
+                horLines.erase(it2);
+            }
+            else {
+                it2++;
+            }
+        }
+    }
 
-        for (auto it2 = horLines.begin(); it2 != horLines.end(); it2++) {
-            if ((*it1 != *it2) && (abs(*it1 - *it2) < poleMax) && (5 < abs(*it1 - *it2))) {
-                float topDist = (float) std::abs(*it1 - *it2) / (fiveMetreWidthofPole) * 5.0f;
-                float topAngle = atan(std::abs((*it1 - *it2) - (dst.rows / 2)) / topDist);
-                float a = ((*it1 + *it2) / 2);
-                float array[] = {a, topAngle, topDist};
-                std::vector<float> newVec(array, array + sizeof(array) / sizeof(array[0]));
-                horPoles.push_back(newVec);
+    //for (int horLine : horLines) ROS_INFO(" %i " , horLine);
+
+    for (auto it3 = horLines.begin(); it3 != horLines.end();it3++) {
+        //ROS_INFO("First Line %i", *it3);
+
+        for (auto it4 = horLines.begin(); it4 != horLines.end();) {
+            //ROS_INFO("Second Line %i", *it4);
+
+            if ((abs(*it3 - *it4) < poleMax) && (*it3!=*it4)) {
+                //ROS_INFO("Line is a Pole at %f", (float) ((*it3 + *it4) / 2));
+                float horPoleDist = (abs(*it3 - *it4) / (fiveMetreWidthofPole)) * 5;
+                float horPoleAngle = atan(((abs((*it3 - *it4) - (dst.cols / 2)) / fiveMetreWidthofPole) * 5) / horPoleDist);
+                float a = ((*it3 + *it4) / 2);
+                float array[] = {a, horPoleAngle, horPoleDist};
+                std::vector<float> horPoleVector(array, array + sizeof(array) / sizeof(array[0]));
+                horPoles.push_back(horPoleVector);
+                horLines.erase(it4);
+            }
+            else{
+                if(it4 != horLines.end())
+                    it4++;
             }
         }
     }
 
     return horPoles;
-
 }
 
 std::vector<float> Gate::gateVector(std::vector<std::vector<float> > vertPoles, std::vector<std::vector<float> > horPoles) {
     std::vector<float> gateCoord(9, 0.0f);
 
-    for (std::vector<float> newVec : horPoles) {
-        if (gateCoord[6] == 0.0f || newVec[0] > gateCoord[6]) {
-            gateCoord[6] = newVec[0];
-            gateCoord[7] = newVec[1];
-            gateCoord[8] = newVec[2];
+    for (std::vector<float> horPole : horPoles) {
+        if (gateCoord[6] == 0.0f || horPole[0] > gateCoord[6]) {
+            gateCoord[6] = horPole[0];
+            gateCoord[7] = horPole[1];
+            gateCoord[8] = horPole[2];
         }
     }
-    for (std::vector<float> newVec : vertPoles) {
-        if (gateCoord[0] == 0.0f || newVec[0] <= gateCoord[0]) {
-            gateCoord[0] = newVec[0];
-            gateCoord[1] = newVec[1];
-            gateCoord[2] = newVec[2];
-        } else if (newVec[0] >= gateCoord[3]) {
-            gateCoord[3] = newVec[0];
-            gateCoord[4] = newVec[1];
-            gateCoord[5] = newVec[2];
+
+    for (std::vector<float> vertPole : vertPoles) {
+        if (gateCoord[0] == 0.0f || vertPole[0] <= gateCoord[0]) {
+            gateCoord[0] = vertPole[0];
+            gateCoord[1] = vertPole[1];
+            gateCoord[2] = vertPole[2];
+        } else if (vertPole[0] >= gateCoord[3]) {
+            gateCoord[3] = vertPole[0];
+            gateCoord[4] = vertPole[1];
+            gateCoord[5] = vertPole[2];
         }
     }
 

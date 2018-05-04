@@ -11,7 +11,7 @@
 
 class Gate {
     cv::Mat dst;
-    int lowThreshold, lowVertThresh, lowHorThresh, cannyLow, cannyHigh, poleMax, counter;
+    int lowVertThresh, lowHorThresh, cannyLow, cannyHigh, poleMax;
     float fiveMetreWidthofPole;
     std::vector<int> vertLines, horLines;
     std::vector<std::vector<float> > vertPoles,horPoles;
@@ -94,6 +94,12 @@ private:
     std::vector<std::vector<float> > findVertPoles(std::vector<int> vertLines);
 
 
+    /*
+     * Function to filter through set of vertical and horizontal poles to determine which poles constitute a gate
+     *
+     * int poleMax : maximum distance between two vertical lines that function will call a pole
+     *
+     */
     std::vector<float> gateVector(std::vector<std::vector<float> > vertPoles, std::vector<std::vector<float> > horPoles);
 
 

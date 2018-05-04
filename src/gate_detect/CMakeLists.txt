@@ -31,12 +31,10 @@ generate_messages(
 catkin_package(INCLUDE_DIRS
 		include
 		LIBRARIES gate_detect
-
 )
 
 catkin_package(
 		CATKIN_DEPENDS message_runtime
-
 )
 
 include_directories(
