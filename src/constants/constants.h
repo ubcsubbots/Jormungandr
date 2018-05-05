@@ -6,6 +6,6 @@
 #ifndef PROJECT_CONSTANTS_H
 #define PROJECT_CONSTANTS_H
 
-#define CLEARANCE 60 //cm
+#define CLEARANCE 60 // cm
 
-#endif //PROJECT_CONSTANTS_H
+#endif // PROJECT_CONSTANTS_H

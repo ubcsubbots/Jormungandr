@@ -6,8 +6,8 @@
 #ifndef DECISION_SUBROUTINE_H
 #define DECISION_SUBROUTINE_H
 
-#include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
+#include <ros/ros.h>
 
 #define RIGHT -1.0
 #define LEFT 1.0
@@ -17,18 +17,18 @@
 #define DOWN -1.0
 
 class Subroutine {
-public:
-    Subroutine(int argc, char **argv, std::string node_name);
+  public:
+    Subroutine(int argc, char** argv, std::string node_name);
 
     void startup();
     void shutdown();
 
-protected:
+  protected:
     ros::Publisher publisher_;
-    void publishCommand(const geometry_msgs::Twist &msg);
+    void publishCommand(const geometry_msgs::Twist& msg);
     geometry_msgs::Vector3 makeVector(double x, double y, double z);
 
     virtual void setupSubscriptions(ros::NodeHandle nh) = 0;
 };
 
-#endif //DECISION_SUBROUTINE_H
+#endif // DECISION_SUBROUTINE_H

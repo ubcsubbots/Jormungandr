@@ -6,9 +6,9 @@
 #ifndef DECISION_LINEUPWITHGATE_H
 #define DECISION_LINEUPWITHGATE_H
 
-#include <std_msgs/String.h>
 #include "Subroutine.h"
 #include <gate_detect/gateDetectMsg.h>
+#include <std_msgs/String.h>
 
 /*
  * Subroutine: LineUpWithGate
@@ -16,14 +16,15 @@
  * Function: attempts to get into an orthogonal position with the gate
  *
  */
-class LineUpWithGate: public Subroutine {
-public:
-    LineUpWithGate(int argc, char **argv, std::string node_name): Subroutine(argc, argv, node_name) {}
+class LineUpWithGate : public Subroutine {
+  public:
+    LineUpWithGate(int argc, char** argv, std::string node_name)
+      : Subroutine(argc, argv, node_name) {}
     void setupSubscriptions(ros::NodeHandle nh) override;
-private:
+
+  private:
     void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
     void balance(const geometry_msgs::Twist::ConstPtr& msg);
-
 };
 
-#endif //DECISION_LINEUPWITHGATE_H
+#endif // DECISION_LINEUPWITHGATE_H
