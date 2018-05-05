@@ -1,6 +1,8 @@
-//
-// Created by Cameron on 03/04/18.
-//
+/*
+ * Created By: Cameron Newton
+ * Created On: May 5th, 2018
+ * Description: A test to confirm that gateDetectMsg will build
+ */
 
 #include <gate_detect/gateDetectMsg.h>
 #include <gtest/gtest.h>
@@ -18,7 +20,6 @@ TEST(gate_detect, addMessage) {
     msg.angleTop      = 2.0f;
     msg.distanceTop   = 2.0f;
 
-    EXPECT_TRUE(true);
 }
 
 int main(int argc, char** argv) {
