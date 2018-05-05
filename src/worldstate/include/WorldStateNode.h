@@ -20,32 +20,32 @@ public:
 
 private:
     /**
-     * TODO: Change the parameter to receive gate detection topics
      * Callback function for when data is received from gate detection node
      *
      * @param gate detection node discretized messages
      */
     void gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr & gateDetMsg);
 
+    /**
+     * Callback function for when data is received from pole detection node
+     *
+     * @param gate detection node discretized messages
+     */
+    void poleDetectCallBack(void);
+
     enum internalWorldStates {
         locatingGate,
         aligningWithGate,
         passingGate,
-//        locatingPole,
-//        approachingPole,
-//        pivotingPole
+        locatingPole,
+        approachingPole,
+        pivotingPole
     };
 
     /* Temporarily directly receive hsv-filtered msgs */
     //image_transport::Subscriber gate_node_subscriber_;
     ros::Subscriber gate_detect_listener_;
     ros::Publisher world_state_publisher_;
-
-    /*
-     * Configurable parameters adjusted according to the physical dimensions
-     * of the robot and the competition surface
-     */
-    const int kClearanceGateHeight = 16;
 
     /* Robot should always start off by searching for the starting gate*/
     internalWorldStates current_state_ = locatingGate;
