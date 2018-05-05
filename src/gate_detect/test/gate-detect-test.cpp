@@ -19,7 +19,6 @@ TEST(gate_detect, addMessage) {
     msg.detectTop     = 1;
     msg.angleTop      = 2.0f;
     msg.distanceTop   = 2.0f;
-
 }
 
 int main(int argc, char** argv) {
