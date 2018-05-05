@@ -68,6 +68,7 @@ add_executable(world_state_node
 ## Specify libraries to link a library or executable target against
 target_link_libraries(world_state_node ${catkin_LIBRARIES})
 
+##Possibly remove the first line
 add_dependencies(world_state_node ${catkin_EXPORTED_TARGETS})
 add_dependencies(world_state_node worldstate_generate_messages_cpp)
 
