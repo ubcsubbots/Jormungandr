@@ -12,7 +12,14 @@ Gate::Gate() {
 
 std::vector<float> Gate::initialize(const cv::Mat matin) {
 
-    cv::Canny(matin, dst, cannyLow, cannyHigh, 3);
+    cv::blur( matin, dst, cv::Size(3,3) );
+
+    cv::Canny(dst, dst, cannyLow, cannyHigh, 3);
+
+    dst.copyTo( dst, detected_edges);
+
+    //cv::imshow("new window", dst );
+    //cv::waitKey(0);
 
     /*   cv::imshow("after filter" , dst);
         cv::waitKey(0);
@@ -27,21 +34,19 @@ std::vector<float> Gate::initialize(const cv::Mat matin) {
         ROS_INFO("HoughLine detected at %i %i %i %i", houghLine[0] , houghLine[1] , houghLine[2] , houghLine[3]);
 */
 
-
     cv::Mat cdst;
 
     cvtColor(dst, cdst, CV_GRAY2BGR);
 
-    /*
     for( size_t i = 0; i < lines.size(); i++ )
     {
         cv::Vec4i l = lines[i];
         cv::line( cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(0,0,255), 3, CV_AA);
     }
 
-    cv::imshow("New Window" , cdst);
-    cv::waitKey(0);
-*/
+    //cv::imshow("New Window" , cdst);
+    //cv::waitKey(0);
+
 
     vertLines = filterVertLines(lines);
 
