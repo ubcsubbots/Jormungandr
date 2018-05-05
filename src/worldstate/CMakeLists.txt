@@ -37,7 +37,6 @@ generate_messages(
 ###################################
 
 catkin_package(
-   LIBRARIES worldstate
    CATKIN_DEPENDS message_runtime
 )
 
@@ -56,7 +55,3 @@ if (CATKIN_ENABLE_TESTING)
     catkin_add_gtest(world_state_msg_test test/world_state_msg_test.cpp)
     target_link_libraries(world_state_msg_test ${catkin_LIBRARIES})
 endif()
-
-add_dependencies(world_state_msg_test ${catkin_EXPORTED_TARGETS})
-add_dependencies(world_state_msg_test world_state_msg_test_generate_messages_cpp)
-
