@@ -36,18 +36,13 @@ generate_messages(
   std_msgs
 )
 
-catkin_package(INCLUDE_DIRS
-        LIBRARIES gate_detect
+catkin_package(
+	CATKIN_DEPENDS message_runtime
         )
 
 ###################################
 ## catkin specific configuration ##
 ###################################
-
-catkin_package(
-   LIBRARIES gate_detect
-   CATKIN_DEPENDS message_runtime
-)
 
 
 # Adding gtests to the package
