@@ -12,6 +12,10 @@ find_package(catkin REQUIRED COMPONENTS
 
 add_definitions(-std=c++14)
 
+include_directories(
+    ${catkin_INCLUDE_DIRS}
+)
+
 ################################################
 ## Declare ROS messages, services and actions ##
 ################################################
@@ -36,3 +40,18 @@ catkin_package(
    CATKIN_DEPENDS message_runtime
 )
 
+#############
+## Testing ##
+#############
+
+## Add gtest based cpp test target and link libraries
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_hsv_filter.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
+if (CATKIN_ENABLE_TESTING)
+
+    # Adding gtests to the package
+    catkin_add_gtest(world_state_msg_test test/world_state_msg_test.cpp)
+    target_link_libraries(world_state_msg_test ${catkin_LIBRARIES})
+endif()
