@@ -41,11 +41,13 @@ include_directories(
     ./include
     ./subroutines/include
     ./subroutines/qualification/include
+    ../constants
 )
 
 ## Declare a C++ executable
 # add_executable(sample_package_node src/sample_package_node.cpp)
 add_executable(decision_node
+        ../constants/constants.h
         src/decision_node.cpp
         src/DecisionNode.cpp
         include/DecisionNode.h

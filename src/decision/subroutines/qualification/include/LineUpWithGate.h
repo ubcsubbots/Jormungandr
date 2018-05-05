@@ -21,7 +21,8 @@ public:
     LineUpWithGate(int argc, char **argv, std::string node_name): Subroutine(argc, argv, node_name) {}
     void setupSubscriptions(ros::NodeHandle nh) override;
 private:
-    void decisionCallback((const gate_detect::gateDetectMsg::ConstPtr& msg);
+    void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
+    void balance(const geometry_msgs::Twist::ConstPtr& msg);
 
 };
 

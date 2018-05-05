@@ -17,11 +17,11 @@ void LocateGate::decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& ms
     double z;
 
     if (msg->detectLeft && !msg->detectRight) {
-        z = -1.0;
+        z = RIGHT;
     } else if (msg->detectRight && !msg->detectLeft) {
-        z = 1.0;
+        z = LEFT;
     } else {
-        z = 2.0;
+        z = RIGHT * 2;
     }
 
     geometry_msgs::Twist command;

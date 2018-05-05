@@ -9,6 +9,13 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 
+#define RIGHT -1.0
+#define LEFT 1.0
+#define FORWARD 1.0
+#define BACKWARD -1.0
+#define UP 1.0
+#define DOWN -1.0
+
 class Subroutine {
 public:
     Subroutine(int argc, char **argv, std::string node_name);
