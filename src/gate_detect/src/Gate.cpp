@@ -12,18 +12,10 @@ Gate::Gate() {
 
 std::vector<float> Gate::initialize(const cv::Mat matin) {
 
-    cv::blur( matin, dst, cv::Size(3,3) );
+    //cv::blur(matin, detected_edges, cv::Size(3,3) );
 
-    cv::Canny(dst, dst, cannyLow, cannyHigh, 3);
+    cv::Canny(matin, dst, cannyLow, cannyHigh, 3);
 
-    dst.copyTo( dst, detected_edges);
-
-    //cv::imshow("new window", dst );
-    //cv::waitKey(0);
-
-    /*   cv::imshow("after filter" , dst);
-        cv::waitKey(0);
-    */
 
     std::vector<cv::Vec4i> lines;
 
@@ -61,6 +53,11 @@ std::vector<float> Gate::initialize(const cv::Mat matin) {
     return poleVector;
 
 }
+
+double vectorAngle(cv::Vec4i vector){
+    return atan((vector[3]-vector[1])/(vector[2]-vector[0]));
+}
+
 
 bool Gate::checkMat() {
     return (!dst.empty());

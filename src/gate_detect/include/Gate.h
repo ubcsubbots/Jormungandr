@@ -10,7 +10,7 @@
 #include <ros/ros.h>
 
 class Gate {
-    cv::Mat dst;
+    cv::Mat detected_edges, dst;
     int lowVertThresh, lowHorThresh, cannyLow, cannyHigh, poleMax;
     float fiveMetreWidthofPole;
     std::vector<int> vertLines, horLines;
@@ -40,6 +40,8 @@ public:
     void horLineCheck();
 
 private:
+
+    double vectorAngle(cv::Vec4i vector);
 
     /*
      * Function to filter through vector of cv::Vector4i objects and filter out the horizontal lines
