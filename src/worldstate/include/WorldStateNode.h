@@ -24,7 +24,7 @@ private:
      *
      * @param gate detection node discretized messages
      */
-    void gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr & gateDetMsg);
+    void gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr & msg);
 
     /**
      * Callback function for when data is received from pole detection node

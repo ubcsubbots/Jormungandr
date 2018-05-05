@@ -28,9 +28,9 @@ WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name){
  *
  * @param image the image received in the callback
  */
-void WorldStateNode::gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr & gateDetMsg) {
-    worldstate::state_msg msg;
-    double distBtwnHorizontalGatePole = fabs(gateDetMsg->distanceLeft - gateDetMsg->distanceRight);
+void WorldStateNode::gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr & msg) {
+    worldstate::state_msg gateDetMsg;
+    double distBtwnHorizontalGatePole = fabs(msg->distanceLeft - msg->distanceRight);
     float errorTolerance = 0.25; // Assume an error tolerance of 25 cm
     float clearanceHeight = 0.1; // Assume that sub requires 10 cm of clearance to pass
 
@@ -63,12 +63,12 @@ void WorldStateNode::gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr
 
         case locatingGate:
             //If any of the poles has been found
-            if (gateDetMsg->detectLeft || gateDetMsg->detectRight || gateDetMsg->detectTop) {
+            if (msg->detectLeft || msg->detectRight || msg->detectTop) {
                 current_state_ = aligningWithGate;
                 //If all three poles are in view
-                if (gateDetMsg->detectLeft && gateDetMsg->detectRight) {
+                if (msg->detectLeft && msg->detectRight) {
                     // and the robot is relatively aligned
-                    if (distBtwnHorizontalGatePole < errorTolerance && gateDetMsg->distanceTop >= clearanceHeight)
+                    if (distBtwnHorizontalGatePole < errorTolerance && msg->distanceTop >= clearanceHeight)
                         current_state_ = passingGate;
                 }
             }
@@ -76,14 +76,14 @@ void WorldStateNode::gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr
 
         case aligningWithGate:
             //If the poles suddenly disappear from view
-            if (!gateDetMsg->detectTop && !gateDetMsg->detectLeft && !gateDetMsg->detectRight){
+            if (!msg->detectTop && !msg->detectLeft && !msg->detectRight){
                 current_state_ = locatingGate;
             }
 
             //Assuming all poles are in view
-            if (gateDetMsg->detectTop && gateDetMsg->detectLeft && gateDetMsg->detectRight){
+            if (msg->detectTop && msg->detectLeft && msg->detectRight){
                 // and the robot is relatively aligned
-                if (distBtwnHorizontalGatePole < errorTolerance && gateDetMsg->distanceTop >= clearanceHeight)
+                if (distBtwnHorizontalGatePole < errorTolerance && msg->distanceTop >= clearanceHeight)
                     current_state_ = passingGate;
             }
             break;
@@ -94,7 +94,7 @@ void WorldStateNode::gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr
 
             //If the poles suddenly disappear from view, assume the robot has bee-lined and
             //passed through the gate successfully
-            if (!gateDetMsg->detectTop && !gateDetMsg->detectLeft && !gateDetMsg->detectRight){
+            if (!msg->detectTop && !msg->detectLeft && !msg->detectRight){
                 current_state_ = locatingPole;
             }
             break;
@@ -103,9 +103,9 @@ void WorldStateNode::gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr
             break;
     }
 
-    msg.state = current_state_;
+    gateDetMsg.state = current_state_;
 
-    world_state_publisher_.publish(msg);
+    world_state_publisher_.publish(gateDetMsg);
 }
 
 void WorldStateNode::poleDetectCallBack(void) {
