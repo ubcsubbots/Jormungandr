@@ -13,6 +13,13 @@
 #include <std_msgs/builtin_int8.h>
 #include <gate_detect/gateDetectMsg.h>
 
+/*
+ * Specifically we need to discuss if we want to handle the world state with a
+ * similar design pattern to the decision maker (submodules), how we want to handle
+ * having multiple message inputs into it/manage subscriptions,
+ * and then somewhat of a similar discussion with things like HSV filters,
+ * i.e. if we want to always be looking for the gate or eventually shut that down
+ */
 class WorldStateNode {
 
 public:
