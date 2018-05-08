@@ -1,7 +1,7 @@
 /*
- * Created By: reidoliveira
+ * Created By: Reid Oliveira
  * Created On: March 24, 2018
- * Description:
+ * Description: Abstract class for subroutines
  */
 
 #include "Subroutine.h"

@@ -1,7 +1,8 @@
 /*
  * Created By: Reid Oliveira
  * Created On: March 17, 2018
- * Description:
+ * Description: Node responsible for making navigation decisions. Invokes a subroutine for each logical state of
+ * operation.
  */
 #include "DecisionNode.h"
 
