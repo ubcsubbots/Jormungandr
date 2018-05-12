@@ -47,12 +47,19 @@ catkin_package(
 include_directories(
         ${catkin_INCLUDE_DIRS}
         ./include
+        ./routine/include
+        ./routine/Gate/include
+        ../constants
 )
 
 add_executable(world_state_node
     src/WorldStateNode.cpp
     src/world_state_node.cpp
     include/WorldStateNode.h
+    routine/include/State.h
+    routine/src/State.cpp
+    routine/Gate/include/locatingGate.h
+    routine/Gate/src/locatingGate.cpp
 )
 
 ## Specify libraries to link a library or executable target against

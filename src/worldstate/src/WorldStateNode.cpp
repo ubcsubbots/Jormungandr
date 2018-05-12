@@ -7,6 +7,7 @@
  */
 
 #include <WorldStateNode.h>
+#include "locatingGate.h"
 
 WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name){
 
@@ -38,8 +39,8 @@ void WorldStateNode::stateChangeCallBack(const worldstate::state_msg::ConstPtr &
 }
 
 void WorldStateNode::initializeWorldStateNode (int argc, char** argv){
-
-
+    state_machine_[worldstate::state_msg::locatingGate] =
+    new locatingGate(argc, argv, "locating_gate");
 }
 
 ///**

@@ -10,7 +10,7 @@ State::State(int argc, char **argv, std::string node_name) {
 
 void State::start() {
     ros::NodeHandle nh;
-    setupNodeSubcriptions(nh);
+    setupNodeSubscriptions(nh);
 
     ros::NodeHandle private_nh("~");
 
@@ -19,7 +19,7 @@ void State::start() {
     state_publisher_                 =
     private_nh.advertise<worldstate::state_msg>(state_transition_msg, queue_size_);
 
-    //spin();
+    ros::spin();
 }
 
 void State::sleep() {
@@ -29,4 +29,6 @@ void State::sleep() {
 void State::publishNextState(const worldstate::state_msg &msg) {
     state_publisher_.publish(msg);
 }
+
+
 

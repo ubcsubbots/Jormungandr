@@ -11,19 +11,20 @@ void locatingGate::setupNodeSubscriptions (ros::NodeHandle nh){
 
 void locatingGate::gateDetectCallBack (const gate_detect::gateDetectMsg::ConstPtr & msg){
 
-    worldstate::state_msg msg_to_publish = worldstate::state_msg::locatingGate;
+    worldstate::state_msg msg_to_publish;
+    msg_to_publish.state = worldstate::state_msg::locatingGate;
 
     /* If any of the poles is seen then align with the gate*/
     if (msg->detectLeft || msg->detectRight || msg->detectTop){
 
-        msg_to_publish = worldstate::state_msg::aligningWithGate;
+        msg_to_publish.state = worldstate::state_msg::aligningWithGate;
 
         /* If all three are seen */
         if (msg->detectLeft && msg->detectRight && msg->detectTop){
             double distBtwnHoriontalGates = fabs(msg->distanceLeft - msg->distanceRight);
 
-            if (distBtwnHoriontalGates < errorTolerance && msg->distaceTop < CLEARANCE){
-                msg_to_publish = worldstate::state_msg::passingGate;
+            if (distBtwnHoriontalGates < errorTolerance && msg->distanceTop < CLEARANCE){
+                msg_to_publish.state = worldstate::state_msg::passingGate;
             }
         }
 

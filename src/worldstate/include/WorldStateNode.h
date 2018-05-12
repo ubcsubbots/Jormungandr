@@ -14,7 +14,7 @@
 /* ROS msg types */
 #include <worldstate/state_msg.h>
 #include <std_msgs/builtin_int8.h>
-#include "../routine/include/State.h"
+#include "State.h"
 
 typedef int8_t state_t;
 

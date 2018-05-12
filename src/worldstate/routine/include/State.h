@@ -26,7 +26,7 @@ protected:
 
     ros::Publisher state_publisher_;
     void publishNextState (const worldstate::state_msg &msg);
-    virtual void setupNodeSubcriptions (ros::NodeHandle nh) = 0;
+    virtual void setupNodeSubscriptions (ros::NodeHandle nh) = 0;
 
 };
 
