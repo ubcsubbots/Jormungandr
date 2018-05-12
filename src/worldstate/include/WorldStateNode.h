@@ -9,54 +9,38 @@
 #define JORMUNGANDR_WORLDSTATENODE_H
 
 #include <ros/ros.h>
+#include <unordered_map>
+
+/* ROS msg types */
 #include <worldstate/state_msg.h>
 #include <std_msgs/builtin_int8.h>
-#include <gate_detect/gateDetectMsg.h>
+#include "../routine/include/State.h"
 
-/*
- * Specifically we need to discuss if we want to handle the world state with a
- * similar design pattern to the decision maker (submodules), how we want to handle
- * having multiple message inputs into it/manage subscriptions,
- * and then somewhat of a similar discussion with things like HSV filters,
- * i.e. if we want to always be looking for the gate or eventually shut that down
- */
+typedef int8_t state_t;
+
 class WorldStateNode {
 
 public:
     WorldStateNode(int argc, char** argv, std::string node_name);
 
 private:
+
+    ros::Subscriber world_state_listener_;
+    State*  current_state_;
+    std::unordered_map<state_t, State*> state_machine_;
+
+
     /**
      * Callback function for when data is received from gate detection node
      *
      * @param gate detection node discretized messages
      */
-    void gateDetectCallBack(const gate_detect::gateDetectMsgConstPtr & msg);
+    void stateChangeCallBack(const worldstate::state_msg::ConstPtr & msg);
 
     /**
-     * Callback function for when data is received from pole detection node
-     *
-     * @param gate detection node discretized messages
+     * Instantiate each of the individual routine nodes in ros shutdown mode
      */
-    void poleDetectCallBack(void);
-
-    enum internalWorldStates {
-        locatingGate,
-        aligningWithGate,
-        passingGate,
-        locatingPole,
-        approachingPole,
-        pivotingPole
-    };
-
-    /* Temporarily directly receive hsv-filtered msgs */
-    //image_transport::Subscriber gate_node_subscriber_;
-    ros::Subscriber gate_detect_listener_;
-    ros::Publisher world_state_publisher_;
-
-    /* Robot should always start off by searching for the starting gate*/
-    internalWorldStates current_state_ = locatingGate;
-
+    void initializeWorldStateNode (int argc, char** argv);
 };
 
 #endif //JORMUNGANDR_WORLDSTATENODE_H

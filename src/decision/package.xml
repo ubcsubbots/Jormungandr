@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>decision</name>
+  <version>0.0.0</version>
+  <description>Decision and navigation logic</description>
+
+  <maintainer email="name@todo.todo">Name</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>worldstate</build_depend>
+  <build_depend>gate_detect</build_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>worldstate</run_depend>
+  <run_depend>gate_detect</run_depend>
+
+</package>

@@ -34,12 +34,7 @@ generate_messages(
 ###################################
 ## catkin specific configuration ##
 ###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-## INCLUDE_DIRS: uncomment this if your package contains header files
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
+
 catkin_package(
    INCLUDE_DIRS include
    CATKIN_DEPENDS message_runtime
@@ -49,16 +44,11 @@ catkin_package(
 ## Build ##
 ###########
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
         ${catkin_INCLUDE_DIRS}
         ./include
 )
 
-## Declare a C++ executable
-## With catkin_make all packages are built within a single CMake context
-## The recommended prefix ensures that target names across packages don't collide
 add_executable(world_state_node
     src/WorldStateNode.cpp
     src/world_state_node.cpp
@@ -75,12 +65,6 @@ add_dependencies(world_state_node worldstate_generate_messages_cpp)
 #############
 ## Testing ##
 #############
-
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_hsv_filter.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
 #if (CATKIN_ENABLE_TESTING)
 
     # Adding gtests to the package
@@ -103,3 +87,11 @@ add_dependencies(world_state_node worldstate_generate_messages_cpp)
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+if (CATKIN_ENABLE_TESTING)
+
+    # Adding gtests to the package
+    catkin_add_gtest(world_state_msg_test test/world_state_msg_test.cpp)
+    target_link_libraries(world_state_msg_test ${catkin_LIBRARIES})
+endif()
+
