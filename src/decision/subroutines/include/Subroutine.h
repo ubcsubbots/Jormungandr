@@ -9,12 +9,16 @@
 #include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
 
-#define RIGHT -1.0
-#define LEFT 1.0
-#define FORWARD 1.0
-#define BACKWARD -1.0
-#define UP 1.0
-#define DOWN -1.0
+/**
+ * pre defined directions for subroutines to use
+ * example: z_rotation = RIGHT
+ */
+static const double RIGHT = -1.0;
+static const double LEFT = 1.0;
+static const double FORWARD = 1.0;
+static const double BACKWARD = -1.0;
+static const double UP = 1.0;
+static const double DOWN = -1.0;
 
 class Subroutine {
   public:
