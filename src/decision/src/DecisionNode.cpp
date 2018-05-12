@@ -1,7 +1,8 @@
 /*
  * Created By: Reid Oliveira
  * Created On: March 17, 2018
- * Description: Node responsible for making navigation decisions. Invokes a subroutine for each logical state of
+ * Description: Node responsible for making navigation decisions. Invokes a
+ * subroutine for each logical state of
  * operation.
  */
 #include "DecisionNode.h"
@@ -30,7 +31,8 @@ const worldstate::state_msg::ConstPtr& state_msg) {
     if (subroutines_.find(state) == subroutines_.end()) {
         // We forgot to add a subroutine to the map. This is bad.
 
-        ROS_ERROR_STREAM(state << " was not found in the map of known subroutines");
+        ROS_ERROR_STREAM(state
+                         << " was not found in the map of known subroutines");
         ros::shutdown();
     }
 
@@ -43,9 +45,12 @@ const worldstate::state_msg::ConstPtr& state_msg) {
 }
 
 /**
- * Sets up the map "subroutines_" such that each enumerated state is mapped to its appropriate subroutine.
- * @param argc standard argc passed in from main, used for the ros::init of each subroutine
- * @param argv standard argv passed in from main, used for the ros::init of each subroutine
+ * Sets up the map "subroutines_" such that each enumerated state is mapped to
+ * its appropriate subroutine.
+ * @param argc standard argc passed in from main, used for the ros::init of each
+ * subroutine
+ * @param argv standard argv passed in from main, used for the ros::init of each
+ * subroutine
  */
 void DecisionNode::setupSubroutineMap(int argc, char** argv) {
     subroutines_[worldstate::state_msg::locatingGate] =

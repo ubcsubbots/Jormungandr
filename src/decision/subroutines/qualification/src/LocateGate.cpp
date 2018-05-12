@@ -1,7 +1,8 @@
 /*
  * Created By: Reid Oliveira
  * Created On: March 17, 2018
- * Description: Subroutine that attempts to position the gate so that it can be seen by the camera.
+ * Description: Subroutine that attempts to position the gate so that it can be
+ * seen by the camera.
  */
 
 #include "LocateGate.h"

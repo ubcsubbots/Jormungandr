@@ -1,7 +1,8 @@
 /*
  * Created By: Reid Oliveira
  * Created On: March 24, 2018
- * Description: Subroutine that tries to position the sub in front and orthogonal with the gate, ready to go through.
+ * Description: Subroutine that tries to position the sub in front and
+ * orthogonal with the gate, ready to go through.
  */
 
 #include "LineUpWithGate.h"
