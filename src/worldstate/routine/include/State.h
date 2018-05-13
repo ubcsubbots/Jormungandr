@@ -19,8 +19,8 @@ public:
 
     State(int argc, char** argv, std::string node_name);
 
-    void sleep(void);
-    void start(void);
+    void sleep();
+    void start();
 
 protected:
 

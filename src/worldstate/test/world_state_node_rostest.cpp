@@ -12,7 +12,7 @@ protected:
     virtual void SetUp() {
         test_publisher = nh_.advertise<gate_detect::gateDetectMsg>("/gateDetect/output", 1);
         test_subscriber =
-                nh_.subscribe("world_state/output", 1, &MyNodeTest::callback, this);
+                nh_.subscribe("world_state/output", 1, &WorldStateNodeTest::callback, this);
 
         // Let the publishers and subscribers set itself up timely
         ros::Rate loop_rate(1);
@@ -29,21 +29,21 @@ public:
     }
 };
 
-/*
+
 TEST_F(worldStateNode, worldStateNode_locatingGate_Test) {
-    gate_detect::gateDetectMsg msg;
+    gate_detect::gateDetectMsg data;
 
-    msg.detectRight = false;
-    msg.detectLeft = false;
-    msg.detectTop = false;
-    msg.distanceRight = 0.0;
-    msg.distanceLeft = 0.0;
-    msg.distanceTop = 0.0;
-    msg.angleLeft = false;
-    msg.angleRight = false;
-    msg.angleTop = false;
+    data.detectRight = false;
+    data.detectLeft = false;
+    data.detectTop = false;
+    data.distanceRight = 0.0;
+    data.distanceLeft = 0.0;
+    data.distanceTop = 0.0;
+    data.angleLeft = 0.0;
+    data.angleRight = 0.0;
+    data.angleTop = 0.0;
 
-    test_publisher.publish(msg);
+    test_publisher.publish(data);
 
     ros::Rate loop_rate(1);
     loop_rate.sleep();
@@ -52,7 +52,7 @@ TEST_F(worldStateNode, worldStateNode_locatingGate_Test) {
 
     EXPECT_EQ(worldstate::state_msg::locatingGate, message_output);
 }
-*/
+
 
 int main(int argc, char** argv) {
     // !! Don't forget to initialize ROS, since this is a test within the ros

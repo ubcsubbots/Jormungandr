@@ -21,9 +21,9 @@ void locatingGate::gateDetectCallBack (const gate_detect::gateDetectMsg::ConstPt
 
         /* If all three are seen */
         if (msg->detectLeft && msg->detectRight && msg->detectTop){
-            double distBtwnHoriontalGates = fabs(msg->distanceLeft - msg->distanceRight);
+            double distBtwnHorizontalGates = fabs(msg->distanceLeft - msg->distanceRight);
 
-            if (distBtwnHoriontalGates < errorTolerance && msg->distanceTop < CLEARANCE){
+            if (distBtwnHorizontalGates < ERR_TOLERANCE_HORZ_GATES && msg->distanceTop < CLEARANCE){
                 msg_to_publish.state = worldstate::state_msg::passingGate;
             }
         }

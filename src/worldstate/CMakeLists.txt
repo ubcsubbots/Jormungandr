@@ -60,6 +60,11 @@ add_executable(world_state_node
     routine/src/State.cpp
     routine/Gate/include/locatingGate.h
     routine/Gate/src/locatingGate.cpp
+    routine/Gate/include/alignWithGate.h
+    routine/Gate/src/alignWithGate.cpp
+    routine/Gate/include/passGate.h
+    routine/Gate/src/passGate.cpp
+
 )
 
 ## Specify libraries to link a library or executable target against
@@ -72,33 +77,20 @@ add_dependencies(world_state_node worldstate_generate_messages_cpp)
 #############
 ## Testing ##
 #############
-#if (CATKIN_ENABLE_TESTING)
-
-    # Adding gtests to the package
-#    catkin_add_gtest(world_state_test src/WorldStateNode.cpp)
-#    target_link_libraries(world_state_test ${catkin_LIBRARIES})
-            
-    #WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
-    #target_link_libraries(world-state-test ${catkin_LIBRARIES})
-
-    # Adding rostest to the package
-#    find_package(rostest REQUIRED)
-    # name the test and link it to the .test file and the .cpp file itself, this will allow
-    # "catkin_make run_tests" to be able to find and run this rostest
-#    add_rostest_gtest(
-#            world_state_node_rostest
-#            test/world_state_node_rostest.cpp
-#            test/world_state_node_test.test)
-#    target_link_libraries(world_state_node_rostest ${catkin_LIBRARIES})
-#endif()
-
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
-
 if (CATKIN_ENABLE_TESTING)
-
     # Adding gtests to the package
     catkin_add_gtest(world_state_msg_test test/world_state_msg_test.cpp)
     target_link_libraries(world_state_msg_test ${catkin_LIBRARIES})
+
+
+    find_package(rostest REQUIRED)
+
+    add_rostest_gtest(
+        world_state_node_rostest
+        test/world_state_node_rostest.cpp
+        test/world_state_node_test.test
+    )
+    target_link_libraries(world_state_node_rostest ${catkin_LIBRARIES})
+
 endif()
 

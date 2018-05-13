@@ -23,7 +23,7 @@ WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name){
     world_state_listener_            = nh.subscribe
      (state_transition_msg, refresh_rate, &WorldStateNode::stateChangeCallBack, this);
 
-    ros::spin();
+    //ros::spin();
 }
 
 void WorldStateNode::stateChangeCallBack(const worldstate::state_msg::ConstPtr &msg) {

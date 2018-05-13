@@ -19,7 +19,7 @@ void State::start() {
     state_publisher_                 =
     private_nh.advertise<worldstate::state_msg>(state_transition_msg, queue_size_);
 
-    ros::spin();
+    //ros::spin();
 }
 
 void State::sleep() {
