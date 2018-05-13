@@ -30,18 +30,18 @@ public:
 };
 
 
-TEST_F(worldStateNode, worldStateNode_locatingGate_Test) {
+TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_Test) {
     gate_detect::gateDetectMsg data;
 
-    data.detectRight = false;
-    data.detectLeft = false;
-    data.detectTop = false;
+    data.detectRight   = false;
+    data.detectLeft    = false;
+    data.detectTop     = false;
     data.distanceRight = 0.0;
-    data.distanceLeft = 0.0;
-    data.distanceTop = 0.0;
-    data.angleLeft = 0.0;
-    data.angleRight = 0.0;
-    data.angleTop = 0.0;
+    data.distanceLeft  = 0.0;
+    data.distanceTop   = 0.0;
+    data.angleLeft     = 0.0;
+    data.angleRight    = 0.0;
+    data.angleTop      = 0.0;
 
     test_publisher.publish(data);
 
