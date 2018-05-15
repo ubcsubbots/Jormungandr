@@ -86,11 +86,14 @@ if (CATKIN_ENABLE_TESTING)
     find_package(rostest REQUIRED)
 
     add_rostest_gtest(
-        world_state_node_rostest
-        test/world_state_node_rostest.cpp
+        world_state_rostest
         test/world_state_node_test.test
+        test/world_state_node_rostest.cpp
     )
-    target_link_libraries(world_state_node_rostest ${catkin_LIBRARIES})
+
+    target_link_libraries(world_state_rostest ${catkin_LIBRARIES})
 
 endif()
 
+get_target_property(TEST_SOURCES world_state_rostest SOURCES)
+message(STATUS ${TEST_SOURCES})

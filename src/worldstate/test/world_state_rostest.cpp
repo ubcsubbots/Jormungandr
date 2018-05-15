@@ -22,7 +22,6 @@ protected:
     ros::NodeHandle nh_;
     ros::Publisher test_publisher;
     ros::Subscriber test_subscriber;
-    int message_output;
 
 public:
     void callback(const worldstate::state_msg::ConstPtr& msg) {
@@ -51,12 +50,8 @@ TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_Test) {
 
     ros::spinOnce();
 
-    worldstate::state_msg buf;
-    buf.state = worldstate::state_msg_<u_int8_t>::locatingGate;
-
-    EXPECT_EQ(buf.state, message_output);
+    EXPECT_EQ(worldstate::state_msg::locatingGate, message_output);
 }
-
 
 
 int main(int argc, char** argv) {
