@@ -6,19 +6,18 @@
 #define PROJECT_PASSGATE_H
 
 #include "State.h"
-#include <gate_detect/gateDetectMsg.h>
 #include <constants.h>
+#include <gate_detect/gateDetectMsg.h>
 
 class passGate : public State {
-public:
-    passGate (int argc, char** argv, std::string node_name)
-            : State(argc, argv, node_name) {}
+  public:
+    passGate(int argc, char** argv, std::string node_name)
+      : State(argc, argv, node_name) {}
 
-    void setupNodeSubscriptions (ros::NodeHandle nh) override;
+    void setupNodeSubscriptions(ros::NodeHandle nh) override;
 
-private:
+  private:
     void gateDetectCallBack(const gate_detect::gateDetectMsg::ConstPtr& msg);
-
 };
 
-#endif //PROJECT_PASSGATE_H
+#endif // PROJECT_PASSGATE_H

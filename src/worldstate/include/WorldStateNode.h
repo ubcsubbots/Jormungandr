@@ -12,35 +12,32 @@
 #include <unordered_map>
 
 /* ROS msg types */
-#include <worldstate/state_msg.h>
-#include <std_msgs/builtin_int8.h>
 #include "State.h"
+#include <std_msgs/builtin_int8.h>
+#include <worldstate/state_msg.h>
 
 typedef int8_t state_t;
 
 class WorldStateNode {
-
-public:
+  public:
     WorldStateNode(int argc, char** argv, std::string node_name);
 
-private:
-
+  private:
     ros::Subscriber world_state_listener_;
-    State*  current_state_;
+    State* current_state_;
     std::unordered_map<state_t, State*> state_machine_;
-
 
     /**
      * Callback function for when data is received from gate detection node
      *
      * @param gate detection node discretized messages
      */
-    void stateChangeCallBack(const worldstate::state_msg::ConstPtr & msg);
+    void stateChangeCallBack(const worldstate::state_msg::ConstPtr& msg);
 
     /**
      * Instantiate each of the individual routine nodes in ros shutdown mode
      */
-    void initializeWorldStateNode (int argc, char** argv);
+    void initializeWorldStateNode(int argc, char** argv);
 };
 
-#endif //JORMUNGANDR_WORLDSTATENODE_H
+#endif // JORMUNGANDR_WORLDSTATENODE_H

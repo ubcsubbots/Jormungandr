@@ -6,18 +6,17 @@
 #define PROJECT_ALIGNWITHGATE_H
 
 #include "State.h"
-#include <gate_detect/gateDetectMsg.h>
 #include <constants.h>
+#include <gate_detect/gateDetectMsg.h>
 
-class alignWithGate : public State{
-public:
+class alignWithGate : public State {
+  public:
+    alignWithGate(int argc, char** argv, std::string node_name)
+      : State(argc, argv, node_name) {}
+    void setupNodeSubscriptions(ros::NodeHandle nh) override;
 
-    alignWithGate (int argc, char** argv, std::string node_name)
-            : State (argc, argv, node_name) {}
-    void setupNodeSubscriptions (ros::NodeHandle nh) override;
-
-private:
+  private:
     void gateDetectCallBack(const gate_detect::gateDetectMsg::ConstPtr& msg);
 };
 
-#endif //PROJECT_ALIGNWITHGATE_H
+#endif // PROJECT_ALIGNWITHGATE_H

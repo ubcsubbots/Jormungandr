@@ -8,11 +8,12 @@
 #include <ros/ros.h>
 
 class WorldStateNodeTest : public testing::Test {
-protected:
+  protected:
     virtual void SetUp() {
-        test_publisher = nh_.advertise<gate_detect::gateDetectMsg>("/gateDetect/output", 1);
-        test_subscriber =
-                nh_.subscribe("world_state/output", 1, &WorldStateNodeTest::callback, this);
+        test_publisher =
+        nh_.advertise<gate_detect::gateDetectMsg>("/gateDetect/output", 1);
+        test_subscriber = nh_.subscribe(
+        "world_state/output", 1, &WorldStateNodeTest::callback, this);
 
         // Let the publishers and subscribers set itself up timely
         ros::Rate loop_rate(1);
@@ -23,12 +24,11 @@ protected:
     ros::Publisher test_publisher;
     ros::Subscriber test_subscriber;
 
-public:
+  public:
     void callback(const worldstate::state_msg::ConstPtr& msg) {
         message_output = msg->state;
     }
 };
-
 
 TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_Test) {
     gate_detect::gateDetectMsg data;
@@ -53,7 +53,6 @@ TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_Test) {
     EXPECT_EQ(worldstate::state_msg::locatingGate, message_output);
 }
 
-
 int main(int argc, char** argv) {
     // !! Don't forget to initialize ROS, since this is a test within the ros
     // framework !!
@@ -61,4 +60,3 @@ int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-
