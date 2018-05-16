@@ -18,7 +18,8 @@ DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
     state_topic, refresh_rate, &DecisionNode::subscriberCallback, this);
 }
 
-void DecisionNode::subscriberCallback(const worldstate::state_msg::ConstPtr& msg) {
+void DecisionNode::subscriberCallback(
+const worldstate::state_msg::ConstPtr& msg) {
     state_t state = msg->state;
 
     if (subroutines_.find(state) == subroutines_.end()) {

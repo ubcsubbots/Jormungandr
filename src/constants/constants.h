@@ -6,7 +6,7 @@
 #ifndef PROJECT_CONSTANTS_H
 #define PROJECT_CONSTANTS_H
 
-#define CLEARANCE 60 // cm
-#define ERR_TOLERANCE_HORZ_GATES 30 //cm
+#define CLEARANCE 60                // cm
+#define ERR_TOLERANCE_HORZ_GATES 30 // cm
 
 #endif // PROJECT_CONSTANTS_H
