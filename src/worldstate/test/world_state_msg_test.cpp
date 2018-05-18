@@ -3,6 +3,7 @@
  *  Date:  31/03/18
  *  Purpose: Unit test to instantiate and message correctly outputs
  */
+
 #include <gtest/gtest.h>
 #include <worldstate/state_msg.h>
 

@@ -28,22 +28,32 @@ add_message_files(
   gateDetectMsg.msg
 )
 
-
-
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
   std_msgs
 )
 
-catkin_package(INCLUDE_DIRS
-        LIBRARIES gate_detect
-        )
+###################################
+## catkin specific configuration ##
+###################################
 
-# Adding gtests to the package
-catkin_add_gtest(gate-detect-test test/gate-detect-test.cpp)
-target_link_libraries(gate-detect-test ${catkin_LIBRARIES})
+catkin_package(
+   CATKIN_DEPENDS message_runtime
+)
+
+#############
+## Testing ##
+#############
+
+## Add gtest based cpp test target and link libraries
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_hsv_filter.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
+if (CATKIN_ENABLE_TESTING)
+    catkin_add_gtest(gate-detect-test test/gate-detect-test.cpp)
+    target_link_libraries(gate-detect-test ${catkin_LIBRARIES})
+endif()
 
 add_dependencies(gate-detect-test gate_detect_generate_messages_cpp)
-
-
