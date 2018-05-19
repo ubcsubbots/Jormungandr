@@ -24,7 +24,7 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
             fabs(msg->distanceLeft - msg->distanceRight);
 
             if (distBtwnHorizontalGates < ERR_TOLERANCE_HORZ_GATES &&
-                msg->distanceTop < CLEARANCE) {
+                msg->distanceTop < CLEARANCE_HEIGHT) {
                 msg_to_publish.state = worldstate::state_msg::passingGate;
             }
         }

@@ -14,7 +14,6 @@ void LocateGate::setupSubscriptions(ros::NodeHandle nh) {
 void LocateGate::decisionCallback(
 const gate_detect::gateDetectMsg::ConstPtr& msg) {
     // logic: rotate on z to attempt to make the gate in view
-
     double z_rotation;
 
     if (msg->detectLeft && !msg->detectRight) {
