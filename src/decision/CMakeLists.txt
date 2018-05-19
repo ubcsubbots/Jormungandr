@@ -56,7 +56,9 @@ add_executable(decision_node
         subroutines/qualification/include/LocateGate.h
         subroutines/qualification/src/LocateGate.cpp
         subroutines/qualification/include/LineUpWithGate.h
-        subroutines/qualification/src/LineUpWithGate.cpp)
+        subroutines/qualification/src/LineUpWithGate.cpp
+        subroutines/qualification/include/GoThroughGate.h
+        subroutines/qualification/src/GoThroughGate.cpp)
 
 add_dependencies(decision_node ${catkin_EXPORTED_TARGETS})
 

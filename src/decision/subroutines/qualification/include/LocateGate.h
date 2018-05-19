@@ -9,7 +9,6 @@
 
 #include "Subroutine.h"
 #include <gate_detect/gateDetectMsg.h>
-#include <std_msgs/String.h>
 
 /*
  * Subroutine: LocateGate
