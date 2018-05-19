@@ -16,9 +16,9 @@
 // state msg
 #include <worldstate/state_msg.h>
 // subroutines
+#include "GoThroughGate.h"
 #include "LineUpWithGate.h"
 #include "LocateGate.h"
-#include "GoThroughGate.h"
 
 typedef int8_t state_t;
 

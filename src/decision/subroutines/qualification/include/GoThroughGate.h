@@ -16,13 +16,13 @@
  *
  */
 class GoThroughGate : public Subroutine {
-public:
+  public:
     GoThroughGate(int argc, char** argv, std::string node_name)
-            : Subroutine(argc, argv, node_name) {}
+      : Subroutine(argc, argv, node_name) {}
     void setupSubscriptions(ros::NodeHandle nh) override;
 
-private:
+  private:
     void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
 };
 
-#endif //DECISION_GOTHROUGHGATE_H
+#endif // DECISION_GOTHROUGHGATE_H
