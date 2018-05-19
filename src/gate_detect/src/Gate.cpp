@@ -7,17 +7,11 @@ Gate::Gate() {
     cannyLow = 80; //Sets the low threshold for the canny filter, adjust if dst is not displaying all lines
     cannyHigh = 200; //Sets the high threshold for the canny filter, adjust if dst not displaying all lines
     poleMax = 60; //Sets the minimum threshold for two lines to be called a pole
-    fiveMetreWidthofPole = 10.0f;
+    fiveMetreWidthofPole = 10.0f; //Sets the pixel width of the pole at 5.0m, used for scaling distances
 }
 
 std::vector<float> Gate::initialize(const cv::Mat matin) {
-
-    //cv::blur(matin, detected_edges, cv::Size(3,3) );
-
     cv::Canny(matin, dst, cannyLow, cannyHigh, 3);
-
-
-    std::vector<cv::Vec4i> lines;
 
     cv::HoughLinesP(dst, lines, 1, CV_PI / 180, 60, 50, 50);
 
@@ -26,6 +20,7 @@ std::vector<float> Gate::initialize(const cv::Mat matin) {
         ROS_INFO("HoughLine detected at %i %i %i %i", houghLine[0] , houghLine[1] , houghLine[2] , houghLine[3]);
 */
 
+    /*
     cv::Mat cdst;
 
     cvtColor(dst, cdst, CV_GRAY2BGR);
@@ -36,9 +31,14 @@ std::vector<float> Gate::initialize(const cv::Mat matin) {
         cv::line( cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(0,0,255), 3, CV_AA);
     }
 
-    //cv::imshow("New Window" , cdst);
-    //cv::waitKey(0);
+    cv::imshow("New Window" , cdst);
+    cv::waitKey(0);
+    */
 
+    for(cv::Vec4i houghLine : lines)
+        ROS_INFO("HoughLine detected at %i %i %i %i", houghLine[0] , houghLine[1] , houghLine[2] , houghLine[3]);
+
+    if (lines.empty()) return std::vector<float> (9,0);
 
     vertLines = filterVertLines(lines);
 
@@ -52,10 +52,6 @@ std::vector<float> Gate::initialize(const cv::Mat matin) {
 
     return poleVector;
 
-}
-
-double vectorAngle(cv::Vec4i vector){
-    return atan((vector[3]-vector[1])/(vector[2]-vector[0]));
 }
 
 
@@ -195,7 +191,7 @@ std::vector<float> Gate::gateVector(std::vector<std::vector<float> > vertPoles, 
     for (std::vector<float> horPole : horPoles) {
         if (gateCoord[6] == 0.0f || horPole[0] > gateCoord[6]) {
             gateCoord[6] = horPole[0];
-            gateCoord[7] = horPole[1];
+            gateCoord[7] = horPole[1]-1.5708f;
             gateCoord[8] = horPole[2];
         }
     }
@@ -203,11 +199,11 @@ std::vector<float> Gate::gateVector(std::vector<std::vector<float> > vertPoles, 
     for (std::vector<float> vertPole : vertPoles) {
         if (gateCoord[0] == 0.0f || vertPole[0] <= gateCoord[0]) {
             gateCoord[0] = vertPole[0];
-            gateCoord[1] = vertPole[1];
+            gateCoord[1] = vertPole[1]-1.5708f;
             gateCoord[2] = vertPole[2];
         } else if (vertPole[0] >= gateCoord[3]) {
             gateCoord[3] = vertPole[0];
-            gateCoord[4] = vertPole[1];
+            gateCoord[4] = vertPole[1]-1.5708f;
             gateCoord[5] = vertPole[2];
         }
     }

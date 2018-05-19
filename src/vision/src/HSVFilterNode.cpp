@@ -10,22 +10,27 @@
 HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     // Setup NodeHandles
     ros::init(argc, argv, node_name);
+
+    dynamic_reconfigure::Server<vision::hsvConfig> server;
+    dynamic_reconfigure::Server<vision::hsvConfig>::CallbackType f;
+
+    f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
+    server.setCallback(f);
+
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
     image_transport::ImageTransport it(nh);
 
+
+
     std::string subscribeTopic = "/uwsim/camera2";
     std::string publishTopic   = "/vision/output";
 
-    dynamic_reconfigure::Server<vision::hsvConfig> server;
-    dynamic_reconfigure::Server<vision::hsvConfig>::CallbackType f;
 
     filter_ = HSVFilter();
 
     int refresh_rate = 1;
 
-    f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
-    server.setCallback(f);
 
     subscriber_      = it.subscribe(
     subscribeTopic, refresh_rate, &HSVFilterNode::subscriberCallBack, this);
@@ -59,12 +64,13 @@ void HSVFilterNode::publishFilteredImage(const cv::Mat& filtered_image) {
 }
 
 void HSVFilterNode::dynamicreconfigCallback(const vision::hsvConfig &config, uint32_t level) {
-    ROS_INFO("Reconfigure Request: %i %i %i %i %i %i",
+    /*ROS_INFO("Reconfigure Request: %i %i %i %i %i %i",
              config.h_low, config.s_low,
              config.v_low,
              config.h_high,
              config.s_high,
              config.v_high);
+             */
 
     //Reconfigure filter based on new parameters
     filter_ = HSVFilter(config.h_low,config.h_high,

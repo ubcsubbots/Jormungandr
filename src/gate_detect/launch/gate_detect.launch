@@ -1,0 +1,4 @@
+<launch>
+    <node name="gateDetect" pkg="gate_detect" type="gate_detect" output="screen">
+    </node>
+</launch>

@@ -2,7 +2,7 @@
  * Created By: Cameron Newton
  * Created On: February 27th, 2018
  */
-#include <vtk-6.2/vtkType.h>
+
 #include "GateDetectNode.h"
  
 GateDetectNode::GateDetectNode(int argc, char** argv , std::string nodeName) {
@@ -46,12 +46,10 @@ void GateDetectNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& msg) {
 
     publishGateDetectMsg(gateVector);
 
-
 }
 
 void GateDetectNode::publishGateDetectMsg(std::vector<float> gateVectorIn){
     gate_detect::gateDetectMsg msg;
-
 
     if(gateVectorIn[0] != 0.0) msg.detectLeft = 1; else msg.detectLeft = 0;
     msg.angleLeft = gateVectorIn[1];

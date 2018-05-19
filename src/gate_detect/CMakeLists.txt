@@ -48,15 +48,12 @@ add_executable(gate_detect
 		src/gateDetect.cpp
 		src/Gate.cpp
 		include/GateDetectNode.h
-		include/Gate.h
-		)
+		include/Gate.h)
 
 target_link_libraries(gate_detect
 		${catkin_LIBRARIES}
 		${OpenCV_LIBS}
 )
-
-
 
 add_dependencies(gate_detect ${PROJECT_NAME}_gencfg)
 add_dependencies(gate_detect ${catkin_EXPORTED_TARGETS})
