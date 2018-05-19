@@ -1,7 +1,8 @@
 /*
  * Created By: Reid Oliveira
  * Created On: March 24, 2018
- * Description:
+ * Description: Subroutine that tries to position the sub in front and
+ * orthogonal with the gate, ready to go through.
  */
 
 #include "LineUpWithGate.h"
@@ -37,7 +38,7 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
         y_linear = LEFT;
     }
 
-    if (!(fabs(msg->distanceTop * sin(msg->angleTop)) > CLEARANCE &&
+    if (!(fabs(msg->distanceTop * sin(msg->angleTop)) > CLEARANCE_HEIGHT &&
           msg->angleTop < 0)) {
         z_linear = DOWN;
     }

@@ -34,7 +34,6 @@ generate_messages(
   std_msgs
 )
 
-
 ###################################
 ## catkin specific configuration ##
 ###################################

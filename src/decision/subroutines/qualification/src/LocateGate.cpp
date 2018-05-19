@@ -1,7 +1,8 @@
 /*
  * Created By: Reid Oliveira
  * Created On: March 17, 2018
- * Description:
+ * Description: Subroutine that attempts to position the gate so that it can be
+ * seen by the camera.
  */
 
 #include "LocateGate.h"
@@ -13,18 +14,19 @@ void LocateGate::setupSubscriptions(ros::NodeHandle nh) {
 void LocateGate::decisionCallback(
 const gate_detect::gateDetectMsg::ConstPtr& msg) {
     // logic: rotate on z to attempt to make the gate in view
-    double z;
+
+    double z_rotation;
 
     if (msg->detectLeft && !msg->detectRight) {
-        z = RIGHT;
+        z_rotation = RIGHT;
     } else if (msg->detectRight && !msg->detectLeft) {
-        z = LEFT;
+        z_rotation = LEFT;
     } else {
-        z = RIGHT * 2;
+        z_rotation = RIGHT * 2;
     }
 
     geometry_msgs::Twist command;
-    command.angular = makeVector(0.0, 0.0, z);
+    command.angular = makeVector(0.0, 0.0, z_rotation);
     command.linear  = makeVector(0.0, 0.0, 0.0);
     publishCommand(command);
 }
