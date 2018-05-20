@@ -3,8 +3,8 @@
         <param name="h_low" value="30" type="int" />
         <param name="s_low" value="230" type="int" />
         <param name="v_low" value="230" type="int" />
-        <param name="h_high" value="50" type="int" />
+        <param name="h_high" value="100" type="int" />
         <param name="s_high" value="255" type="int" />
-        <param name="v_high" value="255" type="int" />
-    </node>
+        <param name="v_high" value="200" type="int" />
+            </node>
 </launch>

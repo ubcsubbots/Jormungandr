@@ -16,20 +16,25 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     std::string subscribeTopic = "/uwsim/camera2";
     std::string publishTopic   = "/vision/output";
 
-    dynamic_reconfigure::Server<vision::TutorialsConfig> server;
-    dynamic_reconfigure::Server<vision::TutorialsConfig>::CallbackType f;
+    dynamic_reconfigure::Server<vision::hsvFilterConfig> server;
+    dynamic_reconfigure::Server<vision::hsvFilterConfig>::CallbackType f;
 
     f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
     server.setCallback(f);
 
     XmlRpc::XmlRpcValue hsv;
-
-    filter_ = HSVFilter(hsv["h_low"],
-                        hsv["h_high"],
-                        hsv["s_low"],
-                        hsv["s_high"],
-                        hsv["v_low"],
-                        hsv["v_high"]);
+    if (!private_nh.getParam("hsv", hsv)) {
+        ROS_INFO_STREAM(nh.getNamespace()
+                        << ": no value given for hsv, using default values");
+        filter_ = HSVFilter();
+    } else {
+        filter_ = HSVFilter(hsv["h_low"],
+                            hsv["h_high"],
+                            hsv["s_low"],
+                            hsv["s_high"],
+                            hsv["v_low"],
+                            hsv["v_high"]);
+    }
 
     int refresh_rate = 1;
 
@@ -65,7 +70,7 @@ void HSVFilterNode::publishFilteredImage(const cv::Mat& filtered_image) {
 }
 
 void HSVFilterNode::dynamicreconfigCallback(
-const vision::TutorialsConfig& config, uint32_t level) {
+const vision::hsvFilterConfig& config, uint32_t level) {
     ROS_INFO("Reconfigure Request: %i %i %i %i %i %i",
              config.h_low,
              config.s_low,
