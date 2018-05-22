@@ -1,17 +1,23 @@
-//
-// Created by joel on 12/05/18.
-//
+/*
+ * Created By: Joel Ahn
+ * Created On: March 5th, 2018
+ * Description: World State FSM node. Checks to see if
+ *              robot still needs to pass gate.
+ */
 
 #ifndef PROJECT_PASSGATE_H
 #define PROJECT_PASSGATE_H
 
-#include "State.h"
+#include "../State.h"
 #include <constants.h>
 #include <gate_detect/gateDetectMsg.h>
 
-class passGate : public State {
+/**
+ * Communicating Class {alignWithGate, locatingGate, passGate}
+ */
+class PassGate : public State {
   public:
-    passGate(int argc, char** argv, std::string node_name)
+    PassGate(int argc, char** argv, std::string node_name)
       : State(argc, argv, node_name) {}
 
     void setupNodeSubscriptions(ros::NodeHandle nh) override;

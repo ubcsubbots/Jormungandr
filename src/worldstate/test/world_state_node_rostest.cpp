@@ -5,6 +5,7 @@
 #include "WorldStateNode.h"
 #include <gate_detect/gateDetectMsg.h>
 #include <gtest/gtest.h>
+#include <constants.h>
 #include <ros/ros.h>
 
 class WorldStateNodeTest : public testing::Test {
@@ -26,22 +27,48 @@ class WorldStateNodeTest : public testing::Test {
     int message_output;
 
   public:
-    void callback(const worldstate::state_msg::ConstPtr& msg) {
+    void callback(const worldstate::stateMsg::ConstPtr& msg) {
         message_output = msg->state;
     }
 };
 
-TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_Test) {
+TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_test) {
     gate_detect::gateDetectMsg data;
 
-    data.detectRight   = false;
-    data.detectLeft    = false;
-    data.detectTop     = false;
+    data.detectRight = false;
+    data.detectLeft = false;
+    data.detectTop = false;
     data.distanceRight = 0.0;
-    data.distanceLeft  = 0.0;
+    data.distanceLeft = 0.0;
+    data.distanceTop = 0.0;
+    data.angleLeft = 0.0;
+    data.angleRight = 0.0;
+    data.angleTop = 0.0;
+
+    test_publisher.publish(data);
+
+    ros::Rate loop_rate(1);
+    loop_rate.sleep();
+
+    ros::spinOnce();
+
+    worldstate::stateMsg buf;
+    buf.state = worldstate::stateMsg_<u_int8_t>::locatingGate;
+
+    EXPECT_EQ(buf.state, message_output);
+}
+
+TEST_F(WorldStateNodeTest, worldStateNode_transition_state_test) {
+    gate_detect::gateDetectMsg data;
+
+    data.detectRight   = true;
+    data.detectLeft    = true;
+    data.detectTop     = false;
+    data.distanceRight = 150.2;
+    data.distanceLeft  = 150.2;
     data.distanceTop   = 0.0;
-    data.angleLeft     = 0.0;
-    data.angleRight    = 0.0;
+    data.angleRight    = 30;
+    data.angleLeft     = 30;
     data.angleTop      = 0.0;
 
     test_publisher.publish(data);
@@ -51,10 +78,65 @@ TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_Test) {
 
     ros::spinOnce();
 
-    worldstate::state_msg buf;
-    buf.state = worldstate::state_msg_<u_int8_t>::locatingGate;
+    worldstate::stateMsg buf;
+    buf.state = worldstate::stateMsg_<u_int8_t>::aligningWithGate;
+
+//    EXPECT_EQ(buf.state, message_output);
+    /*
+
+    data.detectRight   = true;
+    data.detectLeft    = false;
+    data.detectTop     = false;
+    data.distanceRight = 150.2;
+    data.distanceLeft  = 0.0;
+    data.distanceTop   = 0.0;
+    data.angleLeft     = 0.0;
+    data.angleRight    = 0.0;
+    data.angleTop      = 0.0;
+
+    test_publisher.publish(data);
+
+    loop_rate.sleep();
+    ros::spinOnce();
+    buf.state = worldstate::stateMsg_<u_int8_t>::aligningWithGate;
 
     EXPECT_EQ(buf.state, message_output);
+
+    data.detectRight   = true;
+    data.detectLeft    = true;
+    data.detectTop     = true;
+    data.distanceRight = 150.2;
+    data.distanceLeft  = 150.2;
+    data.distanceTop   = subbots::global_constants::CLEARANCE_HEIGHT;
+    data.angleLeft     = 0.0;
+    data.angleRight    = 0.0;
+    data.angleTop      = 0.0;
+
+    test_publisher.publish(data);
+
+    loop_rate.sleep();
+    ros::spinOnce();
+    buf.state = worldstate::stateMsg_<u_int8_t>::aligningWithGate;
+
+    EXPECT_EQ(buf.state, message_output);
+
+    data.detectRight   = true;
+    data.detectLeft    = true;
+    data.detectTop     = true;
+    data.distanceRight = 150.2;
+    data.distanceLeft  = 150.2;
+    data.distanceTop   = 60;
+    data.angleLeft     = 0.0;
+    data.angleRight    = 0.0;
+    data.angleTop      = 0.0;
+
+    test_publisher.publish(data);
+
+    loop_rate.sleep();
+    ros::spinOnce();
+    buf.state = worldstate::stateMsg_<u_int8_t>::passingGate;
+
+    EXPECT_EQ(buf.state, message_output);*/
 }
 
 int main(int argc, char** argv) {

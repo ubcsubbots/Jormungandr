@@ -1,17 +1,23 @@
-//
-// Created by joel on 11/05/18.
-//
+/*
+ * Created By: Joel Ahn
+ * Created On: March 5th, 2018
+ * Description: World State FSM node. Checks to see if
+ *              robot still needs to locate gate.
+ */
 
 #ifndef PROJECT_LOCATINGGATE_H
 #define PROJECT_LOCATINGGATE_H
 
-#include "State.h"
+#include "../State.h"
 #include <constants.h>
 #include <gate_detect/gateDetectMsg.h>
 
-class locatingGate : public State {
+/**
+ * Communicating Class {alignWithGate, locatingGate, passGate}
+ */
+class LocatingGate : public State {
   public:
-    locatingGate(int argc, char** argv, std::string node_name)
+    LocatingGate(int argc, char** argv, std::string node_name)
       : State(argc, argv, node_name) {}
     void setupNodeSubscriptions(ros::NodeHandle nh) override;
 

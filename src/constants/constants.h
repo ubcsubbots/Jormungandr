@@ -6,9 +6,16 @@
 #ifndef PROJECT_CONSTANTS_H
 #define PROJECT_CONSTANTS_H
 
-// minimum height in cm from the camera's position that an overhead obstacle
-// should be
-#define CLEARANCE_HEIGHT 60         // cm
-#define ERR_TOLERANCE_HORZ_GATES 30 // cm
+namespace subbots{
+    namespace global_constants{
+        // minimum height in cm from the camera's position that an
+        // overhead obstacle should be
+        static const float CLEARANCE_HEIGHT = 60;
+
+        // minimum width in cm from camera's position that
+        // side obstacles should be
+        static const float CLEARANCE_WIDTH = 30;
+    }
+}
 
 #endif // PROJECT_CONSTANTS_H

@@ -23,7 +23,7 @@ add_definitions(-std=c++14)
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-  state_msg.msg
+  stateMsg.msg
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -47,8 +47,8 @@ catkin_package(
 include_directories(
         ${catkin_INCLUDE_DIRS}
         ./include
-        ./routine/include
-        ./routine/Gate/include
+        ./routines/include
+        ./routines/Gate/include
         ../constants
 )
 
@@ -56,14 +56,14 @@ add_executable(world_state_node
     src/WorldStateNode.cpp
     src/world_state_node.cpp
     include/WorldStateNode.h
-    routine/include/State.h
-    routine/src/State.cpp
-    routine/Gate/include/locatingGate.h
-    routine/Gate/src/locatingGate.cpp
-    routine/Gate/include/alignWithGate.h
-    routine/Gate/src/alignWithGate.cpp
-    routine/Gate/include/passGate.h
-    routine/Gate/src/passGate.cpp
+        include/routines/State.h
+        src/routines/State.cpp
+        include/routines/Gate/LocatingGate.h
+        src/routines/Gate/LocatingGate.cpp
+        include/routines/Gate/AlignWithGate.h
+        src/routines/Gate/AlignWithGate.cpp
+        include/routines/Gate/PassGate.h
+        src/routines/Gate/PassGate.cpp
 
 )
 

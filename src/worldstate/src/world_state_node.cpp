@@ -1,7 +1,7 @@
 /*
  * Created By: Joel Ahn
  * Created On: March 17th, 2018
- * Description:
+ * Description: Run the world state node
  */
 
 #include <WorldStateNode.h>

@@ -1,6 +1,6 @@
 /*
  * Created By: Joel Ahn
- * Created On: March 5h, 2018
+ * Created On: March 5th, 2018
  * Description: Checks the incoming data from detection nodes
  *              and tracks the individual goals of the robot
  */
@@ -12,9 +12,9 @@
 #include <unordered_map>
 
 /* ROS msg types */
-#include "State.h"
+#include "routines/State.h"
 #include <std_msgs/builtin_int8.h>
-#include <worldstate/state_msg.h>
+#include <worldstate/stateMsg.h>
 
 typedef int8_t state_t;
 
@@ -32,7 +32,7 @@ class WorldStateNode {
      *
      * @param gate detection node discretized messages
      */
-    void stateChangeCallBack(const worldstate::state_msg::ConstPtr& msg);
+    void stateChangeCallBack(const worldstate::stateMsg::ConstPtr& msg);
 
     /**
      * Instantiate each of the individual routine nodes in ros shutdown mode
