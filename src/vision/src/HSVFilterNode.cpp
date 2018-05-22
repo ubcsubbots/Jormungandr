@@ -13,7 +13,7 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     ros::NodeHandle private_nh("~");
     image_transport::ImageTransport it(nh);
 
-    std::string subscribeTopic = "/uwsim/camera2";
+    std::string subscribeTopic = "/camera/image_raw";
     std::string publishTopic   = "/vision/output";
 
     dynamic_reconfigure::Server<vision::hsvFilterConfig> server;
@@ -22,19 +22,15 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
     server.setCallback(f);
 
-    XmlRpc::XmlRpcValue hsv;
-    if (!private_nh.getParam("hsv", hsv)) {
-        ROS_INFO_STREAM(nh.getNamespace()
-                        << ": no value given for hsv, using default values");
-        filter_ = HSVFilter();
-    } else {
-        filter_ = HSVFilter(hsv["h_low"],
-                            hsv["h_high"],
-                            hsv["s_low"],
-                            hsv["s_high"],
-                            hsv["v_low"],
-                            hsv["v_high"]);
-    }
+    int hlo, hhi, vlo, vhi, slo, shi;
+    nh.getParam("h_low", hlo);
+    nh.getParam("h_high", hhi);
+    nh.getParam("v_low", vlo);
+    nh.getParam("v_high", vhi);
+    nh.getParam("s_low", slo);
+    nh.getParam("s_high", shi);
+
+    filter_ = HSVFilter(hlo, hhi, slo, shi, vlo, vhi);
 
     int refresh_rate = 1;
 
