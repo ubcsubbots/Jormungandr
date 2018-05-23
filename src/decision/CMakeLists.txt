@@ -39,8 +39,8 @@ catkin_package(
 include_directories(
     ${catkin_INCLUDE_DIRS}
     ./include
-    ./subroutines/include
-    ./subroutines/qualification/include
+    ./include/subroutines
+    ./include/subroutines/gate
     ../constants
 )
 
@@ -51,14 +51,14 @@ add_executable(decision_node
         src/decision_node.cpp
         src/DecisionNode.cpp
         include/DecisionNode.h
-        subroutines/include/Subroutine.h
-        subroutines/src/Subroutine.cpp
-        subroutines/qualification/include/LocateGate.h
-        subroutines/qualification/src/LocateGate.cpp
-        subroutines/qualification/include/LineUpWithGate.h
-        subroutines/qualification/src/LineUpWithGate.cpp
-        subroutines/qualification/include/GoThroughGate.h
-        subroutines/qualification/src/GoThroughGate.cpp)
+        src/subroutines/Subroutine.cpp
+        include/subroutines/Subroutine.h
+        src/subroutines/gate/LocateGate.cpp
+        include/subroutines/gate/LocateGate.h
+        src/subroutines/gate/LineUpWithGate.cpp
+        include/subroutines/gate/LineUpWithGate.h
+        src/subroutines/gate/GoThroughGate.cpp
+        include/subroutines/gate/GoThroughGate.h)
 
 add_dependencies(decision_node ${catkin_EXPORTED_TARGETS})
 

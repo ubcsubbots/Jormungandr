@@ -1,7 +1,7 @@
 /*
  * Created By: Reid Oliveira
  * Created On: May 19, 2018
- * Description:
+ * Description: Subroutine that simply proceeds forward through the gate
  */
 
 #include "GoThroughGate.h"

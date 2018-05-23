@@ -5,6 +5,7 @@
  * subroutine for each logical state of
  * operation.
  */
+
 #include "DecisionNode.h"
 
 DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {

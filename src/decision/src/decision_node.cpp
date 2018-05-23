@@ -5,6 +5,7 @@
  * subroutine for each logical state of
  * operation.
  */
+
 #include "DecisionNode.h"
 
 int main(int argc, char** argv) {
