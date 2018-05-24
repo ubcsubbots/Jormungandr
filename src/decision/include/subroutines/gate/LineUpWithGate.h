@@ -4,12 +4,12 @@
  * Description: Subroutine that tries to position the sub in front and
  * orthogonal with the gate, ready to go through.
  */
+
 #ifndef DECISION_LINEUPWITHGATE_H
 #define DECISION_LINEUPWITHGATE_H
 
 #include "Subroutine.h"
 #include <gate_detect/gateDetectMsg.h>
-#include <std_msgs/String.h>
 
 /*
  * Subroutine: LineUpWithGate

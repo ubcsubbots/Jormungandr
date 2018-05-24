@@ -5,6 +5,7 @@
  * subroutine for each logical state of
  * operation.
  */
+
 #ifndef DECISION_DECISION_H_H
 #define DECISION_DECISION_H_H
 
@@ -16,6 +17,7 @@
 // state msg
 #include <worldstate/state_msg.h>
 // subroutines
+#include "GoThroughGate.h"
 #include "LineUpWithGate.h"
 #include "LocateGate.h"
 

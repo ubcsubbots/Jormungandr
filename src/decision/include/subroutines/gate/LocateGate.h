@@ -4,12 +4,12 @@
  * Description: Subroutine that attempts to position the gate so that it can be
  * seen by the camera.
  */
+
 #ifndef DECISION_LOCATEGATE_H
 #define DECISION_LOCATEGATE_H
 
 #include "Subroutine.h"
 #include <gate_detect/gateDetectMsg.h>
-#include <std_msgs/String.h>
 
 /*
  * Subroutine: LocateGate
