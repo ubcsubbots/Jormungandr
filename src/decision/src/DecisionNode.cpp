@@ -22,11 +22,11 @@ DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
 
 /**
  * Callback function when a message is received from the world state node.
- * @param state_msg message containing the current state
+ * @param StateMsg message containing the current state
  */
 void DecisionNode::worldStateCallback(
-const worldstate::state_msg::ConstPtr& state_msg) {
-    state_t state = state_msg->state;
+const worldstate::StateMsg::ConstPtr& StateMsg) {
+    state_t state = StateMsg->state;
 
     if (subroutines_.find(state) == subroutines_.end()) {
         // We forgot to add a subroutine to the map. This is bad.
@@ -53,8 +53,8 @@ const worldstate::state_msg::ConstPtr& state_msg) {
  * subroutine
  */
 void DecisionNode::setupSubroutineMap(int argc, char** argv) {
-    subroutines_[worldstate::state_msg::locatingGate] =
+    subroutines_[worldstate::StateMsg::locatingGate] =
     new LocateGate(argc, argv, "locate_gate");
-    subroutines_[worldstate::state_msg::aligningWithGate] =
+    subroutines_[worldstate::StateMsg::aligningWithGate] =
     new LineUpWithGate(argc, argv, "align_with_gate");
 }

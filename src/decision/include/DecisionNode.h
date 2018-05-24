@@ -14,7 +14,7 @@
 #include <unordered_map>
 
 // state msg
-#include <worldstate/state_msg.h>
+#include <worldstate/StateMsg.h>
 // subroutines
 #include "LineUpWithGate.h"
 #include "LocateGate.h"
@@ -35,7 +35,7 @@ class DecisionNode {
      * Callback function when a message is received from the world state node.
      * @param state_msg message containing the current state
      */
-    void worldStateCallback(const worldstate::state_msg::ConstPtr& state_msg);
+    void worldStateCallback(const worldstate::StateMsg::ConstPtr& state_msg);
 
     /**
      * Sets up the map "subroutines_" such that each enumerated state is mapped
