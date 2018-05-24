@@ -5,22 +5,26 @@
  *              robot still needs to align with gate.
  */
 
-#include <worldstate/stateMsg.h>
+#include <worldstate/StateMsg.h>
 #include "routines/Gate/AlignWithGate.h"
 
 void AlignWithGate::setupNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
-    nh.subscribe(gateDetectTopic, 10, &AlignWithGate::gateDetectCallBack, this);
+    gate_detect_listener_ = nh.subscribe(gateDetectTopic, 10, &AlignWithGate::gateDetectCallBack, this);
+}
+
+void AlignWithGate::sleep() {
+    gate_detect_listener_.shutdown();
 }
 
 void AlignWithGate::gateDetectCallBack(
 const gate_detect::gateDetectMsg::ConstPtr& msg) {
-    worldstate::stateMsg msg_to_publish;
-    msg_to_publish.state = worldstate::stateMsg::aligningWithGate;
+    worldstate::StateMsg msg_to_publish;
+    msg_to_publish.state = worldstate::StateMsg::aligningWithGate;
 
     /* If no poles are seen, then look for it again */
     if (!msg->detectLeft && !msg->detectRight && !msg->detectTop) {
-        msg_to_publish.state = worldstate::stateMsg::locatingGate;
+        msg_to_publish.state = worldstate::StateMsg::locatingGate;
     }
 
     /* If side poles of the gate are seen */
@@ -30,14 +34,14 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
 
         /* Pass through the gate if it centrally aligned*/
         if (distBtwnHorizontalGates < subbots::global_constants::CLEARANCE_WIDTH) {
-            msg_to_publish.state = worldstate::stateMsg::passingGate;
+            msg_to_publish.state = worldstate::StateMsg::passingGate;
         }
 
         /* If the top pole is seen, but the robot doesn't clear the height limit */
         if (msg->detectTop && msg->distanceTop < subbots::global_constants::CLEARANCE_HEIGHT){
 
             /* Keep trying to align */
-            msg_to_publish.state = worldstate::stateMsg::aligningWithGate;
+            msg_to_publish.state = worldstate::StateMsg::aligningWithGate;
         }
     }
 

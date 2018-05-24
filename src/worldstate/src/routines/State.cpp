@@ -13,16 +13,14 @@ State::State(int argc, char** argv, std::string node_name) {
 }
 
 void State::start() {
-    ros::NodeHandle nh;
-    setupNodeSubscriptions(nh);
-
-    ros::NodeHandle private_nh("~");
+    ros::NodeHandle private_nh;
+    setupNodeSubscriptions(private_nh);
 
     std::string state_transition_msg =
     private_nh.resolveName("worldstate/output");
-    uint32_t queue_size_  = 1;
+    uint32_t queue_size_  = 10;
 
-    state_publisher_ = private_nh.advertise<worldstate::stateMsg>(
+    state_publisher_ = private_nh.advertise<worldstate::StateMsg>(
     "worldstate/output", queue_size_);
 }
 
@@ -30,6 +28,6 @@ void State::sleep() {
     ros::shutdown();
 }
 
-void State::publishNextState(const worldstate::stateMsg& msg) {
+void State::publishNextState(const worldstate::StateMsg& msg) {
     state_publisher_.publish(msg);
 }

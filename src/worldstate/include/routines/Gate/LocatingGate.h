@@ -20,8 +20,10 @@ class LocatingGate : public State {
     LocatingGate(int argc, char** argv, std::string node_name)
       : State(argc, argv, node_name) {}
     void setupNodeSubscriptions(ros::NodeHandle nh) override;
+    void sleep() override;
 
   private:
+    ros::Subscriber gate_detect_listener_;
     void gateDetectCallBack(const gate_detect::gateDetectMsg::ConstPtr& msg);
 };
 

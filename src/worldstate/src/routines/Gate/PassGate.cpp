@@ -10,21 +10,25 @@
 void PassGate::setupNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
     std::string imuDataTopic    = "/imu/is_calibrated";
-    nh.subscribe(gateDetectTopic, 10, &PassGate::gateDetectCallBack, this);
+    gate_detect_listener = nh.subscribe(gateDetectTopic, 10, &PassGate::gateDetectCallBack, this);
     //nh.subscribe("/imu/is_calibrated", 10, &PassGate::imuDataCallback, this);
+}
+
+void PassGate::sleep(){
+    gate_detect_listener.shutdown();
 }
 
 void PassGate::gateDetectCallBack(
 const gate_detect::gateDetectMsg::ConstPtr& msg) {
-    worldstate::stateMsg msg_to_publish;
-    msg_to_publish.state = worldstate::stateMsg::passingGate;
+    worldstate::StateMsg msg_to_publish;
+    msg_to_publish.state = worldstate::StateMsg::passingGate;
 
     /*
      * Assume for now if the gate disappears it has successfully
      * passed through the gate
      */
     if (!msg->detectLeft && !msg->detectRight && msg->detectTop){
-        msg_to_publish.state = worldstate::stateMsg::locatingDie;
+        msg_to_publish.state = worldstate::StateMsg::locatingDie;
     }
 
     /*

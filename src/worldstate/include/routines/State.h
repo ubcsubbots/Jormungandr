@@ -9,7 +9,7 @@
 #define PROJECT_ROUTINE_H
 
 #include <ros/ros.h>
-#include <worldstate/stateMsg.h>
+#include <worldstate/StateMsg.h>
 /*
  * Documentation to Provide
  *
@@ -20,11 +20,11 @@ class State {
   public:
     State(int argc, char** argv, std::string node_name);
 
-    void sleep();
+    virtual void sleep() = 0;
     void start();
 
   protected:
-    ros::Publisher state_publisher_;
+    ros::Publisher  state_publisher_;
 
     /**
      * Publishes at each clock the next state in the finite state
@@ -32,7 +32,7 @@ class State {
      *
      * @param msg contains the next state to transition to
      */
-    void publishNextState(const worldstate::stateMsg& msg);
+    void publishNextState(const worldstate::StateMsg& msg);
 
     virtual void setupNodeSubscriptions(ros::NodeHandle nh) = 0;
 };

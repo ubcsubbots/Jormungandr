@@ -35,16 +35,16 @@ WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name) {
  * @param msg message containing the current state
  */
 void WorldStateNode::stateChangeCallBack(
-const worldstate::stateMsg::ConstPtr& msg) {
+const worldstate::StateMsg::ConstPtr& msg) {
     state_t new_state_index_ = msg->state;
 
     State* nextState = state_machine_.at(new_state_index_);
 
-    if (nextState == current_state_) return;
-
-    current_state_->sleep();
-    current_state_ = nextState;
-    current_state_->start();
+    if (nextState != current_state_) {
+        current_state_->sleep();
+        current_state_ = nextState;
+        current_state_->start();
+    }
 }
 
 /**
@@ -56,15 +56,15 @@ const worldstate::stateMsg::ConstPtr& msg) {
  * subroutine
  */
 void WorldStateNode::initializeWorldStateNode(int argc, char** argv) {
-    state_machine_[worldstate::stateMsg::locatingGate] =
+    state_machine_[worldstate::StateMsg::locatingGate] =
             new LocatingGate(argc, argv, "locating_gate_ws");
 
-    state_machine_[worldstate::stateMsg::aligningWithGate] =
+    state_machine_[worldstate::StateMsg::aligningWithGate] =
             new AlignWithGate(argc, argv, "aligning_with_gate_ws");
 
-    state_machine_[worldstate::stateMsg::passingGate] =
+    state_machine_[worldstate::StateMsg::passingGate] =
             new PassGate(argc, argv, "passing_thru_gate_ws");
 
-    current_state_ = state_machine_.at(worldstate::stateMsg::locatingGate);
+    current_state_ = state_machine_[initial_state_];
     current_state_->start();
 }

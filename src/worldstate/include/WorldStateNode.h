@@ -14,7 +14,7 @@
 /* ROS msg types */
 #include "routines/State.h"
 #include <std_msgs/builtin_int8.h>
-#include <worldstate/stateMsg.h>
+#include <worldstate/StateMsg.h>
 
 typedef int8_t state_t;
 
@@ -23,6 +23,7 @@ class WorldStateNode {
     WorldStateNode(int argc, char** argv, std::string node_name);
 
   private:
+    const uint8_t initial_state_ = worldstate::StateMsg::locatingGate;
     ros::Subscriber world_state_listener_;
     State* current_state_;
     std::unordered_map<state_t, State*> state_machine_;
@@ -32,7 +33,7 @@ class WorldStateNode {
      *
      * @param gate detection node discretized messages
      */
-    void stateChangeCallBack(const worldstate::stateMsg::ConstPtr& msg);
+    void stateChangeCallBack(const worldstate::StateMsg::ConstPtr& msg);
 
     /**
      * Instantiate each of the individual routine nodes in ros shutdown mode
