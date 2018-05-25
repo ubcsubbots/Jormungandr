@@ -134,13 +134,15 @@ TEST(TestSuite, testCase3) {
     {
         cout << "Could not open or find the image" << std::endl;
     }
+
+Gate gate;
+vector<float> floater = gate.initialize(image);
+
     /*
         cv::namedWindow("Display window",
                         cv::WINDOW_AUTOSIZE);
 
-                                                  Gate gate;
-                                                  vector<float> floater =
-       gate.initialize(image);
+
                                                   ROS_INFO("Gate Vector test
        gateLeftOrange %f %f %f %f %f %f %f %f %f",
                                                            floater[0],
@@ -193,13 +195,15 @@ TEST(TestSuite, testCase4) {
         cout << "Could not open or find the image" << std::endl;
     }
 
+Gate gate;
+vector<float> floater = gate.initialize(image);
+
     /*
         cv::namedWindow("Display window",
                         cv::WINDOW_AUTOSIZE); // Create a window for display.
 
-                                                  Gate gate;
-                                                  vector<float> floater =
-       gate.initialize(image);
+
+
                                                   ROS_INFO("Gate Vector test
        gateLeftRed %f %f %f %f %f %f %f %f %f",
                                                            floater[0],
@@ -359,8 +363,6 @@ TEST(TestSuite, testCase6) {
 // Run all the tests that were declared with TEST()
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
-    ros::init(argc, argv, "tester");
-    ros::NodeHandle nh;
 
     return RUN_ALL_TESTS();
 }
