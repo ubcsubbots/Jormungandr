@@ -38,7 +38,7 @@ class WorldStateNode {
     /**
      * Instantiate each of the individual routine nodes in ros shutdown mode
      */
-    void initializeWorldStateNode(int argc, char** argv);
+    void initializeFiniteStateMachine(int argc, char** argv);
 };
 
 #endif // JORMUNGANDR_WORLDSTATENODE_H

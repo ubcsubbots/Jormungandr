@@ -8,13 +8,11 @@
 #ifndef PROJECT_LOCATINGGATE_H
 #define PROJECT_LOCATINGGATE_H
 
-#include "../State.h"
+#include "State.h"
 #include <constants.h>
 #include <gate_detect/gateDetectMsg.h>
 
-/**
- * Communicating Class {alignWithGate, locatingGate, passGate}
- */
+/*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
 class LocatingGate : public State {
   public:
     LocatingGate(int argc, char** argv, std::string node_name)
@@ -24,6 +22,13 @@ class LocatingGate : public State {
 
   private:
     ros::Subscriber gate_detect_listener_;
+
+    /**
+     * Decides based on image data whether the robot still needs to
+     * align with the gate.
+     *
+     * @param msg gateDetectMsg data
+     */
     void gateDetectCallBack(const gate_detect::gateDetectMsg::ConstPtr& msg);
 };
 

@@ -8,13 +8,11 @@
 #ifndef PROJECT_ALIGNWITHGATE_H
 #define PROJECT_ALIGNWITHGATE_H
 
-#include "../State.h"
+#include "State.h"
 #include <constants.h>
 #include <gate_detect/gateDetectMsg.h>
 
-/**
- * Communicating Class {alignWithGate, locatingGate, passGate}
- */
+/*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
 class AlignWithGate : public State {
   public:
     AlignWithGate(int argc, char** argv, std::string node_name)
@@ -27,8 +25,9 @@ class AlignWithGate : public State {
 
     /**
      * Decides based on image data whether the robot still needs to
+     * align with the gate.
      *
-     * @param msg
+     * @param msg gateDetectMsg data
      */
     void gateDetectCallBack(const gate_detect::gateDetectMsg::ConstPtr& msg);
 };

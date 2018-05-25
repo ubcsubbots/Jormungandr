@@ -1,7 +1,8 @@
 /*
  *  Author: Joel
  *  Date:  31/03/18
- *  Purpose: Unit test to instantiate and message correctly outputs
+ *  Purpose: Unit test to instantiate worldstate StateMsg's and ensure
+ *           they are built correctly
  */
 
 #include <gtest/gtest.h>
@@ -28,7 +29,6 @@ TEST(CheckStateValuesMatch, instantiateMsg) {
     msg.state = worldstate::StateMsg_<u_int8_t>::pivotingPole;
     EXPECT_EQ(msg.state, 5);
 }
-
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);

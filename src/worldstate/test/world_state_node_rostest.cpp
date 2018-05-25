@@ -1,6 +1,10 @@
-//
-// Created by joel on 05/05/18.
-//
+/*
+ *  Author: Joel Ahn
+ *  Date:  31/03/18
+ *  Purpose: Creates a dummy node to publish and subscribe to the relevant
+ *           world_state_node topics to determine that the correct values
+ *           are being outputted.
+ */
 
 #include "WorldStateNode.h"
 
@@ -34,15 +38,15 @@ class WorldStateNodeTest : public testing::Test {
 TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_test) {
     gate_detect::gateDetectMsg data;
 
-    data.detectRight = false;
-    data.detectLeft = false;
-    data.detectTop = false;
+    data.detectRight   = false;
+    data.detectLeft    = false;
+    data.detectTop     = false;
     data.distanceRight = 0.0;
-    data.distanceLeft = 0.0;
-    data.distanceTop = 0.0;
-    data.angleLeft = 0.0;
-    data.angleRight = 0.0;
-    data.angleTop = 0.0;
+    data.distanceLeft  = 0.0;
+    data.distanceTop   = 0.0;
+    data.angleLeft     = 0.0;
+    data.angleRight    = 0.0;
+    data.angleTop      = 0.0;
 
     test_publisher.publish(data);
 
@@ -60,15 +64,15 @@ TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_test) {
 TEST_F(WorldStateNodeTest, worldStateNode_transition_state_test) {
     gate_detect::gateDetectMsg data;
 
-    data.detectRight = false;
-    data.detectLeft = false;
-    data.detectTop = false;
+    data.detectRight   = false;
+    data.detectLeft    = false;
+    data.detectTop     = false;
     data.distanceRight = 0.0;
-    data.distanceLeft = 0.0;
-    data.distanceTop = 0.0;
-    data.angleLeft = 0.0;
-    data.angleRight = 0.0;
-    data.angleTop = 0.0;
+    data.distanceLeft  = 0.0;
+    data.distanceTop   = 0.0;
+    data.angleLeft     = 0.0;
+    data.angleRight    = 0.0;
+    data.angleTop      = 0.0;
 
     test_publisher.publish(data);
 

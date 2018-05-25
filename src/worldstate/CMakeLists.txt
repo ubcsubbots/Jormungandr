@@ -47,8 +47,8 @@ catkin_package(
 include_directories(
         ${catkin_INCLUDE_DIRS}
         ./include
-        ./routines/include
-        ./routines/Gate/include
+        ./include/routines
+        ./include/routines/Gate
         ../constants
 )
 
@@ -56,15 +56,14 @@ add_executable(world_state_node
     src/WorldStateNode.cpp
     src/world_state_node.cpp
     include/WorldStateNode.h
-        include/routines/State.h
-        src/routines/State.cpp
-        include/routines/Gate/LocatingGate.h
-        src/routines/Gate/LocatingGate.cpp
-        include/routines/Gate/AlignWithGate.h
-        src/routines/Gate/AlignWithGate.cpp
-        include/routines/Gate/PassGate.h
-        src/routines/Gate/PassGate.cpp
-
+    include/routines/State.h
+    src/routines/State.cpp
+    include/routines/Gate/LocatingGate.h
+    src/routines/Gate/LocatingGate.cpp
+    include/routines/Gate/AlignWithGate.h
+    src/routines/Gate/AlignWithGate.cpp
+    include/routines/Gate/PassGate.h
+    src/routines/Gate/PassGate.cpp
 )
 
 ## Specify libraries to link a library or executable target against

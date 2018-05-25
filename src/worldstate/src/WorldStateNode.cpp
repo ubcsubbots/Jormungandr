@@ -6,13 +6,13 @@
  *              and disabling them when the state has changed
  */
 
-#include "routines/Gate/LocatingGate.h"
 #include "routines/Gate/AlignWithGate.h"
+#include "routines/Gate/LocatingGate.h"
 #include "routines/Gate/PassGate.h"
 #include <WorldStateNode.h>
 
 WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name) {
-    WorldStateNode::initializeWorldStateNode(argc, argv);
+    WorldStateNode::initializeFiniteStateMachine(argc, argv);
 
     // Setup NodeHandles
     ros::init(argc, argv, node_name);
@@ -55,16 +55,17 @@ const worldstate::StateMsg::ConstPtr& msg) {
  * @param argv standard argv passed in from main, used for the ros::init of each
  * subroutine
  */
-void WorldStateNode::initializeWorldStateNode(int argc, char** argv) {
+void WorldStateNode::initializeFiniteStateMachine(int argc, char** argv) {
     state_machine_[worldstate::StateMsg::locatingGate] =
-            new LocatingGate(argc, argv, "locating_gate_ws");
+    new LocatingGate(argc, argv, "locating_gate_ws");
 
     state_machine_[worldstate::StateMsg::aligningWithGate] =
-            new AlignWithGate(argc, argv, "aligning_with_gate_ws");
+    new AlignWithGate(argc, argv, "aligning_with_gate_ws");
 
     state_machine_[worldstate::StateMsg::passingGate] =
-            new PassGate(argc, argv, "passing_thru_gate_ws");
+    new PassGate(argc, argv, "passing_thru_gate_ws");
 
+    // Activate the state_machine with the initial state
     current_state_ = state_machine_[initial_state_];
     current_state_->start();
 }
