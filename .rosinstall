@@ -3,6 +3,9 @@
 # IF YOU WANT TO CHANGE THE ROS ENVIRONMENT VARIABLES
 # USE THE rosinstall TOOL INSTEAD.
 # IF YOU CHANGE IT, USE rosinstall FOR THE CHANGES TO TAKE EFFECT
-- git: {local-name: src/uwsim, 
-        uri: 'https://github.com/uji-ros-pkg/underwater_simulation.git', 
-        version: kinetic-devel}
+- git: {local-name: external_pkg/uwsim, uri: 'https://github.com/uji-ros-pkg/underwater_simulation.git',
+    version: kinetic-devel}
+- git: {local-name: external_pkg/phidgets_api, uri: 'https://github.com/ros-drivers-gbp/phidgets_drivers-release.git',
+    version: release/kinetic/phidgets_api/0.7.5-0}
+- git: {local-name: external_pkg/usb_cam, uri: 'https://github.com/ros-gbp/usb_cam-release.git',
+    version: release/kinetic/usb_cam/0.3.5-0}

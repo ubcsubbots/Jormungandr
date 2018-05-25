@@ -4,7 +4,7 @@
  * Description:
  */
 
-#include "./ImageTestUtils.h"
+#include "ImageTestUtils.h"
 #include <HSVFilter.h>
 #include <gtest/gtest.h>
 #include <opencv2/highgui.hpp>

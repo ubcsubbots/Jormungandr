@@ -1,0 +1,4 @@
+<launch>
+    <node name="decision_node" pkg="decision" type="decision_node" output="screen">
+    </node>
+</launch>
