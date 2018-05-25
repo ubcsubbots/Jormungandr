@@ -57,8 +57,8 @@ TEST(TestSuite, testCase1) {
              3,
              CV_AA);
 
-    cv::imshow("New Window", image);
-    cv::waitKey(0);
+    // cv::imshow("New Window", image);
+    // cv::waitKey(0);
 
     EXPECT_TRUE(true);
 }
@@ -109,8 +109,8 @@ TEST(TestSuite, testCase2) {
              3,
              CV_AA);
 
-    cv::imshow("New Window", image);
-    cv::waitKey(0);
+    // cv::imshow("New Window", image);
+    // cv::waitKey(0);
 
     EXPECT_TRUE(true);
 }
@@ -163,8 +163,8 @@ TEST(TestSuite, testCase3) {
              3,
              CV_AA);
 
-    cv::imshow("New gateLeftOrange", image);
-    cv::waitKey(0);
+    // cv::imshow("New gateLeftOrange", image);
+    // cv::waitKey(0);
 
     EXPECT_TRUE(true);
 }
@@ -217,8 +217,8 @@ TEST(TestSuite, testCase4) {
              3,
              CV_AA);
 
-    cv::imshow("New gateLeftRed", image);
-    cv::waitKey(0);
+    // cv::imshow("New gateLeftRed", image);
+    // cv::waitKey(0);
 
     EXPECT_TRUE(true);
 }
@@ -271,8 +271,8 @@ TEST(TestSuite, testCase5) {
              3,
              CV_AA);
 
-    cv::imshow("New gateRightOrange", image);
-    cv::waitKey(0);
+    // cv::imshow("New gateRightOrange", image);
+    // cv::waitKey(0);
 
     EXPECT_TRUE(true);
 }
@@ -325,8 +325,8 @@ TEST(TestSuite, testCase6) {
              3,
              CV_AA);
 
-    cv::imshow("New gateRightRed", image);
-    cv::waitKey(0);
+    // cv::imshow("New gateRightRed", image);
+    // cv::waitKey(0);
 
     EXPECT_TRUE(true);
 }

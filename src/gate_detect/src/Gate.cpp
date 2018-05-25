@@ -11,8 +11,8 @@ Gate::Gate() {
                      // dst not displaying all lines
     poleMax =
     200; // Sets the minimum threshold for two lines to be called a pole
-    m = -0.002673; // Readjust when calibrated
-    b = 5.134;     // Distance from gate = m * x + b
+    m                = -0.002673; // Readjust when calibrated
+    b                = 5.134;     // Distance from gate = m * x + b
     camera_res_width = 1920;
 }
 
