@@ -20,13 +20,13 @@ TEST(CheckStateValuesMatch, instantiateMsg) {
     msg.state = worldstate::StateMsg_<u_int8_t>::passingGate;
     EXPECT_EQ(msg.state, 2);
 
-    msg.state = worldstate::StateMsg_<u_int8_t>::locatingPole;
+    msg.state = worldstate::StateMsg_<u_int8_t>::searchingForPath;
     EXPECT_EQ(msg.state, 3);
 
-    msg.state = worldstate::StateMsg_<u_int8_t>::approachingPole;
+    msg.state = worldstate::StateMsg_<u_int8_t>::locatingDie;
     EXPECT_EQ(msg.state, 4);
 
-    msg.state = worldstate::StateMsg_<u_int8_t>::pivotingPole;
+    msg.state = worldstate::StateMsg_<u_int8_t>::touchingDie;
     EXPECT_EQ(msg.state, 5);
 }
 
