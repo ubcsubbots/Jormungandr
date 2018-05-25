@@ -9,12 +9,12 @@
 
 #include "HSVFilter.h"
 #include <cv_bridge/cv_bridge.h>
+#include <dynamic_reconfigure/server.h>
 #include <image_transport/image_transport.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
-#include <dynamic_reconfigure/server.h>
 #include <vision/hsvConfig.h>
 
 class HSVFilterNode {
@@ -39,14 +39,13 @@ class HSVFilterNode {
      */
     void publishFilteredImage(const cv::Mat& filtered_image);
 
-
     /**
      * Callback function for dynamic_reconfigure
      *
      * @param image the image to publish
      */
-    void dynamicreconfigCallback(const vision::hsvConfig &config, uint32_t level);
-
+    void dynamicreconfigCallback(const vision::hsvConfig& config,
+                                 uint32_t level);
 };
 
 #endif // PROJECT_HSV_H

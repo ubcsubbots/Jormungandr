@@ -5,20 +5,19 @@
 #ifndef PROJECT_DECISIONNODE_H
 #define PROJECT_DECISIONNODE_H
 
-#include <ros/ros.h>
-#include <geometry_msgs/Twist.h>
 #include <gate_detect/gateDetectMsg.h>
+#include <geometry_msgs/Twist.h>
+#include <ros/ros.h>
 
 class decisionNode {
-public:
+  public:
     std::string subscribeTopic, publishTopic;
 
     std::vector<float> floater;
 
-    decisionNode(int argc, char** argv , std::string nodeName);
+    decisionNode(int argc, char** argv, std::string nodeName);
 
-private:
-
+  private:
     void subscriberCallBack(const gate_detect::gateDetectMsg gateDetectMsg);
 
     void publisherCallback(const geometry_msgs::Twist twist);
@@ -26,8 +25,6 @@ private:
     ros::Publisher publisher_;
 
     ros::Subscriber subscriber_;
-
 };
 
-
-#endif //PROJECT_DECISIONNODE_H
+#endif // PROJECT_DECISIONNODE_H

@@ -6,10 +6,8 @@
 
 using namespace cv;
 
-int main(int argc, char** argv){
-
-    GateDetectNode gateDetect = GateDetectNode(argc,argv,"gateDetect");
+int main(int argc, char** argv) {
+    GateDetectNode gateDetect = GateDetectNode(argc, argv, "gateDetect");
 
     return 0;
 }
-
