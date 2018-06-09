@@ -11,13 +11,6 @@
 #include <ros/ros.h>
 #include <worldstate/StateMsg.h>
 
-/*
- * Make sure to provide for each State subclass the possible
- * StateMsg types that it can publish i.e. to which other States
- * that the World Finite State Machine can transition from
- * the current one to. Describe before the class declaration as such:
- *
-/*** Communicating States {States that it can possibly transition to} ***/
 class State {
   public:
     State(int argc, char** argv, std::string node_name);
