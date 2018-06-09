@@ -5,6 +5,7 @@
  * subroutine for each logical state of
  * operation.
  */
+
 #include "DecisionNode.h"
 
 DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
@@ -55,6 +56,10 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
 void DecisionNode::setupSubroutineMap(int argc, char** argv) {
     subroutines_[worldstate::StateMsg::locatingGate] =
     new LocateGate(argc, argv, "locate_gate");
+
     subroutines_[worldstate::StateMsg::aligningWithGate] =
     new LineUpWithGate(argc, argv, "align_with_gate");
+
+    subroutines_[worldstate::StateMsg::passingGate] =
+    new GoThroughGate(argc, argv, "go_through_gate");
 }

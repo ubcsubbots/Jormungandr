@@ -38,8 +38,7 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
         y_linear = LEFT;
     }
 
-    if (!(fabs(msg->distanceTop * sin(msg->angleTop)) >
-          subbots::global_constants::CLEARANCE_HEIGHT &&
+    if (!(std::abs(msg->distanceTop * sin(msg->angleTop)) > subbots::global_constants::CLEARANCE_HEIGHT &&
           msg->angleTop < 0)) {
         z_linear = DOWN;
     }
