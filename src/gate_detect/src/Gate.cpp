@@ -21,32 +21,6 @@ std::vector<float> Gate::initialize(const cv::Mat matin) {
 
     cv::HoughLinesP(dst, lines, 1, CV_PI / 180, 60, 50, 50);
 
-    /*
-    for(cv::Vec4i houghLine : lines)
-        ROS_INFO("HoughLine detected at %i %i %i %i", houghLine[0] ,
-    houghLine[1] , houghLine[2] , houghLine[3]);
-*/
-
-    /*
-    cv::Mat cdst;
-
-    cvtColor(dst, cdst, CV_GRAY2BGR);
-
-    for( size_t i = 0; i < lines.size(); i++ )
-    {
-        cv::Vec4i l = lines[i];
-        cv::line( cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
-    cv::Scalar(0,0,255), 3, CV_AA);
-    }
-
-    cv::imshow("New Window" , cdst);
-    cv::waitKey(0);
-    */
-    /*
-    for(cv::Vec4i houghLine : lines)
-        ROS_INFO("HoughLine detected at %i %i %i %i", houghLine[0] ,
-    houghLine[1] , houghLine[2] , houghLine[3]);
-*/
     if (lines.empty()) return std::vector<float>(9, 0);
 
     _vertLines = filterVertLines(lines);
@@ -112,24 +86,13 @@ Gate::findVertPoles(std::vector<int> vertLines) {
         }
     }
 
-    // for (int vertLine : _vertLines) ROS_INFO(" %i " , vertLine);
-
     for (auto it3 = vertLines.begin(); it3 != vertLines.end(); it3++) {
-        // ROS_INFO("First Line %i", *it3);
-
         for (auto it4 = vertLines.begin(); it4 != vertLines.end();) {
-            // ROS_INFO("Second Line %i", *it4);
-
             if ((abs(*it3 - *it4) < poleMax) && (*it3 != *it4)) {
-                // ROS_INFO("Line is a Pole at %f", (float) ((*it3 + *it4) /
-                // 2));
                 float vertPoleDist = m * abs(*it3 - *it4) + b;
                 float horizontalDistanceFromCentreToPole =
                 ((camera_res_width / 2) - (*it3 + *it4) / 2) * (.3048 / 4) /
                 abs(*it3 - *it4);
-                // ROS_INFO("Horiz distance: %f, Vert Pole: %f, asin(x) = %f",
-                // horizontalDistanceFromCentreToPole, vertPoleDist,
-                // asin(horizontalDistanceFromCentreToPole/vertPoleDist));
                 float vertPoleAngle =
                 asin(horizontalDistanceFromCentreToPole / vertPoleDist);
                 float a       = ((*it3 + *it4) / 2);
@@ -151,10 +114,7 @@ std::vector<std::vector<float>> Gate::findHorPoles(std::vector<int> horLines) {
     std::vector<std::vector<float>> horPoles;
     horPoles.clear();
 
-    if (horLines.empty()) {
-        // ROS_INFO("_horLines empty");
-        return horPoles;
-    }
+    if (horLines.empty()) { return horPoles; }
 
     for (auto it1 = horLines.begin(); it1 != horLines.end(); it1++) {
         for (auto it2 = horLines.begin(); it2 != horLines.end();) {
@@ -166,14 +126,8 @@ std::vector<std::vector<float>> Gate::findHorPoles(std::vector<int> horLines) {
         }
     }
 
-    // for (int horLine : _horLines) ROS_INFO(" %i " , horLine);
-
     for (auto it3 = horLines.begin(); it3 != horLines.end(); it3++) {
-        // ROS_INFO("First Line %i", *it3);
-
         for (auto it4 = horLines.begin(); it4 != horLines.end();) {
-            // ROS_INFO("Second Line %i", *it4);
-
             if ((abs(*it3 - *it4) < poleMax) && (*it3 != *it4)) {
                 // ROS_INFO("Line is a Pole at %f", (float) ((*it3 + *it4) /
                 // 2));

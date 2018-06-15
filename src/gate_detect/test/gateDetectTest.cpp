@@ -7,6 +7,8 @@
 // Bring in gtest
 #include <gtest/gtest.h>
 
+#include "Testutils.cpp"
+
 using namespace cv;
 using namespace std;
 
@@ -23,45 +25,11 @@ TEST(TestSuite, testCase1) {
         cout << "Could not open or find the image" << std::endl;
     }
 
+    TestUtils::
+
     Gate gate;
 
     std::vector<float> floater = gate.initialize(image);
-
-    /*
-        ROS_INFO("Gate Vector test gateFrontOrange %f %f %f %f %f %f %f %f %f",
-                 floater[0],
-                 floater[1],
-                 floater[2],
-                 floater[3],
-                 floater[4],
-                 floater[5],
-                 floater[6],
-                 floater[7],
-                 floater[8]);
-
-
-    cv::line(image,
-             cv::Point(int(floater[0]), 0),
-             cv::Point(int(floater[0]), image.rows),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-    cv::line(image,
-             cv::Point(int(floater[3]), 0),
-             cv::Point(int(floater[3]), image.rows),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-    cv::line(image,
-             cv::Point(0, floater[6]),
-             cv::Point(image.cols, floater[6]),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-
-     cv::imshow("New Window", image);
-     cv::waitKey(0);
-     */
 
     EXPECT_TRUE(true);
 }
@@ -82,43 +50,6 @@ TEST(TestSuite, testCase2) {
     Gate gate;
     std::vector<float> floater = gate.initialize(image);
 
-    /*
-        ROS_INFO("Gate Vector test gateFrontRed %f %f %f %f %f %f %f %f %f",
-                 floater[0],
-                 floater[1],
-                 floater[2],
-                 floater[3],
-                 floater[4],
-                 floater[5],
-                 floater[6],
-                 floater[7],
-                 floater[8]);
-
-
-    cv::line(image,
-             cv::Point(int(floater[0]), 0),
-             cv::Point(int(floater[0]), image.rows),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-    cv::line(image,
-             cv::Point(int(floater[3]), 0),
-             cv::Point(int(floater[3]), image.rows),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-    cv::line(image,
-             cv::Point(0, floater[6]),
-             cv::Point(image.cols, floater[6]),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-
-     cv::imshow("New Window", image);
-     cv::waitKey(0);
-
-     */
-
     EXPECT_TRUE(true);
 }
 
@@ -135,49 +66,8 @@ TEST(TestSuite, testCase3) {
         cout << "Could not open or find the image" << std::endl;
     }
 
-Gate gate;
-vector<float> floater = gate.initialize(image);
-
-    /*
-        cv::namedWindow("Display window",
-                        cv::WINDOW_AUTOSIZE);
-
-
-                                                  ROS_INFO("Gate Vector test
-       gateLeftOrange %f %f %f %f %f %f %f %f %f",
-                                                           floater[0],
-                                                           floater[1],
-                                                           floater[2],
-                                                           floater[3],
-                                                           floater[4],
-                                                           floater[5],
-                                                           floater[6],
-                                                           floater[7],
-                                                           floater[8]);
-
-
-        cv::line(image,
-                 cv::Point(int(floater[0]), 0),
-                 cv::Point(int(floater[0]), image.rows),
-                 cv::Scalar(0, 0, 255),
-                 3,
-                 CV_AA);
-        cv::line(image,
-                 cv::Point(int(floater[3]), 0),
-                 cv::Point(int(floater[3]), image.rows),
-                 cv::Scalar(0, 0, 255),
-                 3,
-                 CV_AA);
-        cv::line(image,
-                 cv::Point(0, floater[6]),
-                 cv::Point(image.cols, floater[6]),
-                 cv::Scalar(0, 0, 255),
-                 3,
-                 CV_AA);
-
-         cv::imshow("New gateLeftOrange", image);
-         cv::waitKey(0);
-                                               */
+    Gate gate;
+    vector<float> floater = gate.initialize(image);
 
     EXPECT_TRUE(true);
 }
@@ -195,50 +85,8 @@ TEST(TestSuite, testCase4) {
         cout << "Could not open or find the image" << std::endl;
     }
 
-Gate gate;
-vector<float> floater = gate.initialize(image);
-
-    /*
-        cv::namedWindow("Display window",
-                        cv::WINDOW_AUTOSIZE); // Create a window for display.
-
-
-
-                                                  ROS_INFO("Gate Vector test
-       gateLeftRed %f %f %f %f %f %f %f %f %f",
-                                                           floater[0],
-                                                           floater[1],
-                                                           floater[2],
-                                                           floater[3],
-                                                           floater[4],
-                                                           floater[5],
-                                                           floater[6],
-                                                           floater[7],
-                                                           floater[8]);
-
-
-        cv::line(image,
-                 cv::Point(int(floater[0]), 0),
-                 cv::Point(int(floater[0]), image.rows),
-                 cv::Scalar(0, 0, 255),
-                 3,
-                 CV_AA);
-        cv::line(image,
-                 cv::Point(int(floater[3]), 0),
-                 cv::Point(int(floater[3]), image.rows),
-                 cv::Scalar(0, 0, 255),
-                 3,
-                 CV_AA);
-        cv::line(image,
-                 cv::Point(0, floater[6]),
-                 cv::Point(image.cols, floater[6]),
-                 cv::Scalar(0, 0, 255),
-                 3,
-                 CV_AA);
-
-         cv::imshow("New gateLeftRed", image);
-         cv::waitKey(0);
-                                               */
+    Gate gate;
+    vector<float> floater = gate.initialize(image);
 
     EXPECT_TRUE(true);
 }
@@ -258,46 +106,6 @@ TEST(TestSuite, testCase5) {
 
     Gate gate;
     std::vector<float> floater = gate.initialize(image);
-
-    /*
-
-      cv::namedWindow("Display window",
-                    cv::WINDOW_AUTOSIZE); // Create a window for display.
-
-        ROS_INFO("Gate Vector test gateRightOrange %f %f %f %f %f %f %f %f %f",
-                 floater[0],
-                 floater[1],
-                 floater[2],
-                 floater[3],
-                 floater[4],
-                 floater[5],
-                 floater[6],
-                 floater[7],
-                 floater[8]);
-
-
-    cv::line(image,
-             cv::Point(int(floater[0]), 0),
-             cv::Point(int(floater[0]), image.rows),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-    cv::line(image,
-             cv::Point(int(floater[3]), 0),
-             cv::Point(int(floater[3]), image.rows),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-    cv::line(image,
-             cv::Point(0, floater[6]),
-             cv::Point(image.cols, floater[6]),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-
-     cv::imshow("New gateRightOrange", image);
-     cv::waitKey(0);
-     */
 
     EXPECT_TRUE(true);
 }
