@@ -7,7 +7,7 @@
 // Bring in gtest
 #include <gtest/gtest.h>
 
-#include "Testutils.cpp"
+#include "TestUtils.h"
 
 using namespace cv;
 using namespace std;
@@ -24,8 +24,6 @@ TEST(TestSuite, testCase1) {
     {
         cout << "Could not open or find the image" << std::endl;
     }
-
-    TestUtils::
 
     Gate gate;
 
@@ -126,45 +124,6 @@ TEST(TestSuite, testCase6) {
     Gate gate;
     std::vector<float> floater = gate.initialize(image);
 
-    /*
-       cv::namedWindow("Display window",
-                    cv::WINDOW_AUTOSIZE); // Create a window for display.
-
-        ROS_INFO("Gate Vector test gateRightRed %f %f %f %f %f %f %f %f %f",
-                 floater[0],
-                 floater[1],
-                 floater[2],
-                 floater[3],
-                 floater[4],
-                 floater[5],
-                 floater[6],
-                 floater[7],
-                 floater[8]);
-
-
-    cv::line(image,
-             cv::Point(int(floater[0]), 0),
-             cv::Point(int(floater[0]), image.rows),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-    cv::line(image,
-             cv::Point(int(floater[3]), 0),
-             cv::Point(int(floater[3]), image.rows),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-    cv::line(image,
-             cv::Point(0, floater[6]),
-             cv::Point(image.cols, floater[6]),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
-
-     cv::imshow("New gateRightRed", image);
-     cv::waitKey(0);
-     */
-
     EXPECT_TRUE(true);
 }
 
@@ -174,11 +133,3 @@ int main(int argc, char** argv) {
 
     return RUN_ALL_TESTS();
 }
-
-/*
-    cv::namedWindow( "Display window", cv::WINDOW_AUTOSIZE );// Create a window
-   for display.
-    cv::imshow( "Display window", image );                   // Show our image
-   inside it.
-    cv::waitKey(0);
- */

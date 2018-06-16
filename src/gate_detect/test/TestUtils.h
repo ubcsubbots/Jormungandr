@@ -8,8 +8,7 @@
 #define PROJECT_TESTUTILS_H
 
 class TestUtils {
-    void TestUtils::DisplayGateDetected(cv::Mat mat,
-                                        std::vector<float> floatVec);
+    void DisplayGateDetected(cv::Mat mat, std::vector<float> floatVec);
 };
 
 #endif // PROJECT_TESTUTILS_H
