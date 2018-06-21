@@ -1,0 +1,6 @@
+<!-- A .test file which launches the node and its corresponding rostest -->
+
+<launch>
+    <node name="world_state_node" pkg="worldstate" type="world_state_node" />
+    <test test-name="world_state_node_rostest" pkg="worldstate" type="world_state_node_rostest" />
+</launch>

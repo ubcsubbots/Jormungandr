@@ -1,31 +1,32 @@
 /*
  *  Author: Joel
  *  Date:  31/03/18
- *  Purpose: Unit test to instantiate and message correctly outputs
+ *  Purpose: Unit test to instantiate worldstate StateMsg's and ensure
+ *           they are built correctly
  */
 
 #include <gtest/gtest.h>
-#include <worldstate/state_msg.h>
+#include <worldstate/StateMsg.h>
 
-TEST(worldState, instantiateMsg) {
-    worldstate::state_msg msg;
+TEST(CheckStateValuesMatch, instantiateMsg) {
+    worldstate::StateMsg msg;
 
-    msg.state = worldstate::state_msg_<u_int8_t>::locatingGate;
+    msg.state = worldstate::StateMsg_<u_int8_t>::locatingGate;
     EXPECT_EQ(msg.state, 0);
 
-    msg.state = worldstate::state_msg_<u_int8_t>::aligningWithGate;
+    msg.state = worldstate::StateMsg_<u_int8_t>::aligningWithGate;
     EXPECT_EQ(msg.state, 1);
 
-    msg.state = worldstate::state_msg_<u_int8_t>::passingGate;
+    msg.state = worldstate::StateMsg_<u_int8_t>::passingGate;
     EXPECT_EQ(msg.state, 2);
 
-    msg.state = worldstate::state_msg_<u_int8_t>::locatingPole;
+    msg.state = worldstate::StateMsg_<u_int8_t>::searchingForPath;
     EXPECT_EQ(msg.state, 3);
 
-    msg.state = worldstate::state_msg_<u_int8_t>::approachingPole;
+    msg.state = worldstate::StateMsg_<u_int8_t>::locatingDie;
     EXPECT_EQ(msg.state, 4);
 
-    msg.state = worldstate::state_msg_<u_int8_t>::pivotingPole;
+    msg.state = worldstate::StateMsg_<u_int8_t>::touchingDie;
     EXPECT_EQ(msg.state, 5);
 }
 
