@@ -19,8 +19,7 @@
  */
 class LineUpWithGate : public Subroutine {
   public:
-    LineUpWithGate(int argc, char** argv, std::string node_name)
-      : Subroutine(argc, argv, node_name) {}
+    LineUpWithGate() : Subroutine() {}
     void setupSubscriptions(ros::NodeHandle nh) override;
 
   private:

@@ -23,13 +23,15 @@ static const double DOWN     = -1.0;
 
 class Subroutine {
   public:
-    Subroutine(int argc, char** argv, std::string node_name);
+    Subroutine();
 
     void startup();
     void shutdown();
 
   protected:
     ros::Publisher publisher_;
+    ros::NodeHandle nh_;
+    ros::NodeHandle private_nh_;
     void publishCommand(const geometry_msgs::Twist& msg);
     geometry_msgs::Vector3 makeVector(double x, double y, double z);
 

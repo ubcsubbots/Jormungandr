@@ -18,8 +18,7 @@
  */
 class GoThroughGate : public Subroutine {
   public:
-    GoThroughGate(int argc, char** argv, std::string node_name)
-      : Subroutine(argc, argv, node_name) {}
+    GoThroughGate() : Subroutine() {}
     void setupSubscriptions(ros::NodeHandle nh) override;
 
   private:
