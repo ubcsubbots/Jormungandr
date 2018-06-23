@@ -1,6 +1,8 @@
-//
-// Created by da-cam on 19/05/18.
-//
+/*
+ * Created By: Cameron Newton
+ * Created On: May 5th, 2018
+ * Description: Test functionality of GateDetection
+ */
 
 #include "GateDetection.h"
 #include "testUtilities/TestUtils.h"

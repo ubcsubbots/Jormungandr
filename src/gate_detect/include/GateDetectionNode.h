@@ -1,3 +1,8 @@
+/*
+ * Created By: Cameron Newton
+ * Created On: February 27th, 2018
+ */
+
 #ifndef GATE_DETECT_GATEDETECT_H
 #define GATE_DETECT_GATEDETECT_H
 

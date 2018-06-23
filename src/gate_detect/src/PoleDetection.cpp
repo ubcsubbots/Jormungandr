@@ -1,10 +1,10 @@
-//
-// Created by da-cam on 15/06/18.
-//
+/*
+ * Created By: Cameron Newton
+ * Created On: February 27th, 2018
+ * Description: Hold 2 lines that are determined to represent a pole
+ */
 
-#include <PoleDetection.h> //
-// Created by da-cam on 15/06/18.
-//
+#include <PoleDetection.h>
 
 PoleDetection::PoleDetection() {
     _m = 0;

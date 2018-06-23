@@ -1,6 +1,7 @@
 /*
  * Created By: Cameron Newton
  * Created On: February 27th, 2018
+ * Set up environment for GateDetectionNode
  */
 
 #include "GateDetectionNode.h"

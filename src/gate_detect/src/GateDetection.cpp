@@ -1,3 +1,10 @@
+/*
+ * Created By: Cameron Newton
+ * Created On: February 27th, 2018
+ * Description: Filter through image and determine if gate is in image and how
+ * far away it is
+ */
+
 #include "GateDetection.h"
 
 GateDetection::GateDetection(int cannyLow,

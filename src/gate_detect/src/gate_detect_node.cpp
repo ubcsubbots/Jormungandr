@@ -1,6 +1,8 @@
-//
-// Created by da-cam on 28/02/18.
-//
+/*
+ * Created By: Cameron Newton
+ * Created On: February 27th, 2018
+ * Description: Initialize ros node
+ */
 
 #include "GateDetectionNode.h"
 

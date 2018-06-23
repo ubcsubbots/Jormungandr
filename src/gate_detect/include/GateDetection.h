@@ -1,6 +1,7 @@
-//
-// Created by da-cam on 20/02/18.
-//
+/*
+ * Created By: Cameron Newton
+ * Created On: February 27th, 2018
+ */
 
 #ifndef PROJECT_GATE_H
 #define PROJECT_GATE_H

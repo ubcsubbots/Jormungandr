@@ -1,6 +1,7 @@
-//
-// Created by da-cam on 15/06/18.
-//
+/*
+ * Created By: Cameron Newton
+ * Created On: February 27th, 2018
+ */
 
 #ifndef PROJECT_POLE_H
 #define PROJECT_POLE_H
