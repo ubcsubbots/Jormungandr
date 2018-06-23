@@ -20,7 +20,7 @@ generate_dynamic_reconfigure_options(
 
 add_message_files(
 		FILES
-		gateDetectMsg.msg
+		GateDetectMsg.msg
 )
 
 generate_messages(
@@ -44,11 +44,15 @@ include_directories(
 )
 
 add_executable(gate_detect
-		src/GateDetectNode.cpp
-		src/gateDetect.cpp
-		src/Gate.cpp
-		include/GateDetectNode.h
-		include/Gate.h)
+        src/GateDetectionNode.cpp
+		src/gate_detect_node.cpp
+        src/GateDetection.cpp
+        include/GateDetectionNode.h
+		include/GateDetection.h
+		include/PoleDetection.h
+		src/PoleDetection.cpp
+		test/testUtilities/TestUtils.h
+		test/testUtilities/TestUtils.cpp)
 
 target_link_libraries(gate_detect
 		${catkin_LIBRARIES}
@@ -61,8 +65,13 @@ add_dependencies(gate_detect gate_detect_generate_messages_cpp)
 
 if (CATKIN_ENABLE_TESTING)
 	# Adding gtests to the package
-	catkin_add_gtest(gateDetectTest test/gateDetectTest.cpp src/Gate.cpp test/Testutils.cpp test/TestUtils.h)
-	target_link_libraries(gateDetectTest ${catkin_LIBRARIES} ${OpenCV_LIBS})
+	catkin_add_gtest(gate-detection-test test/gate-detection-test.cpp src/GateDetection.cpp test/testUtilities/TestUtils.cpp src/PoleDetection.cpp
+			WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+	target_link_libraries(gate-detection-test ${catkin_LIBRARIES} ${OpenCV_LIBS})
+
+	catkin_add_gtest(gate-detect-msg-test test/gate-detection-msg-test.cpp)
+	target_link_libraries(gate-detect-msg-test ${catkin_LIBRARIES})
+	add_dependencies(gate-detect-msg-test gate_detect_generate_messages_cpp)
 endif()
 
 

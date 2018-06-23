@@ -4,11 +4,11 @@
  * Description: A test to confirm that gateDetectMsg will build
  */
 
-#include <gate_detect/gateDetectMsg.h>
+#include <gate_detect/GateDetectMsg.h>
 #include <gtest/gtest.h>
 
 TEST(gate_detect, addMessage) {
-    gate_detect::gateDetectMsg msg;
+    gate_detect::GateDetectMsg msg;
 
     msg.detectLeft    = 1;
     msg.angleLeft     = 2.0f;
