@@ -18,7 +18,7 @@ void LineUpWithGate::balance(const geometry_msgs::Twist::ConstPtr& msg) {
 }
 
 void LineUpWithGate::decisionCallback(
-const gate_detect::gateDetectMsg::ConstPtr& msg) {
+const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // logic: given the location of the poles, try to put ourselves centred in
     // front
 

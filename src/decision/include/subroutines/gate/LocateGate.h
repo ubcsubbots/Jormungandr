@@ -9,7 +9,7 @@
 #define DECISION_LOCATEGATE_H
 
 #include "Subroutine.h"
-#include <gate_detect/gateDetectMsg.h>
+#include <gate_detect/GateDetectMsg.h>
 
 /*
  * Subroutine: LocateGate
@@ -24,7 +24,7 @@ class LocateGate : public Subroutine {
     void setupSubscriptions(ros::NodeHandle nh) override;
 
   private:
-    void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
+    void decisionCallback(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 
 #endif // DECISION_LOCATEGATE_H
