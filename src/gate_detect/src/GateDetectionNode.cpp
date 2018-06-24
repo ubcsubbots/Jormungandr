@@ -85,8 +85,7 @@ void GateDetectionNode::publishGateImage(std::vector<float> gateVector) {
 
     cv::cvtColor(lineImg, colourMat, CV_GRAY2BGR);
 
-    colourMat =
-    TestUtils::drawGate(colourMat, gateVector, colourMat.cols, colourMat.rows);
+    colourMat = TestUtils::drawGate(colourMat, gateVector);
 
     cv_bridge::CvImage out_msg;
     out_msg.header =

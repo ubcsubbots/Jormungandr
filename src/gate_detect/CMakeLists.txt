@@ -41,6 +41,7 @@ include_directories(
 	${catkin_INCLUDE_DIRS}
 	${Open_CV_NCLUDE_DIRS}
 	./include
+		./test/testUtilities
 )
 
 add_executable(gate_detect

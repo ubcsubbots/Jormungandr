@@ -1,6 +1,8 @@
 /*
  * Created By: Cameron Newton
  * Created On: February 27th, 2018
+ * Description: Class to scan cv::Mat object and return 9 parameter vector
+ * defining where gate is seen on cv::Mat
  */
 
 #ifndef PROJECT_GATE_H
@@ -21,15 +23,20 @@ class GateDetection {
 
     GateDetection();
 
-    /*
-     * Function to be called on cv::Mat to find vertical poles and horizontal
-     * poles
+    /**
+     * Function that takes in cv::Mat object and returns vector defining where
+     * gate is seen
      *
-     * mat : cv::Mat potentially containing a gate
+     * @param mat_in
+     * @return vector defining where gate is seen (definition in getGateVector
+     * comment)
      */
-    std::vector<float> initialize(const cv::Mat matin);
+    std::vector<float> initialize(const cv::Mat mat_in);
 
   private:
+    // Parameters defining the maximum deviation from begining to end that a
+    // line can have to still be considered
+    // Vertical or horizontal
     int _lowVertThresh, _lowHorThresh;
 
     /*
@@ -76,6 +83,11 @@ class GateDetection {
      * Constants defining relationship
      * between pixel width and distance
      * gathered from calibration
+     *  y = m * x + b
+     *
+     *  y = Distance from pole
+     *
+     *  x = pixel width of pole
      */
     float m_Hor, m_Vert, b_Hor, b_Vert;
 
@@ -92,11 +104,11 @@ class GateDetection {
      *
      *          yo = y coordinate of start of line
      *
-     *          xf = end coordinate of end of line
+     *          xf = x coordinate of end of line
      *
-     *          yf = end coordinate of end of line
+     *          yf = y coordinate of end of line
      *
-     * @return  Vector of all cv::Vec4i lines that are horizontal
+     * @return  Vector of all lines that are horizontal
      */
     std::vector<cv::Vec4i> filterHorLines(std::vector<cv::Vec4i> allLines);
 
@@ -113,11 +125,11 @@ class GateDetection {
      *
      *          yo = y coordinate of start of line
      *
-     *          xf = end coordinate of end of line
+     *          xf = x coordinate of end of line
      *
-     *          yf = end coordinate of end of line
+     *          yf = y coordinate of end of line
      *
-     *  @return Vector of all cv::Vec4i lines that are vertical
+     *  @return Vector of all lines that are vertical
      */
     std::vector<cv::Vec4i> filterVertLines(std::vector<cv::Vec4i> allLines);
 

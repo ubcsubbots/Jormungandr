@@ -1,3 +1,9 @@
+/*
+ * Created By: Cameron Newton
+ * Created On: June 16th, 2018
+ * Description: Utilities to aid in debugging GateDetection module
+ */
+
 #include "TestUtils.h"
 #include <iostream>
 
@@ -15,17 +21,17 @@ void TestUtils::DisplayGateDetected(cv::Mat mat, std::vector<float> floatVec) {
     int leftPole, rightPole, topPole;
 
     leftPole =
-    (1855 / 2) -
+    (mat.cols / 2) -
     ((sin(floatVec[2]) * floatVec[1] * ((floatVec[1] - 5.134) / -0.002673)) /
      (.3048 / 4));
 
-    rightPole = ((1855 / 2) - ((sin(floatVec[5]) * floatVec[4] * 4.0 *
-                                ((floatVec[4] - 5.134) / -0.002673)) /
-                               (.3048)));
-
-    topPole = (int) ((1056 / 2) - ((sin(floatVec[8]) * floatVec[7] * 4.0 *
-                                    ((floatVec[7] - 5.134) / -0.002673)) /
+    rightPole = ((mat.cols / 2) - ((sin(floatVec[5]) * floatVec[4] * 4.0 *
+                                    ((floatVec[4] - 5.134) / -0.002673)) /
                                    (.3048)));
+
+    topPole = (int) ((mat.rows / 2) - ((sin(floatVec[8]) * floatVec[7] * 4.0 *
+                                        ((floatVec[7] - 5.134) / -0.002673)) /
+                                       (.3048)));
 
     cv::line(mat,
              cv::Point(leftPole, 0),
@@ -50,24 +56,21 @@ void TestUtils::DisplayGateDetected(cv::Mat mat, std::vector<float> floatVec) {
     cv::waitKey(0);
 }
 
-cv::Mat TestUtils::drawGate(cv::Mat image,
-                            std::vector<float> floatVec,
-                            int imgWidth,
-                            int imgHeight) {
+cv::Mat TestUtils::drawGate(cv::Mat image, std::vector<float> floatVec) {
     int leftPole, rightPole, topPole;
 
     leftPole =
-    (imgWidth / 2) -
+    (image.cols / 2) -
     ((sin(floatVec[2]) * floatVec[1] * ((floatVec[1] - 5.134) / -0.002673)) /
      (.3048 / 4));
 
-    rightPole = ((imgWidth / 2) - ((sin(floatVec[5]) * floatVec[4] * 4.0 *
-                                    ((floatVec[4] - 5.134) / -0.002673)) /
-                                   (.3048)));
+    rightPole = ((image.cols / 2) - ((sin(floatVec[5]) * floatVec[4] * 4.0 *
+                                      ((floatVec[4] - 5.134) / -0.002673)) /
+                                     (.3048)));
 
-    topPole = (int) ((imgHeight / 2) - ((sin(floatVec[8]) * floatVec[7] * 4.0 *
-                                         ((floatVec[7] - 5.134) / -0.002673)) /
-                                        (.3048)));
+    topPole = (int) ((image.rows / 2) - ((sin(floatVec[8]) * floatVec[7] * 4.0 *
+                                          ((floatVec[7] - 5.134) / -0.002673)) /
+                                         (.3048)));
 
     cv::line(image,
              cv::Point(leftPole, 0),

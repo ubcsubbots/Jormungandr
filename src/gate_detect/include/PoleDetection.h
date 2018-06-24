@@ -11,9 +11,6 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 class PoleDetection {
-    cv::Vec4i _side1, _side2;
-    float _m, _b;
-
   public:
     PoleDetection();
 
@@ -47,6 +44,21 @@ class PoleDetection {
     float getVertAngle(int pixelDistanceFromMid);
 
     float getHorAngle(int pixelDistanceFromMid);
+
+  private:
+    cv::Vec4i _side1, _side2;
+
+    /*
+ * Constants defining relationship
+ * between pixel width and distance
+ * gathered from calibration
+ *  y = m * x + b
+ *
+ *  y = Distance from pole
+ *
+ *  x = pixel width of pole
+ */
+    float _m, _b;
 };
 
 #endif // PROJECT_POLE_H
