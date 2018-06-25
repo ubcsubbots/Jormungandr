@@ -10,9 +10,9 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-class PoleDetection {
+class Pole {
   public:
-    PoleDetection();
+    Pole();
 
     /**
      * Object representing a detected Pole, horizontal or vertical
@@ -27,7 +27,7 @@ class PoleDetection {
      *
      *                  x = pixel width of pole
      */
-    PoleDetection(cv::Vec4i side1, cv::Vec4i side2, float m, float b);
+    Pole(cv::Vec4i side1, cv::Vec4i side2, float m, float b);
 
     int getVertMid();
 
@@ -58,7 +58,7 @@ class PoleDetection {
  *
  *  x = pixel width of pole
  */
-    float _m, _b;
+    float _interpolationConstant1, _interpolationConstant2;
 };
 
 #endif // PROJECT_POLE_H

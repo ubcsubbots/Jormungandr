@@ -1,10 +1,10 @@
 /*
  * Created By: Cameron Newton
  * Created On: June 16th, 2018
- * Description: Utilities to aid in debugging GateDetection module
+ * Description: Utilities to aid in debugging GateDetector module
  */
 
-#include "GateDetection.h"
+#include "../../include/GateDetector.h"
 
 #ifndef PROJECT_TESTUTILS_H
 #define PROJECT_TESTUTILS_H
@@ -18,7 +18,8 @@ class TestUtils {
      * @param mat
      * @param floatVec
      */
-    static void DisplayGateDetected(cv::Mat mat, std::vector<float> floatVec);
+    static void DisplayGateCoordinates(cv::Mat mat,
+                                       std::vector<float> floatVec);
 
     /**
      *

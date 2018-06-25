@@ -13,7 +13,7 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     ros::NodeHandle private_nh("~");
     image_transport::ImageTransport it(nh);
 
-    std::string subscribeTopic = "/camera/image_raw";
+    std::string subscribeTopic = "/uwsim/camera2";
     std::string publishTopic   = "/vision/output";
 
     dynamic_reconfigure::Server<vision::hsvConfig> server;

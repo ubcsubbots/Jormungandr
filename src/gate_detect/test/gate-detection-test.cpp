@@ -1,10 +1,10 @@
 /*
  * Created By: Cameron Newton
  * Created On: May 5th, 2018
- * Description: Test functionality of GateDetection
+ * Description: Test functionality of GateDetector
  */
 
-#include "GateDetection.h"
+#include "GateDetector.h"
 #include "testUtilities/TestUtils.h"
 #include <gtest/gtest.h>
 
@@ -23,12 +23,12 @@ TEST(TestSuite, testCase1) {
         FAIL();
     }
 
-    GateDetection gateDetection;
+    GateDetector GateDetector;
 
-    std::vector<float> floater = gateDetection.initialize(image);
+    std::vector<float> floater = GateDetector.initialize(image);
 
     // Uncomment to view gate drawn over image
-    // TestUtils::DisplayGateDetected(image,floater);
+    // TestUtils::DisplayGateCoordinates(image,floater);
 }
 
 TEST(TestSuite, testCase2) {
@@ -43,12 +43,12 @@ TEST(TestSuite, testCase2) {
         FAIL();
     }
 
-    GateDetection gateDetection;
+    GateDetector GateDetector;
 
-    std::vector<float> floater = gateDetection.initialize(image);
+    std::vector<float> floater = GateDetector.initialize(image);
 
     // Uncomment to view gate drawn over image
-    // TestUtils::DisplayGateDetected(image,floater);
+    // TestUtils::DisplayGateCoordinates(image,floater);
 }
 
 TEST(TestSuite, testCase3) {
@@ -63,11 +63,11 @@ TEST(TestSuite, testCase3) {
         FAIL();
     }
 
-    GateDetection gateDetection;
-    vector<float> floater = gateDetection.initialize(image);
+    GateDetector GateDetector;
+    vector<float> floater = GateDetector.initialize(image);
 
     // Uncomment to view gate drawn over image
-    // TestUtils::DisplayGateDetected(image,floater);
+    // TestUtils::DisplayGateCoordinates(image,floater);
 }
 
 TEST(TestSuite, testCase4) {
@@ -82,11 +82,11 @@ TEST(TestSuite, testCase4) {
         FAIL();
     }
 
-    GateDetection gateDetection;
-    vector<float> floater = gateDetection.initialize(image);
+    GateDetector GateDetector;
+    vector<float> floater = GateDetector.initialize(image);
 
-    // Uncomment to view gateDetection drawn over image
-    // TestUtils::DisplayGateDetected(image,floater);
+    // Uncomment to view GateDetector drawn over image
+    // TestUtils::DisplayGateCoordinates(image,floater);
 }
 
 TEST(TestSuite, testCase5) {
@@ -101,11 +101,11 @@ TEST(TestSuite, testCase5) {
         FAIL();
     }
 
-    GateDetection gateDetection;
-    std::vector<float> floater = gateDetection.initialize(image);
+    GateDetector GateDetector;
+    std::vector<float> floater = GateDetector.initialize(image);
 
     // Uncomment to view gate drawn over image
-    // TestUtils::DisplayGateDetected(image,floater);
+    // TestUtils::DisplayGateCoordinates(image,floater);
 }
 
 TEST(TestSuite, testCase6) {
@@ -120,11 +120,11 @@ TEST(TestSuite, testCase6) {
         FAIL();
     }
 
-    GateDetection gateDetection;
-    std::vector<float> floater = gateDetection.initialize(image);
+    GateDetector GateDetector;
+    std::vector<float> floater = GateDetector.initialize(image);
 
     // Uncomment to view gate drawn over image
-    // TestUtils::DisplayGateDetected(image,floater);
+    // TestUtils::DisplayGateCoordinates(image,floater);
 }
 
 int main(int argc, char** argv) {

@@ -4,14 +4,14 @@
  * Description: Initialize ros node
  */
 
-#include "GateDetectionNode.h"
+#include "GateDetectorNode.h"
 
 using namespace cv;
 
 int main(int argc, char** argv) {
     ros::init(argc, argv, "gate_detect_node");
 
-    GateDetectionNode gateDetect = GateDetectionNode(argc, argv);
+    GateDetectorNode gateDetect = GateDetectorNode(argc, argv);
 
     return 0;
 }

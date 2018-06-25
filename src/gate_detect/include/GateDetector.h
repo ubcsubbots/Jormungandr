@@ -8,30 +8,82 @@
 #ifndef PROJECT_GATE_H
 #define PROJECT_GATE_H
 
-#include "PoleDetection.h"
+#include "Pole.h"
 #include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-class GateDetection {
-  public:
-    GateDetection(int cannyLow,
-                  int houghLinesThreshold,
-                  int houghLinesMinLength,
-                  int houghLinesMaxLineGap,
-                  int poleMax);
+/**
+* [detectedLeft, distanceLeft, angleLeft, detectedRight,
+*          distanceRight, angleRight, detectedTop, distanceTop, angleTop]
+*
+*          detectedLeft:   0 if left pole not seen, 1 if seen
+*
+*          angleLeft:      Angle from vertical centre to left pole
+*
+*          distanceLeft:   Distance to left pole, 0 if not seen
+*
+*          detectedRight:  0 if right pole not seen, 1 if seen
+*
+*          angleRight:     Angle from right centre to left pole
+*
+*          distanceRight:  Distance to right pole, 0 if not seen
+*
+*          detectedTop:    0 if top pole not seen, 1 if seen
+*
+*          angleTop:       Angle from horizontal centre to top pole
+*
+*          distanceTop:    Distance to top pole, 0 if not seen
+*
+*/
+struct GateCoordinates {
+    float detectedLeft;
+    float angleLeft;
+    float distanceLeft;
+    float detectedRight;
+    float angleRight;
+    float distanceRight;
+    float detectedTop;
+    float angleTop;
+    float distanceTop;
+};
 
-    GateDetection();
+static GateCoordinates defaultGateCoordinates() {
+    GateCoordinates gateCoordinates;
+
+    gateCoordinates.distanceTop   = 0.0f;
+    gateCoordinates.angleTop      = 0.0f;
+    gateCoordinates.detectedTop   = 0.0f;
+    gateCoordinates.distanceLeft  = 0.0f;
+    gateCoordinates.angleLeft     = 0.0f;
+    gateCoordinates.distanceLeft  = 0.0f;
+    gateCoordinates.distanceRight = 0.0f;
+    gateCoordinates.angleRight    = 0.0f;
+    gateCoordinates.detectedRight = 0.0f;
+
+    return gateCoordinates;
+}
+
+class GateDetector {
+  public:
+    GateDetector(int cannyLow,
+                 int houghLinesThreshold,
+                 int houghLinesMinLength,
+                 int houghLinesMaxLineGap,
+                 int poleMax);
+
+    GateDetector();
 
     /**
      * Function that takes in cv::Mat object and returns vector defining where
      * gate is seen
      *
      * @param mat_in
-     * @return vector defining where gate is seen (definition in getGateVector
+     * @return vector defining where gate is seen (definition in
+     * getGateCoordinates
      * comment)
      */
-    std::vector<float> initialize(const cv::Mat mat_in);
+    GateCoordinates initialize(const cv::Mat mat_in);
 
   private:
     // Parameters defining the maximum deviation from begining to end that a
@@ -89,7 +141,8 @@ class GateDetection {
      *
      *  x = pixel width of pole
      */
-    float m_Hor, m_Vert, b_Hor, b_Vert;
+    float _VertInterpolationConstant2, _HorInterpolationConstant2,
+    _VertInterpolationConstant1, _HorInterpolationConstant1;
 
     /**
      * Function to filter through vector of cv::Vector4i objects and filter out
@@ -142,7 +195,7 @@ class GateDetection {
      *  @return  Vector of PoleDetection objects that represent Poles that have
      * been detected
      */
-    std::vector<PoleDetection> findHorPoles(std::vector<cv::Vec4i> horLines);
+    std::vector<Pole> findHorPoles(std::vector<cv::Vec4i> horLines);
 
     /**
      * Function to filter through vector of cv::Vector4i objects and filter out
@@ -153,7 +206,7 @@ class GateDetection {
      *  @return  Vector of PoleDetection objects that represent Poles that have
      * been detected
      */
-    std::vector<PoleDetection> findVertPoles(std::vector<cv::Vec4i> vertLines);
+    std::vector<Pole> findVertPoles(std::vector<cv::Vec4i> vertLines);
 
     /**
      * Function to filter through set of vertical and horizontal poles to
@@ -165,29 +218,9 @@ class GateDetection {
      *
      *  @return vector of parameters of detected gate
      *
-     *          [detectedLeft, distanceLeft, angleLeft, detectedRight,
-     *          distanceRight, angleRight, detectedTop, distanceTop, angleTop]
-     *
-     *          detectedLeft:   0 if left pole not seen, 1 if seen
-     *
-     *          angleLeft:      Angle from vertical centre to left pole
-     *
-     *          distanceLeft:   Distance to left pole, 0 if not seen
-     *
-     *          detectedRight:  0 if right pole not seen, 1 if seen
-     *
-     *          angleRight:     Angle from right centre to left pole
-     *
-     *          distanceRight:  Distance to right pole, 0 if not seen
-     *
-     *          detectedTop:    0 if top pole not seen, 1 if seen
-     *
-     *          angleTop:       Angle from horizontal centre to top pole
-     *
-     *          distanceTop:    Distance to top pole, 0 if not seen
      */
-    std::vector<float> getGateVector(std::vector<PoleDetection> vertPoles,
-                                     std::vector<PoleDetection> horPoles);
+    GateCoordinates getGateCoordinates(std::vector<Pole> vertPoles,
+                                       std::vector<Pole> horPoles);
 };
 
 #endif // PROJECT_GATE_H

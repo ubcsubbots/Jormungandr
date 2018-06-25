@@ -8,7 +8,7 @@
 #ifndef GATE_DETECT_GATEDETECT_H
 #define GATE_DETECT_GATEDETECT_H
 
-#include "GateDetection.h"
+#include "GateDetector.h"
 #include "TestUtils.h"
 #include <cv_bridge/cv_bridge.h>
 #include <dynamic_reconfigure/server.h>
@@ -19,9 +19,9 @@
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
 
-class GateDetectionNode {
+class GateDetectorNode {
   public:
-    GateDetectionNode(int argc, char** argv);
+    GateDetectorNode(int argc, char** argv);
 
   private:
     image_transport::Subscriber subscriber_;
@@ -30,7 +30,7 @@ class GateDetectionNode {
     std::string subscribeTopic;
     std::string publishTopic;
     cv::Mat lineImg;
-    GateDetection gateDetection;
+    GateDetector _gateDetector;
 
     /**
      * Image callback function
@@ -52,7 +52,7 @@ class GateDetectionNode {
     /**
      * Publish gate seen by node
      *
-     * @param gateVector vector defining gate seen by node
+     * @param GateCoordinates vector defining gate seen by node
      *
      *          [detectedLeft, distanceLeft, angleLeft, detectedRight,
      *          distanceRight, angleRight, detectedTop, distanceTop, angleTop]
@@ -75,11 +75,11 @@ class GateDetectionNode {
      *
      *          distanceTop:    Distance to top pole, 0 if not seen
      */
-    void publishGateDetectMsg(const std::vector<float> gateVector);
+    void publishGateDetectMsg(const GateCoordinates gateCoordinates);
 
     /**
      * Publish image of gate seen by node, use for testing
-     * @param gateVector vector containing parameters of gate seen
+     * @param GateCoordinates vector containing parameters of gate seen
      *
      *          [detectedLeft, distanceLeft, angleLeft, detectedRight,
      *          distanceRight, angleRight, detectedTop, distanceTop, angleTop]
@@ -102,7 +102,7 @@ class GateDetectionNode {
      *
      *          distanceTop:    Distance to top pole, 0 if not seen
      */
-    void publishGateImage(std::vector<float> gateVector);
+    void publishGateImage(std::vector<float> GateCoordinates);
 };
 
 #endif // GATE_DETECT_GATEDETECT_H

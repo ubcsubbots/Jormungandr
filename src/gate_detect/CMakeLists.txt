@@ -45,13 +45,13 @@ include_directories(
 )
 
 add_executable(gate_detect
-        src/GateDetectionNode.cpp
+        src/GateDetectorNode.cpp
 		src/gate_detect_node.cpp
-        src/GateDetection.cpp
-        include/GateDetectionNode.h
-		include/GateDetection.h
-		include/PoleDetection.h
-		src/PoleDetection.cpp
+		src/GateDetector.cpp
+        include/GateDetectorNode.h
+		include/GateDetector.h
+        include/Pole.h
+        src/Pole.cpp
 		test/testUtilities/TestUtils.h
 		test/testUtilities/TestUtils.cpp)
 
@@ -66,7 +66,7 @@ add_dependencies(gate_detect gate_detect_generate_messages_cpp)
 
 if (CATKIN_ENABLE_TESTING)
 	# Adding gtests to the package
-	catkin_add_gtest(gate-detection-test test/gate-detection-test.cpp src/GateDetection.cpp test/testUtilities/TestUtils.cpp src/PoleDetection.cpp
+	catkin_add_gtest(gate-detection-test test/gate-detection-test.cpp src/GateDetector.cpp test/testUtilities/TestUtils.cpp src/Pole.cpp
 			WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
 	target_link_libraries(gate-detection-test ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
