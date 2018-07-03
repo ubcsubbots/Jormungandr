@@ -32,14 +32,15 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // we should integrate IMU in here for info such as if parallel with ground,
     // etc.
 
-    if (msg->distanceRight > msg->distanceLeft) {
+    if (msg->distanceRightPole > msg->distanceLeftPole) {
         y_linear = RIGHT;
     } else {
         y_linear = LEFT;
     }
 
-    if (!(std::abs(msg->distanceTop * sin(msg->angleTop)) > CLEARANCE_HEIGHT &&
-          msg->angleTop < 0)) {
+    if (!(std::abs(msg->distanceTopPole * sin(msg->angleTopPole)) >
+          CLEARANCE_HEIGHT &&
+          msg->angleTopPole < 0)) {
         z_linear = DOWN;
     }
 

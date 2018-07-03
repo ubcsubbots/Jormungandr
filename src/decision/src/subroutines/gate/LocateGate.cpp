@@ -16,9 +16,9 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // logic: rotate on z to attempt to make the gate in view
     double z_rotation;
 
-    if (msg->detectLeft && !msg->detectRight) {
+    if (msg->detectedLeftPole && !msg->detectedRightPole) {
         z_rotation = RIGHT;
-    } else if (msg->detectRight && !msg->detectLeft) {
+    } else if (msg->detectedRightPole && !msg->detectedLeftPole) {
         z_rotation = LEFT;
     } else {
         z_rotation = RIGHT * 2;

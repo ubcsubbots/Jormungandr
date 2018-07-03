@@ -10,15 +10,15 @@
 TEST(gate_detect, addMessage) {
     gate_detect::GateDetectMsg msg;
 
-    msg.detectLeft    = 1;
-    msg.angleLeft     = 2.0f;
-    msg.distanceLeft  = 2.0f;
-    msg.detectRight   = 1;
-    msg.angleRight    = 2.0f;
-    msg.distanceRight = 2.0f;
-    msg.detectTop     = 1;
-    msg.angleTop      = 2.0f;
-    msg.distanceTop   = 2.0f;
+    msg.detectedLeftPole  = 1;
+    msg.angleLeftPole     = 2.0f;
+    msg.distanceLeftPole  = 2.0f;
+    msg.detectedRightPole = 1;
+    msg.angleRightPole    = 2.0f;
+    msg.distanceRightPole = 2.0f;
+    msg.detectedTopPole   = 1;
+    msg.angleTopPole      = 2.0f;
+    msg.distanceTopPole   = 2.0f;
 }
 
 int main(int argc, char** argv) {

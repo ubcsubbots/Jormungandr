@@ -14,52 +14,53 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 /**
-* [detectedLeft, distanceLeft, angleLeft, detectedRight,
-*          distanceRight, angleRight, detectedTop, distanceTop, angleTop]
+* [detectedLeftPole, distanceLeftPole, angleLeftPole, detectedRightPole,
+*          distanceRightPole, angleRightPole, detectedTopPole, distanceTopPole,
+* angleTopPole]
 *
-*          detectedLeft:   0 if left pole not seen, 1 if seen
+*          detectedLeftPole:   0 if left pole not seen, 1 if seen
 *
-*          angleLeft:      Angle from vertical centre to left pole
+*          angleLeftPole:      Angle from vertical centre to left pole
 *
-*          distanceLeft:   Distance to left pole, 0 if not seen
+*          distanceLeftPole:   Distance to left pole, 0 if not seen
 *
-*          detectedRight:  0 if right pole not seen, 1 if seen
+*          detectedRightPole:  0 if right pole not seen, 1 if seen
 *
-*          angleRight:     Angle from right centre to left pole
+*          angleRightPole:     Angle from right centre to left pole
 *
-*          distanceRight:  Distance to right pole, 0 if not seen
+*          distanceRightPole:  Distance to right pole, 0 if not seen
 *
-*          detectedTop:    0 if top pole not seen, 1 if seen
+*          detectedTopPole:    0 if top pole not seen, 1 if seen
 *
-*          angleTop:       Angle from horizontal centre to top pole
+*          angleTopPole:       Angle from horizontal centre to top pole
 *
-*          distanceTop:    Distance to top pole, 0 if not seen
+*          distanceTopPole:    Distance to top pole, 0 if not seen
 *
 */
 struct GateCoordinates {
-    float detectedLeft;
-    float angleLeft;
-    float distanceLeft;
-    float detectedRight;
-    float angleRight;
-    float distanceRight;
-    float detectedTop;
-    float angleTop;
-    float distanceTop;
+    float detectedLeftPole;
+    float angleLeftPole;
+    float distanceLeftPole;
+    float detectedRightPole;
+    float angleRightPole;
+    float distanceRightPole;
+    float detectedTopPole;
+    float angleTopPole;
+    float distanceTopPole;
 };
 
 static GateCoordinates defaultGateCoordinates() {
     GateCoordinates gateCoordinates;
 
-    gateCoordinates.distanceTop   = 0.0f;
-    gateCoordinates.angleTop      = 0.0f;
-    gateCoordinates.detectedTop   = 0.0f;
-    gateCoordinates.distanceLeft  = 0.0f;
-    gateCoordinates.angleLeft     = 0.0f;
-    gateCoordinates.distanceLeft  = 0.0f;
-    gateCoordinates.distanceRight = 0.0f;
-    gateCoordinates.angleRight    = 0.0f;
-    gateCoordinates.detectedRight = 0.0f;
+    gateCoordinates.distanceTopPole   = 0.0f;
+    gateCoordinates.angleTopPole      = 0.0f;
+    gateCoordinates.detectedTopPole   = 0.0f;
+    gateCoordinates.distanceLeftPole  = 0.0f;
+    gateCoordinates.angleLeftPole     = 0.0f;
+    gateCoordinates.distanceLeftPole  = 0.0f;
+    gateCoordinates.distanceRightPole = 0.0f;
+    gateCoordinates.angleRightPole    = 0.0f;
+    gateCoordinates.detectedRightPole = 0.0f;
 
     return gateCoordinates;
 }
@@ -89,32 +90,32 @@ class GateDetector {
     // Parameters defining the maximum deviation from begining to end that a
     // line can have to still be considered
     // Vertical or horizontal
-    int _lowVertThresh, _lowHorThresh;
+    int lowVertThresh_, lowHorThresh_;
 
     /*
-    * Canny( detected_edges, detected_edges, _cannyLow, lowThreshold*ratio,
+    * Canny( detected_edges, detected_edges, cannyLow_, lowThreshold*ratio,
     * kernel_size );
     *
     * Where the arguments are:
     *
     * detected_edges: Source image, grayscale
     * detected_edges: Output of the detector (can be the same as the input)
-    * _cannyLow: The value entered by the user moving the Trackbar
+    * cannyLow_: The value entered by the user moving the Trackbar
     * highThreshold: Set in the program as three times the lower threshold
     * (following Canny's recommendation)
     * kernel_size: We defined it to be 3 (the size of the Sobel kernel to be
     * used internally)
     */
-    int _cannyLow;
+    int cannyLow_;
 
     // Maximum separation for two lines to be called a pole
-    int _poleMax;
+    int poleMax_;
 
     // Input image Parameters
-    int _imagePixelWidth, _imagePixelHeight;
+    int imagePixelWidth_, imagePixelHeight_;
 
     /*
-    * HoughLinesP(dst,detectedLines,rho,theta,_houghLinesThreshold,_houghLinesMinLength,_houghLinesMaxLineGap)
+    * HoughLinesP(dst,detectedLines,rho,theta,houghLinesThreshold_,houghLinesMinLength_,houghLinesMaxLineGap_)
     * dst: Output of the edge detector. It should be a grayscale image (although
     * in fact it is a binary one)
     * detectedLines : A vector that will store the parameters (x_{start},
@@ -122,14 +123,14 @@ class GateDetector {
     * rho : The resolution of the parameter r in pixels. We use 1 pixel.
     * theta: The resolution of the parameter \theta in radians. We use 1 degree
     * (CV_PI/180)
-    * _houghLinesThreshold: The minimum number of intersections to “detect” a
+    * houghLinesThreshold_: The minimum number of intersections to “detect” a
     * line
-    * _houghLinesMinLength: The minimum number of points that can form a line.
+    * houghLinesMinLength_: The minimum number of points that can form a line.
     * Lines with less than this number of points are disregarded.
-    * _houghLinesMaxLineGap: The maximum gap between two points to be considered
+    * houghLinesMaxLineGap_: The maximum gap between two points to be considered
     * in the same line.
     */
-    int _houghLinesThreshold, _houghLinesMinLength, _houghLinesMaxLineGap;
+    int houghLinesThreshold_, houghLinesMinLength_, houghLinesMaxLineGap_;
 
     /*
      * Constants defining relationship
@@ -141,8 +142,8 @@ class GateDetector {
      *
      *  x = pixel width of pole
      */
-    float _VertInterpolationConstant2, _HorInterpolationConstant2,
-    _VertInterpolationConstant1, _HorInterpolationConstant1;
+    float VertInterpolationConstant2_, HorInterpolationConstant2_,
+    VertInterpolationConstant1_, HorInterpolationConstant1_;
 
     /**
      * Function to filter through vector of cv::Vector4i objects and filter out

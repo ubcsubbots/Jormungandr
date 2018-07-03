@@ -9,7 +9,7 @@
 #define GATE_DETECT_GATEDETECT_H
 
 #include "GateDetector.h"
-#include "TestUtils.h"
+#include "GateTestUtils.h"
 #include <cv_bridge/cv_bridge.h>
 #include <dynamic_reconfigure/server.h>
 #include <gate_detect/GateDetectMsg.h>
@@ -30,7 +30,7 @@ class GateDetectorNode {
     std::string subscribeTopic;
     std::string publishTopic;
     cv::Mat lineImg;
-    GateDetector _gateDetector;
+    GateDetector gateDetector_;
 
     /**
      * Image callback function
@@ -54,26 +54,28 @@ class GateDetectorNode {
      *
      * @param GateCoordinates vector defining gate seen by node
      *
-     *          [detectedLeft, distanceLeft, angleLeft, detectedRight,
-     *          distanceRight, angleRight, detectedTop, distanceTop, angleTop]
+     *          [detectedLeftPole, distanceLeftPole, angleLeftPole,
+     * detectedRightPole,
+     *          distanceRightPole, angleRightPole, detectedTopPole,
+     * distanceTopPole, angleTopPole]
      *
-     *          detectedLeft:   0 if left pole not seen, 1 if seen
+     *          detectedLeftPole:   0 if left pole not seen, 1 if seen
      *
-     *          angleLeft:      Angle from vertical centre to left pole
+     *          angleLeftPole:      Angle from vertical centre to left pole
      *
-     *          distanceLeft:   Distance to left pole, 0 if not seen
+     *          distanceLeftPole:   Distance to left pole, 0 if not seen
      *
-     *          detectedRight:  0 if right pole not seen, 1 if seen
+     *          detectedRightPole:  0 if right pole not seen, 1 if seen
      *
-     *          angleRight:     Angle from right centre to left pole
+     *          angleRightPole:     Angle from right centre to left pole
      *
-     *          distanceRight:  Distance to right pole, 0 if not seen
+     *          distanceRightPole:  Distance to right pole, 0 if not seen
      *
-     *          detectedTop:    0 if top pole not seen, 1 if seen
+     *          detectedTopPole:    0 if top pole not seen, 1 if seen
      *
-     *          angleTop:       Angle from horizontal centre to top pole
+     *          angleTopPole:       Angle from horizontal centre to top pole
      *
-     *          distanceTop:    Distance to top pole, 0 if not seen
+     *          distanceTopPole:    Distance to top pole, 0 if not seen
      */
     void publishGateDetectMsg(const GateCoordinates gateCoordinates);
 
@@ -81,28 +83,30 @@ class GateDetectorNode {
      * Publish image of gate seen by node, use for testing
      * @param GateCoordinates vector containing parameters of gate seen
      *
-     *          [detectedLeft, distanceLeft, angleLeft, detectedRight,
-     *          distanceRight, angleRight, detectedTop, distanceTop, angleTop]
+     *          [detectedLeftPole, distanceLeftPole, angleLeftPole,
+     * detectedRightPole,
+     *          distanceRightPole, angleRightPole, detectedTopPole,
+     * distanceTopPole, angleTopPole]
      *
-     *          detectedLeft:   0 if left pole not seen, 1 if seen
+     *          detectedLeftPole:   0 if left pole not seen, 1 if seen
      *
-     *          angleLeft:      Angle from vertical centre to left pole
+     *          angleLeftPole:      Angle from vertical centre to left pole
      *
-     *          distanceLeft:   Distance to left pole, 0 if not seen
+     *          distanceLeftPole:   Distance to left pole, 0 if not seen
      *
-     *          detectedRight:  0 if right pole not seen, 1 if seen
+     *          detectedRightPole:  0 if right pole not seen, 1 if seen
      *
-     *          angleRight:     Angle from right centre to left pole
+     *          angleRightPole:     Angle from right centre to left pole
      *
-     *          distanceRight:  Distance to right pole, 0 if not seen
+     *          distanceRightPole:  Distance to right pole, 0 if not seen
      *
-     *          detectedTop:    0 if top pole not seen, 1 if seen
+     *          detectedTopPole:    0 if top pole not seen, 1 if seen
      *
-     *          angleTop:       Angle from horizontal centre to top pole
+     *          angleTopPole:       Angle from horizontal centre to top pole
      *
-     *          distanceTop:    Distance to top pole, 0 if not seen
+     *          distanceTopPole:    Distance to top pole, 0 if not seen
      */
-    void publishGateImage(std::vector<float> GateCoordinates);
+    void publishGateImage(GateCoordinates gateCoordinates);
 };
 
 #endif // GATE_DETECT_GATEDETECT_H

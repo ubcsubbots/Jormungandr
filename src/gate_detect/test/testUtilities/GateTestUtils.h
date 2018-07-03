@@ -19,7 +19,7 @@ class TestUtils {
      * @param floatVec
      */
     static void DisplayGateCoordinates(cv::Mat mat,
-                                       std::vector<float> floatVec);
+                                       GateCoordinates gateCoordinates);
 
     /**
      *
@@ -30,7 +30,7 @@ class TestUtils {
      * @param imgHeight
      * @return
      */
-    static cv::Mat drawGate(cv::Mat image, std::vector<float> floatVec);
+    static cv::Mat drawGate(cv::Mat image, GateCoordinates gateCoordinates);
 };
 
 #endif // PROJECT_TESTUTILS_H

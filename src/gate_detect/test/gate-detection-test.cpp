@@ -5,7 +5,7 @@
  */
 
 #include "GateDetector.h"
-#include "testUtilities/TestUtils.h"
+#include "GateTestUtils.h"
 #include <gtest/gtest.h>
 
 using namespace cv;
@@ -25,7 +25,7 @@ TEST(TestSuite, testCase1) {
 
     GateDetector GateDetector;
 
-    std::vector<float> floater = GateDetector.initialize(image);
+    GateCoordinates gateCoordinates = GateDetector.initialize(image);
 
     // Uncomment to view gate drawn over image
     // TestUtils::DisplayGateCoordinates(image,floater);
@@ -45,7 +45,7 @@ TEST(TestSuite, testCase2) {
 
     GateDetector GateDetector;
 
-    std::vector<float> floater = GateDetector.initialize(image);
+    GateCoordinates gateCoordinates = GateDetector.initialize(image);
 
     // Uncomment to view gate drawn over image
     // TestUtils::DisplayGateCoordinates(image,floater);
@@ -64,7 +64,7 @@ TEST(TestSuite, testCase3) {
     }
 
     GateDetector GateDetector;
-    vector<float> floater = GateDetector.initialize(image);
+    GateCoordinates gateCoordinates = GateDetector.initialize(image);
 
     // Uncomment to view gate drawn over image
     // TestUtils::DisplayGateCoordinates(image,floater);
@@ -83,7 +83,7 @@ TEST(TestSuite, testCase4) {
     }
 
     GateDetector GateDetector;
-    vector<float> floater = GateDetector.initialize(image);
+    GateCoordinates gateCoordinates = GateDetector.initialize(image);
 
     // Uncomment to view GateDetector drawn over image
     // TestUtils::DisplayGateCoordinates(image,floater);
@@ -102,7 +102,7 @@ TEST(TestSuite, testCase5) {
     }
 
     GateDetector GateDetector;
-    std::vector<float> floater = GateDetector.initialize(image);
+    GateCoordinates gateCoordinates = GateDetector.initialize(image);
 
     // Uncomment to view gate drawn over image
     // TestUtils::DisplayGateCoordinates(image,floater);
@@ -121,7 +121,7 @@ TEST(TestSuite, testCase6) {
     }
 
     GateDetector GateDetector;
-    std::vector<float> floater = GateDetector.initialize(image);
+    GateCoordinates gateCoordinates = GateDetector.initialize(image);
 
     // Uncomment to view gate drawn over image
     // TestUtils::DisplayGateCoordinates(image,floater);

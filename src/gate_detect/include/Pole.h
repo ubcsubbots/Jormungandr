@@ -46,7 +46,7 @@ class Pole {
     float getHorAngle(int pixelDistanceFromMid);
 
   private:
-    cv::Vec4i _side1, _side2;
+    cv::Vec4i side1_, side2_;
 
     /*
  * Constants defining relationship
@@ -58,7 +58,7 @@ class Pole {
  *
  *  x = pixel width of pole
  */
-    float _interpolationConstant1, _interpolationConstant2;
+    float interpolationConstant1_, interpolationConstant2_;
 };
 
 #endif // PROJECT_POLE_H

@@ -7,45 +7,45 @@
 #include <Pole.h>
 
 Pole::Pole() {
-    _interpolationConstant1 = 0;
+    interpolationConstant1_ = 0;
 
-    _interpolationConstant2 = 0;
+    interpolationConstant2_ = 0;
 }
 
 Pole::Pole(cv::Vec4i side1, cv::Vec4i side2, float m, float b) {
-    _side1 = side1;
+    side1_ = side1;
 
-    _side2 = side2;
+    side2_ = side2;
 
-    _interpolationConstant1 = m;
+    interpolationConstant1_ = m;
 
-    _interpolationConstant2 = b;
+    interpolationConstant2_ = b;
 }
 
 int Pole::getVertMid() {
-    return (_side1[0] + _side1[2] + _side2[0] + _side2[2]) / 4;
+    return (side1_[0] + side1_[2] + side2_[0] + side2_[2]) / 4;
 }
 
 int Pole::getHorMid() {
-    return (_side1[1] + _side1[3] + _side2[1] + _side2[3]) / 4;
+    return (side1_[1] + side1_[3] + side2_[1] + side2_[3]) / 4;
 }
 
 int Pole::getVertWidth() {
-    return abs((_side1[0] + _side1[2] - _side2[0] - _side2[2]) / 2);
+    return abs((side1_[0] + side1_[2] - side2_[0] - side2_[2]) / 2);
 }
 
 int Pole::getHorWidth() {
-    return abs((_side1[1] + _side1[3] - _side2[1] - _side2[3]) / 2);
+    return abs((side1_[1] + side1_[3] - side2_[1] - side2_[3]) / 2);
 }
 
 float Pole::getVertDistance() {
-    return _interpolationConstant1 *
-           pow(getVertWidth(), _interpolationConstant2);
+    return interpolationConstant1_ *
+           pow(getVertWidth(), interpolationConstant2_);
 }
 
 float Pole::getHorDistance() {
-    return _interpolationConstant1 *
-           pow(getHorWidth(), _interpolationConstant2);
+    return interpolationConstant1_ *
+           pow(getHorWidth(), interpolationConstant2_);
 }
 
 float Pole::getVertAngle(int pixelWidthOfImage) {

@@ -20,7 +20,7 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     subscriber_ = it.subscribe(
     subscribeTopic, 2, &GateDetectorNode::subscriberCallBack, this);
 
-    _gateDetector = GateDetector();
+    gateDetector_ = GateDetector();
 
     f = boost::bind(&GateDetectorNode::reconfigCallBack, this, _1, _2);
     server.setCallback(f);
@@ -44,7 +44,7 @@ const sensor_msgs::ImageConstPtr& msg) {
 
     lineImg = cv_ptr->image;
 
-    GateCoordinates gateCoordinates = _gateDetector.initialize(lineImg);
+    GateCoordinates gateCoordinates = gateDetector_.initialize(lineImg);
 
     publishGateDetectMsg(gateCoordinates);
 
@@ -52,48 +52,48 @@ const sensor_msgs::ImageConstPtr& msg) {
     // publishGateImage(GateCoordinates);
 }
 
-void GateDetectorNode::publishGateDetectMsg(GateCoordinates GateCoordinatesIn) {
+void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
     gate_detect::GateDetectMsg msg;
 
-    if (GateCoordinatesIn.detectedLeft == 0.0) {
-        msg.detectLeft   = 0;
-        msg.angleLeft    = 0;
-        msg.distanceLeft = 0;
+    if (gateCoordinates.detectedLeftPole == 0.0) {
+        msg.detectedLeftPole = 0;
+        msg.angleLeftPole    = 0;
+        msg.distanceLeftPole = 0;
     } else {
-        msg.detectLeft   = 1;
-        msg.angleLeft    = GateCoordinatesIn.angleLeft;
-        msg.distanceLeft = GateCoordinatesIn.distanceLeft;
+        msg.detectedLeftPole = 1;
+        msg.angleLeftPole    = gateCoordinates.angleLeftPole;
+        msg.distanceLeftPole = gateCoordinates.distanceLeftPole;
     }
-    if (GateCoordinatesIn.angleRight == 0.0) {
-        msg.detectRight   = 0;
-        msg.angleRight    = 0;
-        msg.distanceRight = 0;
+    if (gateCoordinates.angleRightPole == 0.0) {
+        msg.detectedRightPole = 0;
+        msg.angleRightPole    = 0;
+        msg.distanceRightPole = 0;
 
     } else {
-        msg.detectRight   = 1;
-        msg.angleRight    = GateCoordinatesIn.angleRight;
-        msg.distanceRight = GateCoordinatesIn.distanceRight;
+        msg.detectedRightPole = 1;
+        msg.angleRightPole    = gateCoordinates.angleRightPole;
+        msg.distanceRightPole = gateCoordinates.distanceRightPole;
     }
-    if (GateCoordinatesIn.detectedTop == 0.0) {
-        msg.detectTop   = 0;
-        msg.angleTop    = 0;
-        msg.distanceTop = 0;
+    if (gateCoordinates.detectedTopPole == 0.0) {
+        msg.detectedTopPole = 0;
+        msg.angleTopPole    = 0;
+        msg.distanceTopPole = 0;
 
     } else {
-        msg.detectTop   = 1;
-        msg.angleTop    = GateCoordinatesIn.angleTop;
-        msg.distanceTop = GateCoordinatesIn.distanceTop;
+        msg.detectedTopPole = 1;
+        msg.angleTopPole    = gateCoordinates.angleTopPole;
+        msg.distanceTopPole = gateCoordinates.distanceTopPole;
     }
 
     publisher1_.publish(msg);
 }
 
-void GateDetectorNode::publishGateImage(std::vector<float> GateCoordinates) {
+void GateDetectorNode::publishGateImage(GateCoordinates gateCoordinates) {
     cv::Mat colourMat;
 
     cv::cvtColor(lineImg, colourMat, CV_GRAY2BGR);
 
-    colourMat = TestUtils::drawGate(colourMat, GateCoordinates);
+    colourMat = TestUtils::drawGate(colourMat, gateCoordinates);
 
     cv_bridge::CvImage out_msg;
     out_msg.header =
@@ -113,7 +113,7 @@ const gate_detect::gatedetectConfig& config, uint32_t level) {
              config.houghLinesMaxLineGap,
              config.poleMax);
 
-    _gateDetector = GateDetector(config.cannyLow,
+    gateDetector_ = GateDetector(config.cannyLow,
                                  config.houghLinesThreshold,
                                  config.houghLinesMinLength,
                                  config.houghLinesMaxLineGap,
