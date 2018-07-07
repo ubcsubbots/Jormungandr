@@ -39,7 +39,7 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     }
 
     if (!(std::abs(msg->distanceTopPole * sin(msg->angleTopPole)) >
-          CLEARANCE_HEIGHT &&
+          subbots::global_constants::CLEARANCE_WIDTH &&
           msg->angleTopPole < 0)) {
         z_linear = DOWN;
     }
