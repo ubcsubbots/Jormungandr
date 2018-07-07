@@ -49,7 +49,7 @@ const sensor_msgs::ImageConstPtr& msg) {
     publishGateDetectMsg(gateCoordinates);
 
     // Uncomment if you want to view gate seen by node
-    // publishGateImage(GateCoordinates);
+    publishGateImage(gateCoordinates);
 }
 
 void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {

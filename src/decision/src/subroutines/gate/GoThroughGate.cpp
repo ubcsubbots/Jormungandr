@@ -7,7 +7,13 @@
 #include "GoThroughGate.h"
 
 void GoThroughGate::setupSubscriptions(ros::NodeHandle nh) {
-    nh.subscribe("gate_location", 10, &GoThroughGate::decisionCallback, this);
+    subscriber_ = nh.subscribe(
+    "gateDetect/output", 10, &GoThroughGate::decisionCallback, this);
+}
+
+void GoThroughGate::sleep() {
+    publisher_.shutdown();
+    subscriber_.shutdown();
 }
 
 void GoThroughGate::decisionCallback(
@@ -15,8 +21,8 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // logic: just go forward
     double x_linear = FORWARD;
 
-    geometry_msgs::Twist command;
-    command.angular = makeVector(0.0, 0.0, 0.0);
-    command.linear  = makeVector(x_linear, 0.0, 0.0);
+    geometry_msgs::TwistStamped command;
+    command.twist.angular = makeVector(0.0, 0.0, 0.0);
+    command.twist.linear  = makeVector(x_linear, 0.0, 0.0);
     publishCommand(command);
 }

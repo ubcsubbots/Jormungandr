@@ -55,7 +55,7 @@ static GateCoordinates defaultGateCoordinates() {
     gateCoordinates.distanceTopPole   = 0.0f;
     gateCoordinates.angleTopPole      = 0.0f;
     gateCoordinates.detectedTopPole   = 0.0f;
-    gateCoordinates.distanceLeftPole  = 0.0f;
+    gateCoordinates.detectedLeftPole  = 0.0f;
     gateCoordinates.angleLeftPole     = 0.0f;
     gateCoordinates.distanceLeftPole  = 0.0f;
     gateCoordinates.distanceRightPole = 0.0f;

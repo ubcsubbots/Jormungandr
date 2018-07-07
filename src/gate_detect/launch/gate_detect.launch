@@ -11,9 +11,15 @@
         <param name="s_low" value="0" type="int" />
         <param name="v_low" value="0" type="int" />
         <param name="h_high" value="200" type="int" />
-        <param name="s_high" value="249" type="int" />
-        <param name="v_high" value= "200" type="int" />
+        <param name="s_high" value="243" type="int" />
+        <param name="v_high" value= "75" type="int" />
+        <remap from="/camera/image_raw" to="/uwsim/camera2"/>
     </node>
     <node name="world_state_node" pkg="worldstate" type="world_state_node" output="screen">
+    </node>
+    <node name="decision_node" pkg="decision" type="decision_node" output="screen">
+        <remap from="worldstate" to="/worldstate/output"/>
+        <remap from="gate_location" to="/gateDetect/output"/>
+        <remap from="sub_control" to="/g500/twist"/>
     </node>
 </launch>

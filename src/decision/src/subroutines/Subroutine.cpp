@@ -11,20 +11,19 @@ Subroutine::Subroutine(int argc, char** argv, std::string node_name) {
 }
 
 void Subroutine::startup() {
-    ros::NodeHandle nh;
-    setupSubscriptions(nh);
-
-    ros::NodeHandle private_nh("~");
+    ros::NodeHandle private_nh;
+    setupSubscriptions(private_nh);
     std::string topic   = private_nh.resolveName("sub_control");
-    uint32_t queue_size = 1;
-    publisher_ = private_nh.advertise<geometry_msgs::Twist>(topic, queue_size);
+    uint32_t queue_size = 10;
+    publisher_ =
+    private_nh.advertise<geometry_msgs::TwistStamped>(topic, queue_size);
 }
 
 void Subroutine::shutdown() {
     ros::shutdown();
 }
 
-void Subroutine::publishCommand(const geometry_msgs::Twist& msg) {
+void Subroutine::publishCommand(const geometry_msgs::TwistStamped& msg) {
     publisher_.publish(msg);
 }
 

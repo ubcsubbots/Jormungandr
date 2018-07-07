@@ -29,6 +29,8 @@ void DecisionNode::worldStateCallback(
 const worldstate::StateMsg::ConstPtr& StateMsg) {
     state_t state = StateMsg->state;
 
+    std::string s = std::to_string(state);
+
     if (subroutines_.find(state) == subroutines_.end()) {
         // We forgot to add a subroutine to the map. This is bad.
 
@@ -38,11 +40,12 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
     }
 
     Subroutine* newState = subroutines_[state];
-    if (newState == running_) { return; }
 
-    running_->shutdown();
-    running_ = newState;
-    running_->startup();
+    if (newState != running_) {
+        running_->sleep();
+        running_ = newState;
+        running_->startup();
+    }
 }
 
 /**
@@ -54,6 +57,9 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
  * subroutine
  */
 void DecisionNode::setupSubroutineMap(int argc, char** argv) {
+    running_ = new LocateGate(argc, argv, "locate_gate");
+    running_->startup();
+
     subroutines_[worldstate::StateMsg::locatingGate] =
     new LocateGate(argc, argv, "locate_gate");
 

@@ -22,8 +22,10 @@ class LineUpWithGate : public Subroutine {
     LineUpWithGate(int argc, char** argv, std::string node_name)
       : Subroutine(argc, argv, node_name) {}
     void setupSubscriptions(ros::NodeHandle nh) override;
+    void sleep() override;
 
   private:
+    bool allignTop_ = false, distanceToGateAcceptable_ = false;
     void decisionCallback(const gate_detect::GateDetectMsg::ConstPtr& msg);
     void balance(const geometry_msgs::Twist::ConstPtr& msg);
 };

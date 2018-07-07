@@ -231,7 +231,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
 
 GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
                                                  std::vector<Pole> horPoles) {
-    GateCoordinates gateCoordinates;
+    GateCoordinates gateCoordinates = defaultGateCoordinates();
 
     // If theres no vertical poles, check for horizontal pole and to struct
     if (vertPoles.empty()) {
@@ -246,7 +246,6 @@ GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
             topPole.getHorAngle(imagePixelHeight_);
             gateCoordinates.distanceTopPole = topPole.getHorDistance();
         }
-
     }
     // If theres one pole, check for horizontal poles and determine which
     // vertical pole it is
