@@ -28,9 +28,7 @@ DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
 void DecisionNode::worldStateCallback(
 const worldstate::StateMsg::ConstPtr& StateMsg) {
     state_t state = StateMsg->state;
-
-    std::string s = std::to_string(state);
-
+    
     if (subroutines_.find(state) == subroutines_.end()) {
         // We forgot to add a subroutine to the map. This is bad.
 
