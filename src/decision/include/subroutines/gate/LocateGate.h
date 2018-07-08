@@ -9,7 +9,7 @@
 #define DECISION_LOCATEGATE_H
 
 #include "Subroutine.h"
-#include <gate_detect/gateDetectMsg.h>
+#include <gate_detect/GateDetectMsg.h>
 
 /*
  * Subroutine: LocateGate
@@ -22,9 +22,10 @@ class LocateGate : public Subroutine {
     LocateGate(int argc, char** argv, std::string node_name)
       : Subroutine(argc, argv, node_name) {}
     void setupSubscriptions(ros::NodeHandle nh) override;
+    void sleep() override;
 
   private:
-    void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
+    void decisionCallback(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 
 #endif // DECISION_LOCATEGATE_H

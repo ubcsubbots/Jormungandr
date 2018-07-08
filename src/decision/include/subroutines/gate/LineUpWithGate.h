@@ -9,7 +9,7 @@
 #define DECISION_LINEUPWITHGATE_H
 
 #include "Subroutine.h"
-#include <gate_detect/gateDetectMsg.h>
+#include <gate_detect/GateDetectMsg.h>
 
 /*
  * Subroutine: LineUpWithGate
@@ -22,9 +22,11 @@ class LineUpWithGate : public Subroutine {
     LineUpWithGate(int argc, char** argv, std::string node_name)
       : Subroutine(argc, argv, node_name) {}
     void setupSubscriptions(ros::NodeHandle nh) override;
+    void sleep() override;
 
   private:
-    void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
+    bool allignTop_ = false, distanceToGateAcceptable_ = false;
+    void decisionCallback(const gate_detect::GateDetectMsg::ConstPtr& msg);
     void balance(const geometry_msgs::Twist::ConstPtr& msg);
 };
 

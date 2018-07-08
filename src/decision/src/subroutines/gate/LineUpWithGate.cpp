@@ -9,18 +9,27 @@
 #include "constants.h"
 
 void LineUpWithGate::setupSubscriptions(ros::NodeHandle nh) {
-    nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this);
-    nh.subscribe("imu", 10, &LineUpWithGate::balance, this);
+    subscriber_ = nh.subscribe(
+    "gateDetect/output", 10, &LineUpWithGate::decisionCallback, this);
+    // nh.subscribe("imu", 10, &LineUpWithGate::balance, this);
 }
 
 void LineUpWithGate::balance(const geometry_msgs::Twist::ConstPtr& msg) {
     // if not parallel with ground, become parallel with ground
 }
 
+void LineUpWithGate::sleep() {
+    publisher_.shutdown();
+    subscriber_.shutdown();
+}
+
 void LineUpWithGate::decisionCallback(
-const gate_detect::gateDetectMsg::ConstPtr& msg) {
+const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // logic: given the location of the poles, try to put ourselves centred in
     // front
+
+    // send the message
+    geometry_msgs::TwistStamped command;
 
     double x_linear  = 0.0;
     double y_linear  = 0.0;
@@ -29,24 +38,57 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
     double y_angular = 0.0;
     double z_angular = 0.0;
 
-    // we should integrate IMU in here for info such as if parallel with ground,
-    // etc.
+    if (!distanceToGateAcceptable_) {
+        float averageDistanceToGate;
 
-    if (msg->distanceRight > msg->distanceLeft) {
-        y_linear = RIGHT;
-    } else {
-        y_linear = LEFT;
+        averageDistanceToGate =
+        (msg->distanceLeftPole + msg->distanceRightPole +
+         msg->distanceTopPole) /
+        (msg->detectedLeftPole + msg->detectedRightPole + msg->detectedTopPole);
+
+        if (averageDistanceToGate > 7) {
+            if (msg->angleTopPole > 0.25) {
+                command.twist.linear.z = DOWN;
+            } else if (msg->angleTopPole < -0.25) {
+                command.twist.linear.z = UP;
+            }
+            if ((msg->angleLeftPole + msg->angleRightPole) > 0.25) {
+                command.twist.angular.z = -0.25;
+            } else if ((msg->angleLeftPole + msg->angleRightPole) < -0.25) {
+                command.twist.angular.z = 0.25;
+            } else {
+                command.twist.linear.x = FORWARD;
+            }
+        } else {
+            distanceToGateAcceptable_ = true;
+        }
     }
 
-    if (!(std::abs(msg->distanceTop * sin(msg->angleTop)) >
-          subbots::global_constants::CLEARANCE_HEIGHT &&
-          msg->angleTop < 0)) {
-        z_linear = DOWN;
+    if (!allignTop_) {
+        if (msg->angleTopPole > 0.25) {
+            command.twist.linear.z = DOWN;
+            publishCommand(command);
+            return;
+        } else if (msg->angleTopPole < -0.25) {
+            command.twist.linear.z = UP;
+            publishCommand(command);
+            return;
+        } else {
+            allignTop_ = true;
+        }
     }
 
-    // send the message
-    geometry_msgs::Twist command;
-    command.angular = makeVector(x_angular, y_angular, z_angular);
-    command.linear  = makeVector(x_linear, y_linear, z_linear);
-    publishCommand(command);
+    if (msg->angleTopPole > 0.25) {
+        command.twist.linear.z = DOWN;
+    } else if (msg->angleTopPole < -0.25) {
+        command.twist.linear.z = UP;
+    }
+    if ((msg->angleLeftPole + msg->angleRightPole) > 0.25) {
+        command.twist.angular.z = 0.25;
+    } else if ((msg->angleLeftPole + msg->angleRightPole) < -0.25) {
+        command.twist.angular.z = -0.25;
+    }
+
+    publisher_.publish(command);
+    // publishCommand(command);
 }
