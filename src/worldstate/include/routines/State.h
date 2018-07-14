@@ -13,7 +13,7 @@
 
 class State {
   public:
-    State(int argc, char** argv, std::string node_name);
+    State();
 
     /**
      * Initializes and starts the state's callback functions
@@ -25,10 +25,13 @@ class State {
      * Deactivates a node by shutting down its subscriber
      * so that its callback functions are no longer active
      */
-    virtual void sleep() = 0;
+    void sleep();
 
   protected:
     ros::Publisher state_publisher_;
+    // used to set up and tear down state specific subscriptions
+    ros::NodeHandle nh_;
+    ros::NodeHandle private_nh_;
 
     /**
      * Publishes the next state in the finite state machine

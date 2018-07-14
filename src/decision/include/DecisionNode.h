@@ -42,11 +42,7 @@ class DecisionNode {
     /**
      * Sets up the map "subroutines_" such that each enumerated state is mapped
      * to its appropriate subroutine.
-     * @param argc standard argc passed in from main, used for the ros::init of
-     * each subroutine
-     * @param argv standard argv passed in from main, used for the ros::init of
-     * each subroutine
      */
-    void setupSubroutineMap(int argc, char** argv);
+    void setupSubroutineMap();
 };
 #endif // DECISION_DECISION_H_H

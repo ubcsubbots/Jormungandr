@@ -10,12 +10,7 @@
 
 void LocatingGate::setupNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
-    gate_detect_listener_ =
     nh.subscribe(gateDetectTopic, 10, &LocatingGate::gateDetectCallBack, this);
-}
-
-void LocatingGate::sleep() {
-    gate_detect_listener_.shutdown();
 }
 
 void LocatingGate::gateDetectCallBack(

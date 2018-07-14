@@ -15,14 +15,10 @@
 /*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
 class AlignWithGate : public State {
   public:
-    AlignWithGate(int argc, char** argv, std::string node_name)
-      : State(argc, argv, node_name) {}
+    AlignWithGate() : State() {}
     void setupNodeSubscriptions(ros::NodeHandle nh) override;
-    void sleep() override;
 
   private:
-    ros::Subscriber gate_detect_listener_;
-
     /**
      * Decides based on image data whether the robot still needs to
      * align with the gate.

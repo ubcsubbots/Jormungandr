@@ -13,7 +13,7 @@ DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
-    setupSubroutineMap(argc, argv);
+    setupSubroutineMap();
 
     std::string state_topic = "worldstate";
     int refresh_rate        = 10;
@@ -53,7 +53,7 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
  * @param argv standard argv passed in from main, used for the ros::init of each
  * subroutine
  */
-void DecisionNode::setupSubroutineMap(int argc, char** argv) {
+void DecisionNode::setupSubroutineMap() {
     subroutines_[worldstate::StateMsg::locatingGate] = new LocateGate();
     subroutines_[worldstate::StateMsg::aligningWithGate] = new LineUpWithGate();
     subroutines_[worldstate::StateMsg::passingGate] = new GoThroughGate();
