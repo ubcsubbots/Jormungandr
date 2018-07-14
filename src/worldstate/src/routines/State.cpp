@@ -7,11 +7,10 @@
 
 #include "routines/State.h"
 
-State::State() {
-}
+State::State() {}
 
 void State::start() {
-    nh_ = ros::NodeHandle();
+    nh_         = ros::NodeHandle();
     private_nh_ = ros::NodeHandle("~");
 
     setupNodeSubscriptions(nh_);

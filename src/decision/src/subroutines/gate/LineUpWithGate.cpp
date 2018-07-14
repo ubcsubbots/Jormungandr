@@ -35,9 +35,8 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
         double averageDistanceToGate;
 
         averageDistanceToGate =
-                (msg->distanceLeft + msg->distanceRight +
-                 msg->distanceTop) /
-                (msg->detectLeft + msg->detectRight + msg->detectTop);
+        (msg->distanceLeft + msg->distanceRight + msg->distanceTop) /
+        (msg->detectLeft + msg->detectRight + msg->detectTop);
 
         if (averageDistanceToGate > 7) {
             if (msg->angleTop > 0.25) {

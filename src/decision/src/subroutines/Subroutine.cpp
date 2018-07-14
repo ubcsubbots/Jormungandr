@@ -6,11 +6,10 @@
 
 #include "Subroutine.h"
 
-Subroutine::Subroutine() {
-}
+Subroutine::Subroutine() {}
 
 void Subroutine::startup() {
-    nh_ = ros::NodeHandle();
+    nh_         = ros::NodeHandle();
     private_nh_ = ros::NodeHandle("~");
 
     setupSubscriptions(nh_);
