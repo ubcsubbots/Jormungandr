@@ -16,7 +16,7 @@ void Subroutine::startup() {
     setupSubscriptions(nh_);
 
     std::string topic   = private_nh_.resolveName("sub_control");
-    uint32_t queue_size = 1;
+    uint32_t queue_size = 10;
     publisher_ = private_nh_.advertise<geometry_msgs::Twist>(topic, queue_size);
 }
 

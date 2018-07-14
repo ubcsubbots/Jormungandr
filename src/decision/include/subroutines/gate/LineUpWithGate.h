@@ -23,6 +23,7 @@ class LineUpWithGate : public Subroutine {
     void setupSubscriptions(ros::NodeHandle nh) override;
 
   private:
+    bool allignTop_ = false, distanceToGateAcceptable_ = false;
     void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
     void balance(const geometry_msgs::Twist::ConstPtr& msg);
 };

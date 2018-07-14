@@ -29,24 +29,58 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
     double y_angular = 0.0;
     double z_angular = 0.0;
 
-    // we should integrate IMU in here for info such as if parallel with ground,
-    // etc.
-
-    if (msg->distanceRight > msg->distanceLeft) {
-        y_linear = RIGHT;
-    } else {
-        y_linear = LEFT;
-    }
-
-    if (!(std::abs(msg->distanceTop * sin(msg->angleTop)) >
-          subbots::global_constants::CLEARANCE_HEIGHT &&
-          msg->angleTop < 0)) {
-        z_linear = DOWN;
-    }
-
-    // send the message
     geometry_msgs::Twist command;
-    command.angular = makeVector(x_angular, y_angular, z_angular);
-    command.linear  = makeVector(x_linear, y_linear, z_linear);
+
+    if (!distanceToGateAcceptable_) {
+        double averageDistanceToGate;
+
+        averageDistanceToGate =
+                (msg->distanceLeft + msg->distanceRight +
+                 msg->distanceTop) /
+                (msg->detectLeft + msg->detectRight + msg->detectTop);
+
+        if (averageDistanceToGate > 7) {
+            if (msg->angleTop > 0.25) {
+                command.linear.z = DOWN;
+            } else if (msg->angleTop < -0.25) {
+                command.linear.z = UP;
+            }
+            if ((msg->angleLeft + msg->angleRight) > 0.25) {
+                command.angular.z = -0.25;
+            } else if ((msg->angleLeft + msg->angleRight) < -0.25) {
+                command.angular.z = 0.25;
+            } else {
+                command.linear.x = FORWARD;
+            }
+        } else {
+            distanceToGateAcceptable_ = true;
+        }
+    }
+
+    if (!allignTop_) {
+        if (msg->angleTop > 0.25) {
+            command.linear.z = DOWN;
+            publishCommand(command);
+            return;
+        } else if (msg->angleTop < -0.25) {
+            command.linear.z = UP;
+            publishCommand(command);
+            return;
+        } else {
+            allignTop_ = true;
+        }
+    }
+
+    if (msg->angleTop > 0.25) {
+        command.linear.z = DOWN;
+    } else if (msg->angleTop < -0.25) {
+        command.linear.z = UP;
+    }
+    if ((msg->angleLeft + msg->angleRight) > 0.25) {
+        command.angular.z = 0.25;
+    } else if ((msg->angleLeft + msg->angleRight) < -0.25) {
+        command.angular.z = -0.25;
+    }
+
     publishCommand(command);
 }
