@@ -9,19 +9,19 @@
 Subroutine::Subroutine() {}
 
 void Subroutine::startup() {
-    nh_         = ros::NodeHandle();
-    private_nh_ = ros::NodeHandle("~");
+    ros::NodeHandle nh;
+    ros::NodeHandle private_nh("~");
 
-    setupSubscriptions(nh_);
+    setupSubscriptions(nh);
 
-    std::string topic   = private_nh_.resolveName("sub_control");
+    std::string topic   = private_nh.resolveName("output");
     uint32_t queue_size = 10;
-    publisher_ = private_nh_.advertise<geometry_msgs::Twist>(topic, queue_size);
+    publisher_ = private_nh.advertise<geometry_msgs::Twist>(topic, queue_size);
 }
 
 void Subroutine::shutdown() {
-    nh_.shutdown();
-    private_nh_.shutdown();
+    publisher_.shutdown();
+    subscriber_.shutdown();
 }
 
 void Subroutine::publishCommand(const geometry_msgs::Twist& msg) {

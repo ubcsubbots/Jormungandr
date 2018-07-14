@@ -15,7 +15,7 @@ DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
 
     setupSubroutineMap();
 
-    std::string state_topic = "worldstate";
+    std::string state_topic = "/world_state_node/output";
     int refresh_rate        = 10;
     worldstate_subscriber_  = nh.subscribe(
     state_topic, refresh_rate, &DecisionNode::worldStateCallback, this);

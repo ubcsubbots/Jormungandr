@@ -28,10 +28,9 @@ class State {
     void sleep();
 
   protected:
+    // hold onto these, automatically unsubscribe/unadvertise when out of scope
     ros::Publisher state_publisher_;
-    // used to set up and tear down state specific subscriptions
-    ros::NodeHandle nh_;
-    ros::NodeHandle private_nh_;
+    ros::Subscriber subscriber_;
 
     /**
      * Publishes the next state in the finite state machine

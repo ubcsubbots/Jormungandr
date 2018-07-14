@@ -7,7 +7,7 @@
 #include "GoThroughGate.h"
 
 void GoThroughGate::setupSubscriptions(ros::NodeHandle nh) {
-    nh.subscribe("gate_location", 10, &GoThroughGate::decisionCallback, this);
+    subscriber_ = nh.subscribe("gate_location", 10, &GoThroughGate::decisionCallback, this);
 }
 
 void GoThroughGate::decisionCallback(

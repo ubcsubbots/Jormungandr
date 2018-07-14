@@ -12,14 +12,14 @@
 #include <WorldStateNode.h>
 
 WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name) {
+    ros::init(argc, argv, node_name);
     WorldStateNode::initializeFiniteStateMachine();
 
     // Setup NodeHandles
-    ros::init(argc, argv, node_name);
     ros::NodeHandle nh;
 
     // Change the subscribe topics as needed
-    std::string state_transition_msg = "worldstate/output";
+    std::string state_transition_msg = "/world_state_node/output";
     uint32_t refresh_rate            = 10;
     world_state_listener_            = nh.subscribe(state_transition_msg,
                                          refresh_rate,

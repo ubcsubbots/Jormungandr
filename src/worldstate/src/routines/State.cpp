@@ -10,20 +10,20 @@
 State::State() {}
 
 void State::start() {
-    nh_         = ros::NodeHandle();
-    private_nh_ = ros::NodeHandle("~");
+    ros::NodeHandle nh;
+    ros::NodeHandle private_nh("~");
 
-    setupNodeSubscriptions(nh_);
+    setupNodeSubscriptions(nh);
 
     uint32_t queue_size_ = 10;
     // Assign the worldstate publisher
-    state_publisher_ = private_nh_.advertise<worldstate::StateMsg>(
-    "worldstate/output", queue_size_);
+    state_publisher_ = private_nh.advertise<worldstate::StateMsg>(
+    "output", queue_size_);
 }
 
 void State::sleep() {
-    nh_.shutdown();
-    private_nh_.shutdown();
+    state_publisher_.shutdown();
+    subscriber_.shutdown();
 }
 void State::publishNextState(const worldstate::StateMsg& msg) {
     state_publisher_.publish(msg);

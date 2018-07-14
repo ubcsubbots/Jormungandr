@@ -29,11 +29,9 @@ class Subroutine {
     void shutdown();
 
   protected:
+    // hold onto these, automatically unsubscribe/unadvertise when out of scope
     ros::Publisher publisher_;
-
-    // these are used to set up and tear down routine specific subs/pubs
-    ros::NodeHandle nh_;
-    ros::NodeHandle private_nh_;
+    ros::Subscriber subscriber_;
 
     void publishCommand(const geometry_msgs::Twist& msg);
     geometry_msgs::Vector3 makeVector(double x, double y, double z);
