@@ -8,9 +8,9 @@
 
 #include "DecisionNode.h"
 
+#include "LocateGate.h"
 #include <gtest/gtest.h>
 #include <std_msgs/String.h>
-#include "LocateGate.h"
 
 class DecisionNodeTest : public testing::Test {
   protected:
@@ -31,9 +31,7 @@ class DecisionNodeTest : public testing::Test {
     std::string message_output = "";
 
   public:
-    void callback(const std_msgs::String msg) {
-        message_output = msg.data;
-    }
+    void callback(const std_msgs::String msg) { message_output = msg.data; }
 };
 
 TEST_F(DecisionNodeTest, decisionNode_transition_test) {

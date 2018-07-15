@@ -17,8 +17,8 @@ void State::start() {
 
     uint32_t queue_size_ = 10;
     // Assign the worldstate publisher
-    state_publisher_ = private_nh.advertise<worldstate::StateMsg>(
-    "output", queue_size_);
+    state_publisher_ =
+    private_nh.advertise<worldstate::StateMsg>("output", queue_size_);
 }
 
 void State::sleep() {

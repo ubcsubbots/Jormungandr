@@ -20,9 +20,7 @@
 class LocateGate : public Subroutine {
   public:
     LocateGate() : Subroutine() {}
-    std::string getName() override {
-        return "LocateGate";
-    }
+    std::string getName() override { return "LocateGate"; }
 
     void setupSubscriptions(ros::NodeHandle nh) override;
 

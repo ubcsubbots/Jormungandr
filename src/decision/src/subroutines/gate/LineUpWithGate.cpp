@@ -9,8 +9,9 @@
 #include "constants.h"
 
 void LineUpWithGate::setupSubscriptions(ros::NodeHandle nh) {
-    subscriber_ = nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this);
-//    nh.subscribe("imu", 10, &LineUpWithGate::balance, this);
+    subscriber_ =
+    nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this);
+    //    nh.subscribe("imu", 10, &LineUpWithGate::balance, this);
 }
 
 void LineUpWithGate::balance(const geometry_msgs::Twist::ConstPtr& msg) {

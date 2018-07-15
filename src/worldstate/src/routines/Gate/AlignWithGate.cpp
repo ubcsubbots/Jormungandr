@@ -10,7 +10,8 @@
 
 void AlignWithGate::setupNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
-    subscriber_ = nh.subscribe(gateDetectTopic, 10, &AlignWithGate::gateDetectCallBack, this);
+    subscriber_ =
+    nh.subscribe(gateDetectTopic, 10, &AlignWithGate::gateDetectCallBack, this);
 }
 
 void AlignWithGate::gateDetectCallBack(

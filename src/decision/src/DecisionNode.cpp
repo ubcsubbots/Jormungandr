@@ -6,8 +6,8 @@
  * operation.
  */
 
-#include <std_msgs/String.h>
 #include "DecisionNode.h"
+#include <std_msgs/String.h>
 
 DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
     ros::init(argc, argv, node_name);

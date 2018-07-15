@@ -20,9 +20,7 @@
 class LineUpWithGate : public Subroutine {
   public:
     LineUpWithGate() : Subroutine() {}
-    std::string getName() override {
-        return "LineUpWithGate";
-    }
+    std::string getName() override { return "LineUpWithGate"; }
 
     void setupSubscriptions(ros::NodeHandle nh) override;
 
