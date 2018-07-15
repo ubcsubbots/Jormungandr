@@ -1,0 +1,62 @@
+/*
+ * Created By: Viral Galaiya
+ * Created On: July 7th 2018
+ * Description: The LQR controller with the intergrator, dertmined using Simulink. Takes in the Ros geometry message and returns a//  ros cutom message with the PWM
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include "ros/ros.h"
+#include "std_mgs/Int16MultiArray.h"
+#include <geometry_msgs/Twist.h>
+
+
+//void LQR(const geometry_msgs::Twist& velocity){
+
+//}
+void VelocityCallback(const geometry_msgs::Twist& twist_velocity)
+{
+  double Matrixvelocity[6][1];
+  Matrixvelocity = {twist_velocity->linear.x,
+		    twist_velocity->linear.y,
+		    twist_velocity->linear.z,
+		    twist_velocity->angular.x,
+		    twist_velocity->angular.y,
+		    twist_velocity->angular.z}
+		    
+}
+
+
+int main(int argc, char **argv){
+
+  //creates the node name something to do with command line
+  ros::init(argc, argv, "controller");
+
+  //initilizes node 
+  ros::NodeHandle nh;
+
+  //should be custom twist??..publishing a int16array, could change to int32, (vale unitl a thousand, so 16 should be fine
+  ros::Publisher arduino_pub = nh.advertise<std_msgs::Int16MultiArray>("Arduino",1000);
+
+  //Can the same node subscribe and publish?
+  ros::Subscriber twist_sub = nh.subscribe("velocity_publisher", 1000, 
+  
+  ros::Rate loop_rate(10);
+  
+
+
+  while(ros::ok()){
+    std_msgs::Int16MultiArray motor_parameters;
+    motor_parameters.data.clear();
+    int T100 = 100 //temp
+    int T200 = 200
+    motor_parameters.data.pushback(T100)
+    motor_parameters.data.pushback(T200)
+
+    arduino_pub.publish(msg);
+
+    ros::spin();    
+    loop_rate.sleep();
+  }
+
+  return 0;
+}
