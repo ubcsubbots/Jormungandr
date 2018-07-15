@@ -23,7 +23,12 @@ void State::start() {
 
 void State::sleep() {
     state_publisher_.shutdown();
-    subscriber_.shutdown();
+
+    for (ros::Subscriber subscription : subscriptions_)
+    {
+        subscription.shutdown();
+    }
+    subscriptions_.clear();
 }
 void State::publishNextState(const worldstate::StateMsg& msg) {
     state_publisher_.publish(msg);

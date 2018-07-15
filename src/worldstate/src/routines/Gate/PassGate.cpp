@@ -9,8 +9,7 @@
 
 void PassGate::setupNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
-    subscriber_ =
-    nh.subscribe(gateDetectTopic, 10, &PassGate::gateDetectCallBack, this);
+    subscriptions_.push_back(nh.subscribe(gateDetectTopic, 10, &PassGate::gateDetectCallBack, this));
     // TODO: Use IMU to construct internal world map if need be
     // std::string imuDataTopic    = "/imu/is_calibrated";
     // nh.subscribe("/imu/is_calibrated", 10, &PassGate::imuDataCallback, this);

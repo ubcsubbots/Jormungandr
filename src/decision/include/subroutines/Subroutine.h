@@ -32,7 +32,7 @@ class Subroutine {
   protected:
     // hold onto these, automatically unsubscribe/unadvertise when out of scope
     ros::Publisher publisher_;
-    ros::Subscriber subscriber_;
+    std::vector<ros::Subscriber> subscriptions_;
 
     void publishCommand(const geometry_msgs::Twist& msg);
     geometry_msgs::Vector3 makeVector(double x, double y, double z);

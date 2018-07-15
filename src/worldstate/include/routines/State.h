@@ -30,7 +30,7 @@ class State {
   protected:
     // hold onto these, automatically unsubscribe/unadvertise when out of scope
     ros::Publisher state_publisher_;
-    ros::Subscriber subscriber_;
+    std::vector<ros::Subscriber> subscriptions_;
 
     /**
      * Publishes the next state in the finite state machine

@@ -6,16 +6,9 @@
  */
 
 #include "LineUpWithGate.h"
-#include "constants.h"
 
 void LineUpWithGate::setupSubscriptions(ros::NodeHandle nh) {
-    subscriber_ =
-    nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this);
-    //    nh.subscribe("imu", 10, &LineUpWithGate::balance, this);
-}
-
-void LineUpWithGate::balance(const geometry_msgs::Twist::ConstPtr& msg) {
-    // if not parallel with ground, become parallel with ground
+    subscriptions_.push_back(nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this));
 }
 
 void LineUpWithGate::decisionCallback(
@@ -32,7 +25,7 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
 
     geometry_msgs::Twist command;
 
-    if (!distanceToGateAcceptable_) {
+    if (!distance_to_gate_acceptable_) {
         double averageDistanceToGate;
 
         averageDistanceToGate =
@@ -53,11 +46,11 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
                 command.linear.x = FORWARD;
             }
         } else {
-            distanceToGateAcceptable_ = true;
+            distance_to_gate_acceptable_ = true;
         }
     }
 
-    if (!allignTop_) {
+    if (!align_top_) {
         if (msg->angleTop > 0.25) {
             command.linear.z = DOWN;
             publishCommand(command);
@@ -67,7 +60,7 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
             publishCommand(command);
             return;
         } else {
-            allignTop_ = true;
+            align_top_ = true;
         }
     }
 

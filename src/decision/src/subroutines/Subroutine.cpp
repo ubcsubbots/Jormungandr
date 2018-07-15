@@ -21,7 +21,12 @@ void Subroutine::startup() {
 
 void Subroutine::shutdown() {
     publisher_.shutdown();
-    subscriber_.shutdown();
+
+    for (ros::Subscriber subscription : subscriptions_)
+    {
+        subscription.shutdown();
+    }
+    subscriptions_.clear();
 }
 
 void Subroutine::publishCommand(const geometry_msgs::Twist& msg) {
