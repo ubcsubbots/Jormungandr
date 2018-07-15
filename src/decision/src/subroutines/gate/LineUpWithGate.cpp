@@ -8,7 +8,8 @@
 #include "LineUpWithGate.h"
 
 void LineUpWithGate::setupSubscriptions(ros::NodeHandle nh) {
-    subscriptions_.push_back(nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this));
+    subscriptions_.push_back(
+    nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this));
 }
 
 void LineUpWithGate::decisionCallback(

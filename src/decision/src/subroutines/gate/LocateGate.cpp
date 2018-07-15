@@ -8,7 +8,8 @@
 #include "LocateGate.h"
 
 void LocateGate::setupSubscriptions(ros::NodeHandle nh) {
-    subscriptions_.push_back(nh.subscribe("gate_location", 10, &LocateGate::decisionCallback, this));
+    subscriptions_.push_back(
+    nh.subscribe("gate_location", 10, &LocateGate::decisionCallback, this));
 }
 
 void LocateGate::decisionCallback(

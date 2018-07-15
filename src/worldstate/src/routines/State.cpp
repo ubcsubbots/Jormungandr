@@ -24,8 +24,7 @@ void State::start() {
 void State::sleep() {
     state_publisher_.shutdown();
 
-    for (ros::Subscriber subscription : subscriptions_)
-    {
+    for (ros::Subscriber subscription : subscriptions_) {
         subscription.shutdown();
     }
     subscriptions_.clear();
