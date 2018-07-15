@@ -18,9 +18,10 @@
  */
 class GoThroughGate : public Subroutine {
   public:
-    GoThroughGate(int argc, char** argv, std::string node_name)
-      : Subroutine(argc, argv, node_name) {}
-    void setupSubscriptions(ros::NodeHandle nh) override;
+    GoThroughGate() : Subroutine() {}
+    std::string getName() override { return "GoThroughGate"; }
+
+    std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
 
   private:
     void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);

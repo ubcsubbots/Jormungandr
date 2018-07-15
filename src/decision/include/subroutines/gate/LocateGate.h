@@ -19,9 +19,10 @@
  */
 class LocateGate : public Subroutine {
   public:
-    LocateGate(int argc, char** argv, std::string node_name)
-      : Subroutine(argc, argv, node_name) {}
-    void setupSubscriptions(ros::NodeHandle nh) override;
+    LocateGate() : Subroutine() {}
+    std::string getName() override { return "LocateGate"; }
+
+    std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
 
   private:
     void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);

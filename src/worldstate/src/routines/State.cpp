@@ -7,24 +7,28 @@
 
 #include "routines/State.h"
 
-State::State(int argc, char** argv, std::string node_name) {
-    ros::init(argc, argv, node_name);
-}
+State::State() {}
 
 void State::start() {
-    ros::NodeHandle private_nh;
+    ros::NodeHandle nh;
+    ros::NodeHandle private_nh("~");
 
-    setupNodeSubscriptions(private_nh);
+    subscriptions_ = getNodeSubscriptions(nh);
 
-    // All states should communicate with the world_state_node
-    std::string state_transition_msg =
-    private_nh.resolveName("worldstate/output");
     uint32_t queue_size_ = 10;
     // Assign the worldstate publisher
-    state_publisher_ = private_nh.advertise<worldstate::StateMsg>(
-    "worldstate/output", queue_size_);
+    state_publisher_ =
+    private_nh.advertise<worldstate::StateMsg>("output", queue_size_);
 }
 
+void State::sleep() {
+    state_publisher_.shutdown();
+
+    for (ros::Subscriber subscription : subscriptions_) {
+        subscription.shutdown();
+    }
+    subscriptions_.clear();
+}
 void State::publishNextState(const worldstate::StateMsg& msg) {
     state_publisher_.publish(msg);
 }

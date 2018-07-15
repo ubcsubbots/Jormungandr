@@ -6,22 +6,26 @@
 
 #include "Subroutine.h"
 
-Subroutine::Subroutine(int argc, char** argv, std::string node_name) {
-    ros::init(argc, argv, node_name);
-}
+Subroutine::Subroutine() {}
 
 void Subroutine::startup() {
     ros::NodeHandle nh;
-    setupSubscriptions(nh);
-
     ros::NodeHandle private_nh("~");
-    std::string topic   = private_nh.resolveName("sub_control");
-    uint32_t queue_size = 1;
+
+    subscriptions_ = getSubscriptions(nh);
+
+    std::string topic   = private_nh.resolveName("output");
+    uint32_t queue_size = 10;
     publisher_ = private_nh.advertise<geometry_msgs::Twist>(topic, queue_size);
 }
 
 void Subroutine::shutdown() {
-    ros::shutdown();
+    publisher_.shutdown();
+
+    for (ros::Subscriber subscription : subscriptions_) {
+        subscription.shutdown();
+    }
+    subscriptions_.clear();
 }
 
 void Subroutine::publishCommand(const geometry_msgs::Twist& msg) {

@@ -6,8 +6,12 @@
 
 #include "GoThroughGate.h"
 
-void GoThroughGate::setupSubscriptions(ros::NodeHandle nh) {
-    nh.subscribe("gate_location", 10, &GoThroughGate::decisionCallback, this);
+std::vector<ros::Subscriber>
+GoThroughGate::getSubscriptions(ros::NodeHandle nh) {
+    std::vector<ros::Subscriber> subs;
+    subs.push_back(
+    nh.subscribe("gate_location", 10, &GoThroughGate::decisionCallback, this));
+    return subs;
 }
 
 void GoThroughGate::decisionCallback(

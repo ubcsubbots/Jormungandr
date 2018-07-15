@@ -19,13 +19,14 @@
  */
 class LineUpWithGate : public Subroutine {
   public:
-    LineUpWithGate(int argc, char** argv, std::string node_name)
-      : Subroutine(argc, argv, node_name) {}
-    void setupSubscriptions(ros::NodeHandle nh) override;
+    LineUpWithGate() : Subroutine() {}
+    std::string getName() override { return "LineUpWithGate"; }
+
+    std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
 
   private:
+    bool align_top_ = false, distance_to_gate_acceptable_ = false;
     void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
-    void balance(const geometry_msgs::Twist::ConstPtr& msg);
 };
 
 #endif // DECISION_LINEUPWITHGATE_H
