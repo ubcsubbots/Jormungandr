@@ -8,7 +8,8 @@
 #include "AlignWithGate.h"
 #include <worldstate/StateMsg.h>
 
-std::vector<ros::Subscriber> AlignWithGate::getNodeSubscriptions(ros::NodeHandle nh) {
+std::vector<ros::Subscriber>
+AlignWithGate::getNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
 
     std::vector<ros::Subscriber> subs;

@@ -10,7 +10,7 @@
 std::vector<ros::Subscriber> LocateGate::getSubscriptions(ros::NodeHandle nh) {
     std::vector<ros::Subscriber> subs;
     subs.push_back(
-            nh.subscribe("gate_location", 10, &LocateGate::decisionCallback, this));
+    nh.subscribe("gate_location", 10, &LocateGate::decisionCallback, this));
     return subs;
 }
 

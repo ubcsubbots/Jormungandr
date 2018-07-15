@@ -6,10 +6,11 @@
 
 #include "GoThroughGate.h"
 
-std::vector<ros::Subscriber> GoThroughGate::getSubscriptions(ros::NodeHandle nh) {
+std::vector<ros::Subscriber>
+GoThroughGate::getSubscriptions(ros::NodeHandle nh) {
     std::vector<ros::Subscriber> subs;
     subs.push_back(
-            nh.subscribe("gate_location", 10, &GoThroughGate::decisionCallback, this));
+    nh.subscribe("gate_location", 10, &GoThroughGate::decisionCallback, this));
     return subs;
 }
 

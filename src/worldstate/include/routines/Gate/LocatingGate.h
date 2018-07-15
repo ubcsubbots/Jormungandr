@@ -16,7 +16,8 @@
 class LocatingGate : public State {
   public:
     LocatingGate() : State() {}
-    std::vector<ros::Subscriber> getNodeSubscriptions(ros::NodeHandle nh) override;
+    std::vector<ros::Subscriber>
+    getNodeSubscriptions(ros::NodeHandle nh) override;
 
   private:
     /**

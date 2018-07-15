@@ -8,7 +8,8 @@
 #include "LocatingGate.h"
 #include <worldstate/StateMsg.h>
 
-std::vector<ros::Subscriber> LocatingGate::getNodeSubscriptions(ros::NodeHandle nh) {
+std::vector<ros::Subscriber>
+LocatingGate::getNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
 
     std::vector<ros::Subscriber> subs;

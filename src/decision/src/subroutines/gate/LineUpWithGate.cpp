@@ -7,10 +7,11 @@
 
 #include "LineUpWithGate.h"
 
-std::vector<ros::Subscriber> LineUpWithGate::getSubscriptions(ros::NodeHandle nh) {
+std::vector<ros::Subscriber>
+LineUpWithGate::getSubscriptions(ros::NodeHandle nh) {
     std::vector<ros::Subscriber> subs;
     subs.push_back(
-            nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this));
+    nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this));
     return subs;
 }
 

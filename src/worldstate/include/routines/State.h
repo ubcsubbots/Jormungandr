@@ -16,6 +16,7 @@ class State {
     // hold onto these, automatically unsubscribe/unadvertise when out of scope
     ros::Publisher state_publisher_;
     std::vector<ros::Subscriber> subscriptions_;
+
   public:
     State();
 
@@ -47,7 +48,8 @@ class State {
      *
      * @param nh the private nodehandle of the State
      */
-    virtual std::vector<ros::Subscriber> getNodeSubscriptions(ros::NodeHandle nh) = 0;
+    virtual std::vector<ros::Subscriber>
+    getNodeSubscriptions(ros::NodeHandle nh) = 0;
 };
 
 #endif // PROJECT_ROUTINE_H

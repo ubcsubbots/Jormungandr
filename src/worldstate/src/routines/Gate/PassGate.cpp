@@ -7,7 +7,8 @@
 
 #include "PassGate.h"
 
-std::vector<ros::Subscriber> PassGate::getNodeSubscriptions(ros::NodeHandle nh) {
+std::vector<ros::Subscriber>
+PassGate::getNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
 
     std::vector<ros::Subscriber> subs;

@@ -16,7 +16,8 @@
 class AlignWithGate : public State {
   public:
     AlignWithGate() : State() {}
-    std::vector<ros::Subscriber> getNodeSubscriptions(ros::NodeHandle nh) override;
+    std::vector<ros::Subscriber>
+    getNodeSubscriptions(ros::NodeHandle nh) override;
 
   private:
     /**

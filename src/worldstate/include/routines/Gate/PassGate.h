@@ -16,7 +16,8 @@
 class PassGate : public State {
   public:
     PassGate() : State() {}
-    std::vector<ros::Subscriber> getNodeSubscriptions(ros::NodeHandle nh) override;
+    std::vector<ros::Subscriber>
+    getNodeSubscriptions(ros::NodeHandle nh) override;
 
   private:
     /**

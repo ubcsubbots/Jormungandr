@@ -51,11 +51,14 @@ class Subroutine {
     geometry_msgs::Vector3 makeVector(double x, double y, double z);
 
     /**
-     * Gets the subscriptions for the subroutine. Each implementing class of subroutine is responsible for having this function return all subscriber objects it needs to work.
+     * Gets the subscriptions for the subroutine. Each implementing class of
+     * subroutine is responsible for having this function return all subscriber
+     * objects it needs to work.
      * @param nh node handle used to create the subscribers
      * @return a vector of all subscriptions the subroutine needs
      */
-    virtual std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) = 0;
+    virtual std::vector<ros::Subscriber>
+    getSubscriptions(ros::NodeHandle nh) = 0;
 };
 
 #endif // DECISION_SUBROUTINE_H
