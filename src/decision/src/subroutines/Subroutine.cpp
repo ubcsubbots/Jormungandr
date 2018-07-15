@@ -12,7 +12,7 @@ void Subroutine::startup() {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
-    setupSubscriptions(nh);
+    subscriptions_ = getSubscriptions(nh);
 
     std::string topic   = private_nh.resolveName("output");
     uint32_t queue_size = 10;

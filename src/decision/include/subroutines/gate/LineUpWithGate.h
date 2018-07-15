@@ -22,12 +22,11 @@ class LineUpWithGate : public Subroutine {
     LineUpWithGate() : Subroutine() {}
     std::string getName() override { return "LineUpWithGate"; }
 
-    void setupSubscriptions(ros::NodeHandle nh) override;
+    std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
 
   private:
     bool align_top_ = false, distance_to_gate_acceptable_ = false;
     void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
-    void balance(const geometry_msgs::Twist::ConstPtr& msg);
 };
 
 #endif // DECISION_LINEUPWITHGATE_H

@@ -13,7 +13,7 @@ void State::start() {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
-    setupNodeSubscriptions(nh);
+    subscriptions_ = getNodeSubscriptions(nh);
 
     uint32_t queue_size_ = 10;
     // Assign the worldstate publisher

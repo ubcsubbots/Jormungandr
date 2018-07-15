@@ -22,7 +22,7 @@ class LocateGate : public Subroutine {
     LocateGate() : Subroutine() {}
     std::string getName() override { return "LocateGate"; }
 
-    void setupSubscriptions(ros::NodeHandle nh) override;
+    std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
 
   private:
     void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);

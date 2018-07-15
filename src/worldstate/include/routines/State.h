@@ -12,6 +12,10 @@
 #include <worldstate/StateMsg.h>
 
 class State {
+  private:
+    // hold onto these, automatically unsubscribe/unadvertise when out of scope
+    ros::Publisher state_publisher_;
+    std::vector<ros::Subscriber> subscriptions_;
   public:
     State();
 
@@ -28,10 +32,6 @@ class State {
     void sleep();
 
   protected:
-    // hold onto these, automatically unsubscribe/unadvertise when out of scope
-    ros::Publisher state_publisher_;
-    std::vector<ros::Subscriber> subscriptions_;
-
     /**
      * Publishes the next state in the finite state machine
      * to transition to
@@ -47,7 +47,7 @@ class State {
      *
      * @param nh the private nodehandle of the State
      */
-    virtual void setupNodeSubscriptions(ros::NodeHandle nh) = 0;
+    virtual std::vector<ros::Subscriber> getNodeSubscriptions(ros::NodeHandle nh) = 0;
 };
 
 #endif // PROJECT_ROUTINE_H
