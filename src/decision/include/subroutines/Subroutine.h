@@ -24,6 +24,7 @@ static const double DOWN     = -0.25;
 class Subroutine {
   public:
     Subroutine();
+    virtual std::string getName() = 0;
 
     void startup();
     void shutdown();

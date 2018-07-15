@@ -34,6 +34,9 @@ class DecisionNode {
     Subroutine* running_; // the currently running subroutine
     ros::Subscriber worldstate_subscriber_; // subscribes to the world state
 
+    // says which subroutine is running, for testing & debugging
+    ros::Publisher info_publisher_;
+
     /**
      * Callback function when a message is received from the world state node.
      * @param state_msg message containing the current state

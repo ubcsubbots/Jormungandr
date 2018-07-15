@@ -19,6 +19,10 @@
 class GoThroughGate : public Subroutine {
   public:
     GoThroughGate() : Subroutine() {}
+    std::string getName() override {
+        return "GoThroughGate";
+    }
+
     void setupSubscriptions(ros::NodeHandle nh) override;
 
   private:

@@ -6,6 +6,7 @@
  * operation.
  */
 
+#include <std_msgs/String.h>
 #include "DecisionNode.h"
 
 DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
@@ -19,6 +20,8 @@ DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
     int refresh_rate        = 10;
     worldstate_subscriber_  = nh.subscribe(
     state_topic, refresh_rate, &DecisionNode::worldStateCallback, this);
+
+    info_publisher_ = private_nh.advertise<std_msgs::String>("info", 1);
 }
 
 /**
@@ -45,6 +48,10 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
         running_ = newState;
         running_->startup();
     }
+
+    std_msgs::String info;
+    info.data = running_->getName();
+    info_publisher_.publish(info);
 }
 
 /**
