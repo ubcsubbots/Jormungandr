@@ -66,6 +66,8 @@ Rosinstall is addressed and run in `install_dependencies.sh`, should there be an
 
 - Classes are **CamelCase**
 - Variables are **non_camel_case**
+  - Class data members are variables with a **trailing_underscore_**
+  - Struct data members are the same as variables: **non_camel_case**
 - Constants are **ALL_CAPS_WITH_UNDERSCORES**
 - Functions are **camelCase**
 - Indentations are 4 spaces
