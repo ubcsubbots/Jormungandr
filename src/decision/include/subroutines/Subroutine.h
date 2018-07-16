@@ -14,12 +14,21 @@
  * pre defined directions for subroutines to use
  * example: z_rotation = RIGHT
  */
+<<<<<<< HEAD
 static const double RIGHT    = -0.15;
 static const double LEFT     = 0.15;
 static const double FORWARD  = 0.15;
 static const double BACKWARD = -0.15;
 static const double UP       = 0.15;
 static const double DOWN     = -0.15;
+=======
+static const double RIGHT    = -0.25;
+static const double LEFT     = 0.25;
+static const double FORWARD  = 0.25;
+static const double BACKWARD = -0.25;
+static const double UP       = 0.25;
+static const double DOWN     = -0.25;
+>>>>>>> 7429af0abb1b30dc44f7656dc096d96b18c38ff2
 
 class Subroutine {
   public:

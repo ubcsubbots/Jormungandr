@@ -31,9 +31,9 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // send the message
     geometry_msgs::TwistStamped command;
 
-    double x_linear  = 0.0;
-    double y_linear  = 0.0;
-    double z_linear  = 0.0;
+    double x_linear = 0.0;
+    double y_linear = 0.0;
+    double z_linear = 0.0;
     double x_angular = 0.0;
     double y_angular = 0.0;
     double z_angular = 0.0;

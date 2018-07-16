@@ -25,7 +25,7 @@ class LineUpWithGate : public Subroutine {
     void sleep() override;
 
   private:
-    void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
+    void decisionCallback(const gate_detect::GateDetectMsg::ConstPtr& msg);
     void balance(const geometry_msgs::Twist::ConstPtr& msg);
 };
 

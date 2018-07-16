@@ -38,7 +38,6 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
     }
 
     Subroutine* newState = subroutines_[state];
-    if (newState == running_) { return; }
 
     if (newState != running_) {
         running_->sleep();
