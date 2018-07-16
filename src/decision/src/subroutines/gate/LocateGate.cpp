@@ -7,14 +7,11 @@
 
 #include "LocateGate.h"
 
-void LocateGate::setupSubscriptions(ros::NodeHandle nh) {
-    subscriber_ =
-    nh.subscribe("gateDetect/output", 10, &LocateGate::decisionCallback, this);
-}
-
-void LocateGate::sleep() {
-    publisher_.shutdown();
-    subscriber_.shutdown();
+std::vector<ros::Subscriber> LocateGate::getSubscriptions(ros::NodeHandle nh) {
+    std::vector<ros::Subscriber> subs;
+    subs.push_back(
+    nh.subscribe("gate_location", 10, &LocateGate::decisionCallback, this));
+    return subs;
 }
 
 void LocateGate::decisionCallback(

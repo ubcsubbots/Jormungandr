@@ -17,7 +17,7 @@ class WorldStateNodeTest : public testing::Test {
         test_publisher =
         nh_.advertise<gate_detect::GateDetectMsg>("/gateDetect/output", 1);
         test_subscriber = nh_.subscribe(
-        "worldstate/output", 1, &WorldStateNodeTest::callback, this);
+        "/world_state_node/output", 1, &WorldStateNodeTest::callback, this);
 
         // Let the publishers and subscribers set itself up timely
         ros::Rate loop_rate(1);
@@ -27,7 +27,7 @@ class WorldStateNodeTest : public testing::Test {
     ros::NodeHandle nh_;
     ros::Publisher test_publisher;
     ros::Subscriber test_subscriber;
-    int message_output;
+    int message_output = -1;
 
   public:
     void callback(const worldstate::StateMsg::ConstPtr& msg) {

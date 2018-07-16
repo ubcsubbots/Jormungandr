@@ -1,0 +1,6 @@
+<!-- A .test file which launches the node and its corresponding rostest -->
+
+<launch>
+    <node name="decision_node" pkg="decision" type="decision_node" />
+    <test test-name="decision_node_rostest" pkg="decision" type="decision_node_rostest" />
+</launch>

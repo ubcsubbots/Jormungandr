@@ -10,7 +10,7 @@
 
 int main(int argc, char** argv) {
     // Setup your ROS node
-    std::string node_name = "filter";
+    std::string node_name = "decision";
 
     // Create an instance of your class
     DecisionNode decisionNode(argc, argv, node_name);

@@ -83,17 +83,14 @@ target_link_libraries(decision_node ${catkin_LIBRARIES})
 # endif()
 if (CATKIN_ENABLE_TESTING)
 
-#    # Adding gtests to the package
-#    catkin_add_gtest(my-node-test test/my-node-test.cpp src/MyNode.cpp)
-#    target_link_libraries(my-node-test ${catkin_LIBRARIES})
-#
-#    # Adding rostest to the package
-#    find_package(rostest REQUIRED)
-#    # name the test and link it to the .test file and the .cpp file itself, this will allow
-#    # "catkin_make run_tests" to be able to find and run this rostest
-#    add_rostest_gtest(my_node_rostest test/sample_package_test.test test/my_node_rostest.cpp)
-#    target_link_libraries(my_node_rostest ${catkin_LIBRARIES})
-endif()
+    find_package(rostest REQUIRED)
 
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
+    add_rostest_gtest(
+            decision_node_rostest
+            test/decision_node_test.test
+            test/decision_node_rostest.cpp
+    )
+
+    target_link_libraries(decision_node_rostest ${catkin_LIBRARIES})
+
+endif()

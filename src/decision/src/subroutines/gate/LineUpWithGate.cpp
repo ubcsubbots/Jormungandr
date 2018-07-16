@@ -8,19 +8,12 @@
 #include "LineUpWithGate.h"
 #include "constants.h"
 
-void LineUpWithGate::setupSubscriptions(ros::NodeHandle nh) {
-    subscriber_ = nh.subscribe(
-    "gateDetect/output", 10, &LineUpWithGate::decisionCallback, this);
-    // nh.subscribe("imu", 10, &LineUpWithGate::balance, this);
-}
-
-void LineUpWithGate::balance(const geometry_msgs::Twist::ConstPtr& msg) {
-    // if not parallel with ground, become parallel with ground
-}
-
-void LineUpWithGate::sleep() {
-    publisher_.shutdown();
-    subscriber_.shutdown();
+std::vector<ros::Subscriber>
+LineUpWithGate::getSubscriptions(ros::NodeHandle nh) {
+    std::vector<ros::Subscriber> subs;
+    subs.push_back(
+    nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this));
+    return subs;
 }
 
 void LineUpWithGate::decisionCallback(

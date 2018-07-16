@@ -14,38 +14,51 @@
  * pre defined directions for subroutines to use
  * example: z_rotation = RIGHT
  */
-<<<<<<< HEAD
-static const double RIGHT    = -0.15;
-static const double LEFT     = 0.15;
-static const double FORWARD  = 0.15;
-static const double BACKWARD = -0.15;
-static const double UP       = 0.15;
-static const double DOWN     = -0.15;
-=======
 static const double RIGHT    = -0.25;
 static const double LEFT     = 0.25;
 static const double FORWARD  = 0.25;
 static const double BACKWARD = -0.25;
 static const double UP       = 0.25;
 static const double DOWN     = -0.25;
->>>>>>> 7429af0abb1b30dc44f7656dc096d96b18c38ff2
 
 class Subroutine {
+  private:
+    // hold onto these, automatically unsubscribe/unadvertise when out of scope
+    ros::Publisher publisher_;
+    std::vector<ros::Subscriber> subscriptions_;
+
   public:
-    Subroutine(int argc, char** argv, std::string node_name);
+    Subroutine();
+    virtual std::string getName() = 0;
 
     void startup();
     void shutdown();
 
-    virtual void sleep() = 0;
-
   protected:
-    ros::Publisher publisher_;
-    ros::Subscriber subscriber_;
-    void publishCommand(const geometry_msgs::TwistStamped& msg);
+    /**
+     * Publishes a Twist message containing the movement decision
+     * @param msg
+     */
+    void publishCommand(const geometry_msgs::Twist& msg);
+
+    /**
+     * Utility function for creating a geometry_msgs::Vector3
+     * @param x
+     * @param y
+     * @param z
+     * @return x, y and z in order in a Vector3
+     */
     geometry_msgs::Vector3 makeVector(double x, double y, double z);
 
-    virtual void setupSubscriptions(ros::NodeHandle nh) = 0;
+    /**
+     * Gets the subscriptions for the subroutine. Each implementing class of
+     * subroutine is responsible for having this function return all subscriber
+     * objects it needs to work.
+     * @param nh node handle used to create the subscribers
+     * @return a vector of all subscriptions the subroutine needs
+     */
+    virtual std::vector<ros::Subscriber>
+    getSubscriptions(ros::NodeHandle nh) = 0;
 };
 
 #endif // DECISION_SUBROUTINE_H
