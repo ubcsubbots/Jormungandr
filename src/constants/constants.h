@@ -8,13 +8,21 @@
 
 namespace subbots {
 namespace global_constants {
-    // minimum height in cm from the camera's position that an
-    // overhead obstacle should be
-    static const float CLEARANCE_HEIGHT = 60;
+    static const float TARGET_TOP_POLE_ANGLE = 0.6;
 
-    // minimum width in cm from camera's position that
-    // side obstacles should be
-    static const float CLEARANCE_WIDTH = 30;
+    static const float ERROR_TOLERANCE_TOP_POLE_ANGLE = 0.1;
+
+    static const float TARGET_TOP_POLE_DISTANCE = 6;
+
+    static const float ERROR_TOLERANCE_TOP_POLE_DISTANCE = 0.05;
+
+    static const float ERROR_TOLERANCE_SIDE_POLES_ANGLE = 0.1;
+
+    static const float TARGET_SIDE_POLES_DISTANCE = 6;
+
+    static const float ERROR_TOLERANCE_SIDE_POLES_DISTANCE = 0.05;
+
+    static const float TARGET_AVERAGE_GATE_DISTANCE = 5;
 }
 }
 

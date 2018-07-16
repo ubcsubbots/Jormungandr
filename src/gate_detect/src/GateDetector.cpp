@@ -357,5 +357,12 @@ GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
             gateCoordinates.distanceRightPole = rightPole.getVertDistance();
         }
     }
+
+    if(gateCoordinates.distanceTopPole > 15){
+        gateCoordinates.detectedTopPole = 0;
+        gateCoordinates.distanceTopPole = 0;
+        gateCoordinates.angleTopPole = 0;
+    }
+
     return gateCoordinates;
 }

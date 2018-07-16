@@ -11,6 +11,8 @@
 void LineUpWithGate::setupSubscriptions(ros::NodeHandle nh) {
     subscriber_ = nh.subscribe(
     "gateDetect/output", 10, &LineUpWithGate::decisionCallback, this);
+    allignTop_ = false;
+    distanceToGateAcceptable_ = false;
     // nh.subscribe("imu", 10, &LineUpWithGate::balance, this);
 }
 
@@ -31,62 +33,51 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // send the message
     geometry_msgs::TwistStamped command;
 
-    double x_linear  = 0.0;
-    double y_linear  = 0.0;
-    double z_linear  = 0.0;
+    double x_linear = 0.0;
+    double y_linear = 0.0;
+    double z_linear = 0.0;
     double x_angular = 0.0;
     double y_angular = 0.0;
     double z_angular = 0.0;
 
-    if (!distanceToGateAcceptable_) {
-        float averageDistanceToGate;
-
-        averageDistanceToGate =
-        (msg->distanceLeftPole + msg->distanceRightPole +
-         msg->distanceTopPole) /
-        (msg->detectedLeftPole + msg->detectedRightPole + msg->detectedTopPole);
-
-        if (averageDistanceToGate > 7) {
-            if (msg->angleTopPole > 0.25) {
-                command.twist.linear.z = DOWN;
-            } else if (msg->angleTopPole < -0.25) {
-                command.twist.linear.z = UP;
-            }
-            if ((msg->angleLeftPole + msg->angleRightPole) > 0.25) {
-                command.twist.angular.z = -0.25;
-            } else if ((msg->angleLeftPole + msg->angleRightPole) < -0.25) {
-                command.twist.angular.z = 0.25;
-            } else {
-                command.twist.linear.x = FORWARD;
-            }
-        } else {
-            distanceToGateAcceptable_ = true;
-        }
-    }
-
-    if (!allignTop_) {
-        if (msg->angleTopPole > 0.25) {
-            command.twist.linear.z = DOWN;
-            publishCommand(command);
-            return;
-        } else if (msg->angleTopPole < -0.25) {
+    if (msg->detectedTopPole) {
+        if (abs(msg->distanceTopPole - subbots::global_constants::TARGET_TOP_POLE_DISTANCE) <
+            subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_DISTANCE) {
+        if ((msg->angleTopPole - subbots::global_constants::TARGET_TOP_POLE_ANGLE) >
+            subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_ANGLE) {
             command.twist.linear.z = UP;
             publishCommand(command);
             return;
-        } else {
-            allignTop_ = true;
+        } else if ((msg->angleTopPole - subbots::global_constants::TARGET_TOP_POLE_ANGLE) <
+                   subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_ANGLE) {
+            command.twist.linear.z = DOWN;
+            publishCommand(command);
+            return;
+        }
         }
     }
 
-    if (msg->angleTopPole > 0.25) {
-        command.twist.linear.z = DOWN;
-    } else if (msg->angleTopPole < -0.25) {
-        command.twist.linear.z = UP;
+    float averageDistanceToGate = (msg->distanceLeftPole + msg->distanceRightPole + msg->distanceTopPole) /
+                                  (msg->detectedLeftPole + msg->detectedRightPole + msg->detectedTopPole);
+
+
+    if ((msg->angleRightPole + msg->angleLeftPole) > subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_ANGLE) {
+        command.twist.angular.z = RIGHT;
+    } else if ((msg->angleRightPole + msg->angleLeftPole) <
+               subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_ANGLE) {
+        command.twist.angular.z = LEFT;
     }
-    if ((msg->angleLeftPole + msg->angleRightPole) > 0.25) {
-        command.twist.angular.z = 0.25;
-    } else if ((msg->angleLeftPole + msg->angleRightPole) < -0.25) {
-        command.twist.angular.z = -0.25;
+
+    if ((averageDistanceToGate - subbots::global_constants::TARGET_SIDE_POLES_DISTANCE) < -subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_DISTANCE){
+        command.twist.linear.x = BACKWARD;
+    } else if((averageDistanceToGate - subbots::global_constants::TARGET_SIDE_POLES_DISTANCE) > subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_DISTANCE){
+        command.twist.linear.x = FORWARD;
+    }
+
+    if((msg->distanceRightPole - msg->distanceLeftPole) > subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_DISTANCE){
+        command.twist.linear.y = RIGHT;
+    } else if((msg->distanceRightPole - msg->distanceLeftPole) < -subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_DISTANCE){
+        command.twist.linear.y = LEFT;
     }
 
     publisher_.publish(command);

@@ -20,6 +20,7 @@
 #include "GoThroughGate.h"
 #include "LineUpWithGate.h"
 #include "LocateGate.h"
+#include "ApproachGate.h"
 
 typedef int8_t state_t;
 

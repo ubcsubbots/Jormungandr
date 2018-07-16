@@ -25,24 +25,21 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     worldstate::StateMsg msg_to_publish;
     msg_to_publish.state = worldstate::StateMsg::passingGate;
 
-    /*
-     * Assume for now if the gate disappears it has successfully
-     * passed through the gate
-     */
-    if (!msg->detectedLeftPole && !msg->detectedRightPole &&
-        msg->detectedTopPole) {
-        msg_to_publish.state = worldstate::StateMsg::locatingDie;
-    }
 
     // If the robot does not have enough distance between the top bar and its
     // protrusion
     if (msg->detectedTopPole &&
-        msg->distanceTopPole < subbots::global_constants::CLEARANCE_HEIGHT) {
+            abs(msg->angleTopPole -subbots::global_constants::TARGET_TOP_POLE_ANGLE) > subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_ANGLE) {
         // Have it align again
         msg_to_publish.state = worldstate::StateMsg::aligningWithGate;
     }
 
-    //
+    if(!((msg->detectedTopPole) && abs(msg->angleTopPole - subbots::global_constants::TARGET_TOP_POLE_ANGLE) < 0.05)){
+        if(!((msg->detectedRightPole &&msg->detectedLeftPole) && abs(msg->angleLeftPole + msg->angleRightPole) < 0.05)){
+            msg_to_publish.state = worldstate::StateMsg::passingGate;
+        }
+    }
 
+    // Let the World State Node know to transition to the next state
     publishNextState(msg_to_publish);
 }

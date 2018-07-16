@@ -10,11 +10,16 @@
 
 #include <ros/ros.h>
 #include <unordered_map>
+#include "routines/Gate/AlignWithGate.h"
+#include "routines/Gate/LocatingGate.h"
+#include "routines/Gate/PassGate.h"
+#include "routines/Gate/ApproachGate.h"
 
 /* ROS msg types */
 #include "routines/State.h"
 #include <std_msgs/builtin_int8.h>
 #include <worldstate/StateMsg.h>
+
 
 typedef int8_t state_t;
 

@@ -26,7 +26,7 @@ void TestUtils::DisplayGateCoordinates(cv::Mat mat,
 
     int leftPole, rightPole, topPole;
 
-    float _interpolationConstant1 = -0.002673, _interpolationConstant2 = 5.134;
+    float _interpolationConstant1 = 81.88, _interpolationConstant2 = -.92791;
 
     leftPole =
     (mat.cols / 2) -

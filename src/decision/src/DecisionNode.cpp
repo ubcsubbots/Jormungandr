@@ -63,6 +63,9 @@ void DecisionNode::setupSubroutineMap(int argc, char** argv) {
     subroutines_[worldstate::StateMsg::locatingGate] =
     new LocateGate(argc, argv, "locate_gate");
 
+    subroutines_[worldstate::StateMsg::approachingGate] =
+            new ApproachGate(argc, argv, "approach_gate");
+
     subroutines_[worldstate::StateMsg::aligningWithGate] =
     new LineUpWithGate(argc, argv, "align_with_gate");
 
