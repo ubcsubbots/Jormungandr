@@ -11,8 +11,6 @@
 void LineUpWithGate::setupSubscriptions(ros::NodeHandle nh) {
     subscriber_ = nh.subscribe(
     "gateDetect/output", 10, &LineUpWithGate::decisionCallback, this);
-    allignTop_ = false;
-    distanceToGateAcceptable_ = false;
     // nh.subscribe("imu", 10, &LineUpWithGate::balance, this);
 }
 
@@ -33,9 +31,9 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // send the message
     geometry_msgs::TwistStamped command;
 
-    double x_linear = 0.0;
-    double y_linear = 0.0;
-    double z_linear = 0.0;
+    double x_linear  = 0.0;
+    double y_linear  = 0.0;
+    double z_linear  = 0.0;
     double x_angular = 0.0;
     double y_angular = 0.0;
     double z_angular = 0.0;
