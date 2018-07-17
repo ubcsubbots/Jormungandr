@@ -14,12 +14,12 @@
 
 /*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
 class PassGate : public State {
-  public:
+public:
     PassGate() : State() {}
     std::vector<ros::Subscriber>
     getNodeSubscriptions(ros::NodeHandle nh) override;
 
-  private:
+private:
     /**
      * Decides based on image data whether the robot still needs to
      * align with the gate.
@@ -27,6 +27,8 @@ class PassGate : public State {
      * @param msg gateDetectMsg data
      */
     void gateDetectCallBack(const gate_detect::GateDetectMsg::ConstPtr& msg);
+
+
 };
 
 #endif // PROJECT_PASSGATE_H

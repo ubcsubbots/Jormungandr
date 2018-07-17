@@ -8,7 +8,9 @@
 #define DECISION_SUBROUTINE_H
 
 #include <geometry_msgs/TwistStamped.h>
+#include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
+#include <constants.h>
 
 /**
  * pre defined directions for subroutines to use
@@ -16,6 +18,8 @@
  */
 static const double RIGHT    = -0.25;
 static const double LEFT     = 0.25;
+static const double TWISTLEFT = 0.25;
+static const double TWISTRIGHT = 0.25;
 static const double FORWARD  = 0.25;
 static const double BACKWARD = -0.25;
 static const double UP       = 0.25;
@@ -34,12 +38,12 @@ class Subroutine {
     void startup();
     void shutdown();
 
-  protected:
+protected:
     /**
-     * Publishes a Twist message containing the movement decision
+     * Publishes an Odom message containing the movement decision
      * @param msg
      */
-    void publishCommand(const geometry_msgs::TwistStamped& msg);
+    void publishCommand(nav_msgs::Odometry msg);
 
     /**
      * Utility function for creating a geometry_msgs::Vector3

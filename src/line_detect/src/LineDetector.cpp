@@ -16,7 +16,6 @@ LineDetector::LineDetector() {
     houghLinesMinLength_ = 50;
 
     houghLinesMaxLineGap_ = 50;
-
 }
 
 
@@ -58,7 +57,6 @@ LineStruct LineDetector::initialize(const cv::Mat mat_in){
 
     }else markerLines = detectedMarkerLines.at(0);
 
-
     cv::Vec4i averageOfLines = (markerLines.first + markerLines.second)/2;
 
     lineStruct.angleToParallel = (calculateSlope(markerLines.first) + calculateSlope(markerLines.second))/2;
@@ -95,7 +93,8 @@ std::vector<std::pair<cv::Vec4i,cv::Vec4i>> LineDetector::findMarker(std::vector
 
 
 float LineDetector::calculateSlope(cv::Vec4i detectedLine){
-    return(detectedLine[3] - detectedLine[1])/(detectedLine[2] - detectedLine[0]);
+    if(!(detectedLine[3] - detectedLine[1] == 0)) return(detectedLine[2] - detectedLine[0])/(detectedLine[3] - detectedLine[1]);
+    else return -1;
 }
 
 float LineDetector::calculateWidth(cv::Vec4i line1 , cv::Vec4i line2){
@@ -114,6 +113,8 @@ float LineDetector::calculateWidth(cv::Vec4i line1 , cv::Vec4i line2){
     mi = -(1/m0);
 
     bi = yi0 - mi * xi0;
+
+    if(mi == m1) return -1;
 
     xi1 = (b1 - bi)/(mi - m1);
 
@@ -137,11 +138,15 @@ float LineDetector::calcProjectedDistance(cv::Vec4i line1) {
 
     b1 = (imagePixelHeight_/2) - m1 * (imagePixelWidth_/2);
 
+    if(m1 == m0) return -1;
+
     float xi = (b1 - b0)/(m1 - m0);
 
     float yi = m1 * xi + b1;
 
-    return sqrt(pow((yi - (imagePixelHeight_/2)),2) + pow((xi - imagePixelWidth_/2),2));
+    if(x0 + x1 > 0) return sqrt(pow((yi - (imagePixelHeight_/2)),2) + pow((xi - imagePixelWidth_/2),2));
+
+    else return -sqrt(pow((yi - (imagePixelHeight_/2)),2) + pow((xi - imagePixelWidth_/2),2));
 }
 
 float LineDetector::calcProjectedDistanceToEndOfLine(cv::Vec4i line1){

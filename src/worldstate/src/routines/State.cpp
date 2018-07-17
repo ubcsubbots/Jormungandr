@@ -29,6 +29,7 @@ void State::sleep() {
     }
     subscriptions_.clear();
 }
+
 void State::publishNextState(const worldstate::StateMsg& msg) {
     state_publisher_.publish(msg);
 }

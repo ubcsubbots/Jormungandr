@@ -44,7 +44,7 @@ include_directories(
 		./test/testUtilities
 )
 
-add_executable(gate_detect
+add_executable(gate_detect_node
         src/GateDetectorNode.cpp
 		src/gate_detect_node.cpp
 		src/GateDetector.cpp
@@ -55,14 +55,14 @@ add_executable(gate_detect
 		test/testUtilities/GateTestUtils.h
 		test/testUtilities/GateTestUtils.cpp)
 
-target_link_libraries(gate_detect
+target_link_libraries(gate_detect_node
 		${catkin_LIBRARIES}
 		${OpenCV_LIBS}
 )
 
-add_dependencies(gate_detect ${PROJECT_NAME}_gencfg)
-add_dependencies(gate_detect ${catkin_EXPORTED_TARGETS})
-add_dependencies(gate_detect gate_detect_generate_messages_cpp)
+add_dependencies(gate_detect_node ${PROJECT_NAME}_gencfg)
+add_dependencies(gate_detect_node ${catkin_EXPORTED_TARGETS})
+add_dependencies(gate_detect_node gate_detect_generate_messages_cpp)
 
 if (CATKIN_ENABLE_TESTING)
 	# Adding gtests to the package

@@ -56,11 +56,17 @@ const worldstate::StateMsg::ConstPtr& msg) {
  * subroutine
  */
 void WorldStateNode::initializeFiniteStateMachine() {
+    //Gate
     state_machine_[worldstate::StateMsg::locatingGate]    = new LocatingGate();
     state_machine_[worldstate::StateMsg::approachingGate] = new ApproachGate();
     state_machine_[worldstate::StateMsg::aligningWithGate] =
     new AlignWithGate();
     state_machine_[worldstate::StateMsg::passingGate] = new PassGate();
+
+    //Line Following
+    state_machine_[worldstate::StateMsg::passingGate] = new FindLine();
+    state_machine_[worldstate::StateMsg::passingGate] = new FollowLine();
+    state_machine_[worldstate::StateMsg::passingGate] = new AdjustToLine();
 
     // Activate the state_machine with the initial state
     current_state_ = state_machine_[initial_state_];

@@ -1,5 +1,5 @@
 <launch>
-    <node name="gate_detect_node" pkg="gate_detect" type="gate_detect" output="screen">
+    <node name="gate_detect" pkg="gate_detect" type="gate_detect_node" output="screen">
             <param name="cannyLow" value="50" type="int" />
             <param name="houghLinesThreshold" value="100" type="int" />
             <param name="houghLinesMinLength" value="125" type="int" />
@@ -19,6 +19,9 @@
     </node>
     <node name="world_state_node" pkg="worldstate" type="world_state_node" output="screen">
     </node>
+    <node name="line_detect" pkg="line_detect" type="line_detect_node" output="screen">
+        <remap from="camera_output" to="/uwsim/camera1"/>
+        </node>
     <node name="decision_node" pkg="decision" type="decision_node" output="screen">
         <remap from="worldstate" to="/worldstate/output"/>
         <remap from="gate_location" to="/gateDetect/output"/>

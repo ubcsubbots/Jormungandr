@@ -39,20 +39,20 @@ include_directories(
 	./include
 )
 
-add_executable(line_detect
+add_executable(line_detect_node
 		src/LineDetectorNode.cpp
         src/line_detect_node.cpp
 		src/LineDetector.cpp
 		include/LineDetectorNode.h
 		include/LineDetector.h)
 
-target_link_libraries(line_detect
+target_link_libraries(line_detect_node
 		${catkin_LIBRARIES}
 		${OpenCV_LIBS}
 )
 
-add_dependencies(line_detect ${catkin_EXPORTED_TARGETS})
-add_dependencies(line_detect gate_detect_generate_messages_cpp)
+add_dependencies(line_detect_node ${catkin_EXPORTED_TARGETS})
+add_dependencies(line_detect_node gate_detect_generate_messages_cpp)
 
 if (CATKIN_ENABLE_TESTING)
 

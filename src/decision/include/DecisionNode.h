@@ -21,6 +21,9 @@
 #include "GoThroughGate.h"
 #include "LineUpWithGate.h"
 #include "LocateGate.h"
+#include "FindLine.h"
+#include "AdjustToLine.h"
+#include "FollowLine.h"
 
 typedef int8_t state_t;
 

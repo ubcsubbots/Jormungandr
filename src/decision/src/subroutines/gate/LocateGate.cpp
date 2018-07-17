@@ -27,8 +27,7 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
         z_rotation = RIGHT * 2;
     }
 
-    geometry_msgs::TwistStamped command;
-    command.twist.angular = makeVector(0.0, 0.0, z_rotation);
-    command.twist.linear  = makeVector(0.0, 0.0, 0.0);
+    nav_msgs::Odometry command;
+    command.twist.twist.angular.z = LEFT;
     publishCommand(command);
 }

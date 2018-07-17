@@ -5,6 +5,7 @@
  */
 
 #include "Subroutine.h"
+#include <geometry_msgs/TwistStamped.h>
 
 Subroutine::Subroutine() {}
 
@@ -29,8 +30,20 @@ void Subroutine::shutdown() {
     subscriptions_.clear();
 }
 
-void Subroutine::publishCommand(const geometry_msgs::TwistStamped& msg) {
-    publisher_.publish(msg);
+void Subroutine::publishCommand(nav_msgs::Odometry msg) {
+    geometry_msgs::TwistStamped twistStamped;
+
+    twistStamped.twist.linear.x = msg.twist.twist.linear.x;
+    twistStamped.twist.linear.y = msg.twist.twist.linear.y;
+    twistStamped.twist.linear.z = msg.twist.twist.linear.z;
+
+    if(msg.pose.pose.position.z > 0){
+        twistStamped.twist.linear.x = UP;
+    }else if(msg.pose.pose.position.z > 0) {
+        twistStamped.twist.linear.x = DOWN;
+    }
+
+    publisher_.publish(twistStamped);
 }
 
 geometry_msgs::Vector3 Subroutine::makeVector(double x, double y, double z) {
