@@ -6,23 +6,23 @@ orientation of the gate is.
 The output of this node is a Gate construct that consists of 3 boolean values and 6 float values that are described as follows:
 
 
-          boolean detectedLeftPole:   false if left pole not seen, true if seen, 0 if not seen
+          boolean detectedLeftPole:     False if left pole not seen, true if seen, 0 if not seen
           
-          float angleLeftPole:      Angle from vertical centre of camera image to left pole
+          float angleLeftPole:          Angle from vertical centre of camera image to left pole
 
-          float distanceLeftPole:   Distance to left pole, 0 if not seen
+          float distanceLeftPole:       Distance to left pole, 0 if not seen
 
-          boolean detectedRightPole:  false if right pole not seen, true if seen, 0 if not seen
+          boolean detectedRightPole:    False if right pole not seen, true if seen, 0 if not seen
 
-          float angleRightPole:     Angle from vertical centre of camera image to right pole
+          float angleRightPole:         Angle from vertical centre of camera image to right pole
 
-          float distanceRightPole:  Distance to right pole, 0 if not seen
+          float distanceRightPole:      Distance to right pole, 0 if not seen
 
-          boolean detectedTopPole:    0 if top pole not seen, 1 if seen
+          boolean detectedTopPole:      False if top pole not seen, true if seen
 
-          float angleTopPole:       Angle from horizontal centre of image to top pole, 0 if not seen
+          float angleTopPole:           Angle from horizontal centre of image to top pole, 0 if not seen
 
-          float distanceTopPole:    Distance to top pole, 0 if not seen
+          float distanceTopPole:        Distance to top pole, 0 if not seen
 
 
 ##Method
