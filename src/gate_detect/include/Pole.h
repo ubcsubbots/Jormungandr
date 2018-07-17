@@ -45,6 +45,8 @@ class Pole {
 
     float getHorAngle(int pixelDistanceFromMid);
 
+    float calculateSlope(cv::Vec4i detectedLine);
+
   private:
     cv::Vec4i side1_, side2_;
 
