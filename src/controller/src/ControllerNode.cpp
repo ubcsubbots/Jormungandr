@@ -1,15 +1,15 @@
 /*
  * Created By: Viral Galaiya
  * Created On: July 7th 2018
- * Description: The LQR controller with the intergrator, dertmined using Simulink. Takes in the Ros geometry message and returns a//  ros cutom message with the PWM
+ * Description: The LQR controller with the integrator, determined using Simulink. Takes in the Ros geometry message and returns a//  ros custom message with the PWM
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include "ros/ros.h"
-#include "std_mgs/Int16MultiArray.h"
+#include "std_msgs/Int16MultiArray.h"
 #include <geometry_msgs/Twist.h>
 
-#include <Eigen/Dense> //matrix manipulation labrary
+#include <Eigen/Dense> //matrix manipulation library
 
 
 class ControllerNode {
@@ -20,7 +20,7 @@ private:
   
 public:
   ControllerNode (std::string name){
-    //initilizes node 
+    //initializes node
 
     //should be custom twist??..publishing a int16array, could change to int32, (vale unitl a thousand, so 16 should be fine
 
@@ -29,7 +29,7 @@ public:
     arduino_pub = nh.advertise<std_msgs::Int16MultiArray>("Arduino",1000);
   }
   
-  ~void ControllerNode (void){}
+  ~ ControllerNode();
     
   void DesiredVelocityCallback(const geometry_msgs::Twist& desired_twist_velocity)
   {
@@ -37,7 +37,7 @@ public:
     MatrixDesiredvelocity <<
       twist_velocity->linear.x,
       twist_velocity->linear.y,
-      twist_velocity->linear.z,//poisition in real, not velocity
+      twist_velocity->pose.z,//position in real, not velocity
       twist_velocity->angular.x,
       twist_velocity->angular.y,
       twist_velocity->angular.z;
@@ -58,12 +58,14 @@ public:
     Eigen::MatrixXd K(4,6);
 
     K <<
-      1, 2, 3, 4, 5, 6,
-      1, 2, 3, 4, 5, 6,
-      1, 2, 3, 4, 5, 6,
-      1, 2, 3, 4, 5, 6;
+               0.3336,   -0.1862,   -0.4019,   -0.1243,    0.0020,    0.1623,
+               0.2801,    0.2301,    0.4458,    0.1266,   -0.0017,   -0.1713,
+              -0.0089,    0.1006,   14.5461,    0.1070,   -0.0016,    0.3206,
+               0.0102,   -0.1144,   13.9227,    0.8343,    0.0004,   2-0.3244;
  
     Eigen::MatrixXd PWMmatrix(4,1);
+
+      // PWM matrix needs to be multiplied to get the PWM value, since its in terms of torque rightnow
     PWMmatrix = K(MatrixDesiredvelocity- MatrixCurrentvelocity);
 
     // set this to the frequency of the controller
@@ -88,7 +90,7 @@ public:
   
   }
 
-}
+};
   int main(int argc, char **argv){
 
     //creates the node name something to do with command line
