@@ -46,7 +46,6 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
                     msg_to_publish.state = worldstate::StateMsg::passingGate;
                 }
             }
-
         }
     }
 
