@@ -5,6 +5,7 @@ orientation of the gate is.
 
 The output of this node is a Gate construct that consists of 3 boolean values and 6 float values that are described as follows:
 
+
           boolean detectedLeftPole:   false if left pole not seen, true if seen, 0 if not seen
           
           float angleLeftPole:      Angle from vertical centre of camera image to left pole
@@ -22,8 +23,11 @@ The output of this node is a Gate construct that consists of 3 boolean values an
           float angleTopPole:       Angle from horizontal centre of image to top pole, 0 if not seen
 
           float distanceTopPole:    Distance to top pole, 0 if not seen
-          
+
+
 ##Method
+
+```
 
        TOP VIEW
        
@@ -39,7 +43,9 @@ The output of this node is a Gate construct that consists of 3 boolean values an
           | ROBOT| 
           |      |
           --------
-          
+```
+
+
 The gate detector used to process the image uses an interpolation function to estimate distance to the poles. Discrete data
 points must be collected of the pixel width of the poles of the gate at various distances. You then must use this data to 
 create an approximation function to map the pixel width of the poles to the distance from the pole.
