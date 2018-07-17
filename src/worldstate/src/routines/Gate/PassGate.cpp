@@ -10,8 +10,6 @@
 std::vector<ros::Subscriber>
 PassGate::getNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
-    gate_detect_listener =
-    nh.subscribe(gateDetectTopic, 10, &PassGate::GateDetectCallBack, this);
 
     std::vector<ros::Subscriber> subs;
     subs.push_back(
@@ -27,17 +25,11 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     worldstate::StateMsg msg_to_publish;
     msg_to_publish.state = worldstate::StateMsg::passingGate;
 
-
-    // If the robot does not have enough distance between the top bar and its
-    // protrusion
-    if (msg->detectedTopPole &&
-            abs(msg->angleTopPole -subbots::global_constants::TARGET_TOP_POLE_ANGLE) > subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_ANGLE) {
-        // Have it align again
-        msg_to_publish.state = worldstate::StateMsg::aligningWithGate;
-    }
-
-    if(!((msg->detectedTopPole) && abs(msg->angleTopPole - subbots::global_constants::TARGET_TOP_POLE_ANGLE) < 0.05)){
-        if(!((msg->detectedRightPole &&msg->detectedLeftPole) && abs(msg->angleLeftPole + msg->angleRightPole) < 0.05)){
+    if (!((msg->detectedTopPole) &&
+          abs(msg->angleTopPole -
+              subbots::global_constants::TARGET_TOP_POLE_CLEARANCE) < 0.05)) {
+        if (!((msg->detectedRightPole && msg->detectedLeftPole) &&
+              abs(msg->angleLeftPole + msg->angleRightPole) < 0.05)) {
             msg_to_publish.state = worldstate::StateMsg::passingGate;
         }
     }

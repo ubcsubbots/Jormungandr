@@ -1,7 +1,8 @@
 /*
  * Created By: Cameron Newton
  * Created On: May 19, 2018
- * Description: Subroutine that simply proceeds forward through the gate
+ * Description: Subroutine that goes towards the gate until we're close enough
+ * to align
  */
 
 #ifndef DECISION_APPROACHGATE_H
@@ -17,13 +18,13 @@
  *
  */
 class ApproachGate : public Subroutine {
-public:
-    ApproachGate(int argc, char** argv, std::string node_name)
-            : Subroutine(argc, argv, node_name) {}
-    void setupSubscriptions(ros::NodeHandle nh) override;
-    void sleep() override;
+  public:
+    ApproachGate() : Subroutine() {}
+    std::string getName() override { return "ApproachGate"; }
 
-private:
+    std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
+
+  private:
     void decisionCallback(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 

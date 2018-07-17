@@ -20,6 +20,6 @@
     <node name="decision_node" pkg="decision" type="decision_node" output="screen">
         <remap from="worldstate" to="/worldstate/output"/>
         <remap from="gate_location" to="/gateDetect/output"/>
-        <remap from="sub_control" to="/g500/twist"/>
+        <remap from="/decision_node/output" to="/g500/twist"/>
     </node>
 </launch>

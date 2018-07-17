@@ -8,25 +8,28 @@
 #include "ApproachGate.h"
 #include <worldstate/StateMsg.h>
 
-void ApproachGate::setupNodeSubscriptions(ros::NodeHandle nh) {
+std::vector<ros::Subscriber>
+ApproachGate::getNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
-    gate_detect_listener_ =
-            nh.subscribe(gateDetectTopic, 10, &ApproachGate::gateDetectCallBack, this);
-}
 
-void ApproachGate::sleep() {
-    gate_detect_listener_.shutdown();
+    std::vector<ros::Subscriber> subs;
+    subs.push_back(
+    nh.subscribe(gateDetectTopic, 10, &ApproachGate::gateDetectCallBack, this));
+    return subs;
 }
 
 void ApproachGate::gateDetectCallBack(
-        const gate_detect::GateDetectMsg::ConstPtr& msg) {
+const gate_detect::GateDetectMsg::ConstPtr& msg) {
     worldstate::StateMsg msg_to_publish;
 
-    float averageDistanceToGate = (msg->distanceLeftPole + msg->distanceRightPole + msg->distanceTopPole)/(msg->detectedLeftPole + msg->detectedRightPole + msg->detectedTopPole);
+    float averageDistanceToGate =
+    (msg->distanceLeftPole + msg->distanceRightPole + msg->distanceTopPole) /
+    (msg->detectedLeftPole + msg->detectedRightPole + msg->detectedTopPole);
 
-    if(averageDistanceToGate > subbots::global_constants::TARGET_AVERAGE_GATE_DISTANCE){
+    if (averageDistanceToGate >
+        subbots::global_constants::TARGET_AVERAGE_GATE_DISTANCE) {
         msg_to_publish.state = worldstate::StateMsg::approachingGate;
-    }else{
+    } else {
         msg_to_publish.state = worldstate::StateMsg::aligningWithGate;
     }
 

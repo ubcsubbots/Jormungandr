@@ -113,9 +113,11 @@ const gate_detect::gatedetectConfig& config, uint32_t level) {
              config.houghLinesMaxLineGap,
              config.poleMax);
 
-    gateDetector_ = GateDetector(config.cannyLow,
-                                 config.houghLinesThreshold,
-                                 config.houghLinesMinLength,
-                                 config.houghLinesMaxLineGap,
-                                 config.poleMax);
+    gateDetector_.setParams(config.cannyLow,
+                            config.houghLinesThreshold,
+                            config.houghLinesMinLength,
+                            config.houghLinesMaxLineGap,
+                            config.poleMax,
+                            config.interpolationConstant1,
+                            config.interpolationConstant2);
 }

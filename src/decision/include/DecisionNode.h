@@ -17,10 +17,10 @@
 // state msg
 #include <worldstate/StateMsg.h>
 // subroutines
+#include "ApproachGate.h"
 #include "GoThroughGate.h"
 #include "LineUpWithGate.h"
 #include "LocateGate.h"
-#include "ApproachGate.h"
 
 typedef int8_t state_t;
 

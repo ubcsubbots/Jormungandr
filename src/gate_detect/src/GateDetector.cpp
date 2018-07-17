@@ -11,7 +11,9 @@ GateDetector::GateDetector(int cannyLow,
                            int houghLinesThreshold,
                            int houghLinesMinLength,
                            int houghLinesMaxLineGap,
-                           int poleMax) {
+                           int poleMax,
+                           double interpolationConstant1,
+                           double interpolationConstant2) {
     cannyLow_ = cannyLow;
 
     poleMax_ = poleMax;
@@ -26,9 +28,11 @@ GateDetector::GateDetector(int cannyLow,
 
     lowHorThresh_ = 60;
 
-    VertInterpolationConstant2_ = HorInterpolationConstant2_ = 81.88;
+    VertInterpolationConstant1_ = HorInterpolationConstant1_ =
+    interpolationConstant1;
 
-    VertInterpolationConstant1_ = HorInterpolationConstant1_ = -.92791;
+    VertInterpolationConstant2_ = HorInterpolationConstant2_ =
+    interpolationConstant2;
 }
 
 GateDetector::GateDetector() {
@@ -49,6 +53,34 @@ GateDetector::GateDetector() {
     VertInterpolationConstant2_ = HorInterpolationConstant2_ = 81.88;
 
     VertInterpolationConstant1_ = HorInterpolationConstant1_ = -.92791;
+}
+
+void GateDetector::setParams(int cannyLow,
+                             int houghLinesThreshold,
+                             int houghLinesMinLength,
+                             int houghLinesMaxLineGap,
+                             int poleMax,
+                             float interpolationConstant1,
+                             float interpolationConstant2) {
+    cannyLow_ = cannyLow;
+
+    poleMax_ = poleMax;
+
+    houghLinesThreshold_ = houghLinesThreshold;
+
+    houghLinesMinLength_ = houghLinesMinLength;
+
+    houghLinesMaxLineGap_ = houghLinesMaxLineGap;
+
+    lowVertThresh_ = 20;
+
+    lowHorThresh_ = 60;
+
+    VertInterpolationConstant1_ = HorInterpolationConstant1_ =
+    interpolationConstant1;
+
+    VertInterpolationConstant2_ = HorInterpolationConstant2_ =
+    interpolationConstant2;
 }
 
 GateCoordinates GateDetector::initialize(const cv::Mat matin) {
@@ -358,10 +390,10 @@ GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
         }
     }
 
-    if(gateCoordinates.distanceTopPole > 15){
+    if (gateCoordinates.distanceTopPole > 15) {
         gateCoordinates.detectedTopPole = 0;
         gateCoordinates.distanceTopPole = 0;
-        gateCoordinates.angleTopPole = 0;
+        gateCoordinates.angleTopPole    = 0;
     }
 
     return gateCoordinates;

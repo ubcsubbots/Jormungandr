@@ -8,9 +8,9 @@
 
 namespace subbots {
 namespace global_constants {
-    static const float TARGET_TOP_POLE_ANGLE = 0.6;
+    static const float TARGET_TOP_POLE_CLEARANCE = 2.0;
 
-    static const float ERROR_TOLERANCE_TOP_POLE_ANGLE = 0.1;
+    static const float ERROR_TOLERANCE_TOP_POLE_CLEARANCE = 0.1;
 
     static const float TARGET_TOP_POLE_DISTANCE = 6;
 

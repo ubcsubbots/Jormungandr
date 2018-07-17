@@ -14,13 +14,12 @@
 
 /*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
 class ApproachGate : public State {
-public:
-    ApproachGate(int argc, char** argv, std::string node_name)
-            : State(argc, argv, node_name) {}
-    void setupNodeSubscriptions(ros::NodeHandle nh) override;
-    void sleep() override;
+  public:
+    ApproachGate() : State() {}
+    std::vector<ros::Subscriber>
+    getNodeSubscriptions(ros::NodeHandle nh) override;
 
-private:
+  private:
     ros::Subscriber gate_detect_listener_;
 
     /**

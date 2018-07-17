@@ -26,7 +26,7 @@ class PassGate : public State {
      *
      * @param msg gateDetectMsg data
      */
-    void GateDetectCallBack(const gate_detect::GateDetectMsg::ConstPtr& msg);
+    void gateDetectCallBack(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 
 #endif // PROJECT_PASSGATE_H

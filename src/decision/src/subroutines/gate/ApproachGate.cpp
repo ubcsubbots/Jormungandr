@@ -4,36 +4,43 @@
  * Description: Subroutine that simply proceeds forward through the gate
  */
 
-#include <constants.h>
 #include "ApproachGate.h"
+#include <constants.h>
 
-void ApproachGate::setupSubscriptions(ros::NodeHandle nh) {
-    subscriber_ = nh.subscribe(
-            "gateDetect/output", 10, &ApproachGate::decisionCallback, this);
-}
-
-void ApproachGate::sleep() {
-    publisher_.shutdown();
-    subscriber_.shutdown();
+std::vector<ros::Subscriber>
+ApproachGate::getSubscriptions(ros::NodeHandle nh) {
+    std::vector<ros::Subscriber> subs;
+    subs.push_back(
+    nh.subscribe("gate_location", 10, &ApproachGate::decisionCallback, this));
+    return subs;
 }
 
 void ApproachGate::decisionCallback(
-        const gate_detect::GateDetectMsg::ConstPtr& msg) {
-
+const gate_detect::GateDetectMsg::ConstPtr& msg) {
     geometry_msgs::TwistStamped command;
 
     command.twist.linear.x = FORWARD;
 
-    if ((msg->angleLeftPole + msg->angleRightPole) > (subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_ANGLE)) {
-        command.twist.angular.z = RIGHT;
-    } else if ((msg->angleLeftPole + msg->angleRightPole) < (subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_ANGLE)) {
-        command.twist.angular.z = LEFT;
+    // Attempt to point to the middle of the gate
+    if ((msg->angleLeftPole + msg->angleRightPole) >
+        (subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_ANGLE)) {
+        command.twist.angular.z = RIGHT / 2;
+    } else if ((msg->angleLeftPole + msg->angleRightPole) <
+               (subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_ANGLE)) {
+        command.twist.angular.z = LEFT / 2;
     }
 
-    if ((msg->angleTopPole - subbots::global_constants::TARGET_TOP_POLE_ANGLE) > subbots::global_constants::TARGET_TOP_POLE_ANGLE) {
-        command.twist.linear.z = UP;
-    } else if ((msg->angleTopPole - subbots::global_constants::TARGET_TOP_POLE_ANGLE) < -subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_ANGLE){
-        command.twist.linear.z = DOWN;
+    // Check top clearance for acceptable
+    float top_pole_clearance = sin(msg->angleTopPole) * msg->distanceTopPole;
+
+    if ((top_pole_clearance -
+         subbots::global_constants::TARGET_TOP_POLE_CLEARANCE) >
+        subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_CLEARANCE) {
+        command.twist.linear.z = DOWN / 2;
+    } else if ((top_pole_clearance -
+                subbots::global_constants::TARGET_TOP_POLE_CLEARANCE) <
+               -subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_CLEARANCE) {
+        command.twist.linear.z = UP / 2;
     }
 
     publishCommand(command);

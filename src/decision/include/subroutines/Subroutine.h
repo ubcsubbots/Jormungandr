@@ -39,7 +39,7 @@ class Subroutine {
      * Publishes a Twist message containing the movement decision
      * @param msg
      */
-    void publishCommand(const geometry_msgs::Twist& msg);
+    void publishCommand(const geometry_msgs::TwistStamped& msg);
 
     /**
      * Utility function for creating a geometry_msgs::Vector3

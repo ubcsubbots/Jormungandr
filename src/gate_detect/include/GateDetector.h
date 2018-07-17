@@ -71,7 +71,9 @@ class GateDetector {
                  int houghLinesThreshold,
                  int houghLinesMinLength,
                  int houghLinesMaxLineGap,
-                 int poleMax);
+                 int poleMax,
+                 double verticalInterpolationConstant,
+                 double horizontalInterpolationConstanct);
 
     GateDetector();
 
@@ -85,6 +87,25 @@ class GateDetector {
      * comment)
      */
     GateCoordinates initialize(const cv::Mat mat_in);
+
+    /**
+     * Function that sets the parameters of the Gate Detector
+     *
+     * @param cannyLow
+     * @param houghLinesThreshold
+     * @param houghLinesMinLength
+     * @param houghLinesMaxLineGap
+     * @param poleMax
+     * @param verticalInterpolationConstance
+     * @param horizontalInterpolationConstance
+     */
+    void setParams(int cannyLow,
+                   int houghLinesThreshold,
+                   int houghLinesMinLength,
+                   int houghLinesMaxLineGap,
+                   int poleMax,
+                   float interpolationConstant1,
+                   float interpolationConstant2);
 
   private:
     // Parameters defining the maximum deviation from begining to end that a
@@ -142,7 +163,7 @@ class GateDetector {
      *
      *  x = pixel width of pole
      */
-    float VertInterpolationConstant2_, HorInterpolationConstant2_,
+    double VertInterpolationConstant2_, HorInterpolationConstant2_,
     VertInterpolationConstant1_, HorInterpolationConstant1_;
 
     /**
