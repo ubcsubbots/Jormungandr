@@ -4,11 +4,12 @@ project(controller)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
+find_package(catkin REQUIRED cmake_modules)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
 )
-find_package(catkin REQUIRED cmake_modules)
+
 find_package(Eigen REQUIRED)
 
 add_definitions(-std=c++14)
@@ -103,10 +104,10 @@ add_definitions(-std=c++14)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-   # INCLUDE_DIRS include
+    #INCLUDE_DIRS include
 #  LIBRARIES sample_package
-  CATKIN_DEPENDS roscpp std_msgs
-  DEPENDS system_lib
+  #CATKIN_DEPENDS roscpp std_msgs
+  #DEPENDS system_lib
         DEPENDS Eigen
 )
 

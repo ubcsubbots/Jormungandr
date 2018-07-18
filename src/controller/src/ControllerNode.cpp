@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ros/ros.h"
-#include "std_msgs/Int16MultiArray.h"
-#include <geometry_msgs/Twist.h>
+#include "std_msgs/Int32MultiArray.h"
+#include "nav_msgs/Odometry.h"
 
 #include <Eigen/Dense> //matrix manipulation library
 
@@ -17,7 +17,7 @@ private:
   ros::Subscriber twist_sub;
   ros:: Publisher  arduino_pub;
   ros::NodeHandle nh;
-  
+
 public:
   ControllerNode (std::string name){
     //initializes node
@@ -25,27 +25,29 @@ public:
     //should be custom twist??..publishing a int16array, could change to int32, (vale unitl a thousand, so 16 should be fine
 
     //Can the same node subscribe and publish?
-    twist_sub = nh.subscribe("velocity_publisher", 1000, &DesiredvelocityCallback, this);
-    arduino_pub = nh.advertise<std_msgs::Int16MultiArray>("Arduino",1000);
+    twist_sub = nh.subscribe("velocity_publisher", 1000, &ControllerNode::DesiredvelocityCallback, this);
+    arduino_pub = nh.advertise<std_msgs::Int32MultiArray>("Arduino",1000);
   }
   
-  ~ ControllerNode();
+  ~ControllerNode(void){};
     
-  void DesiredVelocityCallback(const geometry_msgs::Twist& desired_twist_velocity)
+  void DesiredvelocityCallback(const  nav_msgs::Odometry::ConstPtr& desired_twist_velocity)
   {
-    Eigen::MatrixXd MatrixDesiredvelocity(6,1);
+
+      Eigen::MatrixXd MatrixCurrentvelocity(6,1);
+      Eigen::MatrixXd MatrixDesiredvelocity(6,1);
     MatrixDesiredvelocity <<
-      twist_velocity->linear.x,
-      twist_velocity->linear.y,
-      twist_velocity->pose.z,//position in real, not velocity
-      twist_velocity->angular.x,
-      twist_velocity->angular.y,
-      twist_velocity->angular.z;
+            desired_twist_velocity->twist.twist.linear.x,
+            desired_twist_velocity->twist.twist.linear.y,
+            desired_twist_velocity->pose.pose.position.z,//position in real, not velocity
+            desired_twist_velocity->twist.twist.angular.x,
+            desired_twist_velocity->twist.twist.angular.y,
+            desired_twist_velocity->twist.twist.angular.z;
 
 
     // Actual velocity to be got from the IMU and depth to be got from the pressure/depth sensor
-    Eigen::MatrixXd MatrixCurrentvelocity(6,1);
-    MatrixDesiredvelocity <<
+
+      MatrixCurrentvelocity <<
       1,
       2,
       3,//position, not velocity
@@ -66,25 +68,24 @@ public:
     Eigen::MatrixXd PWMmatrix(4,1);
 
       // PWM matrix needs to be multiplied to get the PWM value, since its in terms of torque rightnow
-    PWMmatrix = K(MatrixDesiredvelocity- MatrixCurrentvelocity);
+    PWMmatrix = K*(MatrixDesiredvelocity- MatrixCurrentvelocity); // - ki(velocity;accelaration matrix)
 
     // set this to the frequency of the controller
     ros::Rate loop_rate(10);
 
 
-  
 
-    std_msgs::Int16MultiArray motor_parameters;
+    std_msgs::Int32MultiArray motor_parameters;
     motor_parameters.data.clear();
     int T100port = 100; //temp
     int T100starboard = 100; //temp 
     int T200left = 200; //temp
     int T200right = 200;
-    motor_parameters.data.pushback(PWMmatrix(1,1));
-    motor_parameters.data.pushback(PWMmatrix(2,1));
-    motor_parameters.data.pushback(PWMmatrix(3,1));
-    motor_parameters.data.pushback(PWMmatrix(4,1));
-    arduino_pub.publish(msg);
+    motor_parameters.data.push_back(PWMmatrix(1,1));
+    motor_parameters.data.push_back(PWMmatrix(2,1));
+    motor_parameters.data.push_back(PWMmatrix(3,1));
+    motor_parameters.data.push_back(PWMmatrix(4,1));
+    arduino_pub.publish(motor_parameters);
 
 
   
