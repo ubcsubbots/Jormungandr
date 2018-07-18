@@ -1,7 +1,7 @@
-##Purpose
+## Purpose
 
-This node takes in raw image data from a camera and determines whether there is a gate in the image, and if so what the 
-orientation of the gate is.
+This package defines a ros node that takes in raw image data from a camera and determines whether there is a gate in the image, 
+and if so what the orientation of the gate is.
 
 The output of this node is a Gate construct that consists of 3 boolean values and 6 float values that are described as follows:
 
@@ -25,7 +25,7 @@ The output of this node is a Gate construct that consists of 3 boolean values an
           float distanceTopPole:        Distance to top pole, 0 if not seen
 
 
-##Method
+## Method
 
 ```
 
@@ -50,9 +50,8 @@ The gate detector used to process the image uses an interpolation function to es
 points must be collected of the pixel width of the poles of the gate at various distances. You then must use this data to 
 create an approximation function to map the pixel width of the poles to the distance from the pole.
 
-The current interpolation function is a power function: 
-
-(distance to pole) = interpolationConstant1 * (pixelWidthOfPole) ^ (interpolationConstant2)
+The interpolation can and should be updated in the code if a more accurate model can be established, this will greatly increase the 
+accuracy of the node.
 
 This function is accurate between 3 and 15 metres in the simulator, it may need to be updated with real world data points.
 
