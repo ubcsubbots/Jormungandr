@@ -1,5 +1,5 @@
 #include <ros.h>
-#include <geometry_msgs/Twist.h>
+#include <std_msgs/Twist.h>
 #include <Servo.h>
 
 /***********************/
@@ -26,7 +26,7 @@ Servo TRA; //Thruster on Right Angled 45
 ros::NodeHandle nh;
 
 /**
- * Receives Twist messages from the Decision Node
+ * Receives Int16 Multi Array messages from the Controller Node
  * The robot has five degrees of freedom: 
  * Linear x, y, z, and yaw
  * 
@@ -35,79 +35,14 @@ ros::NodeHandle nh;
  * move in either yaw or linear x. The angled motors 
  * allow it to exclusively move in either linear y or z.
  */
-void motorControlCallback (const geometry_msgs::Twist& msg){
-
-  /********** Linear X and Yaw **********/
-  //The two motions should be mutually exclusive
-  // Stop the straight motors 
-  if (msg.linear.x == 0 && msg.angular.z == 0){
-    TLS.write(PWM_STOP);
-    TRS.write(PWM_STOP);
-  }
-  //Linear X motion
-  else if (msg.linear.x != 0 && msg.angular.z == 0){
-    /* Move Forward */
-    if (msg.linear.x > 0){
-      TLS.write(PWM_STOP + PWM_STATIC_MOVE);
-      TRS.write(PWM_STOP + PWM_STATIC_MOVE);
-    }
-    /* Move Backwards*/
-    else{
-      TLS.write(PWM_STOP - PWM_STATIC_MOVE);
-      TRS.write(PWM_STOP - PWM_STATIC_MOVE);
-    }  
-  }
-  //Angular Z motion
-  else if (msg.angular.z != 0 && msg.linear.x == 0){
-    /* Turn Left */
-    if (msg.angular.z > 0){
-      TLS.write(PWM_STOP - PWM_STATIC_MOVE);
-      TRS.write(PWM_STOP + PWM_STATIC_MOVE);
-    }
-    /* Turn Right */
-    else{
-      TLS.write(PWM_STOP + PWM_STATIC_MOVE);
-      TRS.write(PWM_STOP - PWM_STATIC_MOVE);
-    }  
-  }
-  //Figure out how to handle if both are on
-  else{}
-
-  /********** Linear Y and Z **********/
-  //Stop the Angled Motors
-  if (!msg.linear.y && !msg.linear.z && !msg.angular.x){
-    TLA.write(PWM_STOP);
-    TRA.write(PWM_STOP);
-  }
-  //Linear Y Motion 
-  else if (msg.linear.y && !msg.linear.z && !msg.angular.x){
-    /* Strafe Left */
-    if (msg.linear.y > 0){
-      TLA.write(PWM_STOP + PWM_STATIC_MOVE);
-      TRA.write(PWM_STOP - PWM_STATIC_MOVE);
-    }
-    /* Strafe Right */
-    else{
-      TLA.write(PWM_STOP - PWM_STATIC_MOVE);
-      TRA.write(PWM_STOP + PWM_STATIC_MOVE);
-    }  
-  }
-  else if (msg.linear.z && !msg.linear.y && !msg.angular.x){
-    /* Climb */
-    if (msg.linear.z > 0){
-      TLS.write(PWM_STOP + PWM_STATIC_MOVE);
-      TRS.write(PWM_STOP + PWM_STATIC_MOVE);
-    }
-    /* Descend*/
-    else{
-      TLS.write(PWM_STOP - PWM_STATIC_MOVE);
-      TRS.write(PWM_STOP - PWM_STATIC_MOVE);
-    }  
-  }
-  else {}
+void motorControlCallback (const std_msgs::Int16MultiArray& msg){
+  TRS.writeMicroseconds(msg.data[0]);
+  TLS.writeMicroseconds(msg.data[1]);
+  TRA.writeMicroseconds(msg.data[2]);
+  TLA.writeMicroseconds(msg.data[3]);
 }
 
-ros::Subscriber<geometry_msgs::Twist> decision_node("sub_control", motorControlCallback);
+ros::Subscriber<std_msgs::Int16MultiArray> motor_arduino_node("Arduino", motorControlCallback);
 
 /***********************/
 /*       Arduino       */
@@ -119,7 +54,7 @@ void setup()  {
   TRA.attach(THRUSTER_RIGHT_ANG);
 
   nh.initNode();
-  nh.subscribe(decision_node);
+  nh.subscribe(motor_arduino_node);
 }
 
 void loop()  {
