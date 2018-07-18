@@ -10,25 +10,43 @@
 
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <unordered_map>
+
 
 
 struct LineStruct {
-    float distanceFromLine;
-    float distanceFromEnd;
-    float angleToParallel;
+    float lateralDistanceFromFrontMarker;
+    float distanceFromEndFrontMarker;
+    float angleToParallelFrontMarker;
+    float lateralDistanceFromRearMarker;
+    float distanceFromEndRearMarker;
+    float angleToParallelRearMarker;
 };
 
 static LineStruct defaultLineStruct() {
     LineStruct lineStruct;
 
-    lineStruct.angleToParallel = -1.0f;
+    lineStruct.angleToParallelFrontMarker = -1.0f;
 
-    lineStruct.distanceFromEnd = -1.0f;
+    lineStruct.distanceFromEndFrontMarker = -1.0f;
 
-    lineStruct.distanceFromLine = -1.0f;
+    lineStruct.lateralDistanceFromFrontMarker = -1.0f;
+
+    lineStruct.lateralDistanceFromRearMarker=-1.0f;
+
+    lineStruct.distanceFromEndRearMarker=-1.0f;
+
+    lineStruct.angleToParallelRearMarker=-1.0f;
 
     return lineStruct;
 }
+
+struct MarkerStruct {
+    float width;
+    float slope;
+    cv::Vec4i middleOfMarker;
+    int frontOfMarker;
+};
 
 class LineDetector {
   public:
@@ -46,15 +64,15 @@ class LineDetector {
 
     int houghLinesThreshold_, houghLinesMinLength_, houghLinesMaxLineGap_;
 
-    std::vector<std::pair<cv::Vec4i,cv::Vec4i>>  findMarker(std::vector<cv::Vec4i> allDetectedLines);
+    std::vector<MarkerStruct> findMarkers(std::vector<cv::Vec4i> allDetectedLines);
 
     float calculateSlope(cv::Vec4i detectedLine);
 
     float calculateWidth(cv::Vec4i line1, cv::Vec4i line2);
 
-    float calcProjectedDistance(cv::Vec4i line1);
+    float calcProjectedDistance(cv::Vec4i line1, float widthOfMarker);
 
-    float calcProjectedDistanceToEndOfLine(cv::Vec4i line1);
+    float calcProjectedDistanceToEndOfLine(float distanceOfForwardmostPoint, float widthOfMarker);
 };
 
 #endif // PROJECT_GATE_H

@@ -45,11 +45,14 @@ const sensor_msgs::ImageConstPtr& msg) {
 void LineDetectorNode::publishLineDetectMsg(const LineStruct lineStruct) {
     line_detect::LineDetectMsg msg;
 
-    msg.lateralDistanceFromLine = lineStruct.distanceFromLine;
+    msg.lateralDistanceFromFrontMarker = lineStruct.lateralDistanceFromFrontMarker;
+    msg.distanceFromEndOfFrontMarker = lineStruct.distanceFromEndFrontMarker;
+    msg.angleToParallelFrontMarker = lineStruct.angleToParallelFrontMarker;
 
-    msg.distanceFromEnd = lineStruct.distanceFromEnd;
+    msg.lateralDistanceFromRearMarker = lineStruct.lateralDistanceFromRearMarker;
+    msg.distanceFromEndOfFrontMarker = lineStruct.distanceFromEndRearMarker;
+    msg.angleToParallelRearMarker = lineStruct.angleToParallelRearMarker;
 
-    msg.angleToParallel = lineStruct.angleToParallel;
 
     publisher1_.publish(msg);
 }

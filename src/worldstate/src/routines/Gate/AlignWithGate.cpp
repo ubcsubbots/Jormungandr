@@ -21,6 +21,7 @@ AlignWithGate::getNodeSubscriptions(ros::NodeHandle nh) {
 void AlignWithGate::gateDetectCallBack(
 const gate_detect::GateDetectMsg::ConstPtr& msg) {
     worldstate::StateMsg msg_to_publish;
+
     msg_to_publish.state = worldstate::StateMsg::aligningWithGate;
 
     // If no poles are seen, then look for it again

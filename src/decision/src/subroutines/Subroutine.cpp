@@ -37,10 +37,10 @@ void Subroutine::publishCommand(nav_msgs::Odometry msg) {
     twistStamped.twist.linear.y = msg.twist.twist.linear.y;
     twistStamped.twist.linear.z = msg.twist.twist.linear.z;
 
-    if(msg.pose.pose.position.z > 0){
-        twistStamped.twist.linear.x = UP;
+    if(msg.pose.pose.position.z < 0){
+        twistStamped.twist.linear.z = UP;
     }else if(msg.pose.pose.position.z > 0) {
-        twistStamped.twist.linear.x = DOWN;
+        twistStamped.twist.linear.z = DOWN;
     }
 
     publisher_.publish(twistStamped);

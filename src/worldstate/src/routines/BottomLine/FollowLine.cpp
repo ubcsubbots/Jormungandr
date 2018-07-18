@@ -7,14 +7,14 @@
 
 std::vector<ros::Subscriber>
 FollowLine::getNodeSubscriptions(ros::NodeHandle nh) {
-    std::string gateDetectTopic = "/gateDetect/output";
+    std::string line_detect_topic = "line_detect_output";
 
     timer_ = nh.createTimer(ros::Duration(10),&FollowLine::timerCallback, this ,false);
     timer_.start();
 
     std::vector<ros::Subscriber> subs;
     subs.push_back(nh.subscribe(
-            gateDetectTopic, 10, &FollowLine::lineDetectCallback, this));
+            line_detect_topic, 10, &FollowLine::lineDetectCallback, this));
     return subs;
 }
 
@@ -23,12 +23,20 @@ void FollowLine::lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& 
 
     stateMsg.state = worldstate::StateMsg::followingLine;
 
-    if(!(msg->lateralDistanceFromLine == -1.0f || msg->distanceFromEnd == -1.0f || msg-> angleToParallel == -1.0f)){
-       stateMsg.state = worldstate::StateMsg::adjustingToLine;
-       timer_.stop();
+
+    if(!(msg->lateralDistanceFromRearMarker == -1.0f || msg->distanceFromEndRearMarker == -1.0f || msg-> angleToParallelRearMarker == -1.0f)){
+        stateMsg.state = worldstate::StateMsg::adjustingToLine;
+        timer_.stop();
     }
 
-    if(msg->distanceFromEnd < subbots::global_constants::ERROR_TOLERANCE_LINE_DISTANCE_TO_END){
+    if(!(msg-> angleToParallelFrontMarker == -1.0f) && !(msg-> angleToParallelRearMarker == -1.0f)){
+        if(msg->distanceFromEndRearMarker < subbots::global_constants::ERROR_TOLERANCE_LINE_DISTANCE_TO_END){
+            stateMsg.state = worldstate::StateMsg::adjustingToLine;
+        }
+
+    }
+
+    if(msg->distanceFromEndOfFrontMarker < subbots::global_constants::ERROR_TOLERANCE_LINE_DISTANCE_TO_END){
         stateMsg.state = worldstate::StateMsg::locatingDie;
         timer_.stop();
     }

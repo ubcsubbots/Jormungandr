@@ -6,7 +6,7 @@
 
 std::vector<ros::Subscriber>
 FollowLine::getSubscriptions(ros::NodeHandle nh) {
-    std::string gateDetectTopic = "/line_detect/line_detect_output";
+    std::string gateDetectTopic = "line_detect_output";
 
     std::vector<ros::Subscriber> subs;
     subs.push_back(nh.subscribe(

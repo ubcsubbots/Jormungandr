@@ -6,10 +6,10 @@
 
 std::vector<ros::Subscriber>
 FindLine::getSubscriptions(ros::NodeHandle nh) {
-    std::string gateDetectTopic = "/line_detect/line_detect_output";
+    std::string gateDetectTopic = "line_detect_output";
     
-    timer_ = nh.createTimer(ros::Duration(10),&FindLine::timerCallback, this ,false);
-    timer_.start();
+    //timer_ = nh.createTimer(ros::Duration(10),&FindLine::timerCallback, this ,false);
+    //timer_.start();
 
     lateralVelocityDirection_ = 1;
     

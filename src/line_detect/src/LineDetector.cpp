@@ -26,131 +26,120 @@ LineStruct LineDetector::initialize(const cv::Mat mat_in){
     LineStruct lineStruct = defaultLineStruct();
 
     cv::Mat gaussianBlurred, medianBlurred;
-    cv::GaussianBlur(mat_in, gaussianBlurred, cv::Size(7, 7), 0, 0);
-    cv::medianBlur(gaussianBlurred, medianBlurred, 7);
+    //cv::GaussianBlur(mat_in, gaussianBlurred, cv::Size(7, 7), 0, 0);
+    cv::medianBlur(mat_in, medianBlurred, 7);
     cv::Mat dst;
     cv::Canny(medianBlurred, dst, cannyLow_, cannyLow_ * 3, 3);
+
     std::vector<cv::Vec4i> detectedLines;
     cv::HoughLinesP(dst,
                     detectedLines,
                     1,
-                    CV_PI / 180,
-                    houghLinesThreshold_,
-                    houghLinesMinLength_,
-                    houghLinesMaxLineGap_);
+                    CV_PI / 360,
+                    100,
+                    150,
+                    100);
 
-    std::vector<std::pair<cv::Vec4i,cv::Vec4i>> detectedMarkerLines = findMarker(detectedLines);
+    std::vector<MarkerStruct> markers= findMarkers(detectedLines);;
 
-    if(detectedMarkerLines.empty()) return lineStruct;
+    if(markers.empty()) return lineStruct;
 
-    std::pair<cv::Vec4i, cv::Vec4i> markerLines;
+    cv::Mat cdst;
 
-    if(detectedMarkerLines.size() > 1) {
-        markerLines = *std::max_element(detectedMarkerLines.begin(), detectedMarkerLines.end(),
-                                                                               [](std::pair<cv::Vec4i, cv::Vec4i> lhs,
-                                                                                  std::pair<cv::Vec4i, cv::Vec4i> rhs) {
-                                                                                   return (((lhs.first + lhs.second) /
-                                                                                            2)[1] <
-                                                                                           ((rhs.first + rhs.second) /
-                                                                                            2)[1]);
-                                                                               });
+    cv::cvtColor(dst,cdst,CV_GRAY2BGR);
 
-    }else markerLines = detectedMarkerLines.at(0);
+    if(markers.size() == 1){
+        MarkerStruct marker = markers.at(0);
 
-    cv::Vec4i averageOfLines = (markerLines.first + markerLines.second)/2;
+        lineStruct.angleToParallelFrontMarker = marker.slope;
 
-    lineStruct.angleToParallel = (calculateSlope(markerLines.first) + calculateSlope(markerLines.second))/2;
+        lineStruct.lateralDistanceFromFrontMarker = calcProjectedDistance(marker.middleOfMarker,marker.width);
 
-    lineStruct.distanceFromLine = calcProjectedDistance(averageOfLines);
+        lineStruct.distanceFromEndFrontMarker = calcProjectedDistanceToEndOfLine(marker.frontOfMarker, marker.width);
+    } else if(markers.size() > 1) {
+        std::sort(markers.begin(),markers.end(), [](MarkerStruct lhs, MarkerStruct rhs){
+            return (lhs.frontOfMarker < rhs.frontOfMarker);});
 
-    lineStruct.distanceFromEnd = calcProjectedDistanceToEndOfLine(averageOfLines);
+        MarkerStruct frontMarker = markers.at(0);
+
+        markers.erase(std::remove_if(markers.begin(),markers.end(),[frontMarker](const MarkerStruct lhs){
+            return (lhs.slope - frontMarker.slope) < 0.01;}),markers.end());
+
+        if(!markers.empty()){
+            std::sort(markers.begin(),markers.end(), [](MarkerStruct lhs, MarkerStruct rhs){
+                return (lhs.frontOfMarker < rhs.frontOfMarker);});
+
+            MarkerStruct rearMarker = markers.at(0);
+
+            lineStruct.angleToParallelRearMarker = rearMarker.slope;
+
+            lineStruct.lateralDistanceFromRearMarker = calcProjectedDistance(rearMarker.middleOfMarker,rearMarker.width);
+
+            lineStruct.distanceFromEndRearMarker = calcProjectedDistanceToEndOfLine(rearMarker.frontOfMarker, rearMarker.width);
+
+            cv::line(cdst, cv::Point(imagePixelWidth_/2,imagePixelHeight_/2),cv::Point(rearMarker.middleOfMarker[2],rearMarker.middleOfMarker[3]),cv::Scalar(0,0,255),1);
+        }
+
+        lineStruct.angleToParallelFrontMarker = frontMarker.slope;
+
+        lineStruct.lateralDistanceFromFrontMarker = calcProjectedDistance(frontMarker.middleOfMarker,frontMarker.width);
+
+        lineStruct.distanceFromEndFrontMarker = calcProjectedDistanceToEndOfLine(frontMarker.frontOfMarker, frontMarker.width);
+
+        cv::line(cdst, cv::Point(imagePixelWidth_/2,imagePixelHeight_/2),cv::Point(frontMarker.middleOfMarker[2],frontMarker.middleOfMarker[3]),cv::Scalar(0,0,255),1);
+    }
 
     return lineStruct;
 }
 
 
-std::vector<std::pair<cv::Vec4i,cv::Vec4i>> LineDetector::findMarker(std::vector<cv::Vec4i> allDetectedLines){
-    std::vector<std::pair<cv::Vec4i,cv::Vec4i>> markerLines;
-
+std::vector<MarkerStruct> LineDetector::findMarkers(std::vector<cv::Vec4i> allDetectedLines){
     std::vector<cv::Vec4i>::iterator it1, it2;
+
+    std::vector<MarkerStruct> markers;
 
     it1 = allDetectedLines.begin();
 
-    it2 = allDetectedLines.begin()++;
+    for(it1; it1 != allDetectedLines.end(); it1++){
 
-    for(it1;it1 != allDetectedLines.end();it1++){
+        for(it2 = it1 + 1; it2 != allDetectedLines.end() ; ) {
 
-        for(it2; it2 != allDetectedLines.end() ; it2++){
+            if (((calculateSlope(*it1) - calculateSlope(*it2)) < 0.05)){
+                int width = calculateWidth(*it1, *it2);
+                if ((width < 300) && (width > 10)) {
+                    MarkerStruct marker;
+                    marker.slope = (calculateSlope(*it1) + calculateSlope(*it2)) / 2;
+                    marker.width = width;
+                    int ints[] = {(*it1)[1], (*it1)[3], (*it2)[1], (*it2)[3]};
+                    marker.frontOfMarker = *std::min_element(ints, ints + 4);
+                    marker.middleOfMarker = ((*it1) + (*it2)) / 2;
 
-            if(((calculateSlope(*it1) - calculateSlope(*it2)) < 0.05) && (calculateWidth(*it1,*it2) - maxLineWidth_) < 10)
-
-                markerLines.push_back(std::pair<cv::Vec4i,cv::Vec4i>(*it1,*it2));
+                    markers.push_back(marker);
+                    allDetectedLines.erase(it2);
+                }
+                else it2++;
+            }else it2++;
         }
     }
 
-    return markerLines;
+    return markers;
 }
 
 
 float LineDetector::calculateSlope(cv::Vec4i detectedLine){
-    if(!(detectedLine[3] - detectedLine[1] == 0)) return(detectedLine[2] - detectedLine[0])/(detectedLine[3] - detectedLine[1]);
-    else return -1;
+    if(detectedLine[3] == detectedLine[1]) return 3.1415/2;
+    else return (float)(detectedLine[2] - detectedLine[0])/(float)(detectedLine[3] - detectedLine[1]);;
 }
 
 float LineDetector::calculateWidth(cv::Vec4i line1 , cv::Vec4i line2){
-    float m0,m1,b1,xi0,yi0,xi1,yi1, mi, bi;
-
-    m0 = calculateSlope(line1);
-
-    m1 = calculateSlope(line2);
-
-    b1 = line2[1] - m0 * line2[0];
-
-    xi0 = (line1[0] + line1[2]) / 2;
-
-    yi0 = (line1[1] + line1[3]) / 2;
-
-    mi = -(1/m0);
-
-    bi = yi0 - mi * xi0;
-
-    if(mi == m1) return -1;
-
-    xi1 = (b1 - bi)/(mi - m1);
-
-    yi1 = mi * xi1 + bi;
-
-    return sqrt(pow((xi1 - xi0),2) + pow((yi1 - yi0),2));
+    return abs((float)((line1[0] + line1[2] - line2[0] - line2[2])/2));
 }
 
-float LineDetector::calcProjectedDistance(cv::Vec4i line1) {
-    float x0 = line1[0], y0 = line1[1], x1 = line1[2], y1 = line1[3];
-
-    float m0,b0,m1,b1;
-
-    if(x1 - x0 == 0) return -1;
-
-    m0 = calculateSlope(line1);
-
-    b0 = y0 - m1 * x0;
-
-    m1 = -(1/m0);
-
-    b1 = (imagePixelHeight_/2) - m1 * (imagePixelWidth_/2);
-
-    if(m1 == m0) return -1;
-
-    float xi = (b1 - b0)/(m1 - m0);
-
-    float yi = m1 * xi + b1;
-
-    if(x0 + x1 > 0) return sqrt(pow((yi - (imagePixelHeight_/2)),2) + pow((xi - imagePixelWidth_/2),2));
-
-    else return -sqrt(pow((yi - (imagePixelHeight_/2)),2) + pow((xi - imagePixelWidth_/2),2));
+float LineDetector::calcProjectedDistance(cv::Vec4i line1, float pixelWidthOfMarker) {
+    return (((line1[0] + line1[2])/2) - (imagePixelWidth_/2.0)) * (0.5 / pixelWidthOfMarker) * (.3048);
 }
 
-float LineDetector::calcProjectedDistanceToEndOfLine(cv::Vec4i line1){
-
-    return sqrt(pow((line1[0] - line1[2])/2,2) + pow((line1[1] - line1[3])/2,2));
+float LineDetector::calcProjectedDistanceToEndOfLine(float pixelOfForwardMostPoint, float pixelWidthOfMarker){
+    return (((imagePixelHeight_/2.0) - pixelOfForwardMostPoint) * (0.5 / pixelWidthOfMarker) * (.3048));
 }
 

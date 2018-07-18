@@ -1,0 +1,15 @@
+<launch>
+    <node name="line_detect" pkg="line_detect" type="line_detect_node" output="screen">
+        <remap from="camera_output" to="/vision/output"/>
+        </node>
+        <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
+                <param name="h_low" value="163" type="int" />
+                        <param name="s_low" value="0" type="int" />
+                        <param name="v_low" value="0" type="int" />
+                        <param name="h_high" value="262" type="int" />
+                        <param name="s_high" value="255" type="int" />
+                        <param name="v_high" value= "160" type="int" />
+                        <remap from="/camera/image_raw" to="/uwsim/camera1"/>
+            </node>
+
+</launch>

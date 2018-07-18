@@ -11,6 +11,7 @@
 #include "State.h"
 #include <constants.h>
 #include <gate_detect/GateDetectMsg.h>
+#include <line_detect/LineDetectMsg.h>
 
 /*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
 class PassGate : public State {
@@ -20,6 +21,8 @@ public:
     getNodeSubscriptions(ros::NodeHandle nh) override;
 
 private:
+    ros::Timer timer_;
+
     /**
      * Decides based on image data whether the robot still needs to
      * align with the gate.
@@ -28,6 +31,9 @@ private:
      */
     void gateDetectCallBack(const gate_detect::GateDetectMsg::ConstPtr& msg);
 
+    void lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& msg);
+
+    void timerCallback(const ros::TimerEvent& event);
 
 };
 

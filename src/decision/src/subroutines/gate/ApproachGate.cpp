@@ -40,7 +40,7 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     } else if ((top_pole_clearance -
                 subbots::global_constants::TARGET_TOP_POLE_CLEARANCE) <
                -subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_CLEARANCE) {
-        command.twist.twist.linear.z = top_pole_clearance - subbots::global_constants::TARGET_TOP_POLE_CLEARANCE;
+        command.pose.pose.position.z = top_pole_clearance - subbots::global_constants::TARGET_TOP_POLE_CLEARANCE;
     }
 
     publishCommand(command);

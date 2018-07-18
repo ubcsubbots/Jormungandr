@@ -23,14 +23,14 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
 
     nav_msgs::Odometry command;
 
+    float top_pole_clearance =
+            sin(msg->angleTopPole) * msg->distanceTopPole;
+
     // If we're at an acceptable distance away from the top pole, adjust for
     // clearance
     if (msg->detectedTopPole &&
-        abs(msg->distanceTopPole -
-            subbots::global_constants::TARGET_TOP_POLE_DISTANCE) <
-        subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_DISTANCE) {
-        float top_pole_clearance =
-        sin(msg->angleTopPole) * msg->distanceTopPole;
+        abs(top_pole_clearance - subbots::global_constants::TARGET_TOP_POLE_CLEARANCE <
+        subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_CLEARANCE)) {
         command.pose.pose.position.z = top_pole_clearance - subbots::global_constants::TARGET_TOP_POLE_CLEARANCE;
         publishCommand(command);
         return;

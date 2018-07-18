@@ -64,9 +64,9 @@ void WorldStateNode::initializeFiniteStateMachine() {
     state_machine_[worldstate::StateMsg::passingGate] = new PassGate();
 
     //Line Following
-    state_machine_[worldstate::StateMsg::passingGate] = new FindLine();
-    state_machine_[worldstate::StateMsg::passingGate] = new FollowLine();
-    state_machine_[worldstate::StateMsg::passingGate] = new AdjustToLine();
+    state_machine_[worldstate::StateMsg::findingLine] = new FindLine();
+    state_machine_[worldstate::StateMsg::followingLine] = new FollowLine();
+    state_machine_[worldstate::StateMsg::adjustingToLine] = new AdjustToLine();
 
     // Activate the state_machine with the initial state
     current_state_ = state_machine_[initial_state_];
