@@ -7,20 +7,20 @@
 
 #include "PassGate.h"
 
-void PassGate::setupNodeSubscriptions(ros::NodeHandle nh) {
+std::vector<ros::Subscriber>
+PassGate::getNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gateDetect/output";
-    gate_detect_listener =
-    nh.subscribe(gateDetectTopic, 10, &PassGate::GateDetectCallBack, this);
+
+    std::vector<ros::Subscriber> subs;
+    subs.push_back(
+    nh.subscribe(gateDetectTopic, 10, &PassGate::gateDetectCallBack, this));
     // TODO: Use IMU to construct internal world map if need be
     // std::string imuDataTopic    = "/imu/is_calibrated";
     // nh.subscribe("/imu/is_calibrated", 10, &PassGate::imuDataCallback, this);
+    return subs;
 }
 
-void PassGate::sleep() {
-    gate_detect_listener.shutdown();
-}
-
-void PassGate::GateDetectCallBack(
+void PassGate::gateDetectCallBack(
 const gate_detect::GateDetectMsg::ConstPtr& msg) {
     worldstate::StateMsg msg_to_publish;
     msg_to_publish.state = worldstate::StateMsg::passingGate;

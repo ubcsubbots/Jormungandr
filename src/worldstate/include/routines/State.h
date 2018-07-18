@@ -12,8 +12,13 @@
 #include <worldstate/StateMsg.h>
 
 class State {
+  private:
+    // hold onto these, automatically unsubscribe/unadvertise when out of scope
+    ros::Publisher state_publisher_;
+    std::vector<ros::Subscriber> subscriptions_;
+
   public:
-    State(int argc, char** argv, std::string node_name);
+    State();
 
     /**
      * Initializes and starts the state's callback functions
@@ -25,11 +30,9 @@ class State {
      * Deactivates a node by shutting down its subscriber
      * so that its callback functions are no longer active
      */
-    virtual void sleep() = 0;
+    void sleep();
 
   protected:
-    ros::Publisher state_publisher_;
-
     /**
      * Publishes the next state in the finite state machine
      * to transition to
@@ -45,7 +48,8 @@ class State {
      *
      * @param nh the private nodehandle of the State
      */
-    virtual void setupNodeSubscriptions(ros::NodeHandle nh) = 0;
+    virtual std::vector<ros::Subscriber>
+    getNodeSubscriptions(ros::NodeHandle nh) = 0;
 };
 
 #endif // PROJECT_ROUTINE_H

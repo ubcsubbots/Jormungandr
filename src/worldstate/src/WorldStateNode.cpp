@@ -12,14 +12,14 @@
 #include <WorldStateNode.h>
 
 WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name) {
-    WorldStateNode::initializeFiniteStateMachine(argc, argv);
+    ros::init(argc, argv, node_name);
+    WorldStateNode::initializeFiniteStateMachine();
 
     // Setup NodeHandles
-    ros::init(argc, argv, node_name);
     ros::NodeHandle nh;
 
     // Change the subscribe topics as needed
-    std::string state_transition_msg = "worldstate/output";
+    std::string state_transition_msg = "/world_state_node/output";
     uint32_t refresh_rate            = 10;
     world_state_listener_            = nh.subscribe(state_transition_msg,
                                          refresh_rate,
@@ -55,15 +55,11 @@ const worldstate::StateMsg::ConstPtr& msg) {
  * @param argv standard argv passed in from main, used for the ros::init of each
  * subroutine
  */
-void WorldStateNode::initializeFiniteStateMachine(int argc, char** argv) {
-    state_machine_[worldstate::StateMsg::locatingGate] =
-    new LocatingGate(argc, argv, "locating_gate_ws");
-
+void WorldStateNode::initializeFiniteStateMachine() {
+    state_machine_[worldstate::StateMsg::locatingGate] = new LocatingGate();
     state_machine_[worldstate::StateMsg::aligningWithGate] =
-    new AlignWithGate(argc, argv, "aligning_with_gate_ws");
-
-    state_machine_[worldstate::StateMsg::passingGate] =
-    new PassGate(argc, argv, "passing_thru_gate_ws");
+    new AlignWithGate();
+    state_machine_[worldstate::StateMsg::passingGate] = new PassGate();
 
     // Activate the state_machine with the initial state
     current_state_ = state_machine_[initial_state_];
