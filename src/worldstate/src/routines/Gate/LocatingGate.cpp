@@ -19,18 +19,19 @@ LocatingGate::getNodeSubscriptions(ros::NodeHandle nh) {
 }
 
 void LocatingGate::gateDetectCallBack(
-const gate_detect::gateDetectMsg::ConstPtr& msg) {
+const gate_detect::GateDetectMsg::ConstPtr& msg) {
     worldstate::StateMsg msg_to_publish;
     msg_to_publish.state = worldstate::StateMsg::locatingGate;
 
     // If any of the poles is seen then align with the gate
-    if (msg->detectLeft || msg->detectRight || msg->detectTop) {
+    if (msg->detectedLeftPole || msg->detectedRightPole ||
+        msg->detectedTopPole) {
         msg_to_publish.state = worldstate::StateMsg::aligningWithGate;
 
         // If the side poles are seen
-        if (msg->detectLeft && msg->detectRight) {
+        if (msg->detectedLeftPole && msg->detectedRightPole) {
             double distBtwnHorizontalGates =
-            fabs(msg->distanceLeft - msg->distanceRight);
+            fabs(msg->distanceLeftPole - msg->distanceRightPole);
 
             // If the robot is within the bounds of the gate
             if (distBtwnHorizontalGates <
@@ -39,8 +40,8 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
 
                 // If the top pole is seen, but the robot doesn't clear the
                 // height limit
-                if (msg->detectTop &&
-                    msg->distanceTop <
+                if (msg->detectedTopPole &&
+                    msg->distanceTopPole <
                     subbots::global_constants::CLEARANCE_HEIGHT) {
                     // The robot should try to align
                     msg_to_publish.state =

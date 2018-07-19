@@ -15,7 +15,7 @@ GoThroughGate::getSubscriptions(ros::NodeHandle nh) {
 }
 
 void GoThroughGate::decisionCallback(
-const gate_detect::gateDetectMsg::ConstPtr& msg) {
+const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // logic: just go forward
     double x_linear = FORWARD;
 

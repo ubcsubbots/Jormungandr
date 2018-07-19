@@ -1,0 +1,8 @@
+<rosparam>
+  h_high: 48
+  h_low: 0
+  s_high: 221
+  s_low: 128
+  v_high: 55
+  v_low: 33
+</rosparam>

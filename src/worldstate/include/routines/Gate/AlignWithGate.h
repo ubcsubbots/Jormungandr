@@ -10,7 +10,7 @@
 
 #include "State.h"
 #include <constants.h>
-#include <gate_detect/gateDetectMsg.h>
+#include <gate_detect/GateDetectMsg.h>
 
 /*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
 class AlignWithGate : public State {
@@ -26,7 +26,7 @@ class AlignWithGate : public State {
      *
      * @param msg gateDetectMsg data
      */
-    void gateDetectCallBack(const gate_detect::gateDetectMsg::ConstPtr& msg);
+    void gateDetectCallBack(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 
 #endif // PROJECT_ALIGNWITHGATE_H
