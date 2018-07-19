@@ -9,6 +9,7 @@
 #define PROJECT_ROUTINE_H
 
 #include <ros/ros.h>
+#include <unordered_map>
 #include <worldstate/StateMsg.h>
 
 class State {
@@ -24,7 +25,7 @@ class State {
      * Initializes and starts the state's callback functions
      * so that it is now active
      */
-    void start();
+    void start(const std::unordered_map<std::string, double>& constants);
 
     /**
      * Deactivates a node by shutting down its subscriber
@@ -33,6 +34,8 @@ class State {
     void sleep();
 
   protected:
+    std::unordered_map<std::string, double> constants_;
+
     /**
      * Publishes the next state in the finite state machine
      * to transition to

@@ -9,7 +9,7 @@
 #define PROJECT_LOCATINGGATE_H
 
 #include "State.h"
-#include <constants.h>
+#include "constants.h"
 #include <gate_detect/GateDetectMsg.h>
 
 /*** Communicating Class {alignWithGate, locatingGate, passGate} ***/

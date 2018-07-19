@@ -30,6 +30,7 @@ class WorldStateNode {
     WorldStateNode(int argc, char** argv, std::string node_name);
 
   private:
+    std::unordered_map<std::string, double> constants_;
     const uint8_t initial_state_ = worldstate::StateMsg::locatingGate;
     ros::Subscriber world_state_listener_;
     State* current_state_;
@@ -46,6 +47,7 @@ class WorldStateNode {
      * Instantiate each of the individual routine nodes in ros shutdown mode
      */
     void initializeFiniteStateMachine();
+    void getConstants(ros::NodeHandle nh);
 };
 
 #endif // JORMUNGANDR_WORLDSTATENODE_H

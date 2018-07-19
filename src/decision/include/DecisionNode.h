@@ -30,11 +30,11 @@ typedef int8_t state_t;
 class DecisionNode {
   public:
     DecisionNode(int argc, char** argv, std::string node_name);
-    const char* logger_name = ROSCONSOLE_DEFAULT_NAME ".<name>";
 
   private:
     std::unordered_map<state_t, Subroutine*>
     subroutines_;         // holds all of the known subroutines
+    std::unordered_map<std::string, double> constants_;
     Subroutine* running_; // the currently running subroutine
     ros::Subscriber worldstate_subscriber_; // subscribes to the world state
 
@@ -52,5 +52,7 @@ class DecisionNode {
      * to its appropriate subroutine.
      */
     void setupSubroutineMap();
+
+    void getConstants(ros::NodeHandle nh);
 };
 #endif // DECISION_DECISION_H_H

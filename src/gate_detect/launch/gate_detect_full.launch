@@ -42,4 +42,5 @@
         <remap from="gate_location" to="/gateDetect/output"/>
         <remap from="/decision_node/output" to="/g500/twist"/>
     </node>
+    <rosparam command="load" file="$(find decision)/constants/constants.yaml" ns="global_constants" />
 </launch>

@@ -17,21 +17,21 @@ AdjustToLine::getSubscriptions(ros::NodeHandle nh) {
 void AdjustToLine::lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& msg) {
     nav_msgs::Odometry command;
 
-    if(msg->angleToParallelFrontMarker > subbots::global_constants::ERROR_TOLERANCE_LINE_ANGLE){
+    if(msg->angleToParallelFrontMarker > constants_["ERROR_TOLERANCE_LINE_ANGLE"]){
         command.twist.twist.angular.z = TWISTLEFT;
         publishCommand(command);
         return;
-    }else if(msg->angleToParallelFrontMarker < -subbots::global_constants::ERROR_TOLERANCE_LINE_ANGLE){
+    }else if(msg->angleToParallelFrontMarker < -constants_["ERROR_TOLERANCE_LINE_ANGLE"]){
         command.twist.twist.angular.z = TWISTRIGHT;
         publishCommand(command);
         return;
     }
 
-    if(msg->lateralDistanceFromFrontMarker > subbots::global_constants::ERROR_TOLERANCE_LINE_LATERAL_DISTANCE){
+    if(msg->lateralDistanceFromFrontMarker > constants_["ERROR_TOLERANCE_LINE_LATERAL_DISTANCE"]){
         command.twist.twist.linear.y = RIGHT;
         publishCommand(command);
         return;
-    }else if(msg->lateralDistanceFromFrontMarker < -subbots::global_constants::ERROR_TOLERANCE_LINE_LATERAL_DISTANCE){
+    }else if(msg->lateralDistanceFromFrontMarker < -constants_["ERROR_TOLERANCE_LINE_LATERAL_DISTANCE"]){
         command.twist.twist.linear.y = LEFT;
         publishCommand(command);
         return;

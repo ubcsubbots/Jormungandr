@@ -10,7 +10,7 @@
 #include <geometry_msgs/TwistStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
-#include <constants.h>
+#include <unordered_map>
 
 /**
  * pre defined directions for subroutines to use
@@ -35,10 +35,12 @@ class Subroutine {
     Subroutine();
     virtual std::string getName() = 0;
 
-    void startup();
+    void startup(const std::unordered_map<std::string, double>& constants);
     void shutdown();
 
-protected:
+  protected:
+    std::unordered_map<std::string, double> constants_;
+
     /**
      * Publishes an Odom message containing the movement decision
      * @param msg

@@ -9,11 +9,14 @@
 
 Subroutine::Subroutine() {}
 
-void Subroutine::startup() {
+void Subroutine::startup(
+const std::unordered_map<std::string, double>& constants) {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
     subscriptions_ = getSubscriptions(nh);
+
+    constants_ = constants;
 
     std::string topic   = private_nh.resolveName("output");
     uint32_t queue_size = 10;
@@ -38,9 +41,9 @@ void Subroutine::publishCommand(nav_msgs::Odometry msg) {
     twistStamped.twist.linear.z = msg.twist.twist.linear.z;
 
     if(msg.pose.pose.position.z < 0){
-        twistStamped.twist.linear.z = UP;
-    }else if(msg.pose.pose.position.z > 0) {
         twistStamped.twist.linear.z = DOWN;
+    }else if(msg.pose.pose.position.z > 0) {
+        twistStamped.twist.linear.z = UP;
     }
 
     publisher_.publish(twistStamped);

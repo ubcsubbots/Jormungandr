@@ -32,8 +32,8 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     msg_to_publish.state = worldstate::StateMsg::passingGate;
 
     if (!((msg->detectedTopPole) &&
-          abs(msg->angleTopPole -
-              subbots::global_constants::TARGET_TOP_POLE_CLEARANCE) < 0.05)) {
+          abs((int) (msg->angleTopPole -
+                     constants_["TARGET_TOP_POLE_CLEARANCE"]) < 0.05))) {
         if (!((msg->detectedRightPole && msg->detectedLeftPole) &&
               abs(msg->angleLeftPole + msg->angleRightPole) < 0.05)) {
             msg_to_publish.state = worldstate::StateMsg::passingGate;

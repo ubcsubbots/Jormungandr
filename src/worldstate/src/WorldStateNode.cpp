@@ -13,10 +13,11 @@
 
 WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name) {
     ros::init(argc, argv, node_name);
-    WorldStateNode::initializeFiniteStateMachine();
-
     // Setup NodeHandles
     ros::NodeHandle nh;
+
+    getConstants(nh);
+    WorldStateNode::initializeFiniteStateMachine();
 
     // Change the subscribe topics as needed
     std::string state_transition_msg = "/world_state_node/output";
@@ -43,7 +44,7 @@ const worldstate::StateMsg::ConstPtr& msg) {
     if (nextState != current_state_) {
         current_state_->sleep();
         current_state_ = nextState;
-        current_state_->start();
+        current_state_->start(constants_);
     }
 }
 
@@ -70,5 +71,15 @@ void WorldStateNode::initializeFiniteStateMachine() {
 
     // Activate the state_machine with the initial state
     current_state_ = state_machine_[initial_state_];
-    current_state_->start();
+    current_state_->start(constants_);
+}
+
+void WorldStateNode::getConstants(ros::NodeHandle nh) {
+    XmlRpc::XmlRpcValue v;
+
+    nh.getParam("/global_constants", v);
+
+    for (auto value = v.begin(); value != v.end(); value++) {
+        constants_[std::string((*value).first)] = (*value).second;
+    }
 }

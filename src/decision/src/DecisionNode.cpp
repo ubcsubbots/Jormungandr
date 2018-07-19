@@ -14,6 +14,7 @@ DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
+    getConstants(nh);
     setupSubroutineMap();
 
     std::string state_topic = "/world_state_node/output";
@@ -46,7 +47,7 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
     if (newState != running_) {
         running_->shutdown();
         running_ = newState;
-        running_->startup();
+        running_->startup(constants_);
     }
 
     std_msgs::String info;
@@ -73,5 +74,15 @@ void DecisionNode::setupSubroutineMap() {
     subroutines_[worldstate::StateMsg::followingLine]      = new FollowLine();
 
     running_ = subroutines_[worldstate::StateMsg::locatingGate];
-    running_->startup();
+    running_->startup(constants_);
+}
+
+void DecisionNode::getConstants(ros::NodeHandle nh) {
+    XmlRpc::XmlRpcValue v;
+
+    nh.getParam("/global_constants", v);
+
+    for (auto value = v.begin(); value != v.end(); value++) {
+        constants_[std::string((*value).first)] = (*value).second;
+    }
 }
