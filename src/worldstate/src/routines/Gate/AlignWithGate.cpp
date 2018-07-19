@@ -31,13 +31,13 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
 
     if ((msg->detectedTopPole)) {
         float top_pole_clearance =
-        sin(msg->angleTopPole) * msg->distanceTopPole;
+        (float) sin(msg->angleTopPole) * msg->distanceTopPole;
 
-        if (abs(top_pole_clearance -
-                subbots::global_constants::TARGET_TOP_POLE_CLEARANCE) <
+        if (abs((int) (top_pole_clearance -
+                       subbots::global_constants::TARGET_TOP_POLE_CLEARANCE)) <
             subbots::global_constants::ERROR_TOLERANCE_TOP_POLE_CLEARANCE) {
             if ((msg->detectedRightPole && msg->detectedLeftPole) &&
-                abs(msg->angleLeftPole + msg->angleRightPole) <
+                abs((int) (msg->angleLeftPole + msg->angleRightPole)) <
                 subbots::global_constants::ERROR_TOLERANCE_SIDE_POLES_ANGLE) {
                 if ((((msg->distanceRightPole + msg->distanceLeftPole) / 2) -
                      subbots::global_constants::TARGET_SIDE_POLES_DISTANCE) <

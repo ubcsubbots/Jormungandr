@@ -26,21 +26,23 @@ void TestUtils::DisplayGateCoordinates(cv::Mat mat,
 
     int leftPole, rightPole, topPole;
 
-    float _interpolationConstant1 = 81.88, _interpolationConstant2 = -.92791;
+    float _interpolationConstant1 = 81.88,
+          _interpolationConstant2 = (float) -.92791;
 
     leftPole =
-    (mat.cols / 2) -
-    ((sin(gateCoordinates.distanceLeftPole) * gateCoordinates.angleLeftPole *
-      ((gateCoordinates.angleLeftPole - _interpolationConstant2) /
-       _interpolationConstant1)) /
-     (.3048 / 4));
-
-    rightPole =
-    ((mat.cols / 2) -
-     ((sin(gateCoordinates.distanceRightPole) * gateCoordinates.angleRightPole *
-       4.0 * ((gateCoordinates.angleRightPole - _interpolationConstant2) /
+    (int) ((mat.cols / 2) -
+           ((sin(gateCoordinates.distanceLeftPole) *
+             gateCoordinates.angleLeftPole *
+             ((gateCoordinates.angleLeftPole - _interpolationConstant2) /
               _interpolationConstant1)) /
-      (.3048)));
+            (.3048 / 4)));
+
+    rightPole = (int) ((
+    (mat.cols / 2) -
+    ((sin(gateCoordinates.distanceRightPole) * gateCoordinates.angleRightPole *
+      4.0 * ((gateCoordinates.angleRightPole - _interpolationConstant2) /
+             _interpolationConstant1)) /
+     (.3048))));
 
     topPole =
     (int) ((mat.rows / 2) -
@@ -76,17 +78,17 @@ void TestUtils::DisplayGateCoordinates(cv::Mat mat,
 cv::Mat TestUtils::drawGate(cv::Mat image, GateCoordinates gateCoordinates) {
     int leftPole, rightPole, topPole;
 
-    leftPole =
-    (image.cols / 2) -
-    ((sin(gateCoordinates.distanceLeftPole) * gateCoordinates.angleLeftPole *
-      ((gateCoordinates.angleLeftPole - 5.134) / -0.002673)) /
-     (.3048 / 4));
+    leftPole = (int) ((image.cols / 2) -
+                      ((sin(gateCoordinates.distanceLeftPole) *
+                        gateCoordinates.angleLeftPole *
+                        ((gateCoordinates.angleLeftPole - 5.134) / -0.002673)) /
+                       (.3048 / 4)));
 
-    rightPole =
-    ((image.cols / 2) -
-     ((sin(gateCoordinates.distanceRightPole) * gateCoordinates.angleRightPole *
-       4.0 * ((gateCoordinates.angleRightPole - 5.134) / -0.002673)) /
-      (.3048)));
+    rightPole = (int) ((
+    (image.cols / 2) -
+    ((sin(gateCoordinates.distanceRightPole) * gateCoordinates.angleRightPole *
+      4.0 * ((gateCoordinates.angleRightPole - 5.134) / -0.002673)) /
+     (.3048))));
 
     topPole = (int) ((image.rows / 2) -
                      ((sin(gateCoordinates.distanceTopPole) *

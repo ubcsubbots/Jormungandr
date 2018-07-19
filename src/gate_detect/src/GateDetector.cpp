@@ -171,8 +171,8 @@ GateDetector::findVertPoles(std::vector<cv::Vec4i> vertLines) {
              (abs(vertLines.at(0)[0] - vertLines.at(1)[0]) < poleMax_)) {
         verticalPoles.push_back(Pole(vertLines.at(0),
                                      vertLines.at(1),
-                                     VertInterpolationConstant2_,
-                                     VertInterpolationConstant1_));
+                                     (float) VertInterpolationConstant2_,
+                                     (float) VertInterpolationConstant1_));
 
         return verticalPoles;
     }
@@ -187,8 +187,8 @@ GateDetector::findVertPoles(std::vector<cv::Vec4i> vertLines) {
             } else if (abs((*line1)[0] - (*line2)[0]) < poleMax_) {
                 Pole verticalPole = Pole(*line1,
                                          *line2,
-                                         HorInterpolationConstant2_,
-                                         HorInterpolationConstant1_);
+                                         (float) HorInterpolationConstant2_,
+                                         (float) HorInterpolationConstant1_);
 
                 verticalPoles.push_back(verticalPole);
 
@@ -215,8 +215,8 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
              (abs(horLines.at(0)[0] - horLines.at(1)[0]) < poleMax_)) {
         horizontalPoles.push_back(Pole(horLines.at(0),
                                        horLines.at(1),
-                                       VertInterpolationConstant2_,
-                                       VertInterpolationConstant1_));
+                                       (float) VertInterpolationConstant2_,
+                                       (float) VertInterpolationConstant1_));
 
         return horizontalPoles;
     }
@@ -227,8 +227,8 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
     if (horLines.size() == 2) {
         Pole verticalPole = Pole(*(horLines.begin()),
                                  *(horLines.begin()++),
-                                 HorInterpolationConstant2_,
-                                 HorInterpolationConstant1_);
+                                 (float) HorInterpolationConstant2_,
+                                 (float) HorInterpolationConstant1_);
 
         horizontalPoles.push_back(verticalPole);
 
@@ -245,8 +245,8 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
             } else if (abs((*line1)[1] - (*line2)[1]) < poleMax_) {
                 Pole verticalPole = Pole(*line1,
                                          *line2,
-                                         HorInterpolationConstant2_,
-                                         HorInterpolationConstant1_);
+                                         (float) HorInterpolationConstant2_,
+                                         (float) HorInterpolationConstant1_);
 
                 horizontalPoles.push_back(verticalPole);
 
