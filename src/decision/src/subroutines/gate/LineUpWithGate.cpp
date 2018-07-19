@@ -64,7 +64,7 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
         command.twist.angular.z = LEFT;
     }
 
-    // Get withing a good passing distance for gate
+    // Get within a good passing distance for gate
     float averageDistanceToGate =
     (msg->distanceLeftPole + msg->distanceRightPole + msg->distanceTopPole) /
     (msg->detectedLeftPole + msg->detectedRightPole + msg->detectedTopPole);
