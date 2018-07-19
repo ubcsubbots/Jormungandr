@@ -38,7 +38,7 @@ void Subroutine::publishCommand(nav_msgs::Odometry msg) {
 
     twistStamped.twist.linear.x = msg.twist.twist.linear.x;
     twistStamped.twist.linear.y = msg.twist.twist.linear.y;
-    twistStamped.twist.linear.z = msg.twist.twist.linear.z;
+    twistStamped.twist.angular.z = msg.twist.twist.angular.z;
 
     if(msg.pose.pose.position.z < 0){
         twistStamped.twist.linear.z = DOWN;
