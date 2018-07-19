@@ -27,7 +27,6 @@ typedef int8_t state_t;
 class DecisionNode {
   public:
     DecisionNode(int argc, char** argv, std::string node_name);
-    const char* logger_name = ROSCONSOLE_DEFAULT_NAME ".<name>";
 
   private:
     std::unordered_map<state_t, Subroutine*>
