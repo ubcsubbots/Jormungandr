@@ -9,6 +9,7 @@
 
 #include <geometry_msgs/TwistStamped.h>
 #include <ros/ros.h>
+#include <unordered_map>
 
 /**
  * pre defined directions for subroutines to use
@@ -29,12 +30,15 @@ class Subroutine {
 
   public:
     Subroutine();
+
     virtual std::string getName() = 0;
 
-    void startup();
+    void startup(const std::unordered_map<std::string, double>& constants);
     void shutdown();
 
   protected:
+    std::unordered_map<std::string, double> constants_;
+
     /**
      * Publishes a Twist message containing the movement decision
      * @param msg

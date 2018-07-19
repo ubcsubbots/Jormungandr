@@ -8,11 +8,14 @@
 
 Subroutine::Subroutine() {}
 
-void Subroutine::startup() {
+void Subroutine::startup(
+const std::unordered_map<std::string, double>& constants) {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
     subscriptions_ = getSubscriptions(nh);
+
+    constants_ = constants;
 
     std::string topic   = private_nh.resolveName("output");
     uint32_t queue_size = 10;

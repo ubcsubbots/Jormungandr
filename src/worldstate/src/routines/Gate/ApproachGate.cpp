@@ -26,8 +26,7 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     (msg->distanceLeftPole + msg->distanceRightPole + msg->distanceTopPole) /
     (msg->detectedLeftPole + msg->detectedRightPole + msg->detectedTopPole);
 
-    if (averageDistanceToGate >
-        subbots::global_constants::TARGET_AVERAGE_GATE_DISTANCE) {
+    if (averageDistanceToGate > constants_["TARGET_AVERAGE_GATE_DISTANCE"]) {
         msg_to_publish.state = worldstate::StateMsg::approachingGate;
     } else {
         msg_to_publish.state = worldstate::StateMsg::aligningWithGate;
