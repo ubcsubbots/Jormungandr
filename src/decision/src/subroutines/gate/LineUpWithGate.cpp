@@ -89,5 +89,4 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     }
 
     publishCommand(command);
-    // publishCommand(command);
 }
