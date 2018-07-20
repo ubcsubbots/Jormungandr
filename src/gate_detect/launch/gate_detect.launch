@@ -1,0 +1,19 @@
+<launch>
+    <node name="gate_detect_node" pkg="gate_detect" type="gate_detect" output="screen">
+            <param name="cannyLow" value="65" type="int" />
+            <param name="houghLinesThreshold" value="100" type="int" />
+            <param name="houghLinesMinLength" value="100" type="int" />
+            <param name="houghLinesMaxLineGap" value="50" type="int" />
+            <param name="poleMax" value="50" type="int" />
+    </node>
+    <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
+        <param name="h_low" value="0" type="int" />
+        <param name="s_low" value="0" type="int" />
+        <param name="v_low" value="0" type="int" />
+        <param name="h_high" value="200" type="int" />
+        <param name="s_high" value="249" type="int" />
+        <param name="v_high" value= "200" type="int" />
+    </node>
+    <node name="world_state_node" pkg="worldstate" type="world_state_node" output="screen">
+    </node>
+</launch>

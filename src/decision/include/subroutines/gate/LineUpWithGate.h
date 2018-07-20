@@ -9,7 +9,7 @@
 #define DECISION_LINEUPWITHGATE_H
 
 #include "Subroutine.h"
-#include <gate_detect/gateDetectMsg.h>
+#include <gate_detect/GateDetectMsg.h>
 
 /*
  * Subroutine: LineUpWithGate
@@ -26,7 +26,7 @@ class LineUpWithGate : public Subroutine {
 
   private:
     bool align_top_ = false, distance_to_gate_acceptable_ = false;
-    void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
+    void decisionCallback(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 
 #endif // DECISION_LINEUPWITHGATE_H

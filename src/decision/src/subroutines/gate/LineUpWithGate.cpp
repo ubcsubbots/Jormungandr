@@ -16,7 +16,7 @@ LineUpWithGate::getSubscriptions(ros::NodeHandle nh) {
 }
 
 void LineUpWithGate::decisionCallback(
-const gate_detect::gateDetectMsg::ConstPtr& msg) {
+const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // logic: given the location of the poles, try to put ourselves centred in
     // front
 
@@ -33,18 +33,19 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
         double averageDistanceToGate;
 
         averageDistanceToGate =
-        (msg->distanceLeft + msg->distanceRight + msg->distanceTop) /
-        (msg->detectLeft + msg->detectRight + msg->detectTop);
+        (msg->distanceLeftPole + msg->distanceRightPole +
+         msg->distanceTopPole) /
+        (msg->detectedLeftPole + msg->detectedRightPole + msg->detectedTopPole);
 
         if (averageDistanceToGate > 7) {
-            if (msg->angleTop > 0.25) {
+            if (msg->angleTopPole > 0.25) {
                 command.linear.z = DOWN;
-            } else if (msg->angleTop < -0.25) {
+            } else if (msg->angleTopPole < -0.25) {
                 command.linear.z = UP;
             }
-            if ((msg->angleLeft + msg->angleRight) > 0.25) {
+            if ((msg->angleLeftPole + msg->angleRightPole) > 0.25) {
                 command.angular.z = -0.25;
-            } else if ((msg->angleLeft + msg->angleRight) < -0.25) {
+            } else if ((msg->angleLeftPole + msg->angleRightPole) < -0.25) {
                 command.angular.z = 0.25;
             } else {
                 command.linear.x = FORWARD;
@@ -55,11 +56,11 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
     }
 
     if (!align_top_) {
-        if (msg->angleTop > 0.25) {
+        if (msg->angleTopPole > 0.25) {
             command.linear.z = DOWN;
             publishCommand(command);
             return;
-        } else if (msg->angleTop < -0.25) {
+        } else if (msg->angleTopPole < -0.25) {
             command.linear.z = UP;
             publishCommand(command);
             return;
@@ -68,14 +69,14 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
         }
     }
 
-    if (msg->angleTop > 0.25) {
+    if (msg->angleTopPole > 0.25) {
         command.linear.z = DOWN;
-    } else if (msg->angleTop < -0.25) {
+    } else if (msg->angleTopPole < -0.25) {
         command.linear.z = UP;
     }
-    if ((msg->angleLeft + msg->angleRight) > 0.25) {
+    if ((msg->angleLeftPole + msg->angleRightPole) > 0.25) {
         command.angular.z = 0.25;
-    } else if ((msg->angleLeft + msg->angleRight) < -0.25) {
+    } else if ((msg->angleLeftPole + msg->angleRightPole) < -0.25) {
         command.angular.z = -0.25;
     }
 

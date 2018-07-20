@@ -8,14 +8,14 @@
 
 #include "WorldStateNode.h"
 
-#include <gate_detect/gateDetectMsg.h>
+#include <gate_detect/GateDetectMsg.h>
 #include <gtest/gtest.h>
 
 class WorldStateNodeTest : public testing::Test {
   protected:
     virtual void SetUp() {
         test_publisher =
-        nh_.advertise<gate_detect::gateDetectMsg>("/gateDetect/output", 1);
+        nh_.advertise<gate_detect::GateDetectMsg>("/gateDetect/output", 1);
         test_subscriber = nh_.subscribe(
         "/world_state_node/output", 1, &WorldStateNodeTest::callback, this);
 
@@ -36,17 +36,17 @@ class WorldStateNodeTest : public testing::Test {
 };
 
 TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_test) {
-    gate_detect::gateDetectMsg data;
+    gate_detect::GateDetectMsg data;
 
-    data.detectRight   = false;
-    data.detectLeft    = false;
-    data.detectTop     = false;
-    data.distanceRight = 0.0;
-    data.distanceLeft  = 0.0;
-    data.distanceTop   = 0.0;
-    data.angleLeft     = 0.0;
-    data.angleRight    = 0.0;
-    data.angleTop      = 0.0;
+    data.detectedRightPole = false;
+    data.detectedLeftPole  = false;
+    data.detectedTopPole   = false;
+    data.distanceRightPole = 0.0;
+    data.distanceLeftPole  = 0.0;
+    data.distanceTopPole   = 0.0;
+    data.angleLeftPole     = 0.0;
+    data.angleRightPole    = 0.0;
+    data.angleTopPole      = 0.0;
 
     test_publisher.publish(data);
 
@@ -62,17 +62,17 @@ TEST_F(WorldStateNodeTest, worldStateNode_locatingGate_test) {
 }
 
 TEST_F(WorldStateNodeTest, worldStateNode_transition_state_test) {
-    gate_detect::gateDetectMsg data;
+    gate_detect::GateDetectMsg data;
 
-    data.detectRight   = false;
-    data.detectLeft    = false;
-    data.detectTop     = false;
-    data.distanceRight = 0.0;
-    data.distanceLeft  = 0.0;
-    data.distanceTop   = 0.0;
-    data.angleLeft     = 0.0;
-    data.angleRight    = 0.0;
-    data.angleTop      = 0.0;
+    data.detectedRightPole = false;
+    data.detectedLeftPole  = false;
+    data.detectedTopPole   = false;
+    data.distanceRightPole = 0.0;
+    data.distanceLeftPole  = 0.0;
+    data.distanceTopPole   = 0.0;
+    data.angleLeftPole     = 0.0;
+    data.angleRightPole    = 0.0;
+    data.angleTopPole      = 0.0;
 
     test_publisher.publish(data);
 
@@ -84,15 +84,15 @@ TEST_F(WorldStateNodeTest, worldStateNode_transition_state_test) {
     buf.state = worldstate::StateMsg_<u_int8_t>::locatingGate;
     EXPECT_EQ(buf.state, message_output);
 
-    data.detectRight   = true;
-    data.detectLeft    = false;
-    data.detectTop     = false;
-    data.distanceRight = 150.2;
-    data.distanceLeft  = 0.0;
-    data.distanceTop   = 0.0;
-    data.angleRight    = 30;
-    data.angleLeft     = 0.0;
-    data.angleTop      = 0.0;
+    data.detectedRightPole = true;
+    data.detectedLeftPole  = false;
+    data.detectedTopPole   = false;
+    data.distanceRightPole = 150.2;
+    data.distanceLeftPole  = 0.0;
+    data.distanceTopPole   = 0.0;
+    data.angleRightPole    = 30;
+    data.angleLeftPole     = 0.0;
+    data.angleTopPole      = 0.0;
 
     test_publisher.publish(data);
     loop_rate.sleep();
