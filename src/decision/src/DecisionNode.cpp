@@ -64,10 +64,14 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
  * subroutine
  */
 void DecisionNode::setupSubroutineMap() {
-    subroutines_[worldstate::StateMsg::locatingGate]     = new LocateGate(&constants_);
-    subroutines_[worldstate::StateMsg::approachingGate]  = new ApproachGate(&constants_);
-    subroutines_[worldstate::StateMsg::aligningWithGate] = new LineUpWithGate(&constants_);
-    subroutines_[worldstate::StateMsg::passingGate]      = new GoThroughGate(&constants_);
+    subroutines_[worldstate::StateMsg::locatingGate] =
+    new LocateGate(&constants_);
+    subroutines_[worldstate::StateMsg::approachingGate] =
+    new ApproachGate(&constants_);
+    subroutines_[worldstate::StateMsg::aligningWithGate] =
+    new LineUpWithGate(&constants_);
+    subroutines_[worldstate::StateMsg::passingGate] =
+    new GoThroughGate(&constants_);
 
     running_ = subroutines_[worldstate::StateMsg::locatingGate];
     running_->startup();

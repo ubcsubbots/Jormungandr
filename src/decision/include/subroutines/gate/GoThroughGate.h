@@ -18,7 +18,8 @@
  */
 class GoThroughGate : public Subroutine {
   public:
-    GoThroughGate(std::unordered_map<std::string, double>* constants) : Subroutine(constants) {}
+    GoThroughGate(std::unordered_map<std::string, double>* constants)
+      : Subroutine(constants) {}
     std::string getName() override { return "GoThroughGate"; }
 
     std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;

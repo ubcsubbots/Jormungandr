@@ -19,7 +19,8 @@
  */
 class ApproachGate : public Subroutine {
   public:
-    ApproachGate(std::unordered_map<std::string, double>* constants) : Subroutine(constants) {}
+    ApproachGate(std::unordered_map<std::string, double>* constants)
+      : Subroutine(constants) {}
     std::string getName() override { return "ApproachGate"; }
 
     std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
