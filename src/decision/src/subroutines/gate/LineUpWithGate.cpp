@@ -34,19 +34,19 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // If we're at an acceptable distance away from the top pole, adjust for
     // clearance
     if (msg->detectedTopPole &&
-        abs(
-        (int) (msg->distanceTopPole - (*constants_)["TARGET_TOP_POLE_DISTANCE"])) <
-                (*constants_)["ERROR_TOLERANCE_TOP_POLE_DISTANCE"]) {
+        abs((int) (msg->distanceTopPole -
+                   (*constants_)["TARGET_TOP_POLE_DISTANCE"])) <
+        (*constants_)["ERROR_TOLERANCE_TOP_POLE_DISTANCE"]) {
         float top_pole_clearance =
         (float) sin(msg->angleTopPole) * msg->distanceTopPole;
         if ((top_pole_clearance - (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) >
-                (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
+            (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
             command.twist.linear.z = DOWN;
             publishCommand(command);
             return;
         } else if ((top_pole_clearance -
-                (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) <
-                (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
+                    (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) <
+                   (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
             command.twist.linear.z = UP;
             publishCommand(command);
             return;
@@ -55,10 +55,10 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
 
     // Make sure we're pointing at the middle of the gate
     if ((msg->angleRightPole + msg->angleLeftPole) >
-            (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
+        (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
         command.twist.angular.z = RIGHT;
     } else if ((msg->angleRightPole + msg->angleLeftPole) <
-            (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
+               (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
         command.twist.angular.z = LEFT;
     }
 
@@ -70,14 +70,14 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
         -(*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
         command.twist.linear.x = BACKWARD;
     } else if ((averageDistanceToGate -
-            (*constants_)["TARGET_SIDE_POLES_DISTANCE"]) >
-            (*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
+                (*constants_)["TARGET_SIDE_POLES_DISTANCE"]) >
+               (*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
         command.twist.linear.x = FORWARD;
     }
 
     // Position ourselves laterally in front of the gate
     if ((msg->distanceRightPole - msg->distanceLeftPole) >
-            (*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
+        (*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
         command.twist.linear.y = LEFT;
     } else if ((msg->distanceRightPole - msg->distanceLeftPole) <
                -(*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {

@@ -23,10 +23,10 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
 
     // Attempt to point to the middle of the gate
     if ((msg->angleLeftPole + msg->angleRightPole) >
-            (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
+        (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
         command.twist.angular.z = RIGHT / 2;
     } else if ((msg->angleLeftPole + msg->angleRightPole) <
-            (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
+               (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
         command.twist.angular.z = LEFT / 2;
     }
 
@@ -34,9 +34,10 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     float top_pole_clearance = sin(msg->angleTopPole) * msg->distanceTopPole;
 
     if ((top_pole_clearance - (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) >
-            (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
+        (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
         command.twist.linear.z = DOWN / 2;
-    } else if ((top_pole_clearance - (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) <
+    } else if ((top_pole_clearance -
+                (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) <
                -(*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
         command.twist.linear.z = UP / 2;
     }
