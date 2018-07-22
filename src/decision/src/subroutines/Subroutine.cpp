@@ -6,16 +6,15 @@
 
 #include "Subroutine.h"
 
-Subroutine::Subroutine() {}
+Subroutine::Subroutine(std::unordered_map<std::string, double>* constants) {
+    constants_ = constants;
+}
 
-void Subroutine::startup(
-const std::unordered_map<std::string, double>& constants) {
+void Subroutine::startup() {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
     subscriptions_ = getSubscriptions(nh);
-
-    constants_ = constants;
 
     std::string topic   = private_nh.resolveName("output");
     uint32_t queue_size = 10;

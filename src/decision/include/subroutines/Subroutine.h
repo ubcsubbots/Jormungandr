@@ -29,15 +29,15 @@ class Subroutine {
     std::vector<ros::Subscriber> subscriptions_;
 
   public:
-    Subroutine();
+    Subroutine(std::unordered_map<std::string, double>* constants);
 
     virtual std::string getName() = 0;
 
-    void startup(const std::unordered_map<std::string, double>& constants);
+    void startup();
     void shutdown();
 
   protected:
-    std::unordered_map<std::string, double> constants_;
+    std::unordered_map<std::string, double>* constants_;
 
     /**
      * Publishes a Twist message containing the movement decision
