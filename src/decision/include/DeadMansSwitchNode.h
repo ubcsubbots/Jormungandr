@@ -50,7 +50,7 @@ class DeadMansSwitchNode {
     // Whether or not we've received the first message
     bool first_message_received;
 
-    // When the last time we received an "is alive" message was
+    // When the last time we received an "is alive" message
     ros::Time last_time_msg_received;
 };
 #endif // DECISION_DEAD_MANS_SWITCH_NODE_H
