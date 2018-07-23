@@ -8,19 +8,21 @@
 #include "LineUpWithGate.h"
 #include "constants.h"
 
-void LineUpWithGate::setupSubscriptions(ros::NodeHandle nh) {
-    nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this);
-    nh.subscribe("imu", 10, &LineUpWithGate::balance, this);
-}
-
-void LineUpWithGate::balance(const geometry_msgs::Twist::ConstPtr& msg) {
-    // if not parallel with ground, become parallel with ground
+std::vector<ros::Subscriber>
+LineUpWithGate::getSubscriptions(ros::NodeHandle nh) {
+    std::vector<ros::Subscriber> subs;
+    subs.push_back(
+    nh.subscribe("gate_location", 10, &LineUpWithGate::decisionCallback, this));
+    return subs;
 }
 
 void LineUpWithGate::decisionCallback(
-const gate_detect::gateDetectMsg::ConstPtr& msg) {
+const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // logic: given the location of the poles, try to put ourselves centred in
     // front
+
+    // send the message
+    geometry_msgs::TwistStamped command;
 
     double x_linear  = 0.0;
     double y_linear  = 0.0;
@@ -29,24 +31,58 @@ const gate_detect::gateDetectMsg::ConstPtr& msg) {
     double y_angular = 0.0;
     double z_angular = 0.0;
 
-    // we should integrate IMU in here for info such as if parallel with ground,
-    // etc.
-
-    if (msg->distanceRight > msg->distanceLeft) {
-        y_linear = RIGHT;
-    } else {
-        y_linear = LEFT;
+    // If we're at an acceptable distance away from the top pole, adjust for
+    // clearance
+    if (msg->detectedTopPole &&
+        abs((int) (msg->distanceTopPole -
+                   (*constants_)["TARGET_TOP_POLE_DISTANCE"])) <
+        (*constants_)["ERROR_TOLERANCE_TOP_POLE_DISTANCE"]) {
+        float top_pole_clearance =
+        (float) sin(msg->angleTopPole) * msg->distanceTopPole;
+        if ((top_pole_clearance - (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) >
+            (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
+            command.twist.linear.z = DOWN;
+            publishCommand(command);
+            return;
+        } else if ((top_pole_clearance -
+                    (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) <
+                   (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
+            command.twist.linear.z = UP;
+            publishCommand(command);
+            return;
+        }
     }
 
-    if (!(std::abs(msg->distanceTop * sin(msg->angleTop)) >
-          subbots::global_constants::CLEARANCE_HEIGHT &&
-          msg->angleTop < 0)) {
-        z_linear = DOWN;
+    // Make sure we're pointing at the middle of the gate
+    if ((msg->angleRightPole + msg->angleLeftPole) >
+        (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
+        command.twist.angular.z = RIGHT;
+    } else if ((msg->angleRightPole + msg->angleLeftPole) <
+               (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
+        command.twist.angular.z = LEFT;
     }
 
-    // send the message
-    geometry_msgs::Twist command;
-    command.angular = makeVector(x_angular, y_angular, z_angular);
-    command.linear  = makeVector(x_linear, y_linear, z_linear);
+    // Get within a good passing distance for gate
+    float averageDistanceToGate =
+    (msg->distanceLeftPole + msg->distanceRightPole + msg->distanceTopPole) /
+    (msg->detectedLeftPole + msg->detectedRightPole + msg->detectedTopPole);
+    if ((averageDistanceToGate - (*constants_)["TARGET_SIDE_POLES_DISTANCE"]) <
+        -(*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
+        command.twist.linear.x = BACKWARD;
+    } else if ((averageDistanceToGate -
+                (*constants_)["TARGET_SIDE_POLES_DISTANCE"]) >
+               (*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
+        command.twist.linear.x = FORWARD;
+    }
+
+    // Position ourselves laterally in front of the gate
+    if ((msg->distanceRightPole - msg->distanceLeftPole) >
+        (*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
+        command.twist.linear.y = LEFT;
+    } else if ((msg->distanceRightPole - msg->distanceLeftPole) <
+               -(*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
+        command.twist.linear.y = RIGHT;
+    }
+
     publishCommand(command);
 }

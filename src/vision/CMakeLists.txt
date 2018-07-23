@@ -13,9 +13,15 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
+        dynamic_reconfigure
+        rospy
 )
 
 find_package(OpenCV REQUIRED)
+
+generate_dynamic_reconfigure_options(
+        cfg/hsvfilter.cfg
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -64,6 +70,8 @@ add_executable(hsv_filter_node
         src/HSVFilterNode.cpp
         include/HSVFilter.h
         include/HSVFilterNode.h)
+
+add_dependencies(hsv_filter_node ${PROJECT_NAME}_gencfg)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(hsv_filter_node

@@ -8,7 +8,7 @@
 #define DECISION_GOTHROUGHGATE_H
 
 #include "Subroutine.h"
-#include <gate_detect/gateDetectMsg.h>
+#include <gate_detect/GateDetectMsg.h>
 
 /*
  * Subroutine: GoThroughGate
@@ -18,12 +18,14 @@
  */
 class GoThroughGate : public Subroutine {
   public:
-    GoThroughGate(int argc, char** argv, std::string node_name)
-      : Subroutine(argc, argv, node_name) {}
-    void setupSubscriptions(ros::NodeHandle nh) override;
+    GoThroughGate(std::unordered_map<std::string, double>* constants)
+      : Subroutine(constants) {}
+    std::string getName() override { return "GoThroughGate"; }
+
+    std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
 
   private:
-    void decisionCallback(const gate_detect::gateDetectMsg::ConstPtr& msg);
+    void decisionCallback(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 
 #endif // DECISION_GOTHROUGHGATE_H

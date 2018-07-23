@@ -7,18 +7,22 @@
  */
 
 #include "DecisionNode.h"
+#include <std_msgs/String.h>
 
 DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
-    setupSubroutineMap(argc, argv);
-
     ros::init(argc, argv, node_name);
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
-    std::string state_topic = "worldstate";
+    getConstants(nh);
+    setupSubroutineMap();
+
+    std::string state_topic = "/world_state_node/output";
     int refresh_rate        = 10;
     worldstate_subscriber_  = nh.subscribe(
     state_topic, refresh_rate, &DecisionNode::worldStateCallback, this);
+
+    info_publisher_ = private_nh.advertise<std_msgs::String>("info", 1);
 }
 
 /**
@@ -29,6 +33,8 @@ void DecisionNode::worldStateCallback(
 const worldstate::StateMsg::ConstPtr& StateMsg) {
     state_t state = StateMsg->state;
 
+    std::string s = std::to_string(state);
+
     if (subroutines_.find(state) == subroutines_.end()) {
         // We forgot to add a subroutine to the map. This is bad.
 
@@ -38,11 +44,15 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
     }
 
     Subroutine* newState = subroutines_[state];
-    if (newState == running_) { return; }
+    if (newState != running_) {
+        running_->shutdown();
+        running_ = newState;
+        running_->startup();
+    }
 
-    running_->shutdown();
-    running_ = newState;
-    running_->startup();
+    std_msgs::String info;
+    info.data = running_->getName();
+    info_publisher_.publish(info);
 }
 
 /**
@@ -53,13 +63,26 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
  * @param argv standard argv passed in from main, used for the ros::init of each
  * subroutine
  */
-void DecisionNode::setupSubroutineMap(int argc, char** argv) {
+void DecisionNode::setupSubroutineMap() {
     subroutines_[worldstate::StateMsg::locatingGate] =
-    new LocateGate(argc, argv, "locate_gate");
-
+    new LocateGate(&constants_);
+    subroutines_[worldstate::StateMsg::approachingGate] =
+    new ApproachGate(&constants_);
     subroutines_[worldstate::StateMsg::aligningWithGate] =
-    new LineUpWithGate(argc, argv, "align_with_gate");
-
+    new LineUpWithGate(&constants_);
     subroutines_[worldstate::StateMsg::passingGate] =
-    new GoThroughGate(argc, argv, "go_through_gate");
+    new GoThroughGate(&constants_);
+
+    running_ = subroutines_[worldstate::StateMsg::locatingGate];
+    running_->startup();
+}
+
+void DecisionNode::getConstants(ros::NodeHandle nh) {
+    XmlRpc::XmlRpcValue v;
+
+    nh.getParam("/global_constants", v);
+
+    for (auto value = v.begin(); value != v.end(); value++) {
+        constants_[std::string((*value).first)] = (*value).second;
+    }
 }

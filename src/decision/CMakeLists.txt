@@ -58,19 +58,18 @@ add_executable(decision_node
         src/subroutines/gate/LineUpWithGate.cpp
         include/subroutines/gate/LineUpWithGate.h
         src/subroutines/gate/GoThroughGate.cpp
-        include/subroutines/gate/GoThroughGate.h)
-
+        include/subroutines/gate/GoThroughGate.h
+        src/subroutines/gate/ApproachGate.cpp 
+        include/subroutines/gate/ApproachGate.h
+        )
+target_link_libraries(decision_node ${catkin_LIBRARIES})
 add_dependencies(decision_node ${catkin_EXPORTED_TARGETS})
 
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(sample_package_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(sample_package_node
-#   ${catkin_LIBRARIES}
-# )
-target_link_libraries(decision_node ${catkin_LIBRARIES})
+add_executable(dead_mans_switch
+        src/DeadMansSwitchNode.cpp
+        src/dead_mans_switch_node.cpp
+        )
+target_link_libraries(dead_mans_switch ${catkin_LIBRARIES})
 
 
 #############
@@ -83,17 +82,20 @@ target_link_libraries(decision_node ${catkin_LIBRARIES})
 # endif()
 if (CATKIN_ENABLE_TESTING)
 
-#    # Adding gtests to the package
-#    catkin_add_gtest(my-node-test test/my-node-test.cpp src/MyNode.cpp)
-#    target_link_libraries(my-node-test ${catkin_LIBRARIES})
-#
-#    # Adding rostest to the package
-#    find_package(rostest REQUIRED)
-#    # name the test and link it to the .test file and the .cpp file itself, this will allow
-#    # "catkin_make run_tests" to be able to find and run this rostest
-#    add_rostest_gtest(my_node_rostest test/sample_package_test.test test/my_node_rostest.cpp)
-#    target_link_libraries(my_node_rostest ${catkin_LIBRARIES})
-endif()
+    find_package(rostest REQUIRED)
 
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
+    add_rostest_gtest(
+            decision_node_rostest
+            test/decision_node_test.test
+            test/decision_node_rostest.cpp
+    )
+    target_link_libraries(decision_node_rostest ${catkin_LIBRARIES})
+
+    add_rostest_gtest(
+            dead_mans_switch_rostest
+            test/dead_mans_switch.test
+            test/dead_mans_switch_rostest.cpp
+    )
+    target_link_libraries(dead_mans_switch_rostest ${catkin_LIBRARIES})
+
+endif()

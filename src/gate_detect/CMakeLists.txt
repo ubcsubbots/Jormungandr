@@ -1,59 +1,78 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(gate_detect)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  std_msgs
-  message_generation
-)
-
 add_definitions(-std=c++14)
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
-include_directories(
-        ${catkin_INCLUDE_DIRS}
+find_package(catkin REQUIRED COMPONENTS
+		cv_bridge
+		image_transport
+		roscpp
+		rospy
+		dynamic_reconfigure
+		message_generation
+		)
+
+find_package(OpenCV REQUIRED)
+
+generate_dynamic_reconfigure_options(
+		cfg/gatedetect.cfg
 )
 
-################################################
-## Declare ROS messages, services and actions ##
-################################################
-
-## Generate messages in the 'msg' folder
 add_message_files(
-  FILES
-  gateDetectMsg.msg
+		FILES
+		GateDetectMsg.msg
 )
 
-## Generate added messages and services with any dependencies listed here
 generate_messages(
-  DEPENDENCIES
-  std_msgs
+		DEPENDENCIES
+		std_msgs
 )
 
-###################################
-## catkin specific configuration ##
-###################################
+catkin_package(INCLUDE_DIRS
+		include
+		LIBRARIES gate_detect
+)
 
 catkin_package(
-   CATKIN_DEPENDS message_runtime
+		CATKIN_DEPENDS message_runtime
 )
 
-#############
-## Testing ##
-#############
+include_directories(
+	${catkin_INCLUDE_DIRS}
+	${Open_CV_NCLUDE_DIRS}
+	./include
+		./test/testUtilities
+)
 
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_hsv_filter.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+add_executable(gate_detect
+        src/GateDetectorNode.cpp
+		src/gate_detect_node.cpp
+		src/GateDetector.cpp
+        include/GateDetectorNode.h
+		include/GateDetector.h
+        include/Pole.h
+        src/Pole.cpp
+		test/testUtilities/GateTestUtils.h
+		test/testUtilities/GateTestUtils.cpp)
+
+target_link_libraries(gate_detect
+		${catkin_LIBRARIES}
+		${OpenCV_LIBS}
+)
+
+add_dependencies(gate_detect ${PROJECT_NAME}_gencfg)
+add_dependencies(gate_detect ${catkin_EXPORTED_TARGETS})
+add_dependencies(gate_detect gate_detect_generate_messages_cpp)
+
 if (CATKIN_ENABLE_TESTING)
-    catkin_add_gtest(gate-detect-test test/gate-detect-test.cpp)
-    target_link_libraries(gate-detect-test ${catkin_LIBRARIES})
+	# Adding gtests to the package
+	catkin_add_gtest(gate-detection-test test/gate-detection-test.cpp src/GateDetector.cpp test/testUtilities/GateTestUtils.cpp src/Pole.cpp
+			WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+	target_link_libraries(gate-detection-test ${catkin_LIBRARIES} ${OpenCV_LIBS})
+
+	catkin_add_gtest(gate-detect-msg-test test/gate-detection-msg-test.cpp)
+	target_link_libraries(gate-detect-msg-test ${catkin_LIBRARIES})
+	add_dependencies(gate-detect-msg-test gate_detect_generate_messages_cpp)
 endif()
 
-add_dependencies(gate-detect-test gate_detect_generate_messages_cpp)
+

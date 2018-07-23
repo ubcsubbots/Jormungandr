@@ -17,6 +17,7 @@
 // state msg
 #include <worldstate/StateMsg.h>
 // subroutines
+#include "ApproachGate.h"
 #include "GoThroughGate.h"
 #include "LineUpWithGate.h"
 #include "LocateGate.h"
@@ -30,8 +31,12 @@ class DecisionNode {
   private:
     std::unordered_map<state_t, Subroutine*>
     subroutines_;         // holds all of the known subroutines
+    std::unordered_map<std::string, double> constants_;
     Subroutine* running_; // the currently running subroutine
     ros::Subscriber worldstate_subscriber_; // subscribes to the world state
+
+    // says which subroutine is running, for testing & debugging
+    ros::Publisher info_publisher_;
 
     /**
      * Callback function when a message is received from the world state node.
@@ -42,11 +47,9 @@ class DecisionNode {
     /**
      * Sets up the map "subroutines_" such that each enumerated state is mapped
      * to its appropriate subroutine.
-     * @param argc standard argc passed in from main, used for the ros::init of
-     * each subroutine
-     * @param argv standard argv passed in from main, used for the ros::init of
-     * each subroutine
      */
-    void setupSubroutineMap(int argc, char** argv);
+    void setupSubroutineMap();
+
+    void getConstants(ros::NodeHandle nh);
 };
 #endif // DECISION_DECISION_H_H

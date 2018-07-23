@@ -64,7 +64,8 @@ add_executable(world_state_node
     src/routines/Gate/AlignWithGate.cpp
     include/routines/Gate/PassGate.h
     src/routines/Gate/PassGate.cpp
-)
+    src/routines/Gate/ApproachGate.cpp
+    include/routines/Gate/ApproachGate.h)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(world_state_node ${catkin_LIBRARIES})

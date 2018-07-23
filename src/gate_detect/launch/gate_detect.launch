@@ -1,0 +1,11 @@
+<launch>
+    <node name="gate_detect_node" pkg="gate_detect" type="gate_detect" output="screen">
+        <param name="cannyLow" value="50" type="int" />
+        <param name="houghLinesThreshold" value="100" type="int" />
+        <param name="houghLinesMinLength" value="125" type="int" />
+        <param name="houghLinesMaxLineGap" value="150" type="int" />
+        <param name="poleMax" value="50" type="int" />
+        <param name="interpolationConstant1" value="81.88" type="double" />
+        <param name="interpolationConstant2" value="-.92791" type="double" />
+        </node>
+</launch>

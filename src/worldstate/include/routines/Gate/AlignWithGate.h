@@ -9,27 +9,24 @@
 #define PROJECT_ALIGNWITHGATE_H
 
 #include "State.h"
-#include <constants.h>
-#include <gate_detect/gateDetectMsg.h>
+#include "constants.h"
+#include <gate_detect/GateDetectMsg.h>
 
 /*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
 class AlignWithGate : public State {
   public:
-    AlignWithGate(int argc, char** argv, std::string node_name)
-      : State(argc, argv, node_name) {}
-    void setupNodeSubscriptions(ros::NodeHandle nh) override;
-    void sleep() override;
+    AlignWithGate() : State() {}
+    std::vector<ros::Subscriber>
+    getNodeSubscriptions(ros::NodeHandle nh) override;
 
   private:
-    ros::Subscriber gate_detect_listener_;
-
     /**
      * Decides based on image data whether the robot still needs to
      * align with the gate.
      *
      * @param msg gateDetectMsg data
      */
-    void gateDetectCallBack(const gate_detect::gateDetectMsg::ConstPtr& msg);
+    void gateDetectCallBack(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 
 #endif // PROJECT_ALIGNWITHGATE_H

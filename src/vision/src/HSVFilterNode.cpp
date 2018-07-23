@@ -16,19 +16,13 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     std::string subscribeTopic = "/camera/image_raw";
     std::string publishTopic   = "/vision/output";
 
-    XmlRpc::XmlRpcValue hsv;
-    if (!private_nh.getParam("hsv", hsv)) {
-        ROS_INFO_STREAM(nh.getNamespace()
-                        << ": no value given for hsv, using default values");
-        filter_ = HSVFilter();
-    } else {
-        filter_ = HSVFilter(hsv["h_low"],
-                            hsv["h_high"],
-                            hsv["s_low"],
-                            hsv["s_high"],
-                            hsv["v_low"],
-                            hsv["v_high"]);
-    }
+    dynamic_reconfigure::Server<vision::hsvfilterConfig> server;
+    dynamic_reconfigure::Server<vision::hsvfilterConfig>::CallbackType f;
+
+    filter_ = HSVFilter();
+
+    f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
+    server.setCallback(f);
 
     int refresh_rate = 1;
     subscriber_      = it.subscribe(
@@ -36,6 +30,9 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
 
     int queue_size = 1;
     publisher_     = it.advertise(publishTopic, queue_size);
+
+    // Start up ros. This will continue to run until the node is killed
+    ros::spin();
 }
 
 void HSVFilterNode::subscriberCallBack(
@@ -57,4 +54,22 @@ void HSVFilterNode::publishFilteredImage(const cv::Mat& filtered_image) {
     publisher_.publish(
     cv_bridge::CvImage(std_msgs::Header(), "mono8", filtered_image)
     .toImageMsg());
+}
+
+void HSVFilterNode::dynamicreconfigCallback(
+const vision::hsvfilterConfig& config, uint32_t level) {
+    ROS_INFO("Reconfigure Request: %i %i %i %i %i %i",
+             config.h_low,
+             config.s_low,
+             config.v_low,
+             config.h_high,
+             config.s_high,
+             config.v_high);
+
+    filter_ = HSVFilter(config.h_low,
+                        config.h_high,
+                        config.s_low,
+                        config.s_high,
+                        config.v_low,
+                        config.v_high);
 }
