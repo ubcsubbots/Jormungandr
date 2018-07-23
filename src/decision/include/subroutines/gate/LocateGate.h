@@ -19,7 +19,8 @@
  */
 class LocateGate : public Subroutine {
   public:
-    LocateGate() : Subroutine() {}
+    LocateGate(std::unordered_map<std::string, double>* constants)
+      : Subroutine(constants) {}
     std::string getName() override { return "LocateGate"; }
 
     std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;

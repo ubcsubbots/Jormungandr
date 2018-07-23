@@ -19,13 +19,13 @@
  */
 class LineUpWithGate : public Subroutine {
   public:
-    LineUpWithGate() : Subroutine() {}
+    LineUpWithGate(std::unordered_map<std::string, double>* constants)
+      : Subroutine(constants) {}
     std::string getName() override { return "LineUpWithGate"; }
 
     std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
 
   private:
-    bool align_top_ = false, distance_to_gate_acceptable_ = false;
     void decisionCallback(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 

@@ -14,6 +14,7 @@ DecisionNode::DecisionNode(int argc, char** argv, std::string node_name) {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
+    getConstants(nh);
     setupSubroutineMap();
 
     std::string state_topic = "/world_state_node/output";
@@ -63,10 +64,25 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
  * subroutine
  */
 void DecisionNode::setupSubroutineMap() {
-    subroutines_[worldstate::StateMsg::locatingGate]     = new LocateGate();
-    subroutines_[worldstate::StateMsg::aligningWithGate] = new LineUpWithGate();
-    subroutines_[worldstate::StateMsg::passingGate]      = new GoThroughGate();
+    subroutines_[worldstate::StateMsg::locatingGate] =
+    new LocateGate(&constants_);
+    subroutines_[worldstate::StateMsg::approachingGate] =
+    new ApproachGate(&constants_);
+    subroutines_[worldstate::StateMsg::aligningWithGate] =
+    new LineUpWithGate(&constants_);
+    subroutines_[worldstate::StateMsg::passingGate] =
+    new GoThroughGate(&constants_);
 
     running_ = subroutines_[worldstate::StateMsg::locatingGate];
     running_->startup();
+}
+
+void DecisionNode::getConstants(ros::NodeHandle nh) {
+    XmlRpc::XmlRpcValue v;
+
+    nh.getParam("/global_constants", v);
+
+    for (auto value = v.begin(); value != v.end(); value++) {
+        constants_[std::string((*value).first)] = (*value).second;
+    }
 }

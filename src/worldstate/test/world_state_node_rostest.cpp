@@ -97,7 +97,7 @@ TEST_F(WorldStateNodeTest, worldStateNode_transition_state_test) {
     test_publisher.publish(data);
     loop_rate.sleep();
     ros::spinOnce();
-    buf.state = worldstate::StateMsg_<u_int8_t>::aligningWithGate;
+    buf.state = worldstate::StateMsg_<u_int8_t>::approachingGate;
 
     EXPECT_EQ(buf.state, message_output);
 }

@@ -14,20 +14,23 @@ TEST(CheckStateValuesMatch, instantiateMsg) {
     msg.state = worldstate::StateMsg_<u_int8_t>::locatingGate;
     EXPECT_EQ(msg.state, 0);
 
-    msg.state = worldstate::StateMsg_<u_int8_t>::aligningWithGate;
+    msg.state = worldstate::StateMsg_<u_int8_t>::approachingGate;
     EXPECT_EQ(msg.state, 1);
 
-    msg.state = worldstate::StateMsg_<u_int8_t>::passingGate;
+    msg.state = worldstate::StateMsg_<u_int8_t>::aligningWithGate;
     EXPECT_EQ(msg.state, 2);
 
-    msg.state = worldstate::StateMsg_<u_int8_t>::searchingForPath;
+    msg.state = worldstate::StateMsg_<u_int8_t>::passingGate;
     EXPECT_EQ(msg.state, 3);
 
-    msg.state = worldstate::StateMsg_<u_int8_t>::locatingDie;
+    msg.state = worldstate::StateMsg_<u_int8_t>::searchingForPath;
     EXPECT_EQ(msg.state, 4);
 
-    msg.state = worldstate::StateMsg_<u_int8_t>::touchingDie;
+    msg.state = worldstate::StateMsg_<u_int8_t>::locatingDie;
     EXPECT_EQ(msg.state, 5);
+
+    msg.state = worldstate::StateMsg_<u_int8_t>::touchingDie;
+    EXPECT_EQ(msg.state, 6);
 }
 
 int main(int argc, char** argv) {
