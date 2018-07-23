@@ -24,28 +24,27 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     msg_to_publish.state = worldstate::StateMsg::aligningWithGate;
 
     // If no poles are seen, then look for it again
-    if (!msg->detectedLeftPole && !msg->detectedRightPole &&
-        !msg->detectedTopPole) {
+    if (!(msg->detectedTopPole || msg->detectedRightPole ||
+          msg->detectedLeftPole)) {
         msg_to_publish.state = worldstate::StateMsg::locatingGate;
     }
 
-    // If side poles of the gate are seen
-    if (msg->detectedLeftPole && msg->detectedRightPole) {
-        double distBtwnHorizontalGates =
-        fabs(msg->distanceLeftPole - msg->distanceRightPole);
+    if ((msg->detectedTopPole)) {
+        float top_pole_clearance =
+        (float) sin(msg->angleTopPole) * msg->distanceTopPole;
 
-        // Pass through the gate if it centrally aligned
-        if (distBtwnHorizontalGates <
-            subbots::global_constants::CLEARANCE_WIDTH) {
-            msg_to_publish.state = worldstate::StateMsg::passingGate;
-        }
-
-        // If the top pole is seen, but the robot doesn't clear the height limit
-        if (msg->detectedTopPole &&
-            msg->distanceTopPole <
-            subbots::global_constants::CLEARANCE_HEIGHT) {
-            // Keep trying to align
-            msg_to_publish.state = worldstate::StateMsg::aligningWithGate;
+        if (abs((int) (top_pole_clearance -
+                       constants_["TARGET_TOP_POLE_CLEARANCE"])) <
+            constants_["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
+            if ((msg->detectedRightPole && msg->detectedLeftPole) &&
+                abs((int) (msg->angleLeftPole + msg->angleRightPole)) <
+                constants_["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
+                if ((((msg->distanceRightPole + msg->distanceLeftPole) / 2) -
+                     constants_["TARGET_SIDE_POLES_DISTANCE"]) <
+                    constants_["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
+                    msg_to_publish.state = worldstate::StateMsg::passingGate;
+                }
+            }
         }
     }
 

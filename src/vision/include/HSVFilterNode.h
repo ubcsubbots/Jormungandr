@@ -15,7 +15,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
-#include <vision/hsvConfig.h>
+#include <vision/hsvfilterConfig.h>
 
 class HSVFilterNode {
     image_transport::Subscriber subscriber_;
@@ -44,7 +44,7 @@ class HSVFilterNode {
      *
      * @param config Configuration file for parameters
      */
-    void dynamicreconfigCallback(const vision::hsvConfig& config,
+    void dynamicreconfigCallback(const vision::hsvfilterConfig& config,
                                  uint32_t level);
 };
 

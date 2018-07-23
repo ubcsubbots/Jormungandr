@@ -6,7 +6,9 @@
 
 #include "Subroutine.h"
 
-Subroutine::Subroutine() {}
+Subroutine::Subroutine(std::unordered_map<std::string, double>* constants) {
+    constants_ = constants;
+}
 
 void Subroutine::startup() {
     ros::NodeHandle nh;
@@ -16,7 +18,8 @@ void Subroutine::startup() {
 
     std::string topic   = private_nh.resolveName("output");
     uint32_t queue_size = 10;
-    publisher_ = private_nh.advertise<geometry_msgs::Twist>(topic, queue_size);
+    publisher_ =
+    private_nh.advertise<geometry_msgs::TwistStamped>(topic, queue_size);
 }
 
 void Subroutine::shutdown() {
@@ -28,7 +31,7 @@ void Subroutine::shutdown() {
     subscriptions_.clear();
 }
 
-void Subroutine::publishCommand(const geometry_msgs::Twist& msg) {
+void Subroutine::publishCommand(const geometry_msgs::TwistStamped& msg) {
     publisher_.publish(msg);
 }
 

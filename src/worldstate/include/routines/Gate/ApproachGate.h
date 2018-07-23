@@ -2,24 +2,26 @@
  * Created By: Joel Ahn
  * Created On: March 5th, 2018
  * Description: World State FSM node. Checks to see if
- *              robot still needs to locate gate.
+ *              robot still needs to align with gate.
  */
 
-#ifndef PROJECT_LOCATINGGATE_H
-#define PROJECT_LOCATINGGATE_H
+#ifndef PROJECT_APPROACHGATE_H
+#define PROJECT_APPROACHGATE_H
 
 #include "State.h"
 #include "constants.h"
 #include <gate_detect/GateDetectMsg.h>
 
 /*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
-class LocatingGate : public State {
+class ApproachGate : public State {
   public:
-    LocatingGate() : State() {}
+    ApproachGate() : State() {}
     std::vector<ros::Subscriber>
     getNodeSubscriptions(ros::NodeHandle nh) override;
 
   private:
+    ros::Subscriber gate_detect_listener_;
+
     /**
      * Decides based on image data whether the robot still needs to
      * align with the gate.
@@ -29,4 +31,4 @@ class LocatingGate : public State {
     void gateDetectCallBack(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 
-#endif // PROJECT_LOCATINGGATE_H
+#endif // PROJECT_APPROACHGATE_H

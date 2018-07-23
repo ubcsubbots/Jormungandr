@@ -1,11 +1,12 @@
 /*
- * Created By: Reid Oliveira
+ * Created By: Cameron Newton
  * Created On: May 19, 2018
- * Description: Subroutine that simply proceeds forward through the gate
+ * Description: Subroutine that goes towards the gate until we're close enough
+ * to align
  */
 
-#ifndef DECISION_GOTHROUGHGATE_H
-#define DECISION_GOTHROUGHGATE_H
+#ifndef DECISION_APPROACHGATE_H
+#define DECISION_APPROACHGATE_H
 
 #include "Subroutine.h"
 #include <gate_detect/GateDetectMsg.h>
@@ -16,11 +17,11 @@
  * Function: proceeds forward through the gate
  *
  */
-class GoThroughGate : public Subroutine {
+class ApproachGate : public Subroutine {
   public:
-    GoThroughGate(std::unordered_map<std::string, double>* constants)
+    ApproachGate(std::unordered_map<std::string, double>* constants)
       : Subroutine(constants) {}
-    std::string getName() override { return "GoThroughGate"; }
+    std::string getName() override { return "ApproachGate"; }
 
     std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
 
@@ -28,4 +29,4 @@ class GoThroughGate : public Subroutine {
     void decisionCallback(const gate_detect::GateDetectMsg::ConstPtr& msg);
 };
 
-#endif // DECISION_GOTHROUGHGATE_H
+#endif // DECISION_APPROACHGATE_H
