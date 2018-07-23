@@ -21,7 +21,7 @@ first_message_received(false)
     ros::NodeHandle private_nh("~");
 
     // Get Params
-    double time_since_last_alive_publish_rate_hz = 10;
+    double time_since_last_alive_publish_rate_hz = 30;
     nh.getParam("time_since_last_alive_publish_rate_hz", time_since_last_alive_publish_rate_hz);
 
     // Setup Subscriber(s)

@@ -17,7 +17,6 @@
 #include <std_msgs/Duration.h>
 #include <ros/ros.h>
 
-// TODO: This is not a great class name, it's not very descriptive
 class DeadMansSwitchNode {
   public:
     DeadMansSwitchNode(int argc, char** argv, std::string node_name);
