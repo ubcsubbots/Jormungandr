@@ -53,7 +53,7 @@ add_executable(gate_detect_node
         include/Pole.h
         src/Pole.cpp
 		test/testUtilities/GateTestUtils.h
-		test/testUtilities/GateTestUtils.cpp)
+        test/testUtilities/GateTestUtils.cpp)
 
 target_link_libraries(gate_detect_node
 		${catkin_LIBRARIES}

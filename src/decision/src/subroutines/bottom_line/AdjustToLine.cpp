@@ -28,11 +28,11 @@ void AdjustToLine::lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr
     }
 
     if(msg->lateralDistanceFromFrontMarker > constants_["ERROR_TOLERANCE_LINE_LATERAL_DISTANCE"]){
-        command.twist.twist.linear.y = RIGHT;
+        command.twist.twist.linear.y = LEFT;
         publishCommand(command);
         return;
     }else if(msg->lateralDistanceFromFrontMarker < -constants_["ERROR_TOLERANCE_LINE_LATERAL_DISTANCE"]){
-        command.twist.twist.linear.y = LEFT;
+        command.twist.twist.linear.y = RIGHT;
         publishCommand(command);
         return;
     }

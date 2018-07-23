@@ -14,45 +14,44 @@
 
 
 
-struct LineStruct {
-    float lateralDistanceFromFrontMarker;
-    float distanceFromEndFrontMarker;
-    float angleToParallelFrontMarker;
-    float lateralDistanceFromRearMarker;
-    float distanceFromEndRearMarker;
-    float angleToParallelRearMarker;
-};
-
-static LineStruct defaultLineStruct() {
-    LineStruct lineStruct;
-
-    lineStruct.angleToParallelFrontMarker = -1.0f;
-
-    lineStruct.distanceFromEndFrontMarker = -1.0f;
-
-    lineStruct.lateralDistanceFromFrontMarker = -1.0f;
-
-    lineStruct.lateralDistanceFromRearMarker=-1.0f;
-
-    lineStruct.distanceFromEndRearMarker=-1.0f;
-
-    lineStruct.angleToParallelRearMarker=-1.0f;
-
-    return lineStruct;
-}
-
-struct MarkerStruct {
+struct LineToFollow {
     float width;
     float slope;
     cv::Vec4i middleOfMarker;
     int frontOfMarker;
 };
 
+struct LinesToFollow{
+    LineToFollow frontLine;
+
+    LineToFollow rearLine;
+};
+
+static LinesToFollow defaultLinesToFollow(){
+    LinesToFollow linesToFollow;
+
+    linesToFollow.frontLine.frontOfMarker = -1;
+    linesToFollow.frontLine.width = -1;
+    linesToFollow.frontLine.slope = -1;
+    linesToFollow.frontLine.middleOfMarker = cv::Vec4i(0,0,0,0);
+
+    linesToFollow.rearLine.frontOfMarker = -1;
+    linesToFollow.rearLine.width = -1;
+    linesToFollow.rearLine.slope = -1;
+    linesToFollow.rearLine.middleOfMarker = cv::Vec4i(0,0,0,0);
+
+    return linesToFollow;
+}
+
 class LineDetector {
   public:
     LineDetector();
 
-    LineStruct initialize(const cv::Mat mat_in);
+    LinesToFollow initialize(const cv::Mat mat_in);
+
+    float calcProjectedDistance(cv::Vec4i line1, float widthOfMarker);
+
+    float calcProjectedDistanceToEndOfLine(float distanceOfForwardmostPoint, float widthOfMarker);
 
   private:
     int cannyLow_;
@@ -64,15 +63,11 @@ class LineDetector {
 
     int houghLinesThreshold_, houghLinesMinLength_, houghLinesMaxLineGap_;
 
-    std::vector<MarkerStruct> findMarkers(std::vector<cv::Vec4i> allDetectedLines);
+    std::vector<LineToFollow> findMarkers(std::vector<cv::Vec4i> allDetectedLines);
 
     float calculateSlope(cv::Vec4i detectedLine);
 
     float calculateWidth(cv::Vec4i line1, cv::Vec4i line2);
-
-    float calcProjectedDistance(cv::Vec4i line1, float widthOfMarker);
-
-    float calcProjectedDistanceToEndOfLine(float distanceOfForwardmostPoint, float widthOfMarker);
 };
 
 #endif // PROJECT_GATE_H

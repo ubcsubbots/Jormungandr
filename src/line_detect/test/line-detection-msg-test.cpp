@@ -4,21 +4,18 @@
  * Description: A test to confirm that gateDetectMsg will build
  */
 
-#include <gate_detect/GateDetectMsg.h>
+#include <line_detect/LineDetectMsg.h>
 #include <gtest/gtest.h>
 
 TEST(gate_detect, addMessage) {
-    gate_detect::GateDetectMsg msg;
+    line_detect::LineDetectMsg msg;
 
-    msg.detectedLeftPole  = 1;
-    msg.angleLeftPole     = 2.0f;
-    msg.distanceLeftPole  = 2.0f;
-    msg.detectedRightPole = 1;
-    msg.angleRightPole    = 2.0f;
-    msg.distanceRightPole = 2.0f;
-    msg.detectedTopPole   = 1;
-    msg.angleTopPole      = 2.0f;
-    msg.distanceTopPole   = 2.0f;
+    msg.lateralDistanceFromFrontMarker = 0.0;
+    msg.lateralDistanceFromRearMarker = 0.0;
+    msg.angleToParallelFrontMarker = 0.0;
+    msg.angleToParallelRearMarker = 0.0;
+    msg.distanceFromEndOfFrontMarker = 0.0;
+    msg.distanceFromEndRearMarker = 0.0;
 }
 
 int main(int argc, char** argv) {

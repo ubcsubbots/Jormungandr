@@ -40,7 +40,7 @@ class LineDetectorNode {
      * Publish Line seen by node
      *
      */
-    void publishLineDetectMsg(const LineStruct lineStruct);
+    void publishLineDetectMsg(const LinesToFollow linesToFollow);
 };
 
 #endif // LINE_DETECT_LINEDETECT_H

@@ -11,4 +11,9 @@ float32 distanceFromEndRearMarker
 #Deviation angle from parallel of rear marker
 float32 angleToParallelRearMarker
 
+#Centre of Area of Line x
+
+#Centre of Area of Line y
+
+
 

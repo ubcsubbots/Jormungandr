@@ -55,7 +55,10 @@ add_dependencies(line_detect_node ${catkin_EXPORTED_TARGETS})
 add_dependencies(line_detect_node gate_detect_generate_messages_cpp)
 
 if (CATKIN_ENABLE_TESTING)
-
+	# Adding gtests to the package
+	catkin_add_gtest(line_detect_gtest test/line-detection-gtest.cpp test/test_utilities/line_detect_test_utils.cpp src/LineDetector.cpp
+			WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+	target_link_libraries(line_detect_gtest ${catkin_LIBRARIES} ${OpenCV_LIBS})
 endif()
 
 
