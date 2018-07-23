@@ -1,0 +1,4 @@
+<launch>
+    <node name="dead_mans_switch" pkg="decision" type="dead_mans_switch" />
+    <test test-name="dead_mans_switch_rostest" pkg="decision" type="dead_mans_switch_rostest" />
+</launch>
