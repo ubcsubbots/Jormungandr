@@ -23,9 +23,7 @@ class DeadMansSwitchNode {
 
   private:
     /**
-     * Callback function for when a new string is received
-     *
-     * @param is_alive the string received in the callback
+     * Callback function for when we receive message indicating a node is alive
      */
     void isAliveCallback(const std_msgs::Empty::ConstPtr& is_alive);
 
