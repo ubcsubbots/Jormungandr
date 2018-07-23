@@ -8,6 +8,10 @@
 #ifndef JORMUNGANDR_WORLDSTATENODE_H
 #define JORMUNGANDR_WORLDSTATENODE_H
 
+#include "routines/Gate/AlignWithGate.h"
+#include "routines/Gate/ApproachGate.h"
+#include "routines/Gate/LocatingGate.h"
+#include "routines/Gate/PassGate.h"
 #include <ros/ros.h>
 #include <unordered_map>
 
@@ -23,6 +27,7 @@ class WorldStateNode {
     WorldStateNode(int argc, char** argv, std::string node_name);
 
   private:
+    std::unordered_map<std::string, double> constants_;
     const uint8_t initial_state_ = worldstate::StateMsg::locatingGate;
     ros::Subscriber world_state_listener_;
     State* current_state_;
@@ -39,6 +44,7 @@ class WorldStateNode {
      * Instantiate each of the individual routine nodes in ros shutdown mode
      */
     void initializeFiniteStateMachine();
+    void getConstants(ros::NodeHandle nh);
 };
 
 #endif // JORMUNGANDR_WORLDSTATENODE_H

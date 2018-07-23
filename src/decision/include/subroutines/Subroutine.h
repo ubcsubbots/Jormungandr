@@ -7,8 +7,9 @@
 #ifndef DECISION_SUBROUTINE_H
 #define DECISION_SUBROUTINE_H
 
-#include <geometry_msgs/Twist.h>
+#include <geometry_msgs/TwistStamped.h>
 #include <ros/ros.h>
+#include <unordered_map>
 
 /**
  * pre defined directions for subroutines to use
@@ -28,18 +29,21 @@ class Subroutine {
     std::vector<ros::Subscriber> subscriptions_;
 
   public:
-    Subroutine();
+    Subroutine(std::unordered_map<std::string, double>* constants);
+
     virtual std::string getName() = 0;
 
     void startup();
     void shutdown();
 
   protected:
+    std::unordered_map<std::string, double>* constants_;
+
     /**
      * Publishes a Twist message containing the movement decision
      * @param msg
      */
-    void publishCommand(const geometry_msgs::Twist& msg);
+    void publishCommand(const geometry_msgs::TwistStamped& msg);
 
     /**
      * Utility function for creating a geometry_msgs::Vector3

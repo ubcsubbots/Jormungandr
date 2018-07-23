@@ -49,7 +49,7 @@ const sensor_msgs::ImageConstPtr& msg) {
     publishGateDetectMsg(gateCoordinates);
 
     // Uncomment if you want to view gate seen by node
-    // publishGateImage(GateCoordinates);
+    publishGateImage(gateCoordinates);
 }
 
 void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
@@ -113,9 +113,11 @@ const gate_detect::gatedetectConfig& config, uint32_t level) {
              config.houghLinesMaxLineGap,
              config.poleMax);
 
-    gateDetector_ = GateDetector(config.cannyLow,
-                                 config.houghLinesThreshold,
-                                 config.houghLinesMinLength,
-                                 config.houghLinesMaxLineGap,
-                                 config.poleMax);
+    gateDetector_.setParams(config.cannyLow,
+                            config.houghLinesThreshold,
+                            config.houghLinesMinLength,
+                            config.houghLinesMaxLineGap,
+                            config.poleMax,
+                            config.interpolationConstant1,
+                            config.interpolationConstant2);
 }
