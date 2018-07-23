@@ -56,8 +56,8 @@ void HSVFilterNode::publishFilteredImage(const cv::Mat& filtered_image) {
     .toImageMsg());
 }
 
-void HSVFilterNode::dynamicreconfigCallback(const vision::hsvfilterConfig& config,
-                                            uint32_t level) {
+void HSVFilterNode::dynamicreconfigCallback(
+const vision::hsvfilterConfig& config, uint32_t level) {
     ROS_INFO("Reconfigure Request: %i %i %i %i %i %i",
              config.h_low,
              config.s_low,
