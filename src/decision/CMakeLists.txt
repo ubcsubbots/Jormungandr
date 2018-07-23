@@ -59,18 +59,14 @@ add_executable(decision_node
         include/subroutines/gate/LineUpWithGate.h
         src/subroutines/gate/GoThroughGate.cpp
         include/subroutines/gate/GoThroughGate.h)
-
+target_link_libraries(decision_node ${catkin_LIBRARIES})
 add_dependencies(decision_node ${catkin_EXPORTED_TARGETS})
 
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(sample_package_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(sample_package_node
-#   ${catkin_LIBRARIES}
-# )
-target_link_libraries(decision_node ${catkin_LIBRARIES})
+add_executable(dead_mans_switch
+        src/DeadMansSwitchNode.cpp
+        src/dead_mans_switch_node.cpp
+        )
+target_link_libraries(dead_mans_switch ${catkin_LIBRARIES})
 
 
 #############
@@ -90,7 +86,16 @@ if (CATKIN_ENABLE_TESTING)
             test/decision_node_test.test
             test/decision_node_rostest.cpp
     )
-
     target_link_libraries(decision_node_rostest ${catkin_LIBRARIES})
+
+    add_rostest_gtest(
+            dead_mans_switch_rostest
+            test/dead_mans_switch.test
+            test/dead_mans_switch_rostest.cpp
+    )
+    target_link_libraries(dead_mans_switch_rostest ${catkin_LIBRARIES})
+    # TODO: This probably isn't needed, delete
+    # Convince CMake this is indeed a C++ project
+    #set_target_properties(dead_mans_switch_rostest PROPERTIES LINKER_LANGUAGE CXX)
 
 endif()
