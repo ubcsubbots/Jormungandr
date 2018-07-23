@@ -22,9 +22,9 @@ PassGate::getNodeSubscriptions(ros::NodeHandle nh) {
     // std::string imuDataTopic    = "/imu/is_calibrated";
     // nh.subscribe("/imu/is_calibrated", 10, &PassGate::imuDataCallback, this);
 
-    // timer_ = nh.createTimer(ros::Duration(30),&PassGate::timerCallback, this
-    // ,false);
-    // timer_.start();
+    timer_ =
+    nh.createTimer(ros::Duration(30), &PassGate::timerCallback, this, false);
+    timer_.start();
 
     return subs;
 }

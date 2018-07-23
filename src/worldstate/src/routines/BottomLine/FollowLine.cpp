@@ -9,9 +9,9 @@ std::vector<ros::Subscriber>
 FollowLine::getNodeSubscriptions(ros::NodeHandle nh) {
     std::string line_detect_topic = "line_detect_output";
 
-    // timer_ = nh.createTimer(ros::Duration(10),&FollowLine::timerCallback,
-    // this ,false);
-    // timer_.start();
+    timer_ =
+    nh.createTimer(ros::Duration(10), &FollowLine::timerCallback, this, false);
+    timer_.start();
 
     std::vector<ros::Subscriber> subs;
     subs.push_back(
@@ -52,7 +52,7 @@ const line_detect::LineDetectMsg::ConstPtr& msg) {
 void FollowLine::timerCallback(const ros::TimerEvent& event) {
     worldstate::StateMsg stateMsg;
 
-    stateMsg.state = worldstate::StateMsg::locatingDie;
+    // stateMsg.state = worldstate::StateMsg::locatingDie;
 
-    publishNextState(stateMsg);
+    // publishNextState(stateMsg);
 }

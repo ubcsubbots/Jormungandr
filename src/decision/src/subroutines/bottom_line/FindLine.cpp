@@ -7,9 +7,9 @@
 std::vector<ros::Subscriber> FindLine::getSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "line_detect_output";
 
-    // timer_ = nh.createTimer(ros::Duration(10),&FindLine::timerCallback, this
-    // ,false);
-    // timer_.start();
+    timer_ =
+    nh.createTimer(ros::Duration(10), &FindLine::timerCallback, this, false);
+    timer_.start();
 
     lateralVelocityDirection_ = 1;
 
@@ -25,6 +25,8 @@ const line_detect::LineDetectMsg::ConstPtr& msg) {
     geometry_msgs::TwistStamped command;
 
     command.twist.linear.y = lateralVelocityDirection_ * RIGHT;
+
+    publishCommand(command);
 }
 
 void FindLine::timerCallback(const ros::TimerEvent& event) {

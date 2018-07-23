@@ -9,9 +9,9 @@ std::vector<ros::Subscriber>
 FindLine::getNodeSubscriptions(ros::NodeHandle nh) {
     std::string line_detect_topic = "line_detect_output";
 
-    // timer_ = nh.createTimer(ros::Duration(30),&FindLine::timerCallback, this
-    // ,false);
-    // timer_.start();
+    timer_ =
+    nh.createTimer(ros::Duration(30), &FindLine::timerCallback, this, false);
+    timer_.start();
 
     std::vector<ros::Subscriber> subs;
 
