@@ -4,20 +4,20 @@
 
 #include "FollowLine.h"
 
-std::vector<ros::Subscriber>
-FollowLine::getSubscriptions(ros::NodeHandle nh) {
+std::vector<ros::Subscriber> FollowLine::getSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "line_detect_output";
 
     std::vector<ros::Subscriber> subs;
-    subs.push_back(nh.subscribe(
-            gateDetectTopic, 10, &FollowLine::lineDetectCallback, this));
+    subs.push_back(
+    nh.subscribe(gateDetectTopic, 10, &FollowLine::lineDetectCallback, this));
     return subs;
 }
 
-void FollowLine::lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& msg){
-    nav_msgs::Odometry command;
+void FollowLine::lineDetectCallback(
+const line_detect::LineDetectMsg::ConstPtr& msg) {
+    geometry_msgs::TwistStamped command;
 
-    command.twist.twist.linear.x = FORWARD;
+    command.twist.linear.x = FORWARD;
 
     publishCommand(command);
 }

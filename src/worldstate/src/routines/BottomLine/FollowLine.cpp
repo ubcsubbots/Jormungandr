@@ -9,42 +9,47 @@ std::vector<ros::Subscriber>
 FollowLine::getNodeSubscriptions(ros::NodeHandle nh) {
     std::string line_detect_topic = "line_detect_output";
 
-    timer_ = nh.createTimer(ros::Duration(10),&FollowLine::timerCallback, this ,false);
-    timer_.start();
+    // timer_ = nh.createTimer(ros::Duration(10),&FollowLine::timerCallback,
+    // this ,false);
+    // timer_.start();
 
     std::vector<ros::Subscriber> subs;
-    subs.push_back(nh.subscribe(
-            line_detect_topic, 10, &FollowLine::lineDetectCallback, this));
+    subs.push_back(
+    nh.subscribe(line_detect_topic, 10, &FollowLine::lineDetectCallback, this));
     return subs;
 }
 
-void FollowLine::lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& msg){
+void FollowLine::lineDetectCallback(
+const line_detect::LineDetectMsg::ConstPtr& msg) {
     worldstate::StateMsg stateMsg;
 
     stateMsg.state = worldstate::StateMsg::followingLine;
 
-
-    if(!(msg->lateralDistanceFromRearMarker == -1.0f || msg->distanceFromEndRearMarker == -1.0f || msg-> angleToParallelRearMarker == -1.0f)){
+    if (!(msg->lateralDistanceFromRearMarker == -1.0f ||
+          msg->distanceFromEndRearMarker == -1.0f ||
+          msg->angleToParallelRearMarker == -1.0f)) {
         stateMsg.state = worldstate::StateMsg::adjustingToLine;
         timer_.stop();
     }
 
-    if(!(msg-> angleToParallelFrontMarker == -1.0f) && !(msg-> angleToParallelRearMarker == -1.0f)){
-        if(msg->distanceFromEndRearMarker < subbots::global_constants::ERROR_TOLERANCE_LINE_DISTANCE_TO_END){
+    if (!(msg->angleToParallelFrontMarker == -1.0f) &&
+        !(msg->angleToParallelRearMarker == -1.0f)) {
+        if (msg->distanceFromEndRearMarker <
+            (*constants_)["ERROR_TOLERANCE_LINE_DISTANCE_TO_END"]) {
             stateMsg.state = worldstate::StateMsg::adjustingToLine;
         }
-
     }
 
-    if(msg->distanceFromEndOfFrontMarker < subbots::global_constants::ERROR_TOLERANCE_LINE_DISTANCE_TO_END){
+    if (msg->distanceFromEndOfFrontMarker <
+        (*constants_)["ERROR_TOLERANCE_LINE_DISTANCE_TO_END"]) {
         stateMsg.state = worldstate::StateMsg::locatingDie;
-        timer_.stop();
+        // timer_.stop();
     }
 
     publishNextState(stateMsg);
 }
 
-void FollowLine::timerCallback(const ros::TimerEvent& event){
+void FollowLine::timerCallback(const ros::TimerEvent& event) {
     worldstate::StateMsg stateMsg;
 
     stateMsg.state = worldstate::StateMsg::locatingDie;

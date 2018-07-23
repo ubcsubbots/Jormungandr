@@ -25,7 +25,7 @@ TEST(TestSuite, testCase1) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    //TestUtils::drawLineToFollow(image,linesToFollow);
+    // TestUtils::drawLineToFollow(image,linesToFollow);
 }
 
 TEST(TestSuite, testCase2) {
@@ -43,7 +43,7 @@ TEST(TestSuite, testCase2) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    //TestUtils::drawLineToFollow(image,linesToFollow);
+    // TestUtils::drawLineToFollow(image,linesToFollow);
 }
 
 TEST(TestSuite, testCase3) {
@@ -61,7 +61,7 @@ TEST(TestSuite, testCase3) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    //TestUtils::drawLineToFollow(image,linesToFollow);
+    // TestUtils::drawLineToFollow(image,linesToFollow);
 }
 
 TEST(TestSuite, testCase4) {
@@ -79,7 +79,7 @@ TEST(TestSuite, testCase4) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    //TestUtils::drawLineToFollow(image,linesToFollow);
+    // TestUtils::drawLineToFollow(image,linesToFollow);
 }
 
 TEST(TestSuite, testCase5) {
@@ -97,7 +97,7 @@ TEST(TestSuite, testCase5) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    //TestUtils::drawLineToFollow(image,linesToFollow);
+    // TestUtils::drawLineToFollow(image,linesToFollow);
 }
 
 TEST(TestSuite, testCase6) {
@@ -115,7 +115,7 @@ TEST(TestSuite, testCase6) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    //TestUtils::drawLineToFollow(image,linesToFollow);
+    // TestUtils::drawLineToFollow(image,linesToFollow);
 }
 
 TEST(TestSuite, testCase7) {
@@ -133,7 +133,7 @@ TEST(TestSuite, testCase7) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    //TestUtils::drawLineToFollow(image,linesToFollow);
+    // TestUtils::drawLineToFollow(image,linesToFollow);
 }
 
 TEST(TestSuite, testCase8) {
@@ -151,9 +151,8 @@ TEST(TestSuite, testCase8) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    //TestUtils::drawLineToFollow(image,linesToFollow);
+    // TestUtils::drawLineToFollow(image,linesToFollow);
 }
-
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);

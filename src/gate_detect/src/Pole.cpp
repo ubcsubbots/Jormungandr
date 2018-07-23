@@ -35,7 +35,7 @@ int Pole::getVertWidth() {
 }
 
 int Pole::getHorWidth() {
-        return abs((side1_[1] + side1_[3] - side2_[1] - side2_[3]) / 2);
+    return abs((side1_[1] + side1_[3] - side2_[1] - side2_[3]) / 2);
 }
 
 float Pole::getVertDistance() {

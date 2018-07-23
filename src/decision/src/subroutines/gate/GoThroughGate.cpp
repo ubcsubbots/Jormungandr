@@ -19,7 +19,8 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
     // logic: just go forward
     double x_linear = FORWARD;
 
-    nav_msgs::Odometry command;
-    command.twist.twist.linear.x = FORWARD;
+    geometry_msgs::TwistStamped command;
+    command.twist.angular = makeVector(0.0, 0.0, 0.0);
+    command.twist.linear  = makeVector(x_linear, 0.0, 0.0);
     publishCommand(command);
 }

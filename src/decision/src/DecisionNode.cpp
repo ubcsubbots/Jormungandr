@@ -47,7 +47,7 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
     if (newState != running_) {
         running_->shutdown();
         running_ = newState;
-        running_->startup(constants_);
+        running_->startup();
     }
 
     std_msgs::String info;
@@ -64,17 +64,23 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
  * subroutine
  */
 void DecisionNode::setupSubroutineMap() {
-    subroutines_[worldstate::StateMsg::locatingGate]     = new LocateGate();
-    subroutines_[worldstate::StateMsg::approachingGate]  = new ApproachGate();
-    subroutines_[worldstate::StateMsg::aligningWithGate] = new LineUpWithGate();
-    subroutines_[worldstate::StateMsg::passingGate]      = new GoThroughGate();
+    subroutines_[worldstate::StateMsg::locatingGate] =
+    new LocateGate(&constants_);
+    subroutines_[worldstate::StateMsg::approachingGate] =
+    new ApproachGate(&constants_);
+    subroutines_[worldstate::StateMsg::aligningWithGate] =
+    new LineUpWithGate(&constants_);
+    subroutines_[worldstate::StateMsg::passingGate] =
+    new GoThroughGate(&constants_);
 
-    subroutines_[worldstate::StateMsg::findingLine]      = new FindLine();
-    subroutines_[worldstate::StateMsg::adjustingToLine]   = new AdjustToLine();
-    subroutines_[worldstate::StateMsg::followingLine]      = new FollowLine();
+    subroutines_[worldstate::StateMsg::findingLine] = new FindLine(&constants_);
+    subroutines_[worldstate::StateMsg::adjustingToLine] =
+    new AdjustToLine(&constants_);
+    subroutines_[worldstate::StateMsg::followingLine] =
+    new FollowLine(&constants_);
 
     running_ = subroutines_[worldstate::StateMsg::locatingGate];
-    running_->startup(constants_);
+    running_->startup();
 }
 
 void DecisionNode::getConstants(ros::NodeHandle nh) {

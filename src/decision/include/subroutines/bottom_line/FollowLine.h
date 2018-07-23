@@ -10,13 +10,15 @@
 
 /*** Communicating Class {findLine, adjustToLine, followLine} ***/
 class FollowLine : public Subroutine {
-public:
-    FollowLine() : Subroutine() {}
+  public:
+    FollowLine(std::unordered_map<std::string, double>* constants)
+      : Subroutine(constants) {}
+
     std::string getName() override { return "FollowLine"; }
 
     std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
 
-private:
+  private:
     /**
      * Decides based on image data whether the robot still needs to
      * align with the gate.
@@ -26,4 +28,4 @@ private:
     void lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& msg);
 };
 
-#endif //PROJECT_FOLLOWLINE_H
+#endif // PROJECT_FOLLOWLINE_H

@@ -15,12 +15,13 @@
 
 /*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
 class PassGate : public State {
-public:
-    PassGate() : State() {}
+  public:
+    PassGate(std::unordered_map<std::string, double>* constants)
+      : State(constants) {}
     std::vector<ros::Subscriber>
     getNodeSubscriptions(ros::NodeHandle nh) override;
 
-private:
+  private:
     ros::Timer timer_;
 
     /**
@@ -34,7 +35,6 @@ private:
     void lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& msg);
 
     void timerCallback(const ros::TimerEvent& event);
-
 };
 
 #endif // PROJECT_PASSGATE_H

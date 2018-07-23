@@ -517,7 +517,7 @@
     <position>
       <x> 8 </x>
       <y> 0 </y>
-      <z> 5 </z>
+      <z> 7 </z>
     </position>
     <orientation>
       <r>1.57</r>	
@@ -546,12 +546,12 @@
     <position>
       <x> 9.5 </x>
       <y> 0.3 </y>
-      <z> 5 </z>
+      <z> 7 </z>
     </position>
     <orientation>
       <r>1.57</r>	
       <p>0</p>
-      <y>-2</y>
+      <y>2</y>
     </orientation>
     <offsetp>
       <x>-0</x>

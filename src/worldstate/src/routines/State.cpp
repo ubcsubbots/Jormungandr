@@ -7,13 +7,14 @@
 
 #include "routines/State.h"
 
-State::State() {}
+State::State(std::unordered_map<std::string, double>* constants) {
+    constants_ = constants;
+}
 
-void State::start(const std::unordered_map<std::string, double>& constants) {
+void State::start() {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
-    constants_     = constants;
     subscriptions_ = getNodeSubscriptions(nh);
 
     uint32_t queue_size_ = 10;

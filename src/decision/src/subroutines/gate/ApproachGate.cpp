@@ -17,25 +17,29 @@ ApproachGate::getSubscriptions(ros::NodeHandle nh) {
 
 void ApproachGate::decisionCallback(
 const gate_detect::GateDetectMsg::ConstPtr& msg) {
-    nav_msgs::Odometry command;
+    geometry_msgs::TwistStamped command;
 
-    command.twist.twist.linear.x = FORWARD;
+    command.twist.linear.x = FORWARD;
 
     // Attempt to point to the middle of the gate
     if ((msg->angleLeftPole + msg->angleRightPole) >
-        constants_["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
-        command.twist.twist.angular.z = RIGHT / 2;
+        (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
+        command.twist.angular.z = RIGHT / 2;
     } else if ((msg->angleLeftPole + msg->angleRightPole) <
-               constants_["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
-        command.twist.twist.angular.z = LEFT / 2;
+               (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
+        command.twist.angular.z = LEFT / 2;
     }
 
     // Check top clearance for acceptable
-    float top_pole_clearance = (float)sin(msg->angleTopPole) * msg->distanceTopPole;
+    float top_pole_clearance = sin(msg->angleTopPole) * msg->distanceTopPole;
 
-    if (abs((int)(top_pole_clearance - constants_["TARGET_TOP_POLE_CLEARANCE"])) >
-        constants_["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
-        command.twist.twist.linear.z = top_pole_clearance - constants_["TARGET_TOP_POLE_CLEARANCE"];
+    if ((top_pole_clearance - (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) >
+        (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
+        command.twist.linear.z = DOWN / 2;
+    } else if ((top_pole_clearance -
+                (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) <
+               -(*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
+        command.twist.linear.z = UP / 2;
     }
 
     publishCommand(command);

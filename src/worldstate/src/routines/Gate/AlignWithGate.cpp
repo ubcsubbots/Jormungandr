@@ -35,14 +35,14 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
         (float) sin(msg->angleTopPole) * msg->distanceTopPole;
 
         if (abs((int) (top_pole_clearance -
-                       constants_["TARGET_TOP_POLE_CLEARANCE"])) <
-            constants_["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
+                       (*constants_)["TARGET_TOP_POLE_CLEARANCE"])) <
+            (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
             if ((msg->detectedRightPole && msg->detectedLeftPole) &&
                 abs((int) (msg->angleLeftPole + msg->angleRightPole)) <
-                constants_["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
+                (*constants_)["ERROR_TOLERANCE_SIDE_POLES_ANGLE"]) {
                 if ((((msg->distanceRightPole + msg->distanceLeftPole) / 2) -
-                     constants_["TARGET_SIDE_POLES_DISTANCE"]) <
-                    constants_["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
+                     (*constants_)["TARGET_SIDE_POLES_DISTANCE"]) <
+                    (*constants_)["ERROR_TOLERANCE_SIDE_POLES_DISTANCE"]) {
                     msg_to_publish.state = worldstate::StateMsg::passingGate;
                 }
             }

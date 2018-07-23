@@ -12,9 +12,6 @@
 #include "routines/Gate/ApproachGate.h"
 #include "routines/Gate/LocatingGate.h"
 #include "routines/Gate/PassGate.h"
-#include "routines/BottomLine/AdjustToLine.h"
-#include "routines/BottomLine/FollowLine.h"
-#include "routines/BottomLine/FindLine.h"
 #include <ros/ros.h>
 #include <unordered_map>
 

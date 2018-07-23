@@ -11,8 +11,8 @@
 
 #include "LineDetector.h"
 #include <cv_bridge/cv_bridge.h>
-#include <line_detect/LineDetectMsg.h>
 #include <image_transport/image_transport.h>
+#include <line_detect/LineDetectMsg.h>
 #include <opencv2/highgui.hpp>
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>

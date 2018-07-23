@@ -4,18 +4,18 @@
  * Description: A test to confirm that gateDetectMsg will build
  */
 
-#include <line_detect/LineDetectMsg.h>
 #include <gtest/gtest.h>
+#include <line_detect/LineDetectMsg.h>
 
 TEST(gate_detect, addMessage) {
     line_detect::LineDetectMsg msg;
 
     msg.lateralDistanceFromFrontMarker = 0.0;
-    msg.lateralDistanceFromRearMarker = 0.0;
-    msg.angleToParallelFrontMarker = 0.0;
-    msg.angleToParallelRearMarker = 0.0;
-    msg.distanceFromEndOfFrontMarker = 0.0;
-    msg.distanceFromEndRearMarker = 0.0;
+    msg.lateralDistanceFromRearMarker  = 0.0;
+    msg.angleToParallelFrontMarker     = 0.0;
+    msg.angleToParallelRearMarker      = 0.0;
+    msg.distanceFromEndOfFrontMarker   = 0.0;
+    msg.distanceFromEndRearMarker      = 0.0;
 }
 
 int main(int argc, char** argv) {

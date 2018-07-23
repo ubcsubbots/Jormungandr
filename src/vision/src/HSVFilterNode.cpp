@@ -16,8 +16,8 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     std::string subscribeTopic = "/camera/image_raw";
     std::string publishTopic   = "/vision/output";
 
-    dynamic_reconfigure::Server<vision::hsvConfig> server;
-    dynamic_reconfigure::Server<vision::hsvConfig>::CallbackType f;
+    dynamic_reconfigure::Server<vision::hsvfilterConfig> server;
+    dynamic_reconfigure::Server<vision::hsvfilterConfig>::CallbackType f;
 
     filter_ = HSVFilter();
 
@@ -56,8 +56,8 @@ void HSVFilterNode::publishFilteredImage(const cv::Mat& filtered_image) {
     .toImageMsg());
 }
 
-void HSVFilterNode::dynamicreconfigCallback(const vision::hsvConfig& config,
-                                            uint32_t level) {
+void HSVFilterNode::dynamicreconfigCallback(
+const vision::hsvfilterConfig& config, uint32_t level) {
     ROS_INFO("Reconfigure Request: %i %i %i %i %i %i",
              config.h_low,
              config.s_low,

@@ -45,14 +45,19 @@ const sensor_msgs::ImageConstPtr& msg) {
 void LineDetectorNode::publishLineDetectMsg(const LinesToFollow linesToFollow) {
     line_detect::LineDetectMsg msg;
 
-    msg.lateralDistanceFromFrontMarker = lineDetector_.calcProjectedDistance(linesToFollow.frontLine.middleOfMarker,linesToFollow.frontLine.width);
-    msg.distanceFromEndOfFrontMarker = lineDetector_.calcProjectedDistanceToEndOfLine(linesToFollow.frontLine.frontOfMarker,linesToFollow.frontLine.width);
+    msg.lateralDistanceFromFrontMarker = lineDetector_.calcProjectedDistance(
+    linesToFollow.frontLine.middleOfMarker, linesToFollow.frontLine.width);
+    msg.distanceFromEndOfFrontMarker =
+    lineDetector_.calcProjectedDistanceToEndOfLine(
+    linesToFollow.frontLine.frontOfMarker, linesToFollow.frontLine.width);
     msg.angleToParallelFrontMarker = linesToFollow.frontLine.slope;
 
-    msg.lateralDistanceFromRearMarker = lineDetector_.calcProjectedDistance(linesToFollow.rearLine.middleOfMarker,linesToFollow.rearLine.width);
-    msg.distanceFromEndOfFrontMarker = lineDetector_.calcProjectedDistanceToEndOfLine(linesToFollow.rearLine.frontOfMarker,linesToFollow.rearLine.width);
+    msg.lateralDistanceFromRearMarker = lineDetector_.calcProjectedDistance(
+    linesToFollow.rearLine.middleOfMarker, linesToFollow.rearLine.width);
+    msg.distanceFromEndOfFrontMarker =
+    lineDetector_.calcProjectedDistanceToEndOfLine(
+    linesToFollow.rearLine.frontOfMarker, linesToFollow.rearLine.width);
     msg.angleToParallelRearMarker = linesToFollow.rearLine.slope;
 
     publisher1_.publish(msg);
 }
-

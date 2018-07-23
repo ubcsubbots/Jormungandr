@@ -10,14 +10,14 @@
 
 /*** Communicating Class {findLine, adjustToLine, followLine} ***/
 class FindLine : public Subroutine {
-public:
-    FindLine() : Subroutine() {}
-
+  public:
+    FindLine(std::unordered_map<std::string, double>* constants)
+      : Subroutine(constants) {}
     std::string getName() override { return "FindLine"; }
 
     std::vector<ros::Subscriber> getSubscriptions(ros::NodeHandle nh) override;
 
-private:
+  private:
     ros::Timer timer_;
 
     double lateralVelocityDirection_;
@@ -33,4 +33,4 @@ private:
     void timerCallback(const ros::TimerEvent& event);
 };
 
-#endif //PROJECT_FINDLINE_H
+#endif // PROJECT_FINDLINE_H

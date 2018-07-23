@@ -1,0 +1,24 @@
+<launch>
+
+    <node name="dead_mans_switch" pkg="decision" type="dead_mans_switch_node">
+
+        <!--
+            The rate at which we should publish how long it's been since we
+            last received a message
+         -->
+        <param name="time_since_last_alive_publish_rate_hz" value="20" type="int" />
+
+        <!--
+            The topic that we listen on for an Empty message indicating the
+            node broadcasting is still alive
+        -->
+        <remap from="is_alive_input" to="is_alive_input" />
+
+        <!--
+            The topic that we broadcast how long it's been since we received a msg on
+        -->
+        <remap from="time_since_last_is_alive" to="time_since_last_is_alive" />
+
+    </node>
+
+</launch>

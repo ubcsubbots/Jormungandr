@@ -11,24 +11,28 @@ AdjustToLine::getNodeSubscriptions(ros::NodeHandle nh) {
 
     std::vector<ros::Subscriber> subs;
     subs.push_back(nh.subscribe(
-            line_detect_topic, 10, &AdjustToLine::lineDetectCallback, this));
+    line_detect_topic, 10, &AdjustToLine::lineDetectCallback, this));
     return subs;
 }
 
-void AdjustToLine::lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& msg) {
+void AdjustToLine::lineDetectCallback(
+const line_detect::LineDetectMsg::ConstPtr& msg) {
     worldstate::StateMsg stateMsg;
 
     stateMsg.state = worldstate::StateMsg::adjustingToLine;
 
-    if (msg->lateralDistanceFromFrontMarker == -1.0f && msg->distanceFromEndOfFrontMarker == -1.0f &&
-            msg->angleToParallelFrontMarker == -1.0f){
-            stateMsg.state = worldstate::StateMsg::findingLine;
+    if (msg->lateralDistanceFromFrontMarker == -1.0f &&
+        msg->distanceFromEndOfFrontMarker == -1.0f &&
+        msg->angleToParallelFrontMarker == -1.0f) {
+        stateMsg.state = worldstate::StateMsg::findingLine;
     }
-    
-    if(msg->angleToParallelFrontMarker < subbots::global_constants::ERROR_TOLERANCE_LINE_ANGLE
-            && msg->lateralDistanceFromFrontMarker < subbots::global_constants::ERROR_TOLERANCE_LINE_LATERAL_DISTANCE){
+
+    if (msg->angleToParallelFrontMarker <
+        (*constants_)["ERROR_TOLERANCE_LINE_ANGLE"] &&
+        msg->lateralDistanceFromFrontMarker <
+        (*constants_)["ERROR_TOLERANCE_LINE_LATERAL_DISTANCE"]) {
         stateMsg.state = worldstate::StateMsg::followingLine;
-    } 
+    }
 
     publishNextState(stateMsg);
 }

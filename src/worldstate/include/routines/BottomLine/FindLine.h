@@ -11,12 +11,13 @@
 
 /*** Communicating Class {findLine, adjustToLine, followLine} ***/
 class FindLine : public State {
-public:
-    FindLine() : State() {}
+  public:
+    FindLine(std::unordered_map<std::string, double>* constants)
+      : State(constants) {}
     std::vector<ros::Subscriber>
     getNodeSubscriptions(ros::NodeHandle nh) override;
 
-private:
+  private:
     ros::Timer timer_;
 
     /**
@@ -30,4 +31,4 @@ private:
     void timerCallback(const ros::TimerEvent& event);
 };
 
-#endif //PROJECT_FINDLINE_H
+#endif // PROJECT_FINDLINE_H

@@ -16,14 +16,14 @@
  * pre defined directions for subroutines to use
  * example: z_rotation = RIGHT
  */
-static const double RIGHT    = -0.25;
-static const double LEFT     = 0.25;
-static const double TWISTLEFT = 0.25;
-static const double TWISTRIGHT = 0.25;
-static const double FORWARD  = 0.25;
-static const double BACKWARD = -0.25;
-static const double UP       = 0.25;
-static const double DOWN     = -0.25;
+static const double RIGHT      = -0.25;
+static const double LEFT       = 0.25;
+static const double TWISTLEFT  = 0.25;
+static const double TWISTRIGHT = -0.25;
+static const double FORWARD    = 0.25;
+static const double BACKWARD   = -0.25;
+static const double UP         = 0.25;
+static const double DOWN       = -0.25;
 
 class Subroutine {
   private:
@@ -32,20 +32,21 @@ class Subroutine {
     std::vector<ros::Subscriber> subscriptions_;
 
   public:
-    Subroutine();
+    Subroutine(std::unordered_map<std::string, double>* constants);
+
     virtual std::string getName() = 0;
 
-    void startup(const std::unordered_map<std::string, double>& constants);
+    void startup();
     void shutdown();
 
   protected:
-    std::unordered_map<std::string, double> constants_;
+    std::unordered_map<std::string, double>* constants_;
 
     /**
-     * Publishes an Odom message containing the movement decision
+     * Publishes a Twist message containing the movement decision
      * @param msg
      */
-    void publishCommand(nav_msgs::Odometry msg);
+    void publishCommand(const geometry_msgs::TwistStamped& msg);
 
     /**
      * Utility function for creating a geometry_msgs::Vector3

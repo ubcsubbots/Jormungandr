@@ -6,6 +6,9 @@
  *              and disabling them when the state has changed
  */
 
+#include "routines/BottomLine/AdjustToLine.h"
+#include "routines/BottomLine/FindLine.h"
+#include "routines/BottomLine/FollowLine.h"
 #include "routines/Gate/AlignWithGate.h"
 #include "routines/Gate/LocatingGate.h"
 #include "routines/Gate/PassGate.h"
@@ -44,7 +47,7 @@ const worldstate::StateMsg::ConstPtr& msg) {
     if (nextState != current_state_) {
         current_state_->sleep();
         current_state_ = nextState;
-        current_state_->start(constants_);
+        current_state_->start();
     }
 }
 
@@ -57,21 +60,26 @@ const worldstate::StateMsg::ConstPtr& msg) {
  * subroutine
  */
 void WorldStateNode::initializeFiniteStateMachine() {
-    //Gate
-    state_machine_[worldstate::StateMsg::locatingGate]    = new LocatingGate();
-    state_machine_[worldstate::StateMsg::approachingGate] = new ApproachGate();
+    state_machine_[worldstate::StateMsg::locatingGate] =
+    new LocatingGate(&constants_);
+    state_machine_[worldstate::StateMsg::approachingGate] =
+    new ApproachGate(&constants_);
     state_machine_[worldstate::StateMsg::aligningWithGate] =
-    new AlignWithGate();
-    state_machine_[worldstate::StateMsg::passingGate] = new PassGate();
+    new AlignWithGate(&constants_);
+    state_machine_[worldstate::StateMsg::passingGate] =
+    new PassGate(&constants_);
 
-    //Line Following
-    state_machine_[worldstate::StateMsg::findingLine] = new FindLine();
-    state_machine_[worldstate::StateMsg::followingLine] = new FollowLine();
-    state_machine_[worldstate::StateMsg::adjustingToLine] = new AdjustToLine();
+    // Line Following
+    state_machine_[worldstate::StateMsg::followingLine] =
+    new FindLine(&constants_);
+    state_machine_[worldstate::StateMsg::adjustingToLine] =
+    new AdjustToLine(&constants_);
+    state_machine_[worldstate::StateMsg::followingLine] =
+    new FollowLine(&constants_);
 
     // Activate the state_machine with the initial state
     current_state_ = state_machine_[initial_state_];
-    current_state_->start(constants_);
+    current_state_->start();
 }
 
 void WorldStateNode::getConstants(ros::NodeHandle nh) {
