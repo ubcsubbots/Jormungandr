@@ -13,9 +13,9 @@
 #define DECISION_DEAD_MANS_SWITCH_NODE_H
 
 // ROS Includes
-#include <std_msgs/Empty.h>
-#include <std_msgs/Duration.h>
 #include <ros/ros.h>
+#include <std_msgs/Duration.h>
+#include <std_msgs/Empty.h>
 
 class DeadMansSwitchNode {
   public:
@@ -27,13 +27,12 @@ class DeadMansSwitchNode {
      *
      * @param is_alive the string received in the callback
      */
-    void isAliveCallback(const std_msgs::Empty::ConstPtr &is_alive);
+    void isAliveCallback(const std_msgs::Empty::ConstPtr& is_alive);
 
     /**
      * Publishes how long it's been since we last received a msg
      */
     void publishTimeSinceLastMsgReceived(const ros::TimerEvent&);
-
 
     // A subscriber to the topic indicating if the node we're
     // checking is alive. It is the responsibility of that node

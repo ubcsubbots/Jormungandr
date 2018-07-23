@@ -97,8 +97,5 @@ if (CATKIN_ENABLE_TESTING)
             test/dead_mans_switch_rostest.cpp
     )
     target_link_libraries(dead_mans_switch_rostest ${catkin_LIBRARIES})
-    # TODO: This probably isn't needed, delete
-    # Convince CMake this is indeed a C++ project
-    #set_target_properties(dead_mans_switch_rostest PROPERTIES LINKER_LANGUAGE CXX)
 
 endif()
