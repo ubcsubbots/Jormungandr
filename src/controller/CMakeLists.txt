@@ -54,6 +54,8 @@ include_directories(
 ## Declare a C++ executable
 # add_executable(sample_package_node src/sample_package_node.cpp)
 add_executable(controller_node
+        ./include/Controller.h
+        ./src/Controller.cpp
         ./include/ControllerNode.h
         ./src/ControllerNode.cpp
         ./src/controller_node.cpp)
