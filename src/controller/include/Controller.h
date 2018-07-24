@@ -11,36 +11,36 @@
 class Controller {
 public:
     Controller();
-    static const double PERIOD = 0.02;
+    static const double PERIOD;
 
     void setImuData(double angular_x, double angular_y, double angular_z, double linear_x, double linear_y, double linear_z);
-    Eigen::Matrix setDesiredVelocity(double linear_x, double linear_y, double angular_x, double angular_y, double angular_z, double position_z);
+    Eigen::MatrixXd setDesiredVelocity(double linear_x, double linear_y, double angular_x, double angular_y, double angular_z, double position_z);
 private:
     //IMU data
-    Eigen::MatrixXd IMUangularvelocity; //3x1
-    Eigen::MatrixXd IMUangularaccelaration; //3x1
+    Eigen::MatrixXd imu_angular_velocity_; //3x1
+    Eigen::MatrixXd imu_angular_accelaration_; //3x1
 
-    Eigen::Vector3d linearvelocity;
-    Eigen::MatrixXd IMUlinearaccelaration;
+    Eigen::Vector3d linear_velocity_;
+    Eigen::MatrixXd imu_linear_accelaration_;
 
-    Eigen::Vector3d previousIMUangularvelocity;
-    Eigen::Vector3d previousIMUlinearaccelaration;
+    Eigen::Vector3d previous_imu_angular_velocity_;
+    Eigen::Vector3d previous_imu_linear_accelaration_;
 
     //differentiation calculated
 
-    Eigen::MatrixXd Desiredvelocity;
-    Eigen::MatrixXd previousY;
-    Eigen::MatrixXd previousDesiredvelocity;
-    Eigen::MatrixXd intergratorAcumulator;
+    Eigen::MatrixXd desired_velocity_;
+    Eigen::MatrixXd previous_y_;
+    Eigen::MatrixXd previous_desired_velocity_;
+    Eigen::MatrixXd intergrator_acumulator_;
 
-    Eigen::MatrixXd Currentvelocity;
-    Eigen::MatrixXd Currentacceleration;
-    Eigen::MatrixXd X;
-    Eigen::MatrixXd K;//X
-    Eigen::MatrixXd Ki;//ki*(cY-R)
-    Eigen::MatrixXd Y;
-    Eigen::MatrixXd torquematrix;
-    Eigen::MatrixXd PWMmatrix;
+    Eigen::MatrixXd current_velocity_;
+    Eigen::MatrixXd current_acceleration_;
+    Eigen::MatrixXd x_;
+    Eigen::MatrixXd k_;//X
+    Eigen::MatrixXd ki_;//ki*(cY-R)
+    Eigen::MatrixXd y_;
+    Eigen::MatrixXd torque_matrix_;
+    Eigen::MatrixXd pwm_matrix_;
 };
 
 #endif //PROJECT_CONTROLLER_H

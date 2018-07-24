@@ -15,15 +15,15 @@
 
 class ControllerNode {
 private:
-    ros::Subscriber twist_sub;
-    ros::Publisher arduino_pub;
-    ros::Subscriber IMU_sub;
+    ros::Subscriber twist_subscriber_;
+    ros::Publisher arduino_publisher_;
+    ros::Subscriber imu_subscriber_;
 
-    Controller controller;
+    Controller controller_;
 
-    void IMUCallback(const sensor_msgs::Imu::ConstPtr &msg);
+    void imuCallback(const sensor_msgs::Imu::ConstPtr &msg);
 
-    void DesiredvelocityCallback(const nav_msgs::Odometry::ConstPtr &desired_twist_velocity);
+    void desiredVelocityCallback(const nav_msgs::Odometry::ConstPtr &desired_twist_velocity);
 
 public:
     ControllerNode(int argc, char** argv, std::string name);
