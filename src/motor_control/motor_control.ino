@@ -112,6 +112,12 @@ ros::Publisher is_alive_publisher("/dead_mans_switch/is_alive_input", &is_alive_
 /*       Arduino       */
 /***********************/
 void setup()  {
+  // Initially wait 1 second in case we were just power-cycled
+  // because the e-stop was triggered. This way we're "dead"
+  // to the computer for long enough so that we can tell it
+  // was an e-stop triggering, and not just lag
+  delay(1000);
+
   TLS.attach(THRUSTER_LEFT_STR);
   TLA.attach(THRUSTER_LEFT_ANG);
   TRS.attach(THRUSTER_RIGHT_STR);
