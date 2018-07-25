@@ -1,0 +1,3 @@
+﻿# This prevents clang-format from applying formatting to this folder
+BasedOnStyle: None
+
