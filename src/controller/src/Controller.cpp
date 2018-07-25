@@ -38,6 +38,10 @@ void Controller::setImuData(double angular_x,
     imu_linear_accelaration_ << linear_x, linear_y, linear_z;
 }
 
+void setDepth(double depth_sensor) {
+    depth_ = depth_sensor;
+}
+
 Eigen::MatrixXd Controller::setDesiredVelocity(double linear_x,
                                                double linear_y,
                                                double angular_x,
@@ -83,8 +87,9 @@ Eigen::MatrixXd Controller::setDesiredVelocity(double linear_x,
     // terms of torque rightnow
 
     y_ << current_velocity_(0, 0), current_velocity_(1, 0),
-    current_velocity_(2, 0), current_velocity_(3, 0), current_velocity_(4, 0),
-    current_velocity_(5, 0), x_ << current_velocity_(0, 0),
+    current_velocity_(2, 0), current_position_, current_velocity_(4, 0),
+    current_velocity_(5, 0);
+    x_ << current_velocity_(0, 0),
     current_velocity_(1, 0), current_velocity_(2, 0), current_velocity_(3, 0),
     current_velocity_(4, 0), current_velocity_(5, 0),
     current_acceleration_(0, 0), current_acceleration_(1, 0),

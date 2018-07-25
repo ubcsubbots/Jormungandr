@@ -12,7 +12,7 @@
 #include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
-#include <std_msgs/Int32MultiArray.h>
+#include <std_msgs/Float32.h>
 
 class ControllerNode {
   private:
