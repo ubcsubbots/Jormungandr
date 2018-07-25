@@ -37,7 +37,9 @@ void Controller::setImuData(double angular_x,
     imu_angular_velocity_ << angular_x, angular_y, angular_z;
     imu_linear_accelaration_ << linear_x, linear_y, linear_z;
 }
-
+void Controller::setDepthData(double depth){
+    depth_ = depth;
+}
 Eigen::MatrixXd Controller::setDesiredVelocity(double linear_x,
                                                double linear_y,
                                                double angular_x,
@@ -82,10 +84,15 @@ Eigen::MatrixXd Controller::setDesiredVelocity(double linear_x,
     // PWM matrix needs to be multiplied to get the PWM value, since its in
     // terms of torque rightnow
 
-    y_ << current_velocity_(0, 0), current_velocity_(1, 0),
-    current_velocity_(2, 0), current_velocity_(3, 0), current_velocity_(4, 0),
-    current_velocity_(5, 0), x_ << current_velocity_(0, 0),
-    current_velocity_(1, 0), current_velocity_(2, 0), current_velocity_(3, 0),
+    y_ << current_velocity_(0, 0),
+            current_velocity_(1, 0),
+    depth_,  //Current_velocity_(2, 0)
+            current_velocity_(3, 0),
+            current_velocity_(4, 0),
+    current_velocity_(5, 0);
+    x_ << current_velocity_(0, 0),
+    current_velocity_(1, 0),
+            current_velocity_(2, 0), current_velocity_(3, 0),
     current_velocity_(4, 0), current_velocity_(5, 0),
     current_acceleration_(0, 0), current_acceleration_(1, 0),
     current_acceleration_(2, 0), current_acceleration_(3, 0),
