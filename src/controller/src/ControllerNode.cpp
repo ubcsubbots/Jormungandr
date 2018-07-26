@@ -63,10 +63,8 @@ const nav_msgs::Odometry::ConstPtr& desired_twist_velocity) {
     arduino_publisher_.publish(motor_parameters);
 }
 
-void ControllerNode::depthCallback(
-        const std_msgs::Float32::ConstPtr& msg) {
-    setDepthHelper(controller_,msg->data);
+void ControllerNode::depthCallback(const std_msgs::Float32::ConstPtr& depth) {
+    controller_.setDepthData(depth->data);
 }
-void setDepthHelper(Controller& controller, double depthSensor){
-    controller.setDepth(depthSensor);
-}
+
+
