@@ -15,12 +15,38 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     dynamic_reconfigure::Server<gate_detect::gatedetectConfig>::CallbackType f;
 
     subscribeTopic = "/vision/output";
-    publishTopic   = "/gateDetect/output";
+    publishTopic   = "/gate_detect/output";
+
+    int cannyLow, houghLinesThreshold, houghLinesMinLength, poleMax,
+    lowVertThresh, lowHorThresh, houghLinesMaxLineGap;
+    double interpolationConstant1, interpolationConstant2;
+
+    nh.getParam("/gate_detect_node/width", width_);
+    nh.getParam("/gate_detect_node/height", height_);
+    nh.getParam("/gate_detect_node/cannyLow", cannyLow);
+    nh.getParam("/gate_detect_node/houghLinesThreshold", houghLinesThreshold);
+    nh.getParam("/gate_detect_node/houghLinesMinLength", houghLinesMinLength);
+    nh.getParam("/gate_detect_node/houghLinesMaxLineGap", houghLinesMaxLineGap);
+    nh.getParam("/gate_detect_node/poleMax", poleMax);
+    nh.getParam("/gate_detect_node/lowVertThresh", lowVertThresh);
+    nh.getParam("/gate_detect_node/lowVertThresh", lowHorThresh);
+    nh.getParam("/gate_detect_node/interpolationConstant1",
+                interpolationConstant1);
+    nh.getParam("/gate_detect_node/interpolationConstant2",
+                interpolationConstant2);
+
+    gateDetector_ = GateDetector(cannyLow,
+                                 houghLinesThreshold,
+                                 houghLinesMinLength,
+                                 houghLinesMaxLineGap,
+                                 poleMax,
+                                 interpolationConstant1,
+                                 interpolationConstant2,
+                                 lowVertThresh,
+                                 lowHorThresh);
 
     subscriber_ = it.subscribe(
     subscribeTopic, 2, &GateDetectorNode::subscriberCallBack, this);
-
-    gateDetector_ = GateDetector();
 
     f = boost::bind(&GateDetectorNode::reconfigCallBack, this, _1, _2);
     server.setCallback(f);
@@ -42,14 +68,20 @@ const sensor_msgs::ImageConstPtr& msg) {
         return;
     }
 
-    lineImg = cv_ptr->image;
+    cv::Mat image = (cv_ptr->image);
+
+    lineImg = cv::Mat(image,
+                      cv::Rect((image.cols / 2) - (width_ / 2),
+                               (image.rows / 2) - (height_ / 2),
+                               width_,
+                               height_));
 
     GateCoordinates gateCoordinates = gateDetector_.initialize(lineImg);
 
     publishGateDetectMsg(gateCoordinates);
 
     // Uncomment if you want to view gate seen by node
-    publishGateImage(gateCoordinates);
+    // publishGateImage(gateCoordinates);
 }
 
 void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
@@ -93,7 +125,7 @@ void GateDetectorNode::publishGateImage(GateCoordinates gateCoordinates) {
 
     cv::cvtColor(lineImg, colourMat, CV_GRAY2BGR);
 
-    colourMat = TestUtils::drawGate(colourMat, gateCoordinates);
+    // colourMat = TestUtils::drawGate(colourMat, gateCoordinates);
 
     cv_bridge::CvImage out_msg;
     out_msg.header =
@@ -119,5 +151,7 @@ const gate_detect::gatedetectConfig& config, uint32_t level) {
                             config.houghLinesMaxLineGap,
                             config.poleMax,
                             config.interpolationConstant1,
-                            config.interpolationConstant2);
+                            config.interpolationConstant2,
+                            config.lowVertThresh,
+                            config.lowHorThresh);
 }

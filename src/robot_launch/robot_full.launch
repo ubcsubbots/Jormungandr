@@ -1,4 +1,23 @@
 <launch>
+    <node name="cv_camera" pkg="cv_camera" type="cv_camera_node" output="screen">
+        <!-- TODO: remap and add args -->
+    </node>
+
+    <node name="disortion_correction" pkg="image_proc" type="image_proc" output="screen">
+        <!-- TODO: remap and add args -->
+        <remap from="image_raw" to="/cv_camera/image_raw" />
+    </node>
+
+    <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
+        <param name="h_low" value="0" type="int" />
+        <param name="s_low" value="0" type="int" />
+        <param name="v_low" value="0" type="int" />
+        <param name="h_high" value="220" type="int" />
+        <param name="s_high" value="243" type="int" />
+        <param name="v_high" value= "200" type="int" />
+        <remap from="/camera/image_raw" to="/cv_camera/image_rect_color"/>
+    </node>
+
     <node name="gate_detect_node" pkg="gate_detect" type="gate_detect" output="screen">
         <param name="cannyLow" value="50" type="int" />
         <param name="houghLinesThreshold" value="100" type="int" />
@@ -12,21 +31,14 @@
         <param name="lowVertThresh" value="150" type="int" />
         <param name="lowHorThresh" value="150" type="int" />
     </node>
-    <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
-        <param name="h_low" value="0" type="int" />
-        <param name="s_low" value="0" type="int" />
-        <param name="v_low" value="0" type="int" />
-        <param name="h_high" value="220" type="int" />
-        <param name="s_high" value="243" type="int" />
-        <param name="v_high" value= "200" type="int" />
-        <remap from="/camera/image_raw" to="/uwsim/camera2"/>
-    </node>
+
     <node name="world_state_node" pkg="worldstate" type="world_state_node" output="screen">
     </node>
     <node name="decision_node" pkg="decision" type="decision_node" output="screen">
         <remap from="worldstate" to="/worldstate/output"/>
         <remap from="gate_location" to="/gate_detect/output"/>
-        <remap from="/decision_node/output" to="/g500/twist"/>
+        <!-- TODO: <remap from="/decision_node/output" to="twist_output"/> -->
     </node>
+
     <rosparam command="load" file="$(find decision)/constants/constants.yaml" ns="global_constants" />
 </launch>
