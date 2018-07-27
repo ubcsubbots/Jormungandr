@@ -1,0 +1,21 @@
+<launch>
+<!-- 
+    This launch file is responsible for launching the entire entire system
+    (High and Low Level AI/Control, and Serial Communication With Arduino)
+-->
+
+    <!-- TODO: We probably want to launch sensors like the camera/IMU here -->
+
+    <!-- High Level AI -->
+    <include file="$(find decision)/launch/decision_node.launch"/>
+    <include file="$(find worldstate)/launch/worldstate_node.launch"/>
+
+    <!-- Lower Level Controller -->
+    <include file="$(find controller)/launch/controller_node.launch"/>
+
+    <!-- Serial Communication With The Arduino -->
+    <node name="serial_node" pkg="rosserial_python" type="rosserial_node.py" output="screen">
+        <param name="port" value="/dev/ttyUSB0"/>
+    </node>
+
+</launch>
