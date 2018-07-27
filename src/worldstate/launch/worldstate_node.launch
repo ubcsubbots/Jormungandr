@@ -1,4 +1,4 @@
 <launch>
-    <node name="world_state_node" pkg="world_state" type="world_state_node" output="screen">
+    <node name="world_state_node" pkg="worldstate" type="world_state_node" output="screen">
     </node>
 </launch>
