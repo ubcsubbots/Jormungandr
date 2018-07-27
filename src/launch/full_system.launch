@@ -4,14 +4,17 @@
     (High and Low Level AI/Control, and Serial Communication With Arduino)
 -->
 
-    <!-- TODO: We probably want to launch sensors like the camera/IMU here -->
+    <!-- TODO: Start Camera Here -->
+
+    <!-- IMU -->
+    <include file="$(find controller)/launch/imu.launch"/>
 
     <!-- High Level AI -->
     <include file="$(find decision)/launch/decision_node.launch"/>
     <include file="$(find worldstate)/launch/worldstate_node.launch"/>
 
     <!-- Lower Level Controller -->
-    <include file="$(find controller)/launch/controller.launch"/>
+    <include file="$(find controller)/launch/controller_node.launch"/>
 
     <!-- Serial Communication With The Arduino -->
     <node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">

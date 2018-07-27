@@ -46,6 +46,7 @@
   <build_depend>phidgets_imu</build_depend>
   <build_depend>imu_tools</build_depend>
   <build_depend>rosserial_python</build_depend>
+  <build_depend>phidgets_imu</build_depend>
 
 
   <run_depend>phidgets_imu</run_depend>
@@ -55,5 +56,6 @@
   <run_depend>std_msgs</run_depend>
   <run_depend>rosserial</run_depend>
   <run_depend>rosserial_python</run_depend>
+  <run_depend>phidgets_imu</run_depend>
 
 </package>
