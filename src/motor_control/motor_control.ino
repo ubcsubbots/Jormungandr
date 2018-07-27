@@ -9,14 +9,10 @@
 /***********************/
 
 // Define the motor ESC pins
-#define THRUSTER_LEFT_STR  3
-#define THRUSTER_LEFT_ANG  5
-#define THRUSTER_RIGHT_STR 6
-#define THRUSTER_RIGHT_ANG 9
-
-// Define some ESC PWM calibration constants
-#define PWM_STOP        91
-#define PWM_STATIC_MOVE 50
+#define THRUSTER_LEFT_STR  2
+#define THRUSTER_LEFT_ANG  4
+#define THRUSTER_RIGHT_STR 5
+#define THRUSTER_RIGHT_ANG 3
 
 Servo TLS; //Thruster on Left pointing Straight
 Servo TLA; //Thruster on Left Angled 45
@@ -48,10 +44,10 @@ unsigned long last_is_alive_msg_sent_millis;
  * Sets all motor speeds to 0
  */
 void stopAllMotors(){
-  TRS.writeMicroseconds(0);
-  TLS.writeMicroseconds(0);
-  TRA.writeMicroseconds(0);
-  TLA.writeMicroseconds(0);
+  TRS.writeMicroseconds(1500);
+  TLS.writeMicroseconds(1500);
+  TRA.writeMicroseconds(1500);
+  TLA.writeMicroseconds(1500);
 }
 
 /***********************/
@@ -112,6 +108,7 @@ ros::Publisher is_alive_publisher("/dead_mans_switch/is_alive_input", &is_alive_
 /*       Arduino       */
 /***********************/
 void setup()  {
+
   // Initially wait 1 second in case we were just power-cycled
   // because the e-stop was triggered. This way we're "dead"
   // to the computer for long enough so that we can tell it
@@ -149,6 +146,7 @@ void setup()  {
 }
 
 void loop()  {
+  
   // Do nothing if the e-stop has been triggered
   if (e_stop_triggered){
     
