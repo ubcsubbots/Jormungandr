@@ -31,7 +31,7 @@ class ControllerNode {
     void desiredVelocityCallback(
     const nav_msgs::Odometry::ConstPtr& desired_twist_velocity);
 
-    void depthCallback( const std_msgs::Float32::ConstPtr& depth);
+    void depthCallback(const std_msgs::Float32::ConstPtr& depth);
 
   public:
     ControllerNode(int argc, char** argv, std::string name);

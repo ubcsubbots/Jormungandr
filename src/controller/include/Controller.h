@@ -28,7 +28,6 @@ class Controller {
 
     void setDepthData(double depth);
 
-
   private:
     // IMU data
     Eigen::MatrixXd imu_angular_velocity_;     // 3x1
@@ -57,7 +56,6 @@ class Controller {
     Eigen::MatrixXd pwm_matrix_;
 
     double depth_;
-
 };
 
 #endif // PROJECT_CONTROLLER_H

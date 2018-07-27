@@ -19,8 +19,8 @@ ControllerNode::ControllerNode(int argc, char** argv, std::string name) {
 
     twist_subscriber_ = nh.subscribe(
     "velocity_publisher", 1000, &ControllerNode::desiredVelocityCallback, this);
-    depth_subscriber_ = nh.subscribe(
-            "depth_publisher", 1000, &ControllerNode::depthCallback, this);
+    depth_subscriber_ =
+    nh.subscribe("depth_publisher", 1000, &ControllerNode::depthCallback, this);
     imu_subscriber_ =
     nh.subscribe("imu_data", 1000, &ControllerNode::imuCallback, this);
     arduino_publisher_ =
@@ -66,5 +66,3 @@ const nav_msgs::Odometry::ConstPtr& desired_twist_velocity) {
 void ControllerNode::depthCallback(const std_msgs::Float32::ConstPtr& depth) {
     controller_.setDepthData(depth->data);
 }
-
-
