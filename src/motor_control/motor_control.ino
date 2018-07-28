@@ -1,5 +1,5 @@
 #include <ros.h>
-#include <std_msgs/Int16MultiArray.h>
+#include <std_msgs/Int32MultiArray.h>
 #include <Servo.h>
 
 /***********************/
@@ -48,14 +48,14 @@ ros::NodeHandle nh;
  * move in either yaw or linear x. The angled motors 
  * allow it to exclusively move in either linear y or z.
  */
-void motorControlCallback (const std_msgs::Int16MultiArray& msg){
+void motorControlCallback (const std_msgs::Int32MultiArray& msg){
   TRS.writeMicroseconds(msg.data[0]);
   TLS.writeMicroseconds(msg.data[1]);
   TRA.writeMicroseconds(msg.data[2]);
   TLA.writeMicroseconds(msg.data[3]);
 }
 
-ros::Subscriber<std_msgs::Int16MultiArray> motor_arduino_node("Arduino", motorControlCallback);
+ros::Subscriber<std_msgs::Int32MultiArray> motor_arduino_node("arduino", &motorControlCallback);
 
 /***********************/
 /*       Arduino       */
@@ -78,8 +78,12 @@ void loop()  {
     if (current_e_stop_value < E_STOP_ADC_THRESHOLD){
       e_stop_triggered = true;
     }
-    nh.spinOnce();  
+    else {
+      e_stop_triggered = false;
+    }
   }
+  nh.spinOnce();  
+
   delay(1);
 }
 
