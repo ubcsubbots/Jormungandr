@@ -73,7 +73,7 @@ class GateDetector {
                  int houghLinesMaxLineGap,
                  int poleMax,
                  double verticalInterpolationConstant,
-                 double horizontalInterpolationConstanct,
+                 double horizontalInterpolationConstant,
                  int lowVertThresh,
                  int lowHorThresh);
 
