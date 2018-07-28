@@ -14,17 +14,12 @@
 
 /**
 *      Struct representing a marker on the bottom of the pool
-*
 *          width:   width of marker, used to interpolate distance from marker,
 * -1 if not seen
-*
 *          slope:   slope of marker seen, -1 if not seen
-*
 *          middleOfMarker:   vector representing middle of marker, -1 if not
 * seen
-*
 *          frontOfMarker:  distance to end of marker, -1 if not seen
-*
 */
 struct LineToFollow {
     float width;
@@ -35,11 +30,8 @@ struct LineToFollow {
 
 /**
 *      Struct representing 2 markers seen on bottom of pool
-*
 *          frontLine: Marker to follow
-*
 *          rearLine: Marker used in case we can't see front marker
-*
 */
 struct LinesToFollow {
     LineToFollow frontLine;
@@ -71,10 +63,6 @@ class LineDetector {
   public:
     LineDetector();
 
-    /**
-    *      Default Constructor
-    *
-    */
     LinesToFollow initialize(const cv::Mat mat_in);
 
     /**
@@ -111,11 +99,10 @@ class LineDetector {
     findMarkers(std::vector<cv::Vec4i> allDetectedLines);
 
     /**
-    *   Calculate slop of line
+    *   Calculate slope of line
      *
      *   @param cv::Vec4i line
      *   @return slope of line
-    *
     */
     float calculateSlope(cv::Vec4i detectedLine);
 

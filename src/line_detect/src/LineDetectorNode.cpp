@@ -1,7 +1,9 @@
 /*
  * Created By: Cameron Newton
  * Created On: July 17, 2018
- * Set up environment for LineDetectorNode
+ * LineDetectorNode takes in a filter_image and outputs whether it sees a marker
+ * on the bottom of the pool
+ * Output message is of type LineDetectMsg, definition is in LineDetectMsg file
  */
 
 #include "LineDetectorNode.h"
@@ -19,7 +21,8 @@ LineDetectorNode::LineDetectorNode(int argc, char** argv) {
 
     lineDetector_ = LineDetector();
 
-    publisher1_ = nh_.advertise<line_detect::LineDetectMsg>(publishTopic_, 10);
+    line_msg_publisher =
+    nh_.advertise<line_detect::LineDetectMsg>(publishTopic_, 10);
 
     ros::spin();
 }
@@ -45,6 +48,10 @@ const sensor_msgs::ImageConstPtr& msg) {
 void LineDetectorNode::publishLineDetectMsg(const LinesToFollow linesToFollow) {
     line_detect::LineDetectMsg msg;
 
+    // Build LineDetectMsg based on output from LineDetector, struct definition
+    // in LineDetect.h
+    // Transforms LinesToFollow struct into LineDetectMsg using LineDetect
+    // functions
     msg.lateralDistanceFromFrontMarker = lineDetector_.calcProjectedDistance(
     linesToFollow.frontLine.middleOfMarker, linesToFollow.frontLine.width);
     msg.distanceFromEndOfFrontMarker =
@@ -59,5 +66,5 @@ void LineDetectorNode::publishLineDetectMsg(const LinesToFollow linesToFollow) {
     linesToFollow.rearLine.frontOfMarker, linesToFollow.rearLine.width);
     msg.angleToParallelRearMarker = linesToFollow.rearLine.slope;
 
-    publisher1_.publish(msg);
+    line_msg_publisher.publish(msg);
 }

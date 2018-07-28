@@ -73,7 +73,9 @@ class GateDetector {
                  int houghLinesMaxLineGap,
                  int poleMax,
                  double verticalInterpolationConstant,
-                 double horizontalInterpolationConstanct);
+                 double horizontalInterpolationConstanct,
+                 int lowVertThresh,
+                 int lowHorThresh);
 
     GateDetector();
 
@@ -105,7 +107,9 @@ class GateDetector {
                    int houghLinesMaxLineGap,
                    int poleMax,
                    float interpolationConstant1,
-                   float interpolationConstant2);
+                   float interpolationConstant2,
+                   int lowVertThresh,
+                   int LowHorThresh);
 
   private:
     // Parameters defining the maximum deviation from begining to end that a

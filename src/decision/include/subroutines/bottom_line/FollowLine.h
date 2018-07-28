@@ -1,14 +1,14 @@
-//
-// Created by drdc-s2632 on 17/07/18.
-//
-
+/*
+* Created By: Cameron Newton
+* Created On: July 15th, 2018
+* Description: Subroutine to follow line
+*/
 #ifndef PROJECT_FOLLOWLINE_H
 #define PROJECT_FOLLOWLINE_H
 
 #include "Subroutine.h"
 #include <line_detect/LineDetectMsg.h>
 
-/*** Communicating Class {findLine, adjustToLine, followLine} ***/
 class FollowLine : public Subroutine {
   public:
     FollowLine(std::unordered_map<std::string, double>* constants)
@@ -20,10 +20,9 @@ class FollowLine : public Subroutine {
 
   private:
     /**
-     * Decides based on image data whether the robot still needs to
-     * align with the gate.
+     * Robot will proceed forward and follow line
      *
-     * @param msg gateDetectMsg data
+     * @param msg LineDetect msg
      */
     void lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& msg);
 };

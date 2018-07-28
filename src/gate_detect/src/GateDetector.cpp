@@ -13,7 +13,9 @@ GateDetector::GateDetector(int cannyLow,
                            int houghLinesMaxLineGap,
                            int poleMax,
                            double interpolationConstant1,
-                           double interpolationConstant2) {
+                           double interpolationConstant2,
+                           int lowVertThresh,
+                           int lowHorThresh) {
     cannyLow_ = cannyLow;
 
     poleMax_ = poleMax;
@@ -24,9 +26,9 @@ GateDetector::GateDetector(int cannyLow,
 
     houghLinesMaxLineGap_ = houghLinesMaxLineGap;
 
-    lowVertThresh_ = 20;
+    lowVertThresh_ = lowVertThresh;
 
-    lowHorThresh_ = 60;
+    lowHorThresh_ = lowHorThresh;
 
     VertInterpolationConstant1_ = HorInterpolationConstant1_ =
     interpolationConstant1;
@@ -46,9 +48,9 @@ GateDetector::GateDetector() {
 
     houghLinesMaxLineGap_ = 50;
 
-    lowVertThresh_ = 20;
+    lowVertThresh_ = 100;
 
-    lowHorThresh_ = 60;
+    lowHorThresh_ = 200;
 
     VertInterpolationConstant2_ = HorInterpolationConstant2_ = 81.88;
 
@@ -61,7 +63,9 @@ void GateDetector::setParams(int cannyLow,
                              int houghLinesMaxLineGap,
                              int poleMax,
                              float interpolationConstant1,
-                             float interpolationConstant2) {
+                             float interpolationConstant2,
+                             int lowVertThresh,
+                             int lowHorThresh) {
     cannyLow_ = cannyLow;
 
     poleMax_ = poleMax;
@@ -72,9 +76,9 @@ void GateDetector::setParams(int cannyLow,
 
     houghLinesMaxLineGap_ = houghLinesMaxLineGap;
 
-    lowVertThresh_ = 20;
+    lowVertThresh_ = lowVertThresh;
 
-    lowHorThresh_ = 60;
+    lowHorThresh_ = lowHorThresh;
 
     VertInterpolationConstant1_ = HorInterpolationConstant1_ =
     interpolationConstant1;
@@ -90,15 +94,13 @@ GateCoordinates GateDetector::initialize(const cv::Mat matin) {
 
     GateCoordinates gateCoordinates = defaultGateCoordinates();
 
-    cv::Mat gaussianBlurred, medianBlurred;
+    cv::Mat blur;
 
-    cv::GaussianBlur(matin, gaussianBlurred, cv::Size(7, 7), 0, 0);
-
-    cv::medianBlur(gaussianBlurred, medianBlurred, 7);
+    cv::blur(matin, blur, cv::Size(7, 7));
 
     cv::Mat dst;
 
-    cv::Canny(medianBlurred, dst, cannyLow_, cannyLow_ * 3, 3);
+    cv::Canny(blur, dst, cannyLow_, cannyLow_ * 3, 3);
 
     std::vector<cv::Vec4i> detectedLines;
 

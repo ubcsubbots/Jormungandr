@@ -23,7 +23,7 @@ class LineDetectorNode {
 
   private:
     image_transport::Subscriber subscriber_;
-    ros::Publisher publisher1_;
+    ros::Publisher line_msg_publisher;
     std::string subscribeTopic_;
     std::string publishTopic_;
     cv::Mat lineImg;

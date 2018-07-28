@@ -21,11 +21,10 @@ class FollowLine : public State {
     ros::Timer timer_;
 
     /**
-     * Decides based on image data whether the robot still needs to
-     * align with the gate.
-     *
-     * @param msg gateDetectMsg data
-     */
+    * Decides based on image data whether we can follow the marker
+    *
+    * @param msg LineDetectMsg data
+    */
     void lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& msg);
 
     void timerCallback(const ros::TimerEvent& event);

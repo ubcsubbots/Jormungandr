@@ -4,7 +4,7 @@
  * Description: Utilities to aid in debugging GateDetector module
  */
 
-#include "../../include/LineDetector.h"
+#include "LineDetector.h"
 
 #ifndef PROJECT_TESTUTILS_H
 #define PROJECT_TESTUTILS_H

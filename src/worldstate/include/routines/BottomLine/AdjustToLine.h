@@ -20,9 +20,9 @@ class AdjustToLine : public State {
   private:
     /**
      * Decides based on image data whether the robot still needs to
-     * align with the gate.
+     * align with the line.
      *
-     * @param msg gateDetectMsg data
+     * @param msg LineDetectMsg data
      */
     void lineDetectCallback(const line_detect::LineDetectMsg::ConstPtr& msg);
 };

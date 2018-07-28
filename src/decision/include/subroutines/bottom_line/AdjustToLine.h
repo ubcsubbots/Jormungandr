@@ -1,6 +1,8 @@
-//
-// Created by drdc-s2632 on 17/07/18.
-//
+/*
+* Created By: Cameron Newton
+* Created On: July 15th, 2018
+* Description: Subroutine to adjust to bottom marker
+*/
 
 #ifndef PROJECT_ADJUSTTOLINE_H
 #define PROJECT_ADJUSTTOLINE_H
@@ -8,7 +10,6 @@
 #include "Subroutine.h"
 #include <line_detect/LineDetectMsg.h>
 
-/*** Communicating Class {findLine, adjustToLine, followLine} ***/
 class AdjustToLine : public Subroutine {
   public:
     AdjustToLine(std::unordered_map<std::string, double>* constants)
@@ -20,7 +21,7 @@ class AdjustToLine : public Subroutine {
   private:
     /**
      * Decides based on image data whether the robot still needs to
-     * align with the gate.
+     * align with the bottom marker.
      *
      * @param msg gateDetectMsg data
      */
