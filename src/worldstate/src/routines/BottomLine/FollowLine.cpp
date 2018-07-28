@@ -1,6 +1,8 @@
-//
-// Created by drdc-s2632 on 17/07/18.
-//
+/*
+* Created By: Cameron Newton
+* Created On: July 15th, 2018
+* Description: Subroutine to detect whether we can follow line
+*/
 
 #include "FollowLine.h"
 #include <worldstate/StateMsg.h>

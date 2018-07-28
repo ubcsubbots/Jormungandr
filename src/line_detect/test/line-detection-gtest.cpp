@@ -1,7 +1,7 @@
 /*
  * Created By: Cameron Newton
  * Created On: May 5th, 2018
- * Description: Test functionality of GateDetector
+ * Description: Test functionality of LineDetector
  */
 
 #include "test_utilities/line_detect_test_utils.h"

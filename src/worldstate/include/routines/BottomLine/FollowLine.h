@@ -1,6 +1,8 @@
-//
-// Created by drdc-s2632 on 17/07/18.
-//
+/*
+* Created By: Cameron Newton
+* Created On: July 15th, 2018
+* Description: Subroutine to detect whether we're following line
+*/
 
 #ifndef PROJECT_FOLLOWLINE_H
 #define PROJECT_FOLLOWLINE_H

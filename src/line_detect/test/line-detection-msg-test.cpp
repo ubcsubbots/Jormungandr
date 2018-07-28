@@ -1,7 +1,7 @@
 /*
  * Created By: Cameron Newton
  * Created On: May 5th, 2018
- * Description: A test to confirm that gateDetectMsg will build
+ * Description: A test to confirm that LineDetectMsg will build
  */
 
 #include <gtest/gtest.h>

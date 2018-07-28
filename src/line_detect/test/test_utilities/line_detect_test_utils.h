@@ -1,7 +1,7 @@
 /*
  * Created By: Cameron Newton
  * Created On: June 16th, 2018
- * Description: Utilities to aid in debugging GateDetector module
+ * Description: Utilities to aid in debugging LineDetector module
  */
 
 #include "LineDetector.h"
