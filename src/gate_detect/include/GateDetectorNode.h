@@ -31,6 +31,8 @@ class GateDetectorNode {
     std::string publishTopic;
     cv::Mat lineImg;
     GateDetector gateDetector_;
+    int width_, height_;
+    bool displayDetectedGate_;
 
     /**
      * Image callback function

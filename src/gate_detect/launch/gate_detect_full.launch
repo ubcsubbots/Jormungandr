@@ -1,12 +1,16 @@
 <launch>
     <node name="gate_detect_node" pkg="gate_detect" type="gate_detect" output="screen">
-            <param name="cannyLow" value="50" type="int" />
-            <param name="houghLinesThreshold" value="100" type="int" />
-            <param name="houghLinesMinLength" value="125" type="int" />
-            <param name="houghLinesMaxLineGap" value="150" type="int" />
-            <param name="poleMax" value="50" type="int" />
-            <param name="interpolationConstant1" value="81.88" type="double" />
-            <param name="interpolationConstant2" value="-.92791" type="double" />
+        <param name="cannyLow" value="50" type="int" />
+        <param name="houghLinesThreshold" value="100" type="int" />
+        <param name="houghLinesMinLength" value="125" type="int" />
+        <param name="houghLinesMaxLineGap" value="150" type="int" />
+        <param name="poleMax" value="50" type="int" />
+        <param name="interpolationConstant1" value="81.88" type="double" />
+        <param name="interpolationConstant2" value="-.92791" type="double" />
+        <param name="width" value="500" type="int" />
+        <param name="height" value="360" type="int" />
+        <param name="lowVertThresh" value="150" type="int" />
+        <param name="lowHorThresh" value="150" type="int" />
     </node>
     <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
         <param name="h_low" value="0" type="int" />
@@ -21,7 +25,7 @@
     </node>
     <node name="decision_node" pkg="decision" type="decision_node" output="screen">
         <remap from="worldstate" to="/worldstate/output"/>
-        <remap from="gate_location" to="/gateDetect/output"/>
+        <remap from="gate_location" to="/gate_detect/output"/>
         <remap from="/decision_node/output" to="/g500/twist"/>
     </node>
     <rosparam command="load" file="$(find decision)/constants/constants.yaml" ns="global_constants" />

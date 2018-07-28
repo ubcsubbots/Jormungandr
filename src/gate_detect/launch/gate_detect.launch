@@ -1,11 +1,43 @@
 <launch>
     <node name="gate_detect_node" pkg="gate_detect" type="gate_detect" output="screen">
+        <!--cannyLow: Can be set in the ros launch file and updated using ros dynamic reconfigure. Relates to the low threshold of the-->
+        <!--Canny Edge detector. Raising this value will decrease the amount of lines detected in the image by requiring a-->
+        <!--higher differential in pixel intensity to be considered an edge.-->
         <param name="cannyLow" value="50" type="int" />
+
+        <!--houghLinesThreshold: Can be set in the ros launch file and updated using ros dynamic reconfigure. This number sets the-->
+        <!--maximum required line intersections required for a line to be detected in the opencv hough line-->
+        <!--detector function. Increasing this number will decrease the amount of lines detected.-->
         <param name="houghLinesThreshold" value="100" type="int" />
+
+        <!--houghLinesMinLength: Can be set in the ros launch file and updated using ros dynamic reconfigure. This number indicates the-->
+        <!--minimum length a line can be to be considered a line by the opencv hough line detector.-->
         <param name="houghLinesMinLength" value="125" type="int" />
+
+        <!--houghLinesMaxLineGap: Can be set in the ros launch file and updated using ros dynamic reconfigure. This number indicates the-->
+        <!--maximum gap that can occur between 2 lines to be considered 1 line by the open cv hough line detector.-->
         <param name="houghLinesMaxLineGap" value="150" type="int" />
+
+        <!--poleMax: Can be set in the ros launch file and updated using ros dynamic reconfigure. This number indicates the maximum pixel-->
+        <!--count that two lines that are detected in the image can be to be considered a pole of the gate. Decreasing this-->
+        <!--value will decrease the amount of poles detected.-->
         <param name="poleMax" value="50" type="int" />
+
         <param name="interpolationConstant1" value="81.88" type="double" />
+
         <param name="interpolationConstant2" value="-.92791" type="double" />
+
+        <!--display the detected gate-->
+        <param name="displayFilteredGate" value="false" type="bool" />
+
+        <!--lowVertThresh: This number cannot be set in a ros launch file or dynamically reconfigured. It represents the maximum-->
+        <!--deviation from perfectly vertical that a line can have to be considered a vertical line. Increasing this-->
+        <!--number will increase the amount of lines detected.-->
+        <param name="lowVertThresh" value="150" type="int" />
+
+        <!--lowHorThresh: This number cannot be set in a ros launch file or dynamically reconfigured. It represents the maximum-->
+        <!--deviation from perfectly horizontal that a line can have to be considered a horizontal line. Increasing-->
+        <!--this number will increase the amount of lines detected.-->
+        <param name="lowHorThresh" value="150" type="int" />
         </node>
 </launch>

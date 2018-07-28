@@ -10,7 +10,7 @@
 
 std::vector<ros::Subscriber>
 ApproachGate::getNodeSubscriptions(ros::NodeHandle nh) {
-    std::string gateDetectTopic = "/gateDetect/output";
+    std::string gateDetectTopic = "/gate_detect/output";
 
     std::vector<ros::Subscriber> subs;
     subs.push_back(
