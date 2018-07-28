@@ -9,6 +9,20 @@
 
     <!-- TODO: Start Camera Here -->
 
+    <node pkg="usb_cam" type="usb_cam_node" name="cam_node1">       
+       <param name="video_device" value="/dev/video1" />
+       <param name="camera_name" value="camera1" /> 
+    </node>
+    <node pkg="usb_cam" type="usb_cam_node" name="cam_node0">        
+       <param name="video_device" value="/dev/video0" />
+       <param name="camera_name" value="camera0" /> 
+    </node>
+   
+    <node ns="cam_node1" name="proc1" pkg="image_proc" type="image_proc" output="screen">
+    </node>
+    <node ns="cam_node0" name="proc0" pkg="image_proc" type="image_proc" output="screen">
+    </node>
+
     <!-- IMU -->
     <include file="$(find controller)/launch/imu.launch"/>
 
