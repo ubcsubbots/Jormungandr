@@ -129,11 +129,11 @@ Eigen::MatrixXd Controller::setDesiredVelocity(double linear_x,
     if (torque_matrix_(0, 0) < 0) {
         pwm_matrix_(0, 0) = 1454 + 298 * torque_matrix_(0, 0) +
                             56.7 * torque_matrix_(0, 0) * torque_matrix_(0, 0);
-    } else if (torque_matrix_(1, 0) > 0) {
+    } else if (torque_matrix_(0, 0) > 0) {
         pwm_matrix_(0, 0) = 1543 + 179 * torque_matrix_(0, 0) -
                             16.5 * torque_matrix_(0, 0) * torque_matrix_(0, 0);
     } else {
-        pwm_matrix_(0, 0) = 0;
+        pwm_matrix_(0, 0) = 1500;
     }
 
     if (torque_matrix_(1, 0) < 0) {
@@ -143,7 +143,7 @@ Eigen::MatrixXd Controller::setDesiredVelocity(double linear_x,
         pwm_matrix_(1, 0) = 1543 + 179 * torque_matrix_(1, 0) -
                             16.5 * torque_matrix_(1, 0) * torque_matrix_(1, 0);
     } else {
-        pwm_matrix_(1, 0) = 0;
+        pwm_matrix_(1, 0) = 1500;
     }
 
     if (torque_matrix_(2, 0) < 0) {
@@ -153,7 +153,7 @@ Eigen::MatrixXd Controller::setDesiredVelocity(double linear_x,
         pwm_matrix_(2, 0) = 539 + 89.9 * torque_matrix_(2, 0) -
                             3.91 * torque_matrix_(2, 0) * torque_matrix_(2, 0);
     } else {
-        pwm_matrix_(2, 0) = 0;
+        pwm_matrix_(2, 0) = 1500;
     }
 
     if (torque_matrix_(3, 0) < 0) {
@@ -163,7 +163,7 @@ Eigen::MatrixXd Controller::setDesiredVelocity(double linear_x,
         pwm_matrix_(3, 0) = 539 + 89.9 * torque_matrix_(3, 0) -
                             3.91 * torque_matrix_(3, 0) * torque_matrix_(3, 0);
     } else {
-        pwm_matrix_(3, 0) = 0;
+        pwm_matrix_(3, 0) = 1500;
     }
 
     // keep the PWM values within required range
