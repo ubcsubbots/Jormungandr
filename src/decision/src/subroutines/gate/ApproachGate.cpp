@@ -35,11 +35,11 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
 
     if ((top_pole_clearance - (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) >
         (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
-        command.twist.twist.linear.z = DOWN / 2;
+        command.pose.pose.position.z = (*constants_)["TARGET_TOP_POLE_CLEARANCE"] - top_pole_clearance;
     } else if ((top_pole_clearance -
                 (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) <
                -(*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
-        command.twist.twist.linear.z = UP / 2;
+        command.pose.pose.position.z = (*constants_)["TARGET_TOP_POLE_CLEARANCE"] - top_pole_clearance;
     }
 
     publishCommand(command);
