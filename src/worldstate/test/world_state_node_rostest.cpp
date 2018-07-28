@@ -15,7 +15,7 @@ class WorldStateNodeTest : public testing::Test {
   protected:
     virtual void SetUp() {
         test_publisher =
-        nh_.advertise<gate_detect::GateDetectMsg>("/gateDetect/output", 1);
+        nh_.advertise<gate_detect::GateDetectMsg>("/gate_detect/output", 1);
         test_subscriber = nh_.subscribe(
         "/world_state_node/output", 1, &WorldStateNodeTest::callback, this);
 
