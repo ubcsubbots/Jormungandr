@@ -3,9 +3,6 @@
 # IF YOU WANT TO CHANGE THE ROS ENVIRONMENT VARIABLES
 # USE THE rosinstall TOOL INSTEAD.
 # IF YOU CHANGE IT, USE rosinstall FOR THE CHANGES TO TAKE EFFECT
-- other: {local-name: /opt/ros/kinetic/share/ros}
-- other: {local-name: /opt/ros/kinetic/share}
-- other: {local-name: /opt/ros/kinetic/stacks}
 - setup-file: {local-name: /opt/ros/kinetic/setup.sh}
 - git: {local-name: external_pkg/uwsim, uri: 'https://github.com/uji-ros-pkg/underwater_simulation.git',
     version: kinetic-devel}
