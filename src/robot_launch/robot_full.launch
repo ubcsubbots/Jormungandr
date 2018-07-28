@@ -1,17 +1,27 @@
 <launch>
+    <!-- Camera -->
     <node name="cv_camera" pkg="cv_camera" type="cv_camera_node" output="screen">
         <!-- TODO: remap and add args -->
     </node>
 
+    <!-- Distortion correction, image_proc -->
     <node name="disortion_correction" pkg="image_proc" type="image_proc" output="screen">
         <!-- TODO: remap and add args -->
         <remap from="image_raw" to="/cv_camera/image_raw" />
     </node>
 
-    <!-- TODO: add imu launch -->
+    <!-- IMU -->
+    <include file="$(find controller)/launch/imu.launch"/>
 
-    <!-- TODO: add controller launch -->
+    <!-- Lower Level Controller -->
+    <include file="$(find controller)/launch/controller_node.launch"/>
 
+    <!-- Serial Communication With The Arduino -->
+    <node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">
+        <param name="port" value="/dev/ttyUSB0"/>
+    </node>
+
+    <!-- HSV filter -->
     <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
         <param name="h_low" value="0" type="int" />
         <param name="s_low" value="0" type="int" />
@@ -22,6 +32,7 @@
         <remap from="/camera/image_raw" to="/cv_camera/image_rect_color"/>
     </node>
 
+    <!-- Gate detector -->
     <node name="gate_detect_node" pkg="gate_detect" type="gate_detect" output="screen">
         <param name="cannyLow" value="50" type="int" />
         <param name="houghLinesThreshold" value="100" type="int" />
@@ -36,8 +47,11 @@
         <param name="lowHorThresh" value="150" type="int" />
     </node>
 
+    <!-- Worldstate node -->
     <node name="world_state_node" pkg="worldstate" type="world_state_node" output="screen">
     </node>
+
+    <!-- Decision node -->
     <node name="decision_node" pkg="decision" type="decision_node" output="screen">
         <remap from="worldstate" to="/worldstate/output"/>
         <remap from="gate_location" to="/gate_detect/output"/>

@@ -20,6 +20,7 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     int cannyLow, houghLinesThreshold, houghLinesMinLength, poleMax,
     lowVertThresh, lowHorThresh, houghLinesMaxLineGap;
     double interpolationConstant1, interpolationConstant2;
+    displayDetectedGate_ = false;
 
     nh.getParam("/gate_detect_node/width", width_);
     nh.getParam("/gate_detect_node/height", height_);
@@ -34,6 +35,7 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
                 interpolationConstant1);
     nh.getParam("/gate_detect_node/interpolationConstant2",
                 interpolationConstant2);
+    nh.getParam("/gate_detect_node/displayDetectedGate", displayDetectedGate_);
 
     gateDetector_ = GateDetector(cannyLow,
                                  houghLinesThreshold,
@@ -80,8 +82,7 @@ const sensor_msgs::ImageConstPtr& msg) {
 
     publishGateDetectMsg(gateCoordinates);
 
-    // Uncomment if you want to view gate seen by node
-    // publishGateImage(gateCoordinates);
+    if (displayDetectedGate_) publishGateImage(gateCoordinates);
 }
 
 void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
@@ -125,7 +126,7 @@ void GateDetectorNode::publishGateImage(GateCoordinates gateCoordinates) {
 
     cv::cvtColor(lineImg, colourMat, CV_GRAY2BGR);
 
-    // colourMat = TestUtils::drawGate(colourMat, gateCoordinates);
+    colourMat = TestUtils::drawGate(colourMat, gateCoordinates);
 
     cv_bridge::CvImage out_msg;
     out_msg.header =
