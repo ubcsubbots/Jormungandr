@@ -24,8 +24,6 @@ std::vector<ros::Subscriber> FindLine::getSubscriptions(ros::NodeHandle nh) {
 
 void FindLine::lineDetectCallback(
 const line_detect::LineDetectMsg::ConstPtr& msg) {
-    // Reverse direction if you don't find the line after a certain amount of
-    // time
     geometry_msgs::TwistStamped command;
 
     command.twist.linear.y = lateralVelocityDirection_ * RIGHT;
@@ -34,5 +32,7 @@ const line_detect::LineDetectMsg::ConstPtr& msg) {
 }
 
 void FindLine::timerCallback(const ros::TimerEvent& event) {
+    // Reverse direction if you don't find the line after a certain amount of
+    // time
     lateralVelocityDirection_ = -lateralVelocityDirection_;
 }
