@@ -18,8 +18,7 @@ void Subroutine::startup() {
 
     std::string topic   = private_nh.resolveName("output");
     uint32_t queue_size = 10;
-    publisher_ =
-    private_nh.advertise<nav_msgs::Odometry>(topic, queue_size);
+    publisher_ = private_nh.advertise<nav_msgs::Odometry>(topic, queue_size);
 }
 
 void Subroutine::shutdown() {

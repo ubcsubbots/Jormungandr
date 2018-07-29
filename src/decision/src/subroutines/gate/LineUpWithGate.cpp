@@ -41,13 +41,15 @@ const gate_detect::GateDetectMsg::ConstPtr& msg) {
         (float) sin(msg->angleTopPole) * msg->distanceTopPole;
         if ((top_pole_clearance - (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) >
             (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
-            command.pose.pose.position.z = (*constants_)["TARGET_TOP_POLE_CLEARANCE"] - top_pole_clearance;
+            command.pose.pose.position.z =
+            (*constants_)["TARGET_TOP_POLE_CLEARANCE"] - top_pole_clearance;
             publishCommand(command);
             return;
         } else if ((top_pole_clearance -
                     (*constants_)["TARGET_TOP_POLE_CLEARANCE"]) <
                    (*constants_)["ERROR_TOLERANCE_TOP_POLE_CLEARANCE"]) {
-            command.pose.pose.position.z = (*constants_)["TARGET_TOP_POLE_CLEARANCE"] - top_pole_clearance;
+            command.pose.pose.position.z =
+            (*constants_)["TARGET_TOP_POLE_CLEARANCE"] - top_pole_clearance;
             publishCommand(command);
             return;
         }
