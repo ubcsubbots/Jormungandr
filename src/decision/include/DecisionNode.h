@@ -17,7 +17,10 @@
 // state msg
 #include <worldstate/StateMsg.h>
 // subroutines
+#include "AdjustToLine.h"
 #include "ApproachGate.h"
+#include "FindLine.h"
+#include "FollowLine.h"
 #include "GoThroughGate.h"
 #include "LineUpWithGate.h"
 #include "LocateGate.h"

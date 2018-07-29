@@ -1,0 +1,5 @@
+<launch>
+    <node name="line_detect" pkg="line_detect" type="line_detect_node" output="screen">
+        <remap from="camera_output" to="/vision/output"/>
+    </node>
+</launch>

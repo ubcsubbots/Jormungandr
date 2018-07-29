@@ -49,6 +49,7 @@ include_directories(
         ./include
         ./include/routines
         ./include/routines/Gate
+        ./include/routines/BottomLine
         ../constants
 )
 
@@ -65,7 +66,13 @@ add_executable(world_state_node
     include/routines/Gate/PassGate.h
     src/routines/Gate/PassGate.cpp
     src/routines/Gate/ApproachGate.cpp
-    include/routines/Gate/ApproachGate.h)
+    include/routines/Gate/ApproachGate.h
+    include/routines/BottomLine/FindLine.h
+    src/routines/BottomLine/FindLine.cpp
+    src/routines/BottomLine/AdjustToLine.cpp
+    include/routines/BottomLine/AdjustToLine.h
+    src/routines/BottomLine/FollowLine.cpp
+    include/routines/BottomLine/FollowLine.h)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(world_state_node ${catkin_LIBRARIES})

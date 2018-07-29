@@ -73,6 +73,12 @@ void DecisionNode::setupSubroutineMap() {
     subroutines_[worldstate::StateMsg::passingGate] =
     new GoThroughGate(&constants_);
 
+    subroutines_[worldstate::StateMsg::findingLine] = new FindLine(&constants_);
+    subroutines_[worldstate::StateMsg::adjustingToLine] =
+    new AdjustToLine(&constants_);
+    subroutines_[worldstate::StateMsg::followingLine] =
+    new FollowLine(&constants_);
+
     running_ = subroutines_[worldstate::StateMsg::locatingGate];
     running_->startup();
 }

@@ -41,6 +41,7 @@ include_directories(
     ./include
     ./include/subroutines
     ./include/subroutines/gate
+     ./include/subroutines/bottom_line
     ../constants
 )
 
@@ -61,6 +62,15 @@ add_executable(decision_node
         include/subroutines/gate/GoThroughGate.h
         src/subroutines/gate/ApproachGate.cpp 
         include/subroutines/gate/ApproachGate.h
+        include/subroutines/gate/GoThroughGate.h
+        src/subroutines/gate/ApproachGate.cpp
+        include/subroutines/gate/ApproachGate.h
+        include/subroutines/bottom_line/AdjustToLine.h
+        include/subroutines/bottom_line/FindLine.h
+        include/subroutines/bottom_line/FollowLine.h
+        src/subroutines/bottom_line/AdjustToLine.cpp
+        src/subroutines/bottom_line/FindLine.cpp
+        src/subroutines/bottom_line/FollowLine.cpp
         )
 target_link_libraries(decision_node ${catkin_LIBRARIES})
 add_dependencies(decision_node ${catkin_EXPORTED_TARGETS})

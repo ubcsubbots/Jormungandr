@@ -15,7 +15,8 @@
 /*** Communicating Class {alignWithGate, locatingGate, passGate} ***/
 class ApproachGate : public State {
   public:
-    ApproachGate() : State() {}
+    ApproachGate(std::unordered_map<std::string, double>* constants)
+      : State(constants) {}
     std::vector<ros::Subscriber>
     getNodeSubscriptions(ros::NodeHandle nh) override;
 

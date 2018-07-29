@@ -8,6 +8,7 @@
 #define DECISION_SUBROUTINE_H
 
 #include <geometry_msgs/TwistStamped.h>
+#include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
 #include <unordered_map>
 
@@ -15,12 +16,14 @@
  * pre defined directions for subroutines to use
  * example: z_rotation = RIGHT
  */
-static const double RIGHT    = -0.25;
-static const double LEFT     = 0.25;
-static const double FORWARD  = 0.25;
-static const double BACKWARD = -0.25;
-static const double UP       = 0.25;
-static const double DOWN     = -0.25;
+static const double RIGHT      = -0.25;
+static const double LEFT       = 0.25;
+static const double TWISTLEFT  = 0.25;
+static const double TWISTRIGHT = -0.25;
+static const double FORWARD    = 0.25;
+static const double BACKWARD   = -0.25;
+static const double UP         = 0.25;
+static const double DOWN       = -0.25;
 
 class Subroutine {
   private:

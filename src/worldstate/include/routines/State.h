@@ -19,13 +19,13 @@ class State {
     std::vector<ros::Subscriber> subscriptions_;
 
   public:
-    State();
+    State(std::unordered_map<std::string, double>* constants);
 
     /**
      * Initializes and starts the state's callback functions
      * so that it is now active
      */
-    void start(const std::unordered_map<std::string, double>& constants);
+    void start();
 
     /**
      * Deactivates a node by shutting down its subscriber
@@ -34,7 +34,7 @@ class State {
     void sleep();
 
   protected:
-    std::unordered_map<std::string, double> constants_;
+    std::unordered_map<std::string, double>* constants_;
 
     /**
      * Publishes the next state in the finite state machine
