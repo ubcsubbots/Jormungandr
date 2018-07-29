@@ -17,9 +17,9 @@ std::vector<ros::Subscriber> FollowLine::getSubscriptions(ros::NodeHandle nh) {
 
 void FollowLine::lineDetectCallback(
 const line_detect::LineDetectMsg::ConstPtr& msg) {
-    geometry_msgs::TwistStamped command;
+    nav_msgs::Odometry command;
 
-    command.twist.linear.x = FORWARD;
+    command.twist.twist.linear.x = FORWARD;
 
     publishCommand(command);
 }

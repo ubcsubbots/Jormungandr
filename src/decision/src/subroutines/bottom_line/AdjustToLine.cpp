@@ -18,7 +18,7 @@ AdjustToLine::getSubscriptions(ros::NodeHandle nh) {
 
 void AdjustToLine::lineDetectCallback(
 const line_detect::LineDetectMsg::ConstPtr& msg) {
-    geometry_msgs::TwistStamped command;
+    nav_msgs::Odometry command;
 
     // First adjust angle untill parallel with line, then check lateral
     // distance.
@@ -27,12 +27,12 @@ const line_detect::LineDetectMsg::ConstPtr& msg) {
     // adjust accordingly
     if (msg->angleToParallelFrontMarker >
         (*constants_)["ERROR_TOLERANCE_LINE_ANGLE"]) {
-        command.twist.angular.z = TWISTRIGHT;
+        command.twist.twist.angular.z = TWISTRIGHT;
         publishCommand(command);
         return;
     } else if (msg->angleToParallelFrontMarker <
                -(*constants_)["ERROR_TOLERANCE_LINE_ANGLE"]) {
-        command.twist.angular.z = TWISTLEFT;
+        command.twist.twist.angular.z = TWISTLEFT;
         publishCommand(command);
         return;
     }
@@ -41,11 +41,11 @@ const line_detect::LineDetectMsg::ConstPtr& msg) {
     // adjust accordingly
     if (msg->lateralDistanceFromFrontMarker >
         (*constants_)["ERROR_TOLERANCE_LINE_LATERAL_DISTANCE"]) {
-        command.twist.linear.y = LEFT;
+        command.twist.twist.linear.y = LEFT;
         publishCommand(command);
     } else if (msg->lateralDistanceFromFrontMarker <
                -(*constants_)["ERROR_TOLERANCE_LINE_LATERAL_DISTANCE"]) {
-        command.twist.linear.y = RIGHT;
+        command.twist.twist.linear.y = RIGHT;
         publishCommand(command);
     }
 }

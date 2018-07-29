@@ -24,9 +24,9 @@ std::vector<ros::Subscriber> FindLine::getSubscriptions(ros::NodeHandle nh) {
 
 void FindLine::lineDetectCallback(
 const line_detect::LineDetectMsg::ConstPtr& msg) {
-    geometry_msgs::TwistStamped command;
+    nav_msgs::Odometry command;
 
-    command.twist.linear.y = lateralVelocityDirection_ * RIGHT;
+    command.twist.twist.linear.y = lateralVelocityDirection_ * RIGHT;
 
     publishCommand(command);
 }
