@@ -7,7 +7,6 @@
 #ifndef DECISION_SUBROUTINE_H
 #define DECISION_SUBROUTINE_H
 
-#include <geometry_msgs/TwistStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
 #include <unordered_map>
@@ -46,7 +45,7 @@ class Subroutine {
      * Publishes a Twist message containing the movement decision
      * @param msg
      */
-    void publishCommand(const geometry_msgs::TwistStamped& msg);
+    void publishCommand(const nav_msgs::Odometry& msg);
 
     /**
      * Utility function for creating a geometry_msgs::Vector3
