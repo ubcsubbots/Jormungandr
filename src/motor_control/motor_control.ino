@@ -7,10 +7,10 @@
 /***********************/
 
 //Define the motor ESC pins
-#define THRUSTER_LEFT_STR  3
+#define THRUSTER_LEFT_STR  2
 #define THRUSTER_LEFT_ANG  5
-#define THRUSTER_RIGHT_STR 6
-#define THRUSTER_RIGHT_ANG 9
+#define THRUSTER_RIGHT_STR 4
+#define THRUSTER_RIGHT_ANG 3
 
 //Define some ESC PWM calibration constants
 #define PWM_STOP        91
