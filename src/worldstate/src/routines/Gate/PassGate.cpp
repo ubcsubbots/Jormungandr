@@ -9,7 +9,7 @@
 
 std::vector<ros::Subscriber>
 PassGate::getNodeSubscriptions(ros::NodeHandle nh) {
-    std::string gateDetectTopic = "/gateDetect/output";
+    std::string gateDetectTopic   = "/gateDetect/output";
     std::string line_detect_topic = "/line_detect_output";
 
     std::vector<ros::Subscriber> subs;
