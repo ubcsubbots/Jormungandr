@@ -6,16 +6,22 @@
     <!-- Message Remaps -->
     <remap from="decision_node/output" to="velocity_publisher"/>
     <remap from="arduino" to="Arduino"/>
+    <remap from="imu/data" to="imu_data" />
+    <remap from="gateDetect/output" to="gate_location" />"
 
     <!-- TODO: Start Camera Here -->
 
     <node pkg="usb_cam" type="usb_cam_node" name="cam_node1">       
-       <param name="video_device" value="/dev/video1" />
-       <param name="camera_name" value="camera1" /> 
+       <param name="cam_node1/video_device" value="/dev/video1" />
+       <param name="cam_node1/camera_name" value="camera1" /> 
+       <param name="cam_node1/image_width" value="1920" />
+       <param name="cam_node1/image_height" value="1080" />
     </node>
     <node pkg="usb_cam" type="usb_cam_node" name="cam_node0">        
-       <param name="video_device" value="/dev/video0" />
-       <param name="camera_name" value="camera0" /> 
+       <param name="cam_node0/video_device" value="/dev/video0" />
+       <param name="cam_node0/camera_name" value="camera0" /> 
+       <param name="cam_node0/image_width" value="1920" />
+       <param name="cam_node0/cam_node0/image_height" value="1080" />
     </node>
    
     <node ns="cam_node1" name="proc1" pkg="image_proc" type="image_proc" output="screen">
