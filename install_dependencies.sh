@@ -49,6 +49,12 @@ mkdir -p external_pkg
 rosinstall external_pkg /opt/ros/kinetic .rosinstall
 rosinstall .
 
+# Install dependecies for external packages
+rosdep install --from-paths external_pkg --ignore-src --rosdistro kinetic -y
+
+# Build external packages
+catkin_make --source external_pkg
+
 echo "================================================================"
 echo "Setup .bashrc"
 echo "================================================================"
