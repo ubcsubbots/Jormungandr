@@ -20,6 +20,8 @@ void AdjustToLine::lineDetectCallback(
 const line_detect::LineDetectMsg::ConstPtr& msg) {
     geometry_msgs::TwistStamped command;
 
+    //First adjust angle untill parallel with line, then check lateral distance.
+
     //Check angle of line in front of robot, if angle is out of error tolerance adjust accordingly
     if (msg->angleToParallelFrontMarker >
         (*constants_)["ERROR_TOLERANCE_LINE_ANGLE"]) {
@@ -38,11 +40,9 @@ const line_detect::LineDetectMsg::ConstPtr& msg) {
         (*constants_)["ERROR_TOLERANCE_LINE_LATERAL_DISTANCE"]) {
         command.twist.linear.y = LEFT;
         publishCommand(command);
-        return;
     } else if (msg->lateralDistanceFromFrontMarker <
                -(*constants_)["ERROR_TOLERANCE_LINE_LATERAL_DISTANCE"]) {
         command.twist.linear.y = RIGHT;
         publishCommand(command);
-        return;
     }
 }
