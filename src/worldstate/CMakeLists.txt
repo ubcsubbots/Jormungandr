@@ -72,7 +72,7 @@ add_executable(world_state_node
     src/routines/BottomLine/AdjustToLine.cpp
     include/routines/BottomLine/AdjustToLine.h
     src/routines/BottomLine/FollowLine.cpp
-    include/routines/BottomLine/FollowLine.h)
+    include/routines/BottomLine/FollowLine.h include/routines/Gate/AdjustDepth.h src/routines/Gate/AdjustDepth.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(world_state_node ${catkin_LIBRARIES})

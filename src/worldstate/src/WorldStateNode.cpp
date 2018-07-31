@@ -60,6 +60,10 @@ const worldstate::StateMsg::ConstPtr& msg) {
  * subroutine
  */
 void WorldStateNode::initializeFiniteStateMachine() {
+    // Gate
+    state_machine_[worldstate::StateMsg::adjustingDepth] =
+    new AdjustToLine(&constants_);
+
     state_machine_[worldstate::StateMsg::locatingGate] =
     new LocatingGate(&constants_);
     state_machine_[worldstate::StateMsg::approachingGate] =
