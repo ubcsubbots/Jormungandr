@@ -7,7 +7,7 @@
     <remap from="decision_node/output" to="velocity_publisher"/>
     <remap from="arduino" to="Arduino"/>
     <remap from="imu/data" to="imu_data" />
-    <remap from="gateDetect/output" to="gate_location" />"
+    
 
     <!-- TODO: Start Camera Here -->
     <group ns="cam_node1">
