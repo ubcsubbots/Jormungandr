@@ -10,19 +10,22 @@
     <remap from="gateDetect/output" to="gate_location" />"
 
     <!-- TODO: Start Camera Here -->
-
-    <node pkg="usb_cam" type="usb_cam_node" name="cam_node1">       
-       <param name="cam_node1/video_device" value="/dev/video1" />
-       <param name="cam_node1/camera_name" value="camera1" /> 
-       <param name="cam_node1/image_width" value="1920" />
-       <param name="cam_node1/image_height" value="1080" />
-    </node>
-    <node pkg="usb_cam" type="usb_cam_node" name="cam_node0">        
-       <param name="cam_node0/video_device" value="/dev/video0" />
-       <param name="cam_node0/camera_name" value="camera0" /> 
-       <param name="cam_node0/image_width" value="1920" />
-       <param name="cam_node0/cam_node0/image_height" value="1080" />
-    </node>
+    <group ns="cam_node1">
+        <node pkg="usb_cam" type="usb_cam_node" name="cam_node1">
+            <param name="video_device" value="/dev/video1" />
+            <param name="camera_name" value="camera1" />
+            <param name="image_width" value="1920" />
+            <param name="image_height" value="1080" />
+        </node>
+    </group>
+    <group ns="cam_node0">
+        <node pkg="usb_cam" type="usb_cam_node" name="cam_node0">
+            <param name="video_device" value="/dev/video0" />
+            <param name="camera_name" value="camera0" />
+            <param name="image_width" value="1920" />
+            <param name="image_height" value="1080" />
+        </node>
+    </group>
    
     <node ns="cam_node1" name="proc1" pkg="image_proc" type="image_proc" output="screen">
     </node>
@@ -45,13 +48,13 @@
 
     <!-- Serial Communication With The Arduino -->
     <node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">
-        <param name="port" value="/dev/ttyACM2"/>
+        <param name="port" value="/dev/ttyACM1"/>
     </node>
 
     <node pkg="rosbag" type="record" name="record" output="screen"
           args="
-          /cam_node1/image_color
-          /cam_node0/image_color
+          /cam_node0/cam_node0/image_raw/compressed
+          /cam_node1/cam_node1/image_raw/compressed
           /Arduino
           /imu_data
           -o $(find decision)/bags"/>
