@@ -28,7 +28,7 @@
         <param name="interpolationConstant2" value="-.92791" type="double" />
 
         <!--display the detected gate-->
-        <param name="displayFilteredGate" value="false" type="bool" />
+        <param name="displayFilteredGate" value="true" type="bool" />
 
         <!--lowVertThresh: This number cannot be set in a ros launch file or dynamically reconfigured. It represents the maximum-->
         <!--deviation from perfectly vertical that a line can have to be considered a vertical line. Increasing this-->
