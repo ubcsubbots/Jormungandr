@@ -16,6 +16,12 @@ AdjustDepth::getNodeSubscriptions(ros::NodeHandle nh) {
     nh.createTimer(ros::Duration(5), &AdjustDepth::timerCallback, this, false);
     timer_.start();
 
+    worldstate::StateMsg stateMsg;
+
+    stateMsg.state = worldstate::StateMsg::adjustingDepth;
+
+    publishNextState(stateMsg);
+
     std::vector<ros::Subscriber> subs;
     subs.push_back(
     nh.subscribe(gateDetectTopic, 10, &AdjustDepth::gateDetectCallBack, this));

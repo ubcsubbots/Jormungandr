@@ -12,6 +12,7 @@
 #include "routines/Gate/AlignWithGate.h"
 #include "routines/Gate/LocatingGate.h"
 #include "routines/Gate/PassGate.h"
+#include "routines/Gate/AdjustDepth.h"
 #include <WorldStateNode.h>
 
 WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name) {
@@ -62,7 +63,7 @@ const worldstate::StateMsg::ConstPtr& msg) {
 void WorldStateNode::initializeFiniteStateMachine() {
     // Gate
     state_machine_[worldstate::StateMsg::adjustingDepth] =
-    new AdjustToLine(&constants_);
+    new AdjustDepth(&constants_);
 
     state_machine_[worldstate::StateMsg::locatingGate] =
     new LocatingGate(&constants_);

@@ -1,5 +1,5 @@
 int8 state
-int8 adjustingDepth      =0
+int8 adjustingDepth      = 0
 int8 locatingGate        = 1
 int8 approachingGate     = 2
 int8 aligningWithGate    = 3
