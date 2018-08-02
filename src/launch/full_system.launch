@@ -10,16 +10,16 @@
     
 
     <!-- TODO: Start Camera Here -->
-    <group ns="cam_node1">
-        <node pkg="usb_cam" type="usb_cam_node" name="cam_node1">
+    <group>
+        <node pkg="usb_cam" type="usb_cam_node" name="cam_node0">
             <param name="video_device" value="/dev/video1" />
             <param name="camera_name" value="camera1" />
             <param name="image_width" value="1920" />
             <param name="image_height" value="1080" />
         </node>
     </group>
-    <group ns="cam_node0">
-        <node pkg="usb_cam" type="usb_cam_node" name="cam_node0">
+    <group>
+        <node pkg="usb_cam" type="usb_cam_node" name="cam_node1">
             <param name="video_device" value="/dev/video0" />
             <param name="camera_name" value="camera0" />
             <param name="image_width" value="1920" />
