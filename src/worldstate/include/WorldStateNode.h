@@ -28,7 +28,7 @@ class WorldStateNode {
 
   private:
     std::unordered_map<std::string, double> constants_;
-    const uint8_t initial_state_ = worldstate::StateMsg::adjustingDepth;
+    const uint8_t initial_state_ = worldstate::StateMsg::locatingGate;
     ros::Subscriber world_state_listener_;
     State* current_state_;
     std::unordered_map<state_t, State*> state_machine_;

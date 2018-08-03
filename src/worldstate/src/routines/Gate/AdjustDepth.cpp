@@ -32,6 +32,8 @@ void AdjustDepth::gateDetectCallBack(
 const gate_detect::GateDetectMsg::ConstPtr& msg) {
     worldstate::StateMsg msg_to_publish;
 
+    msg_to_publish.state = worldstate::StateMsg::adjustingDepth;
+
     // Let the World State Node know to transition to the next state
     publishNextState(msg_to_publish);
 }
