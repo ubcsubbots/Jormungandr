@@ -1,6 +1,9 @@
-//
-// Created by cam on 7/31/18.
-//
+/*
+ * Created By: Cameron Newton
+ * Created On: July 19, 2018
+ * Description: Subroutine that adjusts depth of robot
+ * to align
+ */
 
 #ifndef PROJECT_ADJUSTHEIGHT_H
 #define PROJECT_ADJUSTHEIGHT_H

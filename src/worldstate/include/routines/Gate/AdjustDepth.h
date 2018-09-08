@@ -1,6 +1,8 @@
-//
-// Created by cam on 7/31/18.
-//
+/*
+ * Created By: Cameron Newton
+ * Created On: July 18th, 2018
+ * Description: State to define when robot is adjusting depth to desired level
+ */
 
 #ifndef PROJECT_ADJUSTDEPTH_H
 #define PROJECT_ADJUSTDEPTH_H
@@ -18,7 +20,7 @@ class AdjustDepth : public State {
     getNodeSubscriptions(ros::NodeHandle nh) override;
 
   private:
-    ros::Timer timer_;
+    ros::Timer depth_timer_;
 
     /**
      * Decides based on image data whether the robot still needs to

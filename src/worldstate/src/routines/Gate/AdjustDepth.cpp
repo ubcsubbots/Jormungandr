@@ -1,8 +1,7 @@
 /*
- * Created By: Joel Ahn
- * Created On: March 5th, 2018
- * Description: World State FSM node. Checks to see if
- *              robot still needs to align with gate.
+ * Created By: Cameron Newton
+ * Created On: July 18th, 2018
+ * Description: State to define when robot is adjusting depth to desired level
  */
 
 #include "AdjustDepth.h"
@@ -12,9 +11,9 @@ std::vector<ros::Subscriber>
 AdjustDepth::getNodeSubscriptions(ros::NodeHandle nh) {
     std::string gateDetectTopic = "/gate_detect/output";
 
-    timer_ =
+    depth_timer_ =
     nh.createTimer(ros::Duration(5), &AdjustDepth::timerCallback, this, false);
-    timer_.start();
+    depth_timer_.start();
 
     worldstate::StateMsg stateMsg;
 

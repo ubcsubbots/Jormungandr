@@ -55,7 +55,7 @@ const line_detect::LineDetectMsg::ConstPtr& msg) {
           msg->distanceFromEndOfFrontMarker == -1.0f ||
           msg->angleToParallelFrontMarker == -1.0f)) {
         stateMsg.state = worldstate::StateMsg::adjustingToLine;
-        // timer_.stop();
+        // depth_timer_.stop();
         publishNextState(stateMsg);
     }
 }

@@ -45,7 +45,7 @@ const line_detect::LineDetectMsg::ConstPtr& msg) {
     if (msg->distanceFromEndOfFrontMarker <
         (*constants_)["ERROR_TOLERANCE_LINE_DISTANCE_TO_END"]) {
         stateMsg.state = worldstate::StateMsg::locatingDie;
-        // timer_.stop();
+        // depth_timer_.stop();
     }
 
     publishNextState(stateMsg);

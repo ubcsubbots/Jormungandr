@@ -71,7 +71,8 @@ add_executable(decision_node
         src/subroutines/bottom_line/AdjustToLine.cpp
         src/subroutines/bottom_line/FindLine.cpp
         src/subroutines/bottom_line/FollowLine.cpp
-        include/subroutines/gate/AdjustDepth.h src/subroutines/gate/AdjustDepth.cpp)
+        include/subroutines/gate/AdjustDepth.h
+        src/subroutines/gate/AdjustDepth.cpp)
 target_link_libraries(decision_node ${catkin_LIBRARIES})
 add_dependencies(decision_node ${catkin_EXPORTED_TARGETS})
 

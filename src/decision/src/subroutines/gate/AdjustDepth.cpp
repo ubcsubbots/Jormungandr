@@ -1,6 +1,8 @@
-//
-// Created by cam on 7/31/18.
-//
+/*
+ * Created By: Cameron Newton
+ * Created On: July 19, 2018
+ * Description: Subroutine that adjusts the depth of the robot
+ */
 
 #include "AdjustDepth.h"
 #include "constants.h"
