@@ -9,10 +9,10 @@
 #include "routines/BottomLine/AdjustToLine.h"
 #include "routines/BottomLine/FindLine.h"
 #include "routines/BottomLine/FollowLine.h"
+#include "routines/Gate/AdjustDepth.h"
 #include "routines/Gate/AlignWithGate.h"
 #include "routines/Gate/LocatingGate.h"
 #include "routines/Gate/PassGate.h"
-#include "routines/Gate/AdjustDepth.h"
 #include <WorldStateNode.h>
 
 WorldStateNode::WorldStateNode(int argc, char** argv, std::string node_name) {
