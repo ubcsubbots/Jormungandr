@@ -9,6 +9,7 @@
 #include "routines/BottomLine/AdjustToLine.h"
 #include "routines/BottomLine/FindLine.h"
 #include "routines/BottomLine/FollowLine.h"
+#include "routines/Gate/AdjustDepth.h"
 #include "routines/Gate/AlignWithGate.h"
 #include "routines/Gate/LocatingGate.h"
 #include "routines/Gate/PassGate.h"
@@ -60,6 +61,10 @@ const worldstate::StateMsg::ConstPtr& msg) {
  * subroutine
  */
 void WorldStateNode::initializeFiniteStateMachine() {
+    // Gate
+    state_machine_[worldstate::StateMsg::adjustingDepth] =
+    new AdjustDepth(&constants_);
+
     state_machine_[worldstate::StateMsg::locatingGate] =
     new LocatingGate(&constants_);
     state_machine_[worldstate::StateMsg::approachingGate] =

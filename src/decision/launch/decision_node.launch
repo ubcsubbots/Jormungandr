@@ -1,4 +1,5 @@
 <launch>
     <node name="decision_node" pkg="decision" type="decision_node" output="screen">
+    <remap from="gate_location" to="gate_detect/output" />
     </node>
 </launch>

@@ -1,0 +1,62 @@
+<launch>
+<!-- 
+    This launch file is responsible for launching the entire entire system
+    (High and Low Level AI/Control, and Serial Communication With Arduino)
+-->
+    <!-- Message Remaps -->
+    <remap from="decision_node/output" to="velocity_publisher"/>
+    <remap from="arduino" to="Arduino"/>
+    <remap from="imu/data" to="imu_data" />
+    <remap from="gateDetect/output" to="gate_location" />"
+
+    <!-- TODO: Start Camera Here -->
+    <group ns="cam_node1">
+        <node pkg="usb_cam" type="usb_cam_node" name="cam_node1">
+            <param name="video_device" value="/dev/video1" />
+            <param name="camera_name" value="camera1" />
+            <param name="image_width" value="1920" />
+            <param name="image_height" value="1080" />
+        </node>
+    </group>
+    <group ns="cam_node0">
+        <node pkg="usb_cam" type="usb_cam_node" name="cam_node0">
+            <param name="video_device" value="/dev/video0" />
+            <param name="camera_name" value="camera0" />
+            <param name="image_width" value="1920" />
+            <param name="image_height" value="1080" />
+        </node>
+    </group>
+   
+    <node ns="cam_node1" name="proc1" pkg="image_proc" type="image_proc" output="screen">
+    </node>
+    <node ns="cam_node0" name="proc0" pkg="image_proc" type="image_proc" output="screen">
+    </node>
+
+    <!-- IMU -->
+    <include file="$(find controller)/launch/imu.launch"/>
+
+    <!-- High Level AI -->
+    <include file="$(find decision)/launch/decision_node.launch"/>
+    <include file="$(find worldstate)/launch/worldstate_node.launch"/>
+    <include file="$(find gate_detect)/launch/gate_detect.launch"/>
+
+    <!-- HSV Filters for Various Components -->
+    <include file="$(find vision)/launch/gate_detect_filter.launch"/>
+
+    <!-- Lower Level Controller -->
+    <include file="$(find controller)/launch/controller_node.launch"/>
+
+    <!-- Serial Communication With The Arduino -->
+    <node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">
+        <param name="port" value="/dev/ttyACM1"/>
+    </node>
+
+    <node pkg="rosbag" type="record" name="record" output="screen"
+          args="
+          /cam_node0/cam_node0/image_raw/compressed
+          /cam_node1/cam_node1/image_raw/compressed
+          /Arduino
+          /imu_data
+          -o $(find decision)/bags"/>
+
+</launch>

@@ -64,6 +64,9 @@ const worldstate::StateMsg::ConstPtr& StateMsg) {
  * subroutine
  */
 void DecisionNode::setupSubroutineMap() {
+    // Gate Subroutines
+    subroutines_[worldstate::StateMsg::adjustingDepth] =
+    new AdjustDepth(&constants_);
     subroutines_[worldstate::StateMsg::locatingGate] =
     new LocateGate(&constants_);
     subroutines_[worldstate::StateMsg::approachingGate] =
@@ -73,13 +76,14 @@ void DecisionNode::setupSubroutineMap() {
     subroutines_[worldstate::StateMsg::passingGate] =
     new GoThroughGate(&constants_);
 
+    // Line Subroutines
     subroutines_[worldstate::StateMsg::findingLine] = new FindLine(&constants_);
     subroutines_[worldstate::StateMsg::adjustingToLine] =
     new AdjustToLine(&constants_);
     subroutines_[worldstate::StateMsg::followingLine] =
     new FollowLine(&constants_);
 
-    running_ = subroutines_[worldstate::StateMsg::locatingGate];
+    running_ = subroutines_[worldstate::StateMsg::adjustingDepth];
     running_->startup();
 }
 
