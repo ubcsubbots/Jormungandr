@@ -78,7 +78,7 @@ const sensor_msgs::ImageConstPtr& msg) {
                                width_,
                                height_));
 
-    GateCoordinates gateCoordinates = gateDetector_.initialize(lineImg);
+    GateCoordinates gateCoordinates = gateDetector_.initialize(image);
 
     publishGateDetectMsg(gateCoordinates);
 

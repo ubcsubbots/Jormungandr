@@ -1,0 +1,4 @@
+<launch>
+    <node name="odom_to_twist_stamped" pkg="decision" type="odom_to_twist_stamped" />
+    <test test-name="odom_to_twist_stamped_rostest" pkg="decision" type="odom_to_twist_stamped_rostest" />
+</launch>

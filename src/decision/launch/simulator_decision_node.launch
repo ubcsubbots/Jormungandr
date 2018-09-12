@@ -1,0 +1,10 @@
+<launch>
+    <node name="decision_node" pkg="decision" type="decision_node" output="screen">
+        <remap from="gate_location" to="gate_detect/output" />
+    </node>
+
+    <node name="odom_to_twist_stamped" pkg="decision" type="odom_to_twist_stamped" output="screen">
+        <remap from="odom_to_twist_stamped/output" to="g500/twist" />
+    </node>
+
+</launch>
