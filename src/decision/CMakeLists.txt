@@ -77,10 +77,17 @@ target_link_libraries(decision_node ${catkin_LIBRARIES})
 add_dependencies(decision_node ${catkin_EXPORTED_TARGETS})
 
 add_executable(dead_mans_switch
-        src/DeadMansSwitchNode.cpp
-        src/dead_mans_switch_node.cpp
+        src/dead_mans_switch/DeadMansSwitchNode.cpp
+        src/dead_mans_switch/dead_mans_switch_node.cpp
         )
 target_link_libraries(dead_mans_switch ${catkin_LIBRARIES})
+
+add_executable(odom_to_twist_stamped
+        src/odom_to_twist_stamped/odom_to_twist_stamped.cpp
+        src/odom_to_twist_stamped/OdomToTwistStamped.cpp
+        include/OdomToTwistStamped.h
+        )
+target_link_libraries(odom_to_twist_stamped ${catkin_LIBRARIES})
 
 
 #############
@@ -97,16 +104,22 @@ if (CATKIN_ENABLE_TESTING)
 
     add_rostest_gtest(
             decision_node_rostest
-            test/decision_node_test.test
-            test/decision_node_rostest.cpp
+            test/decision_node/decision_node_test.test
+            test/decision_node/decision_node_rostest.cpp
     )
     target_link_libraries(decision_node_rostest ${catkin_LIBRARIES})
 
     add_rostest_gtest(
             dead_mans_switch_rostest
-            test/dead_mans_switch.test
-            test/dead_mans_switch_rostest.cpp
+            test/dead_mans_switch/dead_mans_switch.test
+            test/dead_mans_switch/dead_mans_switch_rostest.cpp
     )
     target_link_libraries(dead_mans_switch_rostest ${catkin_LIBRARIES})
 
+    add_rostest_gtest(
+            odom_to_twist_stamped_rostest
+            test/odom_to_twist_stamped/odom_to_twist_stamped.test
+            test/odom_to_twist_stamped/odom_to_twist_stamped_rostest.cpp
+    )
+    target_link_libraries(odom_to_twist_stamped_rostest ${catkin_LIBRARIES})
 endif()
