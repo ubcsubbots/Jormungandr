@@ -6,6 +6,7 @@ Main Software Repository for Subbots
 ## Table of Contents
 - [Setup](#setup)
   - [Rosinstall](#rosinstall)
+  - [Tensorflow](#tensorflow)
 - [Conventions](#conventions)
   - [Github](#github-conventions)
   - [Coding Conventions](#coding-conventions)
