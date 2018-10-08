@@ -26,3 +26,7 @@ setup.*
 
 # External Packages we install with `rosinstall`
 external_pkg/
+
+# Ignore Tensorflow models
+src/tensorflow_object_detector/data/models/*
+subbots_python/

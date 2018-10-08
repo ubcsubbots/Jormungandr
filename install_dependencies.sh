@@ -38,7 +38,7 @@ echo "================================================================"
 sudo apt-get install -y\
     clang-format\
     python-rosinstall
-
+    python-pip
 
 echo "================================================================"
 echo "Installing Project Dependent ROS packages."
@@ -103,3 +103,13 @@ echo "================================================================"
 echo "Finished Installing Utilities"
 echo "================================================================"
 
+echo "================================================================"
+echo "Staging Virtual Environment and installing python packages."
+echo "================================================================"
+
+#Installing python dependencies
+pip install virtualenv
+
+virtualenv subbots_python
+source $CURR_DIR/subbots_python/bin/activate
+pip install -r $CURR_DIR/requirements.txt
