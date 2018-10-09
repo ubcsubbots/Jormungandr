@@ -63,9 +63,10 @@ category_index = label_map_util.create_category_index(categories)
 config = tf.ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = GPU_FRACTION
 
+sess = tf.Session(graph=detection_graph,config=config)
+
 # Detection
 with detection_graph.as_default():
-  with tf.Session(graph=detection_graph,config=config) as sess:
     class detector:
 
       def __init__(self):
