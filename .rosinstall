@@ -9,3 +9,5 @@
     version: release/kinetic/phidgets_api/0.7.5-0}
 - git: {local-name: external_pkg/usb_cam, uri: 'https://github.com/ros-gbp/usb_cam-release.git',
     version: release/kinetic/usb_cam/0.3.5-0}
+- git: {local-name: external_pkg/vision_msgs, uri: 'https://github.com/Kukanani/vision_msgs.git'}
+- setup-file: {local-name: /opt/ros/kinetic/setup.sh}
