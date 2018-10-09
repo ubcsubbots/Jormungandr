@@ -38,7 +38,8 @@ echo "================================================================"
 sudo apt-get install -y\
     clang-format\
     python-rosinstall
-    python-pip
+
+sudo easy_install pip
 
 echo "================================================================"
 echo "Installing Project Dependent ROS packages."
