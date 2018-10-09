@@ -22,6 +22,7 @@ CATKIN_IGNORE
 # External Packages we use that are installed via `rosdep`
 src/uwsim
 setup.*
+!src/tensorflow_object_detector/setup.py
 *.bak
 
 # External Packages we install with `rosinstall`
