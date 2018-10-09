@@ -19,6 +19,4 @@ message StringIntLabelMapItem {
   optional string display_name = 3;
 };
 
-message StringIntLabelMap {
-  repeated StringIntLabelMapItem item = 1;
-};
+message StringIntLabelMap { repeated StringIntLabelMapItem item = 1; };

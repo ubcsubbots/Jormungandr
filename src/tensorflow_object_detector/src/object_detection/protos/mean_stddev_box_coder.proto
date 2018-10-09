@@ -4,5 +4,4 @@ package object_detection.protos;
 
 // Configuration proto for MeanStddevBoxCoder. See
 // box_coders/mean_stddev_box_coder.py for details.
-message MeanStddevBoxCoder {
-}
+message MeanStddevBoxCoder {}

@@ -6,9 +6,9 @@ package object_detection.protos;
 // box_coders/square_box_coder.py for details.
 message SquareBoxCoder {
   // Scale factor for anchor encoded box center.
-  optional float y_scale = 1 [default = 10.0];
-  optional float x_scale = 2 [default = 10.0];
+  optional float y_scale = 1 [ default = 10.0 ];
+  optional float x_scale = 2 [ default = 10.0 ];
 
   // Scale factor for anchor encoded box length.
-  optional float length_scale = 3 [default = 5.0];
+  optional float length_scale = 3 [ default = 5.0 ];
 }

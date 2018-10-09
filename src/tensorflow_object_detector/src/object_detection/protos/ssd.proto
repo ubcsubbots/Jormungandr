@@ -43,22 +43,21 @@ message Ssd {
 
   // Whether to normalize the loss by number of groundtruth boxes that match to
   // the anchors.
-  optional bool normalize_loss_by_num_matches = 10 [default=true];
+  optional bool normalize_loss_by_num_matches = 10 [ default = true ];
 
   // Loss configuration for training.
   optional Loss loss = 11;
 }
-
 
 message SsdFeatureExtractor {
   // Type of ssd feature extractor.
   optional string type = 1;
 
   // The factor to alter the depth of the channels in the feature extractor.
-  optional float depth_multiplier = 2 [default=1.0];
+  optional float depth_multiplier = 2 [ default = 1.0 ];
 
   // Minimum number of the channels in the feature extractor.
-  optional int32 min_depth = 3 [default=16];
+  optional int32 min_depth = 3 [ default = 16 ];
 
   // Hyperparameters for the feature extractor.
   optional Hyperparams conv_hyperparams = 4;

@@ -13,13 +13,10 @@ message RegionSimilarityCalculator {
 }
 
 // Configuration for negative squared distance similarity calculator.
-message NegSqDistSimilarity {
-}
+message NegSqDistSimilarity {}
 
 // Configuration for intersection-over-union (IOU) similarity calculator.
-message IouSimilarity {
-}
+message IouSimilarity {}
 
 // Configuration for intersection-over-area (IOA) similarity calculator.
-message IoaSimilarity {
-}
+message IoaSimilarity {}
