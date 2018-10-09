@@ -38,6 +38,7 @@ echo "================================================================"
 sudo apt-get install -y\
     clang-format\
     python-rosinstall
+    python-setuptools
 
 sudo easy_install pip
 
