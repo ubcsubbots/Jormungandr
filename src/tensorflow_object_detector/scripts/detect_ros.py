@@ -7,6 +7,8 @@ import os
 import sys
 import cv2
 import numpy as np
+import six.moves.urllib as urllib
+import tarfile
 try:
     import tensorflow as tf
 except ImportError:
@@ -32,6 +34,8 @@ GPU_FRACTION = 0.4
 
 ######### Set model here ############
 MODEL_NAME =  'ssd_mobilenet_v1_coco_11_06_2017'
+DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
+MODEL_FILE = MODEL_NAME + '.tar.gz'
 # By default models are stored in data/models/
 MODEL_PATH = os.path.join(os.path.dirname(sys.path[0]),'data','models' , MODEL_NAME)
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
@@ -42,6 +46,16 @@ LABEL_NAME = 'mscoco_label_map.pbtxt'
 PATH_TO_LABELS = os.path.join(os.path.dirname(sys.path[0]),'data','labels', LABEL_NAME)
 ######### Set the number of classes here #########
 NUM_CLASSES = 90
+
+opener = urllib.request.URLopener()
+opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
+tar_file = tarfile.open(MODEL_FILE)
+for file in tar_file.getmembers():
+  file_name = os.path.basename(file.name)
+  if 'frozen_inference_graph.pb' in file_name:
+    tar_file.extract(file, os.path.join(os.path.dirname(sys.path[0]),'data','models'))
+
+
 
 detection_graph = tf.Graph()
 with detection_graph.as_default():
