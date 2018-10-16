@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_python_setup()
 
+catkin_package()
+
 catkin_install_python(PROGRAMS scripts/detect_ros.py 
 			DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
