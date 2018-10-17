@@ -6,6 +6,7 @@ Main Software Repository for Subbots
 ## Table of Contents
 - [Setup](#setup)
   - [Rosinstall](#rosinstall)
+  - [Tensorflow](#tensorflow)
 - [Conventions](#conventions)
   - [Github](#github-conventions)
   - [Coding Conventions](#coding-conventions)
@@ -27,6 +28,10 @@ Main Software Repository for Subbots
 ### RosInstall
 
 Rosinstall is addressed and run in `install_dependencies.sh`, should there be any need to run manual, rosinstall should be run after all steps from installation and setup has been completed. 
+
+### Tensorflow
+
+Anytime you want to run a node that uses the Tensorflow (https://www.tensorflow.org/) you must run 'source subbots_python/bin/activate' prior to running the node. We install Tensorflow on a seperated virtual environment to avoid compromising any system packages.
 
 ## Conventions
 
