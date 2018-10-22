@@ -11,7 +11,7 @@
 ######################################################################
 
 echo "================================================================"
-echo "Installing ROS dependencies..."
+echo "Installing Project Dependent ROS packages."
 echo "================================================================"
 
 # Update Rosdeps
@@ -22,6 +22,21 @@ CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Clone any ros dependencies of this repo
 rosws update
+
+# Setup rosinstall
+mkdir -p external_pkg
+rosinstall external_pkg /opt/ros/kinetic .rosinstall
+rosinstall .
+
+# Install dependecies for external packages
+rosdep install --from-paths external_pkg --ignore-src --rosdistro kinetic -y
+
+# Build external packages
+catkin_make --source external_pkg
+
+echo "================================================================"
+echo "Installing ROS dependencies..."
+echo "================================================================"
 
 # Install all required dependencies to build this repo
 rosdep install --from-paths src --ignore-src --rosdistro kinetic -y
@@ -41,21 +56,6 @@ sudo apt-get install -y\
     python-setuptools
 
 sudo easy_install pip
-
-echo "================================================================"
-echo "Installing Project Dependent ROS packages."
-echo "================================================================"
-
-# Setup rosinstall
-mkdir -p external_pkg
-rosinstall external_pkg /opt/ros/kinetic .rosinstall
-rosinstall .
-
-# Install dependecies for external packages
-rosdep install --from-paths external_pkg --ignore-src --rosdistro kinetic -y
-
-# Build external packages
-catkin_make --source external_pkg
 
 echo "================================================================"
 echo "Setup .bashrc"
