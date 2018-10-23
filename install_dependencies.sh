@@ -29,7 +29,7 @@ rosws update
 # Setup rosinstall
 mkdir -p external_pkg
 rosinstall external_pkg /opt/ros/kinetic .rosinstall
-rosinstall .
+rosinstall . /opt/ros/kinetic
 
 # Install dependecies for external packages
 rosdep install --from-paths external_pkg --ignore-src --rosdistro kinetic -y
@@ -55,8 +55,8 @@ echo "================================================================"
 
 sudo apt-get install -y\
     clang-format\
-    python-rosinstall
-    python-setuptools
+    python-rosinstall\
+    virtualenv
 
 sudo easy_install pip
 
@@ -111,9 +111,6 @@ echo "================================================================"
 echo "================================================================"
 echo "Staging Virtual Environment and installing python packages."
 echo "================================================================"
-
-#Installing python dependencies
-pip install virtualenv
 
 virtualenv subbots_python
 source $CURR_DIR/subbots_python/bin/activate

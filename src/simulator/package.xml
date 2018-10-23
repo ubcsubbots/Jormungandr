@@ -40,7 +40,6 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>uwsim</build_depend>
   <build_depend>uwsim_bullet</build_depend>
   <build_depend>uwsim_osgbullet</build_depend>
   <build_depend>uwsim_osgocean</build_depend>
