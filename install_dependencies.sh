@@ -10,6 +10,9 @@
 # This script will download and install dependencies for the project #
 ######################################################################
 
+# Error and exit if anything here fails
+set -e
+
 echo "================================================================"
 echo "Installing Project Dependent ROS packages."
 echo "================================================================"
