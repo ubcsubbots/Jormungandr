@@ -28,8 +28,8 @@ rosws update
 
 # Setup rosinstall
 mkdir -p external_pkg
-rosinstall external_pkg /opt/ros/kinetic .rosinstall
-rosinstall . /opt/ros/kinetic
+rosinstall external_pkg .rosinstall
+rosinstall .
 
 # Install dependecies for external packages
 rosdep install --from-paths external_pkg --ignore-src --rosdistro kinetic -y
