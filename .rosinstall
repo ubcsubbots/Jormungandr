@@ -11,3 +11,4 @@
     version: release/kinetic/usb_cam/0.3.5-0}
 - git: {local-name: external_pkg/vision_msgs, uri: 'https://github.com/Kukanani/vision_msgs.git',
     version: kinetic-devel}
+- setup-file: {local-name: /opt/ros/kinetic/setup.sh}
