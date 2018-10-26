@@ -10,8 +10,11 @@
 # This script will download and install dependencies for the project #
 ######################################################################
 
+# Error and exit if anything here fails
+set -e
+
 echo "================================================================"
-echo "Installing ROS dependencies..."
+echo "Installing Project Dependent ROS packages."
 echo "================================================================"
 
 # Update Rosdeps
@@ -22,6 +25,21 @@ CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Clone any ros dependencies of this repo
 rosws update
+
+# Setup rosinstall
+mkdir -p external_pkg
+rosinstall external_pkg .rosinstall
+rosinstall .
+
+# Install dependecies for external packages
+rosdep install --from-paths external_pkg --ignore-src --rosdistro kinetic -y
+
+# Build external packages
+catkin_make --source external_pkg
+
+echo "================================================================"
+echo "Installing ROS dependencies..."
+echo "================================================================"
 
 # Install all required dependencies to build this repo
 rosdep install --from-paths src --ignore-src --rosdistro kinetic -y
@@ -37,25 +55,10 @@ echo "================================================================"
 
 sudo apt-get install -y\
     clang-format\
-    python-rosinstall
-    python-setuptools
+    python-rosinstall\
+    virtualenv
 
 sudo easy_install pip
-
-echo "================================================================"
-echo "Installing Project Dependent ROS packages."
-echo "================================================================"
-
-# Setup rosinstall
-mkdir -p external_pkg
-rosinstall external_pkg /opt/ros/kinetic .rosinstall
-rosinstall .
-
-# Install dependecies for external packages
-rosdep install --from-paths external_pkg --ignore-src --rosdistro kinetic -y
-
-# Build external packages
-catkin_make --source external_pkg
 
 echo "================================================================"
 echo "Setup .bashrc"
@@ -108,9 +111,6 @@ echo "================================================================"
 echo "================================================================"
 echo "Staging Virtual Environment and installing python packages."
 echo "================================================================"
-
-#Installing python dependencies
-pip install virtualenv
 
 virtualenv subbots_python
 source $CURR_DIR/subbots_python/bin/activate
