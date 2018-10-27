@@ -5,10 +5,6 @@
 #ifndef PROJECT_TEST_CLASS_H
 #define PROJECT_TEST_CLASS_H
 
+class test_class {};
 
-class test_class {
-
-};
-
-
-#endif //PROJECT_TEST_CLASS_H
+#endif // PROJECT_TEST_CLASS_H
