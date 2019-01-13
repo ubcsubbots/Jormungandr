@@ -1,0 +1,88 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(vision)
+
+## Compile as C++11, supported in ROS Kinetic and newer
+# add_compile_options(-std=c++11)
+
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
+find_package(catkin REQUIRED COMPONENTS
+  cv_bridge
+  image_transport
+  roscpp
+  sensor_msgs
+  std_msgs
+        dynamic_reconfigure
+        rospy
+)
+
+find_package(OpenCV REQUIRED)
+
+generate_dynamic_reconfigure_options(
+        cfg/hsvfilter.cfg
+)
+
+###################################
+## catkin specific configuration ##
+###################################
+## The catkin_package macro generates cmake config files for your package
+## Declare things to be passed to dependent projects
+## INCLUDE_DIRS: uncomment this if your package contains header files
+## LIBRARIES: libraries you create in this project that dependent projects also need
+## CATKIN_DEPENDS: catkin_packages dependent projects also need
+## DEPENDS: system dependencies of this project that dependent projects also need
+catkin_package(
+   INCLUDE_DIRS include
+#  LIBRARIES vision
+#  CATKIN_DEPENDS cv_bridge image_transport roscpp sensor_msgs std_msgs
+#  DEPENDS system_lib
+)
+
+###########
+## Build ##
+###########
+
+## Specify additional locations of header files
+## Your package locations should be listed before other locations
+include_directories(
+        ${catkin_INCLUDE_DIRS}
+        ${OpenCV_INCLUDE_DIRS}
+        ./include
+)
+
+## Declare a C++ library
+# add_library(${PROJECT_NAME}
+#   src/${PROJECT_NAME}/accumulator.cpp
+# )
+
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Declare a C++ executable
+## With catkin_make all packages are built within a single CMake context
+## The recommended prefix ensures that target names across packages don't collide
+add_executable(src/Accumulator.cpp
+        src/Accumulator_node.cpp
+        src/AccumulatorNode.cpp
+        include/Accumulator.h
+        include/AccumulatorNode.h)
+
+add_dependencies(accumulator_node ${PROJECT_NAME}_gencfg)
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(accumulator_node
+        ${catkin_LIBRARIES}
+        ${OpenCV_LIBS})
+
+#############
+## Testing ##
+#############
+
+## Add gtest based cpp test target and link libraries
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_hsv_filter.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
