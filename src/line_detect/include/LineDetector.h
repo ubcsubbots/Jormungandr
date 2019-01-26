@@ -66,7 +66,8 @@ class LineDetector {
     LinesToFollow initialize(const cv::Mat mat_in);
 
     /**
-    *      Estimates projected lateral distance of marker from middle of hsv_filter
+    *      Estimates projected lateral distance of marker from middle of
+    * hsv_filter
     *
     *      @param middleOfMarker line representing middle of marker
     *      @param widthOfMarker width of marker
