@@ -17,7 +17,7 @@ Next is adjusting the hsv_filter. To do this the robot must be in the water and 
 must launch the camera node, image_proc node, and the hsv filter node. You then must run:
 rosrun rqt_reconfigure rqt_reconfigure  
 and rosrun rviz rviz  
-In rviz go to add topic and select the vision/output topic. In rqt_reconfigure click the hsv_filter node and adjust the  
+In rviz go to add topic and select the hsv_filter/output topic. In rqt_reconfigure click the hsv_filter node and adjust the
 HSV parameters until you can clearly see the target. Try to reduce the noise in the image as much as possible while still  
 seeing the target clearly.  
 

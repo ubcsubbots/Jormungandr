@@ -3,8 +3,8 @@
  * Created On: January 27, 2018
  * Description:
  */
-#ifndef VISION_IMAGETESTUTILS_H
-#define VISION_IMAGETESTUTILS_H
+#ifndef hsv_filter_IMAGETESTUTILS_H
+#define hsv_filter_IMAGETESTUTILS_H
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -16,4 +16,4 @@ class ImageTestUtils {
     static void compareImg(cv::Mat& expected, cv::Mat& actual);
 };
 
-#endif // VISION_IMAGETESTUTILS_H
+#endif // hsv_filter_IMAGETESTUTILS_H

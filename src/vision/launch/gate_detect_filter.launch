@@ -1,5 +1,5 @@
 <launch>
-    <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
+    <node name="hsv_filter_node" pkg="hsv_filter" type="hsv_filter_node" output="screen">
         <param name="h_low" value="0" type="int" />
         <param name="s_low" value="0" type="int" />
         <param name="v_low" value="0" type="int" />

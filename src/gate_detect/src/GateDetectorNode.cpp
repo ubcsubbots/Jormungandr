@@ -14,7 +14,7 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     dynamic_reconfigure::Server<gate_detect::gatedetectConfig> server;
     dynamic_reconfigure::Server<gate_detect::gatedetectConfig>::CallbackType f;
 
-    subscribeTopic = "/vision/output";
+    subscribeTopic = "/hsv_filter/output";
     publishTopic   = "/gate_detect/output";
 
     int cannyLow, houghLinesThreshold, houghLinesMinLength, poleMax,

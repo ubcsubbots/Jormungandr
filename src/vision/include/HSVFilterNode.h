@@ -4,8 +4,8 @@
  * Description: Performs an HSV filter on incoming data and republishes it
  */
 
-#ifndef VISION_HSV_H
-#define VISION_HSV_H
+#ifndef hsv_filter_HSV_H
+#define hsv_filter_HSV_H
 
 #include "HSVFilter.h"
 #include <cv_bridge/cv_bridge.h>
@@ -15,7 +15,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
-#include <vision/hsvfilterConfig.h>
+#include <hsv_filter/hsvfilterConfig.h>
 
 class HSVFilterNode {
     image_transport::Subscriber subscriber_;
@@ -44,8 +44,8 @@ class HSVFilterNode {
      *
      * @param config Configuration file for parameters
      */
-    void dynamicreconfigCallback(const vision::hsvfilterConfig& config,
+    void dynamicreconfigCallback(const hsv_filter::hsvfilterConfig& config,
                                  uint32_t level);
 };
 
-#endif // VISION_HSV_H
+#endif // hsv_filter_HSV_H

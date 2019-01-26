@@ -44,7 +44,7 @@ LinesToFollow LineDetector::initialize(const cv::Mat mat_in) {
 
     if (markers.empty()) return linesToFollow;
 
-    // Filter through lines to get marker in top half of vision
+    // Filter through lines to get marker in top half of hsv_filter
     linesToFollow.frontLine = *std::max_element(
     markers.begin(), markers.end(), [&](LineToFollow lhs, LineToFollow rhs) {
         if (lhs.frontOfMarker < (imagePixelHeight_ / 2)) {
@@ -52,7 +52,7 @@ LinesToFollow LineDetector::initialize(const cv::Mat mat_in) {
         }
     });
 
-    // Filter through lines to get marker in bottom half of vision
+    // Filter through lines to get marker in bottom half of hsv_filter
     linesToFollow.rearLine = *std::min_element(
     markers.begin(), markers.end(), [&](LineToFollow lhs, LineToFollow rhs) {
         if ((lhs.frontOfMarker > (imagePixelHeight_ / 2))) {

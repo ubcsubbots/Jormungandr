@@ -1,12 +1,12 @@
 <!-- A .test file which launches the node and its corresponding rostest -->
 
 <launch>
-    <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" />
+    <node name="hsv_filter_node" pkg="hsv_filter" type="hsv_filter_node" />
             <param name="h_low" value="5" type="int" />
             <param name="s_low" value="230" type="int" />
             <param name="v_low" value="230" type="int" />
             <param name="h_high" value="15" type="int" />
             <param name="s_high" value="255" type="int" />
             <param name="v_high" value= "255" type="int" />
-    <test test-name="hsv_filter_rostest" pkg="vision" type="hsv_filter_rostest" />
+    <test test-name="hsv_filter_rostest" pkg="hsv_filter" type="hsv_filter_rostest" />
 </launch>

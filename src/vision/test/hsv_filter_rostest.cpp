@@ -31,7 +31,7 @@ class HSVNodeTest : public testing::Test {
         image_transport::ImageTransport(nh_);
 
         std::string publishTopic   = "/camera/image_raw";
-        std::string subscribeTopic = "/vision/output";
+        std::string subscribeTopic = "/hsv_filter/output";
 
         test_publisher = it.advertise(publishTopic, 1);
         test_subscriber =

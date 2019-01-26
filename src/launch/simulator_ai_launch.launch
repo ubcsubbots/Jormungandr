@@ -5,5 +5,5 @@
     <include file="$(find gate_detect)/launch/gate_detect.launch"/>
 
     <!-- HSV Filters for Various Components -->
-    <include file="$(find vision)/launch/simulator_gate_detect_filter.launch"/>
+    <include file="$(find hsv_filter)/launch/simulator_gate_detect_filter.launch"/>
 </launch>

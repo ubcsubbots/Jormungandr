@@ -3,8 +3,8 @@
  * Created On: November 18th, 2017
  * Description:
  */
-#ifndef VISION_HSVFILTER_H
-#define VISION_HSVFILTER_H
+#ifndef hsv_filter_HSVFILTER_H
+#define hsv_filter_HSVFILTER_H
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -31,4 +31,4 @@ class HSVFilter {
   private:
 };
 
-#endif // VISION_HSVFILTER_H
+#endif // hsv_filter_HSVFILTER_H
