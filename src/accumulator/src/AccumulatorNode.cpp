@@ -15,10 +15,10 @@ AccumulatorNode::AccumulatorNode(int argc, char** argv, std::string node_name) {
 
     accumulator_ = Accumulator();
 
-    int refresh_rate = 1;
-   // subscriber_ = it.subscribe("HSVfilter", refresh_rate, &AccumulatorNode::subscriberCallBack);
+    int refresh_rate = 2;
+    subscriber_ = it.subscribe(subscribeTopic, refresh_rate, &AccumulatorNode::subscriberCallBack, this);
 
-    int queue_size = 1;
+    int queue_size = 10;
     publisher_ = it.advertise(publishTopic, queue_size);
 
     ros::spin();
@@ -33,8 +33,8 @@ void AccumulatorNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image
         return;
     }
 
-        //accumulator_.mask(cv_ptr->image);
-        //publishMask(accumulator_.acc);
+        accumulator_.mask(cv_ptr->image);
+        publishMask(accumulator_.acc);
 
 }
 

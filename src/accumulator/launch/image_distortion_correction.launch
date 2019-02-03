@@ -1,9 +1,0 @@
-<!-- Uses image_proc to correct a distorted camera image -->
-
-<launch>
-    <node name="disortion_correction" pkg="image_proc" type="image_proc" output="screen">
-        <!-- TODO: params -->
-        <remap from="image_raw" to="/cv_camera/image_raw" />
-    </node>
-    
-</launch>

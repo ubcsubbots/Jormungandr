@@ -10,6 +10,7 @@
 #include<opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <iostream>
 
 class Accumulator {
 
@@ -17,7 +18,8 @@ class Accumulator {
 public:
     Accumulator();
     cv::Mat acc;
-
+    cv::Mat gray;
+    int flag;
     void mask(const cv::Mat& video);
 
 

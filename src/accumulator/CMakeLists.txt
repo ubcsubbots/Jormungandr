@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(vision)
+project(accumulator)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -13,15 +13,12 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
-        dynamic_reconfigure
+        
         rospy
 )
 
 find_package(OpenCV REQUIRED)
 
-generate_dynamic_reconfigure_options(
-        cfg/hsvfilter.cfg
-)
 
 ###################################
 ## catkin specific configuration ##
@@ -34,10 +31,11 @@ generate_dynamic_reconfigure_options(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
    INCLUDE_DIRS include
-#  LIBRARIES vision
+#  LIBRARIES accumulator
 #  CATKIN_DEPENDS cv_bridge image_transport roscpp sensor_msgs std_msgs
 #  DEPENDS system_lib
 )
+
 
 ###########
 ## Build ##
@@ -64,13 +62,15 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(src/Accumulator.cpp
+add_executable(accumulator_node
+	src/Accumulator.cpp
         src/Accumulator_node.cpp
         src/AccumulatorNode.cpp
         include/Accumulator.h
         include/AccumulatorNode.h)
 
-add_dependencies(accumulator_node ${PROJECT_NAME}_gencfg)
+
+add_dependencies(accumulator_node ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(accumulator_node

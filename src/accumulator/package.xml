@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>vision</name>
+  <name>accumulator</name>
   <version>0.0.0</version>
   <description>The accumulator package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
-  <maintainer email="viral@todo.todo">Reid</maintainer>
+  <maintainer email="viral@todo.todo">Viral</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
