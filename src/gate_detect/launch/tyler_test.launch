@@ -1,7 +1,4 @@
 <launch>
-    <node name="rosbag" pkg="rosbag" type="play" args="--rate 0.05 /home/cam/Downloads/2018-07-21-17-34-00.bag">
-            </node>
-
     <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
         <param name="h_low" value="30" type="int" />
         <param name="s_low" value="0" type="int" />
