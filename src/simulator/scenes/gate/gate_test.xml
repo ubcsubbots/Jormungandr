@@ -1,6 +1,8 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
-<!DOCTYPE UWSimScene SYSTEM "UWSimScene.dtd" >
+<!DOCTYPE UWSimScene SYSTEM "UWSimScene.dtd" [
+<!ENTITY orientation_yaw_left SYSTEM "orientation_yaw_left.xml">
+]>
 
 <UWSimScene>
   <oceanState>
@@ -66,7 +68,7 @@
       <x>-5</x>
       <y>-5 </y>
       <z>8 </z>
-    </position> 
+    </position>
     <lookAt>
       <x>0</x>
       <y>0 </y>
@@ -91,11 +93,7 @@
       <y> 3.5 </y>
       <z> 1.5 </z>
     </position>
-    <orientation>
-      <r>0</r>
-      <p>0</p>
-      <y>-.75</y>
-    </orientation>
+    <orientation>&orientation_yaw_left;</orientation>
     <virtualCamera>
       <name>bowtech1</name>
       <relativeTo>part0</relativeTo>
@@ -123,7 +121,7 @@
         <x> -0.5</x>
         <y> 0 </y>
         <z> 0 </z>
-      </position>  
+      </position>
       <orientation>
         <r>-1.57</r>
         <p>0</p>
@@ -139,7 +137,7 @@
         <x>-0.3</x>
         <y>0</y>
         <z>0</z>
-      </position>  
+      </position>
       <orientation>
         <r>0</r>
         <p>-1.57</p>
@@ -154,7 +152,7 @@
         <x>0</x>
         <y>0</y>
         <z>0</z>
-      </position>  
+      </position>
       <orientation>
         <r>0</r>
         <p>0</p>
@@ -170,7 +168,7 @@
         <x>0</x>
         <y>0</y>
         <z>0.2</z>
-      </position>  
+      </position>
       <orientation>
         <r>0</r>
         <p>0</p>
@@ -178,7 +176,7 @@
       </orientation>
       <std>0.02</std>
     </pressureSensor>
-    
+
     <gpsSensor>
       <name>GPSSensor</name>
       <relativeTo>base_link</relativeTo>
@@ -186,7 +184,7 @@
         <x>0</x>
         <y>0</y>
         <z>0</z>
-      </position>  
+      </position>
       <orientation>
         <r>0</r>
         <p>0</p>
@@ -202,7 +200,7 @@
         <x>-0.75</x>
         <y>0</y>
         <z>0</z>
-      </position>  
+      </position>
       <orientation>
         <r>0</r>
         <p>0</p>
@@ -220,7 +218,7 @@
         <x>-0.2</x>
         <y> 0.1 </y>
         <z> 0 </z>
-      </position>  
+      </position>
       <orientation>
         <r>0</r>
         <p>3.14</p>
@@ -245,7 +243,7 @@
         <x>-0.2</x>
         <y> 0.1 </y>
         <z> 0 </z>
-      </position>  
+      </position>
       <orientation>
         <r>3.14</r>
         <p>0</p>
@@ -294,7 +292,7 @@
       <z> 0 </z>
     </position>
     <orientation>
-      <r>0</r>	
+      <r>0</r>
       <p>0</p>
       <y>0</y>
     </orientation>
@@ -323,7 +321,7 @@
       <z> 3</z>
     </position>
     <orientation>
-      <r>0</r>	
+      <r>0</r>
       <p>0</p>
       <y>0</y>
     </orientation>
@@ -352,7 +350,7 @@
       <z> 3 </z>
     </position>
     <orientation>
-      <r>0</r>	
+      <r>0</r>
       <p>0</p>
       <y>0</y>
     </orientation>
@@ -380,7 +378,7 @@
       <z> 2.238 </z>
     </position>
     <orientation>
-      <r>1.57</r>	
+      <r>1.57</r>
       <p>0</p>
       <y>0</y>
     </orientation>
@@ -408,7 +406,7 @@
       <z> 2.238 </z>
     </position>
     <orientation>
-      <r>1.57</r>	
+      <r>1.57</r>
       <p>0</p>
       <y>0</y>
     </orientation>
@@ -436,7 +434,7 @@
       <z> 2.390 </z>
     </position>
     <orientation>
-      <r>0</r>	
+      <r>0</r>
       <p>0</p>
       <y>3.14</y>
     </orientation>
@@ -492,7 +490,7 @@
       <z> 2.847 </z>
     </position>
     <orientation>
-      <r>1.57</r>	
+      <r>1.57</r>
       <p>0</p>
       <y>0</y>
     </orientation>
@@ -522,20 +520,20 @@
       <enableObjects> 1 </enableObjects>
       <rate>10</rate>
     </WorldToROSTF>
-    <ArmToROSJointState> 
+    <ArmToROSJointState>
 	<topic>/uwsim/joint_state</topic>
 	<vehicleName> girona500 </vehicleName>
     </ArmToROSJointState>
-    <ROSJointStateToArm> 
+    <ROSJointStateToArm>
 	<topic>/uwsim/joint_state_command</topic>
 	<vehicleName> girona500 </vehicleName>
     </ROSJointStateToArm>
-    <VirtualCameraToROSImage> 
+    <VirtualCameraToROSImage>
       <cameraName>bowtech1</cameraName>
       <imageTopic> /uwsim/camera1 </imageTopic>
       <infoTopic> /uwsim/camera1_info </infoTopic>
     </VirtualCameraToROSImage>
-    <VirtualCameraToROSImage> 
+    <VirtualCameraToROSImage>
       <cameraName>bowtech2</cameraName>
       <imageTopic> /uwsim/camera2 </imageTopic>
       <infoTopic> /uwsim/camera2_info </infoTopic>
@@ -573,7 +571,7 @@
       <topic>g500/dvl</topic>
       <rate>5</rate>
     </DVLSensorToROS>
-    <RangeImageSensorToROSImage> 
+    <RangeImageSensorToROSImage>
       <cameraName>rangeImage</cameraName>
       <imageTopic> /uwsim/rangecamera </imageTopic>
       <infoTopic> /uwsim/rangecamera_info </infoTopic>
@@ -606,4 +604,3 @@
     </ForceSensorROS>
   </rosInterfaces>
 </UWSimScene>
-
