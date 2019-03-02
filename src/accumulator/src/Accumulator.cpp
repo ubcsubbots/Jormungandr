@@ -23,8 +23,17 @@ void Accumulator::mask(const cv::Mat& frame){
   }
   
   cvtColor(frame ,gray ,CV_BGR2GRAY,0); // converts the image frame to grayscale
-  accumulateWeighted(gray, acc, 0.05);
+  accumulateWeighted(gray, acc, 2);
+  //  imwrite( "accumulator.bmp", acc );
+  
   	 
 
 
+}
+
+Accumulator::~Accumulator(){
+  
+  threshold(acc, acc, 127, 255,1); //parameters destination, input image, threshold value, maxvalue to set the theshold value, type of filter (binary)
+  imwrite( "/home/viral/Jormungandr/src/accumulator/accumulator.bmp", acc );
+    //CV_32FC2 means a 2-channel (complex) floating-point array
 }

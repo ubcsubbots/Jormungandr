@@ -17,6 +17,7 @@ class Accumulator {
 
 public:
     Accumulator();
+    ~Accumulator();
     cv::Mat acc;
     cv::Mat gray;
     int flag;

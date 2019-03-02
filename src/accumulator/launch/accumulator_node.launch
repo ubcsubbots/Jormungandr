@@ -1,5 +1,5 @@
 <launch>
-    <remap from="/camera/HSV_image" to="/usb_cam/image_raw" />
+    <remap from="/camera/HSV_image" to="/usb_cam/image_rect_color" />
     <node name="accumulator_node" pkg="accumulator" type="accumulator_node" output="screen">
     </node>
 </launch>
