@@ -4,7 +4,25 @@
 
 <UWSimScene xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:property name="the_yaw" value="-0.75" />
+<!-- args -->
+<xacro:arg name="test#" default="0"/>
+<xacro:arg name="roll" default="0"/>
+<xacro:arg name="pitch" default="0"/>
+<xacro:arg name="yaw" default="0.75"/>
+<xacro:arg name="xpos" default="0"/>
+<xacro:arg name="ypos" default="3.5"/>
+<xacro:arg name="zpos" default="1.5"/>
+
+<!-- arg values -->
+<xacro:property name="roll_val" value="$(arg roll)"/>
+<xacro:property name="pitch_val" value="$(arg pitch)"/>
+<xacro:property name="yaw_val" value="$(arg yaw)"/>
+<xacro:property name="xpos_val" value="$(arg xpos)"/>
+<xacro:property name="ypos_val" value="$(arg ypos)"/>
+<xacro:property name="zpos_val" value="$(arg zpos)"/>
+
+<!--To run with yaw param, run "rosrun xacro xacro %%inorder gate.xacro > ./gate.xml yaw:=**enter param here**">-->
+<!-- NOTE: because you cannot have a dash in xml comments, replace each % with a dash-->
 
   <oceanState>
 
@@ -77,7 +95,7 @@
     </lookAt>
   </camera>
 
-  <!--Start of Vehicle parameters-->
+  <!--start of vehicle parameters-->
   <vehicle>
     <name>girona500</name>
     <file>robot/GIRONA500/g500ARM5.urdf</file>
@@ -89,15 +107,14 @@
       <joint>0.3 </joint>
     </jointValues>
     <position>
-      <x> 0</x>
-      <y> 3.5 </y>
-      <z> 1.5 </z>
+      <x>${xpos_val}</x>
+      <y>${ypos_val}</y>
+      <z>${zpos_val}</z>
     </position>
     <orientation>
-      <r>0</r>
-      <p>0</p>
-      <!-- <y>-0.75</y> -->
-      <y>${the_yaw}</y>
+      <r>${roll_val}</r>
+      <p>${pitch_val}</p>
+      <y>${yaw_val}</y>
     </orientation>
     <virtualCamera>
       <name>bowtech1</name>
