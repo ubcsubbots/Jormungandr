@@ -14,6 +14,4 @@ echo $SCENE_FILENAME
 
 echo $CURR_DIR
 
-rosrun uwsim uwsim_binary --dataPath $CURR_DIR/data --configfile "$CURR_DIR/scenes/${SCENE_FILENAME}"\
-&& roll:=${ROLL_ARG}  pitch:=${PITCH_ARG}  yaw :=${YAW_ARG}\
-&& xpos:=${XPOS_ARG}  ypos:=${YPOS_ARG} zpos:=${ZPOS_ARG}
+rosrun uwsim uwsim_binary --dataPath $CURR_DIR/data --configfile "$CURR_DIR/scenes/${SCENE_FILENAME}"
