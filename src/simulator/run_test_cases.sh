@@ -12,10 +12,8 @@ ARGS_CSV="$CURR_DIR/args.csv"
 # For each line in args.csv, initialize a test case with args and run the simulation
 while IFS="," read a1 a2 a3 a4 a5 a6 a7 a8
 do
-  echo
   echo " ========================================"
   echo " TEST: $a1 ARGS: $a2 $a3 $a4 $a5 $a6 $a7 "
-  echo " ========================================"
   ./init_test_case.sh $a1 $a2 $a3 $a4 $a5 $a6 $a7
   echo " RUNNING SIMULATION..."
   ./run_simulator.sh "gate/gate.xml" > /dev/null 2>&1 &
@@ -26,11 +24,14 @@ do
 
   # This is here to emulate the time it takes for the test to run. Because we are running the C++
   # script in this process, the pkill commands will not execute until the C++ script finishes execution
-  sleep 20s
+  g++ -std=gnu++11 test.cpp -o test
+  echo " ========================================">> $CURR_DIR/results.txt
+  echo " TEST: $a1 ARGS: $a2 $a3 $a4 $a5 $a6 $a7 ">> $CURR_DIR/results.txt
+  ./test source >> $CURR_DIR/results.txt
 
   # Kill the script that runs the simulator, and the UWsim script
   pkill -x run_simulator.s
-  pkill -x uwsim_binary 
+  pkill -x uwsim_binary
   # Kill the process which is running the node
   echo " TEST COMPLETE!"
 
