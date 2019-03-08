@@ -19,12 +19,12 @@ SOURCE_PATH = os.path.dirname(os.path.abspath(__file__))
 def main():
 
     # Possible args
-    xpos_args = [0,1,2]
-    ypos_args = [1,2,3]
-    zpos_args = [2,3,4]
-    r_args = [3,4,5]
-    p_args = [4,5,6]
-    y_args = [5,6,7]
+    xpos_args = [0]
+    ypos_args = [3.5]
+    zpos_args = [1.5]
+    r_args = [0, 3.14/2]
+    p_args = [0, 3.14]
+    y_args = [0, 3.14/2]
 
     # Create cartesian product of all args, note that the order of args matters
     cprod = it.product(xpos_args, ypos_args, zpos_args, r_args, p_args, y_args)

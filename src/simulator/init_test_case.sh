@@ -22,5 +22,3 @@ rosrun xacro xacro --inorder "$CURR_DIR/scenes/gate/gate.xacro" > "$CURR_DIR/sce
 -- $XPOS_ARG $YPOS_ARG $ZPOS_ARG \
 -- $ROLL_ARG $PITCH_ARG $YAW_ARG \
 #-- $GATE_X_ARG $GATE_Y_ARG $GATE_Z_ARG \
-
-echo " TEST INITIALIZED..."
