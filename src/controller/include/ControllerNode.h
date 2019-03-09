@@ -23,6 +23,9 @@ class ControllerNode {
     ros::Subscriber depth_subscriber_;
     ros::Publisher arduino_publisher_;
     ros::Subscriber imu_subscriber_;
+    ros::Subscriber Bryson ;
+
+    float ang_velocity;
 
     Controller controller_;
 
@@ -32,6 +35,8 @@ class ControllerNode {
     const nav_msgs::Odometry::ConstPtr& desired_twist_velocity);
 
     void depthCallback(const std_msgs::Float32::ConstPtr& depth);
+
+    void BrysonCallback(const nav_msgs::Odometry& pose);
 
   public:
     ControllerNode(int argc, char** argv, std::string name);

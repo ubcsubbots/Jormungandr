@@ -25,6 +25,8 @@ ControllerNode::ControllerNode(int argc, char** argv, std::string name) {
     nh.subscribe("imu_data", 1000, &ControllerNode::imuCallback, this);
     arduino_publisher_ =
     nh.advertise<std_msgs::Int32MultiArray>("Arduino", 1000);
+    Bryson =
+    nh.subscribe("/g500/pose", 1000, &ControllerNode::BrysonCallback, this);
 }
 
 void setImuDataHelper(Controller& controller,
@@ -65,4 +67,9 @@ const nav_msgs::Odometry::ConstPtr& desired_twist_velocity) {
 
 void ControllerNode::depthCallback(const std_msgs::Float32::ConstPtr& depth) {
     controller_.setDepthData(depth->data);
+}
+
+// Subscriber to g500 pose in dynamic UWSim
+void ControllerNode::BrysonCallback(const nav_msgs::Odometry& pose){
+    ang_velocity=pose.pose.pose.orientation.w;
 }

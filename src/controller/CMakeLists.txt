@@ -65,6 +65,10 @@ add_executable(controller_node
 ## same as for the library above
 #add_dependencies(controller_node ${catkin_EXPORTED_TARGETS})
 
+
+add_dependencies(controller_node src/controller_node.cpp)
+target_link_libraries(controller_node ${catkin_LIBRARIES})
+
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(sample_package_node
 #   ${catkin_LIBRARIES}
