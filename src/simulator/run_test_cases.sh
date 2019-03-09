@@ -3,8 +3,10 @@
 # The current directory
 CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 
+SIM_TEST=$1
+
 # Execute python script which generates args.csv
-python "$CURR_DIR/arg_generator.py"
+python "$CURR_DIR/$1"
 
 # The csv file in which each line contains a set of args for a test case
 ARGS_CSV="$CURR_DIR/args.csv"
