@@ -1,14 +1,11 @@
 <launch>
-    <node name="rosbag" pkg="rosbag" type="play" args="--rate 0.05 /home/cam/Downloads/2018-07-21-17-34-00.bag">
-            </node>
-
     <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
-        <param name="h_low" value="30" type="int" />
+        <param name="h_low" value="0" type="int" />
         <param name="s_low" value="0" type="int" />
-        <param name="v_low" value="63" type="int" />
-        <param name="h_high" value="119" type="int" />
-        <param name="s_high" value="78" type="int" />
-        <param name="v_high" value="187" type="int" />
+        <param name="v_low" value="0" type="int" />
+        <param name="h_high" value="180" type="int" />
+        <param name="s_high" value="253" type="int" />
+        <param name="v_high" value="103" type="int" />
         <remap from="/camera/image_raw" to="/uwsim/camera2" />
     </node>
 
