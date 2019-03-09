@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main(int argc, char** argv){
-  std::chrono::seconds sleep_time(30);
+  std::chrono::seconds sleep_time(15);
   std::this_thread::sleep_for(sleep_time);
   std::srand(std::time(NULL));
   int rand_int = std::rand();
