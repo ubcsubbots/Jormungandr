@@ -18,13 +18,13 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
 
     bool isDynRecon;
     nh.getParam("hsv_filter_node/isDynRecon",isDynRecon);
-    std::cout<<"isdynrecon: "<<isDynRecon<<std::endl;
-    //if(isDynRecon){
-        dynamic_reconfigure::Server<vision::hsvfilterConfig> server;
-        dynamic_reconfigure::Server<vision::hsvfilterConfig>::CallbackType f;
+    dynamic_reconfigure::Server<vision::hsvfilterConfig> server;
+    dynamic_reconfigure::Server<vision::hsvfilterConfig>::CallbackType f;
+
+    if(isDynRecon){
         f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
         server.setCallback(f);
-    //}
+    }
     filter_ = HSVFilter();
     int refresh_rate = 1;
     subscriber_      = it.subscribe(
