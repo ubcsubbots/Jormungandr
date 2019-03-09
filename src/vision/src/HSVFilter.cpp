@@ -5,6 +5,7 @@
  */
 
 #include <HSVFilter.h>
+#include <iostream>
 
 HSVFilter::HSVFilter(int hue_lower,
                      int hue_upper,
@@ -22,18 +23,18 @@ HSVFilter::HSVFilter(int hue_lower,
 
 HSVFilter::HSVFilter() {
     // default is international orange
-    hue_lower_ = 5;
-    hue_upper_ = 15;
-    sat_lower_ = 230;
-    sat_upper_ = 255;
-    val_lower_ = 230;
-    val_upper_ = 255;
+    std::cout<<"inside HSVFilter default constructor"<<std::endl;
+    hue_lower_ = 23;
+    hue_upper_ = 23;
+    sat_lower_ = 23;
+    sat_upper_ = 23;
+    val_lower_ = 23;
+    val_upper_ = 23;
 }
 
 void HSVFilter::apply(const cv::Mat& original, cv::Mat& filtered) {
     cv::Mat input_hsv;
     cv::cvtColor(original, input_hsv, cv::COLOR_BGR2HSV, 0);
-
     cv::Scalar lower_bound(hue_lower_, sat_lower_, val_lower_);
     cv::Scalar upper_bound(hue_upper_, sat_upper_, val_upper_);
 

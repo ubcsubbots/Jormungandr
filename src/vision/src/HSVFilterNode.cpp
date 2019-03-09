@@ -16,14 +16,16 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     std::string subscribeTopic = "/camera/image_raw";
     std::string publishTopic   = "/vision/output";
 
-    dynamic_reconfigure::Server<vision::hsvfilterConfig> server;
-    dynamic_reconfigure::Server<vision::hsvfilterConfig>::CallbackType f;
-
+    bool isDynRecon;
+    nh.getParam("isDynRecon",isDynRecon);
+    std::cout<<"isdynrecon"<<isDynRecon<<std::endl;
+    if(isDynRecon){
+        dynamic_reconfigure::Server<vision::hsvfilterConfig> server;
+        dynamic_reconfigure::Server<vision::hsvfilterConfig>::CallbackType f;
+        f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
+        server.setCallback(f);
+    }
     filter_ = HSVFilter();
-
-    f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
-    server.setCallback(f);
-
     int refresh_rate = 1;
     subscriber_      = it.subscribe(
     subscribeTopic, refresh_rate, &HSVFilterNode::subscriberCallBack, this);
