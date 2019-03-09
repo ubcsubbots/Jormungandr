@@ -3,13 +3,25 @@
 # The current directory
 CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 
-SIM_TEST=$1
+# Check that we got exactly one argument
+if [ "$#" -ne 1 ]; then
+    echo "This program takes 1 argument (i.e my_test_suite.py)."
+    exit 1
+fi
 
-# Execute python script which generates args.csv
-python "$CURR_DIR/$1"
+# Test suite .py file
+TEST_SUITE=$1
+
+# Execute python test suite file which generates args.csv
+python "$(dirname "$CURR_DIR")/create/$1"
 
 # The csv file in which each line contains a set of args for a test case
-ARGS_CSV="$CURR_DIR/args.csv"
+ARGS_CSV="$(dirname "$CURR_DIR")/create/args.csv"
+
+# Initialize results file
+DATE="$(date +%Y-%m-%d)"
+RESULT_FILE="results-$DATE.txt"
+RESULTS_PATH="$(dirname "$CURR_DIR")""/results/$RESULT_FILE"
 
 # Launch ros nodes (in seperate process)
 roslaunch simulator simulator_ai_launch.launch > /dev/null 2>&1 &
@@ -32,15 +44,15 @@ do
   echo " RUNNING SIMULATION..."
   ./run_simulator.sh "gate/gate.xml" > /dev/null 2>&1 &
 
-  echo "========================================">> $CURR_DIR/results.txt
-  echo "TEST: $a1 ARGS: $a2 $a3 $a4 $a5 $a6 $a7 ">> $CURR_DIR/results.txt
+  echo "========================================">> $RESULTS_PATH
+  echo "TEST: $a1 ARGS: $a2 $a3 $a4 $a5 $a6 $a7 ">> $RESULTS_PATH
 
   # Compile and run C++ script which determines test result
   echo " RUNNING TEST..."
   g++ -std=gnu++11 test.cpp -o test
 
   RESULT="$(./test)"
-  echo $RESULT >> $CURR_DIR/results.txt
+  echo $RESULT >> $RESULTS_PATH
   if [[ $RESULT = "PASSED" ]]; then
     PASSED=$((PASSED+1))
   fi
@@ -57,5 +69,5 @@ pkill -x roslaunch
 
 # Send percentage passed to results
 PERCENT_PASSED=$((PASSED*100/TOTAL))
-echo "========================================">> $CURR_DIR/results.txt
-echo "TESTS PASSED: $PERCENT_PASSED%" >> $CURR_DIR/results.txt
+echo "========================================">> $RESULTS_PATH
+echo "TESTS PASSED: $PERCENT_PASSED%" >> $RESULTS_PATH

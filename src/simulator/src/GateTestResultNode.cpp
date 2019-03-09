@@ -1,9 +1,10 @@
 /*
  * Created By: Logan Fillo
  * Created On: March 5th, 2019
- * Description: An node which subscribes to /g500/pose (the simulation robot's pose and twist)
- *             and returns a 1 if the robot does makes it through the gate in a finite amount
- *             of time, and a 0 if it does not
+ * Description: A node which subscribes to /uwsim/g500_odom (the simulation robot's pose and twist)
+ *             and prints a string specifiying if the robot made it through the gate in a given
+ *             amount of time.
+ *
  */
 
 #include <stdout>
@@ -64,7 +65,7 @@ int main(int argc, char** argv)
     ros::NodeHandle nh;
 
     // Setup subscriber
-    std::string topic = "/g500/pose";
+    std::string topic = "/uwsim/g500_odom";
     int refresh_rate  = 10;
     ros::Subscriber sim_sub = nh.subscribe(
       topic, refresh_rate, &odometryCallBack);
@@ -72,11 +73,13 @@ int main(int argc, char** argv)
     ros::Rate loop_rate = 1;
     int count = 0;
     while (ros::ok()){
+      // Check to see if it has gone through the gate
+      if ()
+        std::cout<<"PASSED"<<std::endl;
 
       if (count == 15) break;
       count ++;
-      // Check to see if it has gone through the gate
 
     }
-    return 1
+    std::cout<<"FAILED"<<std::endl;
 }

@@ -14,4 +14,5 @@ echo $SCENE_FILENAME
 
 echo $CURR_DIR
 
+# Run simulation
 rosrun uwsim uwsim_binary --dataPath $CURR_DIR/data --configfile "$CURR_DIR/scenes/${SCENE_FILENAME}"
