@@ -1,23 +1,23 @@
 ==============================================
-TEST: Position At Origin
+TEST: Position at Origin
 ----------------------------------------------
 ARGS: x_pos = 0    y_pos = 0    z_pos = 0
       roll  = 1    pitch = 1    yaw   = 1
 ----------------------------------------------
 RESULT: [FAILED]
 ==============================================
-TEST: Default Rotation
+TEST: No Rotation
 ----------------------------------------------
 ARGS: x_pos = 1    y_pos = 1    z_pos = 1
       roll  = 0    pitch = 0    yaw   = 0
 ----------------------------------------------
-RESULT: [FAILED]
+RESULT: [PASSED]
 ==============================================
-TEST: Position At Origin And Default Rotation
+TEST: Position at Origin with No Rotation
 ----------------------------------------------
 ARGS: x_pos = 0    y_pos = 0    z_pos = 0
       roll  = 0    pitch = 0    yaw   = 0
 ----------------------------------------------
-RESULT: [PASSED]
+RESULT: [FAILED]
 ==============================================
 TESTS PASSED: 33%

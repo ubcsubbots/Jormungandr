@@ -1,3 +1,3 @@
-Position At Origin,0,0,0,1,1,1
-Default Rotation,1,1,1,0,0,0
-Position At Origin And Default Rotation,0,0,0,0,0,0
+Position at Origin,0,0,0,1,1,1
+No Rotation,1,1,1,0,0,0
+Position at Origin with No Rotation,0,0,0,0,0,0

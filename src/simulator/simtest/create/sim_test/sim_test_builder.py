@@ -22,7 +22,7 @@ DEFAULT_VEHICLE_R_ROT = 1
 DEFAULT_VEHICLE_P_ROT = 1
 DEFAULT_VEHICLE_Y_ROT = 1
 
-def initTestSuite():
+def init_test_suite():
     """
     Initializes arguments file for this
     test suite
@@ -53,7 +53,7 @@ class SimTestBuilder:
         self.vehicle_p_rot = DEFAULT_VEHICLE_P_ROT
         self.vehicle_y_rot = DEFAULT_VEHICLE_Y_ROT
 
-    def setVehiclePos(self, x, y, z):
+    def set_vehicle_pos(self, x, y, z):
         """
         Sets the intial x, y and z position
         of the simulation robot
@@ -67,7 +67,7 @@ class SimTestBuilder:
         self.vehicle_y_pos = y
         self.vehicle_z_pos = z
 
-    def setVehicleRot(self, r, p, z):
+    def set_vehicle_rot(self, r, p, z):
         """
         Sets the intial r, p and y rotation
         of the simulation robot
@@ -81,7 +81,7 @@ class SimTestBuilder:
         self.vehicle_p_rot = p
         self.vehicle_y_rot = z
 
-    def createTest(self):
+    def create_test(self):
         """
         creates a test case based on self's
         current members
