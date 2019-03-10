@@ -11,6 +11,6 @@ to view the source code of the test building module.
 
 ## Vewing Test Suite Results
 
-The results of your test suite will be printed to the terminal, but a `.txt.` version identified by your
+The results of your test suite will be printed to the terminal, but a `.txt` version identified by your
 test suite and the day it was ran will be available in `Jormungandr/src/simulator/simtest/results`. Note that the
 file is overwritten if it already exists, so be aware of this when running a test suite multiple times in a day.
