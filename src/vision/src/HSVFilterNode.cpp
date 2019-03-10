@@ -18,6 +18,7 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
 
     //Bool to retrieve from the param-server that was loaded in the launch file.
     bool isDynRecon;
+    
     //the parameters we care about to be pulled from rosparam server
     int h_high, h_low, v_high, v_low, s_high, s_low;
 
@@ -50,6 +51,7 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
         nh.setParam("/" + node_name + "/s_high",s_high);
         nh.setParam("/" + node_name + "/s_low",s_low);
     }
+
 
     int refresh_rate = 1;
     subscriber_      = it.subscribe(

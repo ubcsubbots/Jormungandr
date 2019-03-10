@@ -1,6 +1,6 @@
 <launch>
     <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
-        <rosparam command="load" file="/home/brysonmarazzi/Jormungandr/src/vision/cfg/hsvfilter.yml" />
+        <rosparam command="load" file="$(find vision)/cfg/hsvfilter.yml" />
         <param name="isDynRecon" value="false" type="bool" />
     </node>
 </launch>
