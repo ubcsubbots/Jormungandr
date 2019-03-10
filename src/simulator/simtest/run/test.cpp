@@ -10,8 +10,8 @@ int main(int argc, char** argv){
   if (rand_int%3 == 1)
     std::cout<< "PASSED" <<std::endl;
   else if (rand_int%3 == 2 )
-    std::cout<<"FAILED: DID NOT PASS THROUGH GATE IN TIME"<<std::endl;
+    std::cout<<"FAILED"<<std::endl;
   else
-    std::cout<<"FAILED: HIT GATE "<<std::endl;
+    std::cout<<"FAILED"<<std::endl;
   return 0;
 }

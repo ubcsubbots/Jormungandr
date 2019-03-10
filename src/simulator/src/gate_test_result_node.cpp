@@ -7,6 +7,7 @@
 #include <GateTestResultNode.h>
 
 int main(int argc, char** argv) {
+  
     // Setup your ROS node
     std::string node_name = "gate_test_result_node";
 

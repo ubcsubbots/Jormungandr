@@ -7,18 +7,27 @@
  *
  */
 
-GateTestResultNode::GateTestResultNodeint argc, char** argv, std::string node_name) {
+GateTestResultNode::GateTestResultNode(int argc, char** argv, std::string node_name) {
+
   // Setup Nodehandle
   ros::init(argc, argv, "test result");
   ros::NodeHandle nh;
 
   // Setup subscriber
   std::string topic = "/uwsim/g500_odom";
-  int refresh_rate  = 10;
-  ros::Subscriber sim_sub = nh.subscribe(
-    topic, refresh_rate, &odometryCallBack);
+  uint32_t refresh_rate  = 10;
+  sim_robot_odom = nh.subscribe(topic,
+                                refresh_rate,
+                                &GateTestResultNode::odometryCallBack,
+                                this);
 }
 
+/**
+ * Callback function when a message is received from
+ * a girona500.
+ *
+ * @param odom messgage containing g500's pose and twist
+ */
 void GateTestResultNode::odometryCallBack(
   const nav_msgs::Odometry::ConstPtr& msg){
 

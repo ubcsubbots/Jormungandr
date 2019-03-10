@@ -22,13 +22,14 @@ class GateTestResultNode {
 
   private:
     nav_msgs::Odometry::ConstPtr& currMessage;
+    ros::Subscriber sim_robot_odom;
 
     /**
      * Callback function for when data is received from girona500
      *
      * @param odometry discretized messages
      */
-     void odometryCallBack(const nav_msgs::Odometry::ConstPtr& msg);
+    void odometryCallBack(const nav_msgs::Odometry::ConstPtr& msg);
 
 
 };

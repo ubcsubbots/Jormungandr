@@ -6,7 +6,7 @@ import os
 import itertools as it
 
 """
-This is a python script which generates a .csv file where each line
+This is a python program which generates a .csv file where each line
 contains an element of the cartesian product of the args needed to
 init a simulation test case. The entire document contains all elements
 of the cartesian product of the args

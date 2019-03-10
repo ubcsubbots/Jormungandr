@@ -1,0 +1,4 @@
+<launch>
+    <node name="gate_test_result_node" pkg="simulator" type="gate_test_result_node" output="screen">
+    </node>
+</launch>
