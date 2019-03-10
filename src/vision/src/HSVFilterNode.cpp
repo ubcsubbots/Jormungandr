@@ -16,16 +16,41 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     std::string subscribeTopic = "/camera/image_raw";
     std::string publishTopic   = "/vision/output";
 
+    //Bool to retrieve from the param-server that was loaded in the launch file.
     bool isDynRecon;
-    nh.getParam("hsv_filter_node/isDynRecon",isDynRecon);
-    std::cout<<"isdynrecon: "<<isDynRecon<<std::endl;
-    //if(isDynRecon){
-        dynamic_reconfigure::Server<vision::hsvfilterConfig> server;
+    //the parameters we care about to be pulled from rosparam server
+    int h_high, h_low, v_high, v_low, s_high, s_low;
+
+    //Load all the parameters from the rosparam server
+    nh.getParam("/" + node_name + "/h_high",h_high);
+    nh.getParam("/" + node_name + "/h_low",h_low);
+    nh.getParam("/" + node_name + "/v_high",v_high);
+    nh.getParam("/" + node_name + "/v_low",v_low);
+    nh.getParam("/" + node_name + "/s_high",s_high);
+    nh.getParam("/" + node_name + "/s_low",s_low);
+    nh.getParam("/" + node_name + "/isDynRecon",isDynRecon);
+
+    //Create a new filter object with the values pulled from the rosparam server (which is configured in the launch file)
+    filter_ = HSVFilter(h_low,h_high,s_low,s_high,v_low,v_high);
+
+    //If this line is inside the if statement, this node doesnt show up on the dynamic reconfigure GUI
+    dynamic_reconfigure::Server<vision::hsvfilterConfig> server;
+
+    if(isDynRecon) {
         dynamic_reconfigure::Server<vision::hsvfilterConfig>::CallbackType f;
-        f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
+        f = boost::bind(&HSVFilterNode::dynamicreconfigCallback,this, _1, _2);
         server.setCallback(f);
-    //}
-    filter_ = HSVFilter();
+    }else{
+        //If the Dynamic Reconfigure is not desired, then set all the parameters in the server back to the original values
+        //Not needed but looks better
+        nh.setParam("/" + node_name + "/h_high",h_high);
+        nh.setParam("/" + node_name + "/h_low",h_low);
+        nh.setParam("/" + node_name + "/v_high",v_high);
+        nh.setParam("/" + node_name + "/v_low",v_low);
+        nh.setParam("/" + node_name + "/s_high",s_high);
+        nh.setParam("/" + node_name + "/s_low",s_low);
+    }
+
     int refresh_rate = 1;
     subscriber_      = it.subscribe(
     subscribeTopic, refresh_rate, &HSVFilterNode::subscriberCallBack, this);
@@ -33,9 +58,12 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     int queue_size = 1;
     publisher_     = it.advertise(publishTopic, queue_size);
 
+    //system("echo 'ROS Params dumped at: ' $(pwd); rosparam dump brysonDump.yaml");
+
     // Start up ros. This will continue to run until the node is killed
     ros::spin();
 }
+
 
 void HSVFilterNode::subscriberCallBack(
 const sensor_msgs::ImageConstPtr& image) {
@@ -60,6 +88,7 @@ void HSVFilterNode::publishFilteredImage(const cv::Mat& filtered_image) {
 
 void HSVFilterNode::dynamicreconfigCallback(
 const vision::hsvfilterConfig& config, uint32_t level) {
+
     ROS_INFO("Reconfigure Request: %i %i %i %i %i %i",
              config.h_low,
              config.s_low,
@@ -74,4 +103,6 @@ const vision::hsvfilterConfig& config, uint32_t level) {
                         config.s_high,
                         config.v_low,
                         config.v_high);
+
+
 }
