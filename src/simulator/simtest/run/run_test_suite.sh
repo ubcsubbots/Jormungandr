@@ -32,7 +32,7 @@ RESULTS_PATH="$(dirname "$CURR_DIR")/results/$RESULTS_FILE"
 cat /dev/null > "${RESULTS_PATH}"
 
 # Launch ros nodes (in seperate process)
-roslaunch launch simulator_ai_launch.launch > /dev/null 2>&1 &
+roslaunch simulator simulator_ai_launch.launch > /dev/null 2>&1 &
 
 PASSED=0
 TOTAL=0
