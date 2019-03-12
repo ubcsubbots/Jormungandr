@@ -44,6 +44,8 @@ void TestUtils::DisplayGateCoordinates(cv::Mat mat,
              _interpolationConstant1)) /
      (.3048))));
 
+    cv::Mat mat1
+
     topPole =
     (int) ((mat.rows / 2) -
            ((sin(gateCoordinates.distanceTopPole) *

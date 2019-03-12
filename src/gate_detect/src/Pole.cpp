@@ -38,24 +38,4 @@ int Pole::getHorWidth() {
     return abs((side1_[1] + side1_[3] - side2_[1] - side2_[3]) / 2);
 }
 
-float Pole::getVertDistance() {
-    return interpolationConstant1_ *
-           pow(getVertWidth(), interpolationConstant2_);
-}
 
-float Pole::getHorDistance() {
-    return interpolationConstant1_ *
-           pow(getHorWidth(), interpolationConstant2_);
-}
-
-float Pole::getVertAngle(int pixelWidthOfImage) {
-    return asin(((((pixelWidthOfImage / 2) - getVertMid()) * (.3048 / 4)) /
-                 getVertWidth()) /
-                getVertDistance());
-}
-
-float Pole::getHorAngle(int pixelHeightOfImage) {
-    return asin(
-    ((((pixelHeightOfImage / 2) - getHorMid()) * (.3048 / 4)) / getHorWidth()) /
-    getHorDistance());
-}
