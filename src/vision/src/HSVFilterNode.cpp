@@ -18,7 +18,7 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
 
     //Bool to retrieve from the param-server that was loaded in the launch file.
     bool isDynRecon;
-    
+
     //the parameters we care about to be pulled from rosparam server
     int h_high, h_low, v_high, v_low, s_high, s_low;
 
@@ -105,6 +105,5 @@ const vision::hsvfilterConfig& config, uint32_t level) {
                         config.s_high,
                         config.v_low,
                         config.v_high);
-
 
 }
