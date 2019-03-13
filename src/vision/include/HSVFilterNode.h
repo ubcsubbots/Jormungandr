@@ -16,15 +16,18 @@
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
 #include <vision/hsvfilterConfig.h>
+#include <signal.h>
+#include <ros/package.h>
 
 class HSVFilterNode {
     image_transport::Subscriber subscriber_;
     image_transport::Publisher publisher_;
     HSVFilter filter_;
 
-  public:
-    HSVFilterNode(int argc, char** argv, std::string node_name);
 
+  public:
+    HSVFilterNode(int argc, char** argv, std::string node_name,bool is_dyn_recon);
+    //void mySigintHandler(int sig);
   private:
     /**
      * Callback function for when a new image is received
