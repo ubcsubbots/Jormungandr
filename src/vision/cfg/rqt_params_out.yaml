@@ -4,24 +4,24 @@ dictitems:
     dictitems:
       groups: !!python/object/new:dynamic_reconfigure.encoding.Config
         state: []
-      h_high: 194
-      h_low: 191
+      h_high: 0
+      h_low: 0
       id: 0
       name: Default
       parameters: !!python/object/new:dynamic_reconfigure.encoding.Config
         state: []
       parent: 0
-      s_high: 134
-      s_low: 136
+      s_high: 0
+      s_low: 0
       state: true
       type: ''
-      v_high: 134
-      v_low: 133
+      v_high: 0
+      v_low: 185
     state: []
-  h_high: 194
-  h_low: 191
-  s_high: 134
-  s_low: 136
-  v_high: 134
-  v_low: 133
+  h_high: 0
+  h_low: 0
+  s_high: 0
+  s_low: 0
+  v_high: 0
+  v_low: 185
 state: []

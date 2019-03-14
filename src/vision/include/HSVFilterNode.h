@@ -26,7 +26,7 @@ class HSVFilterNode {
 
 
   public:
-    HSVFilterNode(int argc, char** argv, std::string node_name,bool is_dyn_recon);
+    HSVFilterNode(int argc, char** argv, std::string node_name);
     //void mySigintHandler(int sig);
   private:
     /**

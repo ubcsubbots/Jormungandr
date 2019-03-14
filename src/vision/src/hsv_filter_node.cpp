@@ -6,14 +6,11 @@
 
 #include <HSVFilterNode.h>
 
-int main(int argc, char** argv, bool is_dyn_recon) {
+int main(int argc, char** argv) {
 
 //     Create an instance of your class
     std::string node_name = "hsv_filter_node";
-    HSVFilterNode filter(argc, argv, node_name,is_dyn_recon);
+    HSVFilterNode filter(argc, argv, node_name);
 //     Once the node stops, return 0
     return 0;
 }
-
-
-

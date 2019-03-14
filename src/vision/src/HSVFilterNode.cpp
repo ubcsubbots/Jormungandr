@@ -31,7 +31,7 @@ void mySigintHandler(int sig)
 }
 
 
-HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name, bool is_dyn_recon) {
+HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     // Setup NodeHandles
     ros::init(argc, argv, node_name,ros::init_options::NoSigintHandler);   //added
     ros::NodeHandle nh;
@@ -42,8 +42,7 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name, bool 
     std::string publishTopic   = "/vision/output";
 
     //Bool to retrieve from the param-server that was loaded in the launch file.
-   // bool is_dyn_recon;
-   std::cout<<"isdynrecon: "<<is_dyn_recon<<std::endl;
+    bool is_dyn_recon;
 
     //the parameters we care about to be pulled from rosparam server
     int h_high, h_low, v_high, v_low, s_high, s_low;
@@ -55,6 +54,9 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name, bool 
     nh.getParam("/" + node_name + "/v_low",v_low);
     nh.getParam("/" + node_name + "/s_high",s_high);
     nh.getParam("/" + node_name + "/s_low",s_low);
+    nh.getParam("/" + node_name + "/is_dyn_recon",is_dyn_recon);
+
+    std::cout<<"isdynrecon: "<<is_dyn_recon<<std::endl;
 
     //Create a new filter object with the values pulled from the rosparam server (which is configured in the launch file)
     filter_ = HSVFilter(h_low,h_high,s_low,s_high,v_low,v_high);
