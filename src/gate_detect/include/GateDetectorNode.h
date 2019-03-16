@@ -108,7 +108,7 @@ class GateDetectorNode {
      *
      *          distanceTopPole:    Distance to top pole, 0 if not seen
      */
-    void publishGateImage(GateCoordinates gateCoordinates,cv::Mat image);
+    void publishGateImage(GateCoordinates gateCoordinates, cv::Mat image);
 };
 
 #endif // GATE_DETECT_GATEDETECT_H

@@ -4,24 +4,37 @@
 
 #include "../include/Interpolator.h"
 
-float Interpolator::getVertDistance() {
-    return interpolationConstant1_ *
-           pow(getVertWidth(), interpolationConstant2_);
+Interpolator::Interpolator(int interpolation_constant1,
+                           int interpolation_constant2) {
+    interpolation_constant1_ = interpolation_constant1;
+    interpolation_constant2_ = interpolation_constant2;
 }
 
-float Interpolator::getHorDistance() {
-    return interpolationConstant1_ *
-           pow(getHorWidth(), interpolationConstant2_);
+float Interpolator::getVertDistance(int pixel_width) {
+    return interpolation_constant1_ *
+           pow(pixel_width, interpolation_constant2_);
 }
 
-float Interpolator::getVertAngle(int pixelWidthOfImage) {
-    return asin(((((pixelWidthOfImage / 2) - getVertMid()) * (.3048 / 4)) /
-                 getVertWidth()) /
-                getVertDistance());
+float Interpolator::getHorDistance(int pixel_width) {
+    return interpolation_constant1_ *
+           pow(pixel_width, interpolation_constant2_);
 }
 
-float Interpolator::getHorAngle(int pixelHeightOfImage) {
+float Interpolator::getVertAngle(int vertical_mid,
+                                 int vert_width,
+                                 int width_of_image,
+                                 float vertical_distance) {
     return asin(
-            ((((pixelHeightOfImage / 2) - getHorMid()) * (.3048 / 4)) / getHorWidth()) /
-            getHorDistance());
+    ((((width_of_image / 2) - vertical_mid) * (.3048 / 4)) / vert_width) /
+    vertical_distance);
+}
+
+float Interpolator::getHorAngle(int pixel_height_of_image,
+                                int horizontal_middle,
+                                int horizontal_width,
+                                float horizontal_distance) {
+    return asin(
+    ((((pixel_height_of_image / 2) - horizontal_middle) * (.3048 / 4)) /
+     horizontal_width) /
+    horizontal_distance);
 }

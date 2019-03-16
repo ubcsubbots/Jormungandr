@@ -37,28 +37,8 @@ class Pole {
 
     int getHorWidth();
 
-    float getVertDistance();
-
-    float getHorDistance();
-
-    float getVertAngle(int pixelDistanceFromMid);
-
-    float getHorAngle(int pixelDistanceFromMid);
-
   private:
     cv::Vec4i side1_, side2_;
-
-    /*
- * Constants defining relationship
- * between pixel width and distance
- * gathered from calibration
- *  y = m * x + b
- *
- *  y = Distance from pole
- *
- *  x = pixel width of pole
- */
-    float interpolationConstant1_, interpolationConstant2_;
 };
 
 #endif // PROJECT_POLE_H

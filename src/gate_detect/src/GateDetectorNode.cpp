@@ -35,7 +35,8 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
                 interpolationConstant1);
     nh.getParam("/gate_detect_node/interpolationConstant2",
                 interpolationConstant2);
-    //nh.getParam("/gate_detect_node/displayDetectedGate", displayDetectedGate_);
+    // nh.getParam("/gate_detect_node/displayDetectedGate",
+    // displayDetectedGate_);
 
     gateDetector_ = GateDetector(cannyLow,
                                  houghLinesThreshold,
@@ -82,7 +83,7 @@ const sensor_msgs::ImageConstPtr& msg) {
     //here we can output a debug image if a flag is set
     //here we can interpolate distance with another function/set of functions
     publishGateDetectMsg(gateCoordinates);
-    if (displayDetectedGate_) publishGateImage(gateCoordinates,image);
+    if (displayDetectedGate_) publishGateImage(gateCoordinates, image);
 }
 
 void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
@@ -121,7 +122,8 @@ void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
     publisher1_.publish(msg);
 }
 
-void GateDetectorNode::publishGateImage(GateCoordinates gateCoordinates, cv::Mat image) {
+void GateDetectorNode::publishGateImage(GateCoordinates gateCoordinates,
+                                        cv::Mat image) {
     cv::Mat colourMat;
 
     cv::cvtColor(image, colourMat, CV_GRAY2BGR);
