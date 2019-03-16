@@ -27,7 +27,7 @@ class Pole {
      *
      *                  x = pixel width of pole
      */
-    Pole(cv::Vec4i side1, cv::Vec4i side2, float m, float b);
+    Pole(cv::Vec4i side1, cv::Vec4i side2);
 
     int getVertMid();
 

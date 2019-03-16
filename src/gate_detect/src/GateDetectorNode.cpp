@@ -43,8 +43,6 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
                                  houghLinesMinLength,
                                  houghLinesMaxLineGap,
                                  poleMax,
-                                 interpolationConstant1,
-                                 interpolationConstant2,
                                  lowVertThresh,
                                  lowHorThresh);
 
