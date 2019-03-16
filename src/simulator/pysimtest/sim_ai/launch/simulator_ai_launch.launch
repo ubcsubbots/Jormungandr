@@ -1,0 +1,9 @@
+<launch>
+    <!-- High Level AI -->
+    <include file="$(find decision)/launch/simulator_decision_node.launch"/>
+    <include file="$(find worldstate)/launch/worldstate_node.launch"/>
+    <include file="$(find gate_detect)/launch/gate_detect.launch"/>
+
+    <!-- HSV Filters for Various Components -->
+    <include file="$(find vision)/launch/simulator_gate_detect_filter.launch"/>
+</launch>
