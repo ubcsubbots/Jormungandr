@@ -10,6 +10,7 @@
 
 #include "Pole.h"
 #include "Gate.h"
+#include "Interpolator.h"
 #include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -73,8 +74,6 @@ class GateDetector {
                  int houghLinesMinLength,
                  int houghLinesMaxLineGap,
                  int poleMax,
-                 double verticalInterpolationConstant,
-                 double horizontalInterpolationConstanct,
                  int lowVertThresh,
                  int lowHorThresh);
 
@@ -118,7 +117,7 @@ class GateDetector {
     // Vertical or horizontal
     int lowVertThresh_, lowHorThresh_;
 
-    /*
+    /**
     * Canny( detected_edges, detected_edges, cannyLow_, lowThreshold*ratio,
     * kernel_size );
     *
@@ -140,7 +139,8 @@ class GateDetector {
     // Input image Parameters
     int imagePixelWidth_, imagePixelHeight_;
 
-    /*
+
+    /**
     * HoughLinesP(dst,detectedLines,rho,theta,houghLinesThreshold_,houghLinesMinLength_,houghLinesMaxLineGap_)
     * dst: Output of the edge detector. It should be a grayscale image (although
     * in fact it is a binary one)
@@ -158,7 +158,7 @@ class GateDetector {
     */
     int houghLinesThreshold_, houghLinesMinLength_, houghLinesMaxLineGap_;
 
-    /*
+    /**
      * Constants defining relationship
      * between pixel width and distance
      * gathered from calibration

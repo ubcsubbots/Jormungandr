@@ -12,7 +12,7 @@
 
 class Interpolator {
   public:
-    Interpolator(int interpolation_constant1, int interpolation_constant2);
+    Interpolator(float interpolation_constant1, float interpolation_constant2);
 
     enum TYPE { EXPONENTIAL, LINEAR };
 
@@ -31,7 +31,7 @@ class Interpolator {
                       float horizontal_distance);
 
   private:
-    /*
+    /**
     * Constants defining relationship
     * between pixel width and distance
     * gathered from calibration

@@ -13,8 +13,6 @@ GateDetector::GateDetector(int cannyLow,
                            int houghLinesMinLength,
                            int houghLinesMaxLineGap,
                            int poleMax,
-                           double interpolationConstant1,
-                           double interpolationConstant2,
                            int lowVertThresh,
                            int lowHorThresh) {
     cannyLow_ = cannyLow;
@@ -30,12 +28,6 @@ GateDetector::GateDetector(int cannyLow,
     lowVertThresh_ = lowVertThresh;
 
     lowHorThresh_ = lowHorThresh;
-
-    VertInterpolationConstant1_ = HorInterpolationConstant1_ =
-    interpolationConstant1;
-
-    VertInterpolationConstant2_ = HorInterpolationConstant2_ =
-    interpolationConstant2;
 }
 
 GateDetector::GateDetector() {
@@ -52,10 +44,6 @@ GateDetector::GateDetector() {
     lowVertThresh_ = 100;
 
     lowHorThresh_ = 200;
-
-    VertInterpolationConstant2_ = HorInterpolationConstant2_ = 81.88;
-
-    VertInterpolationConstant1_ = HorInterpolationConstant1_ = -.92791;
 }
 
 void GateDetector::setParams(int cannyLow,
@@ -167,9 +155,7 @@ GateDetector::findVertPoles(std::vector<cv::Vec4i> vertLines) {
     else if ((vertLines.size() == 2) &&
              (abs(vertLines.at(0)[0] - vertLines.at(1)[0]) < poleMax_)) {
         verticalPoles.push_back(Pole(vertLines.at(0),
-                                     vertLines.at(1),
-                                     (float) VertInterpolationConstant1_,
-                                     (float) VertInterpolationConstant2_));
+                                     vertLines.at(1)));
 
         return verticalPoles;
     }
@@ -183,9 +169,7 @@ GateDetector::findVertPoles(std::vector<cv::Vec4i> vertLines) {
 
             } else if (abs((*line1)[0] - (*line2)[0]) < poleMax_) {
                 Pole verticalPole = Pole(*line1,
-                                         *line2,
-                                         (float) HorInterpolationConstant1_,
-                                         (float) HorInterpolationConstant2_);
+                                         *line2);
 
                 verticalPoles.push_back(verticalPole);
 
@@ -211,9 +195,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
     else if ((horLines.size() == 2) &&
              (abs(horLines.at(0)[0] - horLines.at(1)[0]) < poleMax_)) {
         horizontalPoles.push_back(Pole(horLines.at(0),
-                                       horLines.at(1),
-                                       (float) VertInterpolationConstant1_,
-                                       (float) VertInterpolationConstant2_));
+                                       horLines.at(1)));
 
         return horizontalPoles;
     }
@@ -223,9 +205,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
 
     if (horLines.size() == 2) {
         Pole verticalPole = Pole(*(horLines.begin()),
-                                 *(horLines.begin()++),
-                                 (float) HorInterpolationConstant1_,
-                                 (float) HorInterpolationConstant2_);
+                                 *(horLines.begin()++));
 
         horizontalPoles.push_back(verticalPole);
 
@@ -241,9 +221,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
 
             } else if (abs((*line1)[1] - (*line2)[1]) < poleMax_) {
                 Pole verticalPole = Pole(*line1,
-                                         *line2,
-                                         (float) HorInterpolationConstant1_,
-                                         (float) HorInterpolationConstant2_);
+                                         *line2);
 
                 horizontalPoles.push_back(verticalPole);
 

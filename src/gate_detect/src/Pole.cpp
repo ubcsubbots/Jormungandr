@@ -7,19 +7,12 @@
 #include <Pole.h>
 
 Pole::Pole() {
-    interpolationConstant1_ = 0;
-
-    interpolationConstant2_ = 0;
 }
 
-Pole::Pole(cv::Vec4i side1, cv::Vec4i side2, float m, float b) {
+Pole::Pole(cv::Vec4i side1, cv::Vec4i side2) {
     side1_ = side1;
 
     side2_ = side2;
-
-    interpolationConstant1_ = m;
-
-    interpolationConstant2_ = b;
 }
 
 int Pole::getVertMid() {
