@@ -25,8 +25,8 @@ void mySigintHandler(int sig)
     system(("chmod +x " + path_to_script).c_str());
     system(command.c_str());
 
-   // All the default sigint handler does is call shutdown()
-  ros::shutdown();
+    // All the default sigint handler does is call shutdown()
+    ros::shutdown();
 
 }
 
@@ -56,8 +56,6 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     nh.getParam("/" + node_name + "/s_low",s_low);
     nh.getParam("/" + node_name + "/is_dyn_recon",is_dyn_recon);
 
-    std::cout<<"isdynrecon: "<<is_dyn_recon<<std::endl;
-
     //Create a new filter object with the values pulled from the rosparam server (which is configured in the launch file)
     filter_ = HSVFilter(h_low,h_high,s_low,s_high,v_low,v_high);
 
@@ -68,9 +66,6 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
         dynamic_reconfigure::Server<vision::hsvfilterConfig>::CallbackType f;
         f = boost::bind(&HSVFilterNode::dynamicreconfigCallback,this, _1, _2);
         server.setCallback(f);
-
-        //Run the simulator
-      //  system("rosrun rqt_reconfigure rqt_reconfigure");
     }else{
         //If the Dynamic Reconfigure is not desired, then set all the parameters in the server back to the original values
         //Not needed but looks better
@@ -97,7 +92,6 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
     // Start up ros. This will continue to run until the node is killed
     ros::spin();
 }
-
 
 void HSVFilterNode::subscriberCallBack(
 const sensor_msgs::ImageConstPtr& image) {
