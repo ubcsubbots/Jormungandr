@@ -32,6 +32,7 @@ class GateDetectorNode {
     std::string publishTopic;
     cv::Mat lineImg;
     GateDetector gateDetector_;
+    Interpolator interpolator_;
     int width_, height_;
     bool displayDetectedGate_;
 

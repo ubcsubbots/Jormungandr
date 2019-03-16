@@ -46,6 +46,8 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
                                  lowVertThresh,
                                  lowHorThresh);
 
+    interpolator_ = Interpolator(interpolationConstant1, interpolationConstant2);
+
     subscriber_ = it.subscribe(
     subscribeTopic, 2, &GateDetectorNode::subscriberCallBack, this);
 
@@ -71,31 +73,38 @@ const sensor_msgs::ImageConstPtr& msg) {
 
     cv::Mat image = (cv_ptr->image);
 
-    /*lineImg = cv::Mat(image,
-                      cv::Rect((image.cols / 2) - (width_ / 2),
-                               (image.rows / 2) - (height_ / 2),
-                               width_,
-                               height_));
-    */
     Gate gate = gateDetector_.initialize(image);//output Gate instead of gateCoordinates
     if (displayDetectedGate_) publishGateImage(gate, image);//here we can output a debug image if a flag is set
-    //here we can interpolate distance with another function/set of functions
+
+    //here we interpolate distance with another function/set of functions
     GateCoordinates gateCoordinates = defaultGateCoordinates();//initializes everything to zeroes
 
     if(gate.leftDetected){
         gateCoordinates.detectedLeftPole = true;
-        gateCoordinates.angleLeftPole = getVertDistance(gate.leftPole.getVertWidth());
-        gateCoordinates.distanceLeftPole = 0;
+        int leftWidth = gate.leftPole.getVertWidth();
+        gateCoordinates.distanceLeftPole = interpolator_.getVertDistance(leftWidth);
+        gateCoordinates.angleLeftPole = interpolator_.getVertAngle(gate.leftPole.getVertMid(),
+                                                                   leftWidth,
+                                                                   width_,
+                                                                   gateCoordinates.distanceLeftPole);
     }
     if(gate.rightDetected){
         gateCoordinates.detectedRightPole = true;
-        gateCoordinates.angleRightPole = 0;
-        gateCoordinates.distanceRightPole = 0;
+        int rightWidth = gate.rightPole.getVertWidth();
+        gateCoordinates.distanceRightPole = interpolator_.getVertDistance(rightWidth);
+        gateCoordinates.angleRightPole = interpolator_.getVertAngle(gate.rightPole.getVertMid(),
+                                                                    rightWidth,
+                                                                    width_,
+                                                                    gateCoordinates.distanceRightPole);
     }
     if(gate.topDetected){
         gateCoordinates.detectedTopPole = true;
-        gateCoordinates.angleTopPole = 0;
-        gateCoordinates.distanceTopPole = 0;
+        int topWidth = gate.topPole.getHorWidth();
+        gateCoordinates.distanceTopPole = interpolator_.getHorDistance(topWidth);
+        gateCoordinates.angleTopPole = interpolator_.getHorAngle(gate.topPole.getHorMid(),
+                                                                  topWidth,
+                                                                  height_,
+                                                                  gateCoordinates.distanceTopPole);
     }
     publishGateDetectMsg(gateCoordinates);
 }

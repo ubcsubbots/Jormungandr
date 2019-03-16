@@ -4,10 +4,10 @@
 
 #include "../include/Interpolator.h"
 
-Interpolator::Interpolator(float interpolation_constant1,
-                           float interpolation_constant2) {
-    interpolation_constant1_ = interpolation_constant1;
-    interpolation_constant2_ = interpolation_constant2;
+Interpolator::Interpolator(double interpolation_constant1,
+                           double interpolation_constant2) {
+    interpolation_constant1_ = (float)interpolation_constant1;
+    interpolation_constant2_ = (float)interpolation_constant2;
 }
 
 float Interpolator::getVertDistance(int pixel_width) {
