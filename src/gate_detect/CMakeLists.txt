@@ -53,7 +53,7 @@ add_executable(gate_detect
         include/Pole.h
         src/Pole.cpp
 		test/testUtilities/GateTestUtils.h
-		test/testUtilities/GateTestUtils.cpp)
+		test/testUtilities/GateTestUtils.cpp src/Interpolator.cpp include/Interpolator.h)
 
 target_link_libraries(gate_detect
 		${catkin_LIBRARIES}
