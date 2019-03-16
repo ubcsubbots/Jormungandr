@@ -78,8 +78,9 @@ const sensor_msgs::ImageConstPtr& msg) {
                                width_,
                                height_));
     */
-    GateCoordinates gateCoordinates = gateDetector_.initialize(image);
-
+    GateCoordinates gateCoordinates = gateDetector_.initialize(image);//output Gate instead of gateCoordinates
+    //here we can output a debug image if a flag is set
+    //here we can interpolate distance with another function/set of functions
     publishGateDetectMsg(gateCoordinates);
     if (displayDetectedGate_) publishGateImage(gateCoordinates,image);
 }

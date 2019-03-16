@@ -122,7 +122,7 @@ GateCoordinates GateDetector::initialize(const cv::Mat matin) {
 
 
 
-    gateCoordinates = getGateCoordinates(vertPoles, horPoles);
+    gateCoordinates = getGateCoordinates(vertPoles, horPoles);//change this to getGate
 
     return gateCoordinates;
 }
@@ -262,7 +262,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
 
     return horizontalPoles;
 }
-
+//change this to getGate
 GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
                                                  std::vector<Pole> horPoles) {
     GateCoordinates gateCoordinates = defaultGateCoordinates();
@@ -322,18 +322,18 @@ GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
     // Find pole furthest to left and furthest to right, determine which pole is
     // which and return the struct that is most likely to define the gate
     else {
-        Pole leftPole = *std::min_element(
+        leftPole = *std::min_element(
         vertPoles.begin(), vertPoles.end(), [](Pole lhs, Pole rhs) {
             return lhs.getVertMid() < rhs.getVertMid();
         });
 
-        Pole rightPole = *std::min_element(
+        rightPole = *std::min_element(
         vertPoles.begin(), vertPoles.end(), [](Pole lhs, Pole rhs) {
             return lhs.getVertMid() > rhs.getVertMid();
         });
 
         if (!horPoles.empty()) {
-            Pole topPole = *std::min_element(
+            topPole = *std::min_element(
             horPoles.begin(), horPoles.end(), [](Pole lhs, Pole rhs) {
                 return lhs.getHorMid() < rhs.getHorMid();
             });
@@ -402,6 +402,18 @@ GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
         gateCoordinates.distanceTopPole = 0;
         gateCoordinates.angleTopPole    = 0;
     }
+
+    cv::Mat test_mat=lineImg;
+    if(gateCoordinates.detectedLeftPole==1){
+        cv::line();
+    }
+    if(gateCoordinates.detectedRightPole==1){
+
+    }
+    if(gateCoordinates.detectedTopPole==1){
+
+    }
+
 
     return gateCoordinates;
 }
