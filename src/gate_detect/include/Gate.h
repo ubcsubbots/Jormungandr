@@ -16,6 +16,11 @@
 #include <iostream>
 
 struct Gate{
+    Gate(){
+        leftDetected = false;
+        rightDetected = false;
+        topDetected = false;
+    }
     Pole leftPole,
          rightPole,
          topPole;

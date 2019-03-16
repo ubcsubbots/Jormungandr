@@ -9,6 +9,7 @@
 #define PROJECT_GATE_H
 
 #include "Pole.h"
+#include "Gate.h"
 #include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -245,8 +246,7 @@ class GateDetector {
      *  @return vector of parameters of detected gate
      *
      */
-    GateCoordinates getGateCoordinates(std::vector<Pole> vertPoles,
-                                       std::vector<Pole> horPoles);
+    Gate getGate(std::vector<Pole> vertPoles, std::vector<Pole> horPoles);
 };
 
 #endif // PROJECT_GATE_H
