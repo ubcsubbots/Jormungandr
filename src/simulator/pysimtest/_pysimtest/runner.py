@@ -19,6 +19,37 @@ class SimRunner:
         """
         self._process = process.SimProcess()
 
+    def setup(self):
+        """
+        Sets up the simulation
+        """
+        self._process.start()
+
+    def exit(self):
+        """
+        Exits the simulation
+        """
+        self._process.stop()
+
+    def run_simulation(self, timeout, scene, sim_args):
+        """
+        Runs the simulation
+        """
+        self._process.configure_scene(scene, sim_args)
+        self._process.configure_timeout(timeout)
+        self._process.run_simulation()
+
+
+
+
+
+
+
+
+
+
+
+
     def configure_scene(self, scene, sim_args):
         """
         Configures the uwsim scene in preparation
@@ -42,15 +73,3 @@ class SimRunner:
         Runs simulation
         """
         self._process.run_simulation()
-
-    def start(self):
-        """
-        Starts the simulation
-        """
-        self._process.start()
-
-    def stop(self):
-        """
-        Stops the simulation
-        """
-        self._process.stop()

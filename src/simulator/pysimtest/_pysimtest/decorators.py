@@ -35,7 +35,6 @@ def test(func, run):
     def _decorator(self):
         if run:
             test_name = func.__name__
-            func.func_dict["is_test"] = True
             self._new_test(test_name)
             func(self)
             self._add_test()

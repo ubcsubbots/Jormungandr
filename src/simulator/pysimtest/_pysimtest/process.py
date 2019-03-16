@@ -7,12 +7,12 @@ for maintaing the processes needed to run
 the uwsim simulation
 """
 
-
-import constants
 import subprocess
 import os
 import signal
 import time
+
+import constants
 
 
 class SimProcess:
@@ -38,7 +38,7 @@ class SimProcess:
     def start(self):
         """
         Starts any initial processes needed
-        for to setup the uwsim simulation
+        to setup the uwsim simulation
         """
         self._run_roscore()
         self._launch_vehicle_ai()
