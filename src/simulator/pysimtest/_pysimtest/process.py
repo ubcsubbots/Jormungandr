@@ -113,7 +113,10 @@ class SimProcess:
                                 preexec_fn=os.setsid)
 
         self._uwsim_gpid = proc.pid
-        time.sleep(self._timeout) #TODO: add pass functionality
+        try:
+            time.sleep(self._timeout) #TODO: add pass functionality
+        except KeyboardInterrupt:
+            print("TODO: make program close when sleep is interrupted")
         os.killpg(os.getpgid(self._uwsim_gpid), signal.SIGTERM)
 
     def _run_roscore(self):

@@ -8,11 +8,8 @@ This module contains the pysimtest main program
 
 import sys
 import os
-import importlib
-import inspect
 
 import loader
-import runner
 
 
 def check_valid_arg(args):
@@ -30,7 +27,7 @@ def check_valid_arg(args):
 
 def find_target(target):
     """
-    checks to make sure there is only one
+    Checks to make sure there is only one
     existing target match, then return it
 
     :param target: target module name
@@ -49,53 +46,13 @@ def find_target(target):
         exit(1)
     return matches[0]
 
-def get_module(path):
-    """
-    Gets the module object from path
-
-    :param path: module path
-    """
-    name, suf, mode, mod_type = inspect.getmoduleinfo(path)
-    module = importlib.import_module(name)
-    return module
-
-def get_suites(module):
-    """
-    Returns list of instances of
-    all suites in the module
-
-    :param module: target module object
-    """
-    import testsuite
-    suites = []
-    for name, obj in inspect.getmembers(module):
-        if inspect.isclass(obj):
-            if issubclass(obj, testsuite.SimTestSuite):
-                suites.append(obj)
-
-    return [suite() for suite in suites]
-
 def main(args):
     """
-    runs pysimtest
+    Runs pysimtest
 
     :param args: sys argv
     """
     check_valid_arg(args)
-    path   = find_target(args[1])
-
-    module = get_module(path)
-    suites = get_suites(module)
-
-
-    for suite in suites:
-        for attr in dir(suite):
-            obj = getattr(suite, attr)
-            if callable(obj) and attr == "setup":
-                setup = obj
-                setup()
-        for attr in dir(suite):
-            obj = getattr(suite, attr)
-            if callable(obj) and attr.startswith("test"):
-                test = obj
-                test()
+    path       = find_target(args[1])
+    sim_loader = loader.SimTestLoader()
+    sim_loader.load_and_execute(path)
