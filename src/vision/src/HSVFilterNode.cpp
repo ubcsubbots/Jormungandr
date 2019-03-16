@@ -60,7 +60,7 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
 
     // Create a new filter object with the values pulled from the rosparam
     // server (which is configured in the launch file)
-    filter_ = HSVFilter(h_low, h_high, s_low, s_high, v_low, v_high);
+    filter_ = HSVFilter();//HSVFilter(h_low, h_high, s_low, s_high, v_low, v_high);
 
     // If this line is inside the if statement, this node doesnt show up on the
     // dynamic reconfigure GUI
