@@ -6,13 +6,35 @@
 
 #include "GateDetectorNode.h"
 
+/*
+ * This overrides the default method. Upon killing the program
+ * Run custom code to update the dynamic simulation parameter values into the wroking yaml file.
+ */
+void mySigintHandler(int sig)
+{
+    std::cout<<"\nUpdating the yaml files... preparing for shutdown.\n"<<std::endl;
+    std::string path = ros::package::getPath("gate_detect");
+
+    //Create the terminal call to run the python executable
+    std::string path_to_script = path + "/cfg/yamlEditor.py ";
+    std::string path_to_yaml_file = path + "/cfg/rqt_params_out.yaml \"";
+    std::string path_to_out_file = path + "/cfg/launch_params_out.yaml\"";
+    std::string command = "python " + path_to_script + path_to_yaml_file + path_to_out_file;
+
+    //Run the python script to clean up yaml files
+    system(("chmod +x " + path_to_script).c_str());
+    system(command.c_str());
+
+    // All the default sigint handler does is call shutdown()
+    ros::shutdown();
+
+}
+
 GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     ros::NodeHandle nh;
     ros::NodeHandle nh_;
     image_transport::ImageTransport it(nh);
-
-    dynamic_reconfigure::Server<gate_detect::gatedetectConfig> server;
-    dynamic_reconfigure::Server<gate_detect::gatedetectConfig>::CallbackType f;
+    bool is_dyn_recon;
 
     subscribeTopic = "/vision/output";
     publishTopic   = "/gate_detect/output";
@@ -36,6 +58,7 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     nh.getParam("/gate_detect_node/interpolationConstant2",
                 interpolationConstant2);
     nh.getParam("/gate_detect_node/displayDetectedGate", displayDetectedGate_);
+    nh.getParam("/gate_detect_node/is_dyn_recon",is_dyn_recon);
 
     gateDetector_ = GateDetector(cannyLow,
                                  houghLinesThreshold,
@@ -47,14 +70,25 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
                                  lowVertThresh,
                                  lowHorThresh);
 
+    dynamic_reconfigure::Server <gate_detect::gatedetectConfig> server;
+
+    if (is_dyn_recon) {
+        dynamic_reconfigure::Server<gate_detect::gatedetectConfig>::CallbackType f;
+        f = boost::bind(&GateDetectorNode::reconfigCallBack, this, _1, _2);
+        server.setCallback(f);
+    }
+
     subscriber_ = it.subscribe(
     subscribeTopic, 2, &GateDetectorNode::subscriberCallBack, this);
 
-    f = boost::bind(&GateDetectorNode::reconfigCallBack, this, _1, _2);
-    server.setCallback(f);
+
 
     publisher1_ = nh_.advertise<gate_detect::GateDetectMsg>(publishTopic, 10);
     publisher2_ = it.advertise("gate_image_output", 100);
+
+    if(is_dyn_recon) {
+        signal(SIGINT, mySigintHandler);
+    }
 
     ros::spin();
 }
