@@ -10,6 +10,7 @@
 
 #include "GateDetector.h"
 #include "GateTestUtils.h"
+#include "Interpolator.h"
 #include <cv_bridge/cv_bridge.h>
 #include <dynamic_reconfigure/server.h>
 #include <gate_detect/GateDetectMsg.h>
@@ -108,7 +109,7 @@ class GateDetectorNode {
      *
      *          distanceTopPole:    Distance to top pole, 0 if not seen
      */
-    void publishGateImage(GateCoordinates gateCoordinates, cv::Mat image);
+    void publishGateImage(Gate gate, cv::Mat image);
 };
 
 #endif // GATE_DETECT_GATEDETECT_H

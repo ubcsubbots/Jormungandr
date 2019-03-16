@@ -35,8 +35,8 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
                 interpolationConstant1);
     nh.getParam("/gate_detect_node/interpolationConstant2",
                 interpolationConstant2);
-    // nh.getParam("/gate_detect_node/displayDetectedGate",
-    // displayDetectedGate_);
+    nh.getParam("/gate_detect_node/displayDetectedGate",
+                displayDetectedGate_);
 
     gateDetector_ = GateDetector(cannyLow,
                                  houghLinesThreshold,
@@ -80,10 +80,26 @@ const sensor_msgs::ImageConstPtr& msg) {
                                height_));
     */
     Gate gate = gateDetector_.initialize(image);//output Gate instead of gateCoordinates
-    //here we can output a debug image if a flag is set
+    if (displayDetectedGate_) publishGateImage(gate, image);//here we can output a debug image if a flag is set
     //here we can interpolate distance with another function/set of functions
+    GateCoordinates gateCoordinates = defaultGateCoordinates();//initializes everything to zeroes
+
+    if(gate.leftDetected){
+        gateCoordinates.detectedLeftPole = true;
+        gateCoordinates.angleLeftPole = getVertDistance(gate.leftPole.getVertWidth());
+        gateCoordinates.distanceLeftPole = 0;
+    }
+    if(gate.rightDetected){
+        gateCoordinates.detectedRightPole = true;
+        gateCoordinates.angleRightPole = 0;
+        gateCoordinates.distanceRightPole = 0;
+    }
+    if(gate.topDetected){
+        gateCoordinates.detectedTopPole = true;
+        gateCoordinates.angleTopPole = 0;
+        gateCoordinates.distanceTopPole = 0;
+    }
     publishGateDetectMsg(gateCoordinates);
-    if (displayDetectedGate_) publishGateImage(gateCoordinates, image);
 }
 
 void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
@@ -122,7 +138,7 @@ void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
     publisher1_.publish(msg);
 }
 
-void GateDetectorNode::publishGateImage(GateCoordinates gateCoordinates,
+void GateDetectorNode::publishGateImage(Gate gate,
                                         cv::Mat image) {
     cv::Mat colourMat;
 

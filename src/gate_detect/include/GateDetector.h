@@ -39,13 +39,13 @@
 *
 */
 struct GateCoordinates {
-    float detectedLeftPole;
+    bool detectedLeftPole;
     float angleLeftPole;
     float distanceLeftPole;
-    float detectedRightPole;
+    bool detectedRightPole;
     float angleRightPole;
     float distanceRightPole;
-    float detectedTopPole;
+    bool detectedTopPole;
     float angleTopPole;
     float distanceTopPole;
 };
@@ -55,13 +55,13 @@ static GateCoordinates defaultGateCoordinates() {
 
     gateCoordinates.distanceTopPole   = 0.0f;
     gateCoordinates.angleTopPole      = 0.0f;
-    gateCoordinates.detectedTopPole   = 0.0f;
-    gateCoordinates.detectedLeftPole  = 0.0f;
+    gateCoordinates.detectedTopPole   = false;
+    gateCoordinates.detectedLeftPole  = false;
     gateCoordinates.angleLeftPole     = 0.0f;
     gateCoordinates.distanceLeftPole  = 0.0f;
     gateCoordinates.distanceRightPole = 0.0f;
     gateCoordinates.angleRightPole    = 0.0f;
-    gateCoordinates.detectedRightPole = 0.0f;
+    gateCoordinates.detectedRightPole = false;
 
     return gateCoordinates;
 }
