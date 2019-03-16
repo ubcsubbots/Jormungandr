@@ -89,7 +89,7 @@ class GateDetector {
      * getGateCoordinates
      * comment)
      */
-    GateCoordinates initialize(const cv::Mat mat_in);
+    Gate initialize(const cv::Mat mat_in);
 
     /**
      * Function that sets the parameters of the Gate Detector
