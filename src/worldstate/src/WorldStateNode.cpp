@@ -90,9 +90,12 @@ void WorldStateNode::initializeFiniteStateMachine() {
 void WorldStateNode::getConstants(ros::NodeHandle nh) {
     XmlRpc::XmlRpcValue v;
 
-    nh.getParam("/global_constants", v);
+    bool check = nh.getParam("/global_constants", v);
+
+    printf("\n\n\n\ncheck is %i\n\n\n\n", check);
 
     for (auto value = v.begin(); value != v.end(); value++) {
+        printf("hello");
         constants_[std::string((*value).first)] = (*value).second;
     }
 }

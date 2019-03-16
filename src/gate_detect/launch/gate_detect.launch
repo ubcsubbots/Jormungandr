@@ -39,5 +39,7 @@
         <!--deviation from perfectly horizontal that a line can have to be considered a horizontal line. Increasing-->
         <!--this number will increase the amount of lines detected.-->
         <param name="lowHorThresh" value="150" type="int" />
+
+        <param name="is_dyn_recon" value="$(arg is_dyn_recon)" type="bool" />
         </node>
 </launch>
