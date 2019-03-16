@@ -6,8 +6,8 @@
 
 Interpolator::Interpolator(double interpolation_constant1,
                            double interpolation_constant2) {
-    interpolation_constant1_ = (float)interpolation_constant1;
-    interpolation_constant2_ = (float)interpolation_constant2;
+    interpolation_constant1_ = (float) interpolation_constant1;
+    interpolation_constant2_ = (float) interpolation_constant2;
 }
 
 Interpolator::Interpolator() {

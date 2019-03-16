@@ -8,9 +8,9 @@
 #ifndef PROJECT_GATE_H
 #define PROJECT_GATE_H
 
-#include "Pole.h"
 #include "Gate.h"
 #include "Interpolator.h"
+#include "Pole.h"
 #include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -138,7 +138,6 @@ class GateDetector {
 
     // Input image Parameters
     int imagePixelWidth_, imagePixelHeight_;
-
 
     /**
     * HoughLinesP(dst,detectedLines,rho,theta,houghLinesThreshold_,houghLinesMinLength_,houghLinesMaxLineGap_)

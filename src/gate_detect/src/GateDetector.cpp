@@ -154,8 +154,7 @@ GateDetector::findVertPoles(std::vector<cv::Vec4i> vertLines) {
     // Pole vector and return them
     else if ((vertLines.size() == 2) &&
              (abs(vertLines.at(0)[0] - vertLines.at(1)[0]) < poleMax_)) {
-        verticalPoles.push_back(Pole(vertLines.at(0),
-                                     vertLines.at(1)));
+        verticalPoles.push_back(Pole(vertLines.at(0), vertLines.at(1)));
 
         return verticalPoles;
     }
@@ -168,8 +167,7 @@ GateDetector::findVertPoles(std::vector<cv::Vec4i> vertLines) {
                 line2 = vertLines.erase(line2);
 
             } else if (abs((*line1)[0] - (*line2)[0]) < poleMax_) {
-                Pole verticalPole = Pole(*line1,
-                                         *line2);
+                Pole verticalPole = Pole(*line1, *line2);
 
                 verticalPoles.push_back(verticalPole);
 
@@ -194,8 +192,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
     // Pole vector and return them
     else if ((horLines.size() == 2) &&
              (abs(horLines.at(0)[0] - horLines.at(1)[0]) < poleMax_)) {
-        horizontalPoles.push_back(Pole(horLines.at(0),
-                                       horLines.at(1)));
+        horizontalPoles.push_back(Pole(horLines.at(0), horLines.at(1)));
 
         return horizontalPoles;
     }
@@ -204,8 +201,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
     std::vector<cv::Vec4i>::iterator line2;
 
     if (horLines.size() == 2) {
-        Pole verticalPole = Pole(*(horLines.begin()),
-                                 *(horLines.begin()++));
+        Pole verticalPole = Pole(*(horLines.begin()), *(horLines.begin()++));
 
         horizontalPoles.push_back(verticalPole);
 
@@ -220,8 +216,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
                 line2 = horLines.erase(line2);
 
             } else if (abs((*line1)[1] - (*line2)[1]) < poleMax_) {
-                Pole verticalPole = Pole(*line1,
-                                         *line2);
+                Pole verticalPole = Pole(*line1, *line2);
 
                 horizontalPoles.push_back(verticalPole);
 
@@ -236,15 +231,19 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
     return horizontalPoles;
 }
 
-Gate GateDetector::getGate(std::vector<Pole> vertPoles, std::vector<Pole> horPoles) {
+Gate GateDetector::getGate(std::vector<Pole> vertPoles,
+                           std::vector<Pole> horPoles) {
     Gate gate;
 
-    // If theres no vertical poles, check for horizontal pole and put in struct struct
+    // If theres no vertical poles, check for horizontal pole and put in struct
+    // struct
     if (vertPoles.empty()) {
         if (!horPoles.empty()) {
             gate.topPole = *std::min_element(
             horPoles.begin(), horPoles.end(), [](Pole lhs, Pole rhs) {
-                return lhs.getHorMid() > rhs.getHorMid(); // changed from vert to hor, might need testing
+                return lhs.getHorMid() > rhs.getHorMid(); // changed from vert
+                                                          // to hor, might need
+                                                          // testing
             });
 
             gate.topDetected = true;
@@ -254,23 +253,23 @@ Gate GateDetector::getGate(std::vector<Pole> vertPoles, std::vector<Pole> horPol
     // vertical pole it is
     else if (vertPoles.size() == 1) {
         if (horPoles.empty()) {
-            gate.leftPole = *vertPoles.begin();
+            gate.leftPole     = *vertPoles.begin();
             gate.leftDetected = true;
 
         }
 
         else {
             Pole vertPole = *vertPoles.begin();
-            gate.topPole = *horPoles.begin();
+            gate.topPole     = *horPoles.begin();
             gate.topDetected = true;
 
             if (gate.topPole.getVertMid() > vertPole.getVertMid()) {
-                gate.leftPole = vertPole;
+                gate.leftPole     = vertPole;
                 gate.leftDetected = true;
             }
 
             else {
-                gate.rightPole = vertPole;
+                gate.rightPole     = vertPole;
                 gate.rightDetected = true;
             }
         }
@@ -318,11 +317,9 @@ Gate GateDetector::getGate(std::vector<Pole> vertPoles, std::vector<Pole> horPol
                 gate.rightDetected = true;
 
                 gate.topDetected = true;
-
             }
 
-        }
-        else {
+        } else {
             gate.leftDetected = true;
 
             gate.rightDetected = true;

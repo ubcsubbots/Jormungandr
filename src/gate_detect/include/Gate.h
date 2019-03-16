@@ -10,21 +10,17 @@
 #ifndef PROJECT_GATE_H
 #define PROJECT_GATE_H
 
-#endif //PROJECT_GATE_H
+#endif // PROJECT_GATE_H
 
 #include "Pole.h"
 #include <iostream>
 
-struct Gate{
-    Gate(){
-        leftDetected = false;
+struct Gate {
+    Gate() {
+        leftDetected  = false;
         rightDetected = false;
-        topDetected = false;
+        topDetected   = false;
     }
-    Pole leftPole,
-         rightPole,
-         topPole;
-    bool leftDetected,
-         rightDetected,
-         topDetected;
+    Pole leftPole, rightPole, topPole;
+    bool leftDetected, rightDetected, topDetected;
 };
