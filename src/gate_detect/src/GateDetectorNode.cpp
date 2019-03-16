@@ -10,6 +10,7 @@
  * This overrides the default method. Upon killing the program
  * Run custom code to update the dynamic simulation parameter values into the wroking yaml file.
  */
+/*
 void mySigintHandler(int sig)
 {
     std::cout<<"\nUpdating the yaml files... preparing for shutdown.\n"<<std::endl;
@@ -29,6 +30,7 @@ void mySigintHandler(int sig)
     ros::shutdown();
 
 }
+ */
 
 GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     ros::NodeHandle nh;
