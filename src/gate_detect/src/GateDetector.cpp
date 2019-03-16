@@ -6,7 +6,6 @@
  */
 
 #include "GateDetector.h"
-#include "Gate.h"
 
 GateDetector::GateDetector(int cannyLow,
                            int houghLinesThreshold,
@@ -94,6 +93,7 @@ Gate GateDetector::initialize(const cv::Mat matin) {
                     houghLinesThreshold_,
                     houghLinesMinLength_,
                     houghLinesMaxLineGap_);
+    Gate gate = Gate();
 
     if (detectedLines.empty()) return gate;
 
@@ -105,7 +105,7 @@ Gate GateDetector::initialize(const cv::Mat matin) {
 
     std::vector<Pole> horPoles = findHorPoles(horLines);
 
-    Gate gate = getGate(vertPoles, horPoles);
+    gate = getGate(vertPoles, horPoles);
 
     return gate;
 }
@@ -237,7 +237,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
 }
 
 Gate GateDetector::getGate(std::vector<Pole> vertPoles, std::vector<Pole> horPoles) {
-    Gate gate = Gate();
+    Gate gate;
 
     // If theres no vertical poles, check for horizontal pole and put in struct struct
     if (vertPoles.empty()) {

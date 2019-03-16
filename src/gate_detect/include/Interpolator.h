@@ -13,6 +13,7 @@
 class Interpolator {
   public:
     Interpolator(double interpolation_constant1, double interpolation_constant2);
+    Interpolator();
 
     enum TYPE { EXPONENTIAL, LINEAR };
 

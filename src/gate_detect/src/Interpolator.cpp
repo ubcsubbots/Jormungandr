@@ -10,6 +10,11 @@ Interpolator::Interpolator(double interpolation_constant1,
     interpolation_constant2_ = (float)interpolation_constant2;
 }
 
+Interpolator::Interpolator() {
+    interpolation_constant1_ = 0;
+    interpolation_constant2_ = 0;
+}
+
 float Interpolator::getVertDistance(int pixel_width) {
     return interpolation_constant1_ *
            pow(pixel_width, interpolation_constant2_);
