@@ -120,8 +120,6 @@ GateCoordinates GateDetector::initialize(const cv::Mat matin) {
 
     std::vector<Pole> horPoles = findHorPoles(horLines);
 
-
-
     gateCoordinates = getGateCoordinates(vertPoles, horPoles);
 
     return gateCoordinates;
@@ -266,16 +264,16 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
 GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
                                                  std::vector<Pole> horPoles) {
     GateCoordinates gateCoordinates = defaultGateCoordinates();
-    Pole leftPole,rightPole,topPole;//local poles
-
-
+    Pole leftPole, rightPole, topPole; // local poles
 
     // If theres no vertical poles, check for horizontal pole and to struct
     if (vertPoles.empty()) {
         if (!horPoles.empty()) {
             topPole = *std::min_element(
             horPoles.begin(), horPoles.end(), [](Pole lhs, Pole rhs) {
-                return lhs.getHorMid() > rhs.getHorMid();//changed from vert to hor, might need testing
+                return lhs.getHorMid() > rhs.getHorMid(); // changed from vert
+                                                          // to hor, might need
+                                                          // testing
             });
 
             gateCoordinates.detectedTopPole = 1;
@@ -291,12 +289,13 @@ GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
             leftPole = *vertPoles.begin();
 
             gateCoordinates.detectedLeftPole = 1;
-            gateCoordinates.angleLeftPole = leftPole.getVertAngle(imagePixelWidth_);
+            gateCoordinates.angleLeftPole =
+            leftPole.getVertAngle(imagePixelWidth_);
             gateCoordinates.distanceLeftPole = leftPole.getVertDistance();
 
         } else {
             Pole vertPole = *vertPoles.begin();
-            topPole  = *horPoles.begin();
+            topPole       = *horPoles.begin();
 
             gateCoordinates.detectedTopPole = 1;
             gateCoordinates.angleTopPole =
@@ -304,14 +303,14 @@ GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
             gateCoordinates.distanceTopPole = topPole.getHorDistance();
 
             if (topPole.getVertMid() > vertPole.getVertMid()) {
-                leftPole=vertPole;
+                leftPole                         = vertPole;
                 gateCoordinates.detectedLeftPole = 1;
                 gateCoordinates.angleLeftPole =
                 vertPole.getVertAngle(imagePixelWidth_);
                 gateCoordinates.distanceLeftPole = vertPole.getVertDistance();
 
             } else {
-                rightPole=vertPole;
+                rightPole                         = vertPole;
                 gateCoordinates.detectedRightPole = 1;
                 gateCoordinates.angleRightPole    = vertPole.getVertDistance();
                 gateCoordinates.distanceRightPole =
