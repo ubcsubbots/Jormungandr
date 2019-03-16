@@ -1,5 +1,10 @@
 #!/usr/bin/env python
-
+'''
+	Created By: Bryson Marazzi
+	Created On: March 14th, 2019
+	Description: Reads the contents of a given yaml file which contains the serialization of the parameters object from the
+				 dynamic reconfiguration file export. Then creates a new output file for a launch file to read.
+'''
 
 import yaml
 import io,sys
@@ -7,7 +12,7 @@ import io,sys
 
 '''
 	Method to parse python objects from a given yaml file, and output a cleaner version of the parameters to outFileName. 
-	Expects, outFileName and inFileName to have extension .yaml or .yml. 
+	Expects: outFileName and inFileName to have extension .yaml or .yml. 
 '''
 def edit(inFileName,outFileName):
 	#get the bit strea from the yaml file
@@ -18,7 +23,6 @@ def edit(inFileName,outFileName):
 
 	#obtain the keys that are represented in the yaml file
 	keys = object.keys()
-
 
 	#make a dictinary to write to yaml file, ignoring the "groups"
 	parameters = dict()
