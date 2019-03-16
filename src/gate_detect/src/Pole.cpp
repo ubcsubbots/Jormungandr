@@ -31,4 +31,11 @@ int Pole::getHorWidth() {
     return abs((side1_[1] + side1_[3] - side2_[1] - side2_[3]) / 2);
 }
 
+cv::Vec4i Pole::getMiddleLine() {
+    return cv::Vec4i((side1_[0] + side2_[0]) / 2,
+                     (side1_[1] + side2_[1]) / 2,
+                     (side1_[2] + side2_[2]) / 2,
+                     (side1_[3] + side2_[3]) / 2);
+}
+
 

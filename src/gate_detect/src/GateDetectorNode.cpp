@@ -160,7 +160,7 @@ void GateDetectorNode::publishGateImage(Gate gate, cv::Mat image) {
 
     cv::cvtColor(image, colourMat, CV_GRAY2BGR);
 
-    //   colourMat = TestUtils::drawGate(colourMat, gateCoordinates);
+    colourMat = TestUtils::drawGate(colourMat, gate);
 
     cv_bridge::CvImage out_msg;
     out_msg.header =

@@ -37,6 +37,8 @@ class Pole {
 
     int getHorWidth();
 
+    cv::Vec4i getMiddleLine();
+
   private:
     cv::Vec4i side1_, side2_;
 };
