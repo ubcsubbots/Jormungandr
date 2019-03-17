@@ -98,7 +98,7 @@ class SimTestLoader:
         print("Scene:   " + test.test_args[const.SCENE])
         self._runner.run_simulation(test.test_args[const.TIMEOUT],
                                     test.test_args[const.SCENE],
-                                    test.sim_args)
+                                    test)
 
     def _get_module(self, path):
         """

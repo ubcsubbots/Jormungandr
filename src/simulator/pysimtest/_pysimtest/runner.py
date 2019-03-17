@@ -33,7 +33,7 @@ class SimRunner:
         """
         self._process.stop()
 
-    def run_simulation(self, timeout, scene, sim_args):
+    def run_simulation(self, timeout, scene, test):
         """
         Runs the simulation
 
@@ -41,6 +41,6 @@ class SimRunner:
         :param scene: the simulation scene
         :param sim_args: the simulation arguments
         """
-        self._process.configure_scene(scene, sim_args)
+        self._process.configure_scene(scene, test)
         self._process.configure_timeout(timeout)
         self._process.run_simulation()

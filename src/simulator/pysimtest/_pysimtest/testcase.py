@@ -24,6 +24,9 @@ class SimTestCase:
         self.sim_args  = dict()
         self.test_args = dict()
 
+        self.vehicle   = None
+        self.scene     = None
+
         self._set_defaults()
 
     def set_sim_args(self, sim_args):
@@ -80,8 +83,12 @@ class SimTestBuilder:
         self._set_globals()
 
     def get_result(self):
-        sim_args = self._combine_vhcl_scene_attr()
-        self._curr_test.set_sim_args(sim_args)
+        # sim_args = self._combine_vhcl_scene_attr()
+        # self._curr_test.set_sim_args(sim_args)
+
+        self._curr_test.vehicle = self._curr_vhcl
+        self._curr_test.scene = self._curr_scene
+        
         return self._curr_test
 
     def set_scene(self, scene, is_global):

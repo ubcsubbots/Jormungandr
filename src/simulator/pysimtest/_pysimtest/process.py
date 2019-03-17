@@ -55,7 +55,7 @@ class SimProcess:
         if self._roscore_gpid is not None:
             os.killpg(os.getpgid(self._roscore_gpid), signal.SIGTERM)
 
-    def configure_scene(self, scene, sim_args):
+    def configure_scene(self, scene, test):
         """
         Configures the out.xml file based on the
         .xacro scene file and input arguments.
@@ -63,12 +63,20 @@ class SimProcess:
         :param scene: the name of the .xacro file
         :param sim_args: the .xacro arguments
         """
+        self.build_vehicle_xacro(test.vehicle)
+
+
+    def remove_first_line(self, file):
+        cmd = "sed -i -e \"1d\" " + file
+        proc = subprocess.Popen(cmd, shell=True)
+        proc.communicate()
+
+    def build_vehicle_xacro(self, vehicle):
         xacro_path = (self._lib_path +
-                      "/uwsim/scenes/xacro/" +
-                      scene + ".xacro")
+                      "/uwsim/scenes/xacro/vehicle.xacro")
         xml_path   = (self._lib_path +
-                      "/uwsim/scenes/out.xml")
-        args       =  self._format_sim_args(sim_args)
+                      "/uwsim/scenes/xml/vehicle.xml")
+        args       =  self._format_sim_args(vehicle.vhcl_attr)
 
         # This is not working, we have to use shell=True :(, for some reason the args
         # are not passed to the xacro and there is a non-determinastic error that sometimes
@@ -82,6 +90,8 @@ class SimProcess:
         proc = subprocess.Popen(cmd, shell=True)
 
         proc.communicate()
+        self.remove_first_line(xml_path)
+
 
     def configure_timeout(self, timeout):
         """
