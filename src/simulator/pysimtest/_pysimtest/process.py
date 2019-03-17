@@ -66,8 +66,8 @@ class SimProcess:
         self.build_vehicle_xacro(test.vehicle)
 
 
-    def remove_first_line(self, file):
-        cmd = "sed -i -e \"1d\" " + file
+    def remove_generated_xacro(self, file):
+        cmd = "sed -i -e \"1,6d\" " + file
         proc = subprocess.Popen(cmd, shell=True)
         proc.communicate()
 
@@ -90,7 +90,12 @@ class SimProcess:
         proc = subprocess.Popen(cmd, shell=True)
 
         proc.communicate()
-        self.remove_first_line(xml_path)
+        self.remove_generated_xacro(xml_path)
+
+        cmd0 = "sed -i \'1i<vehicle>\' " + xml_path
+        proc0 = subprocess.Popen(cmd0, shell=True)
+
+        proc0.communicate()
 
 
     def configure_timeout(self, timeout):
