@@ -15,7 +15,10 @@ class Scene:
     A class representing a uwsim scene
     """
     def __init__(self):
-        self.scene_attr = dict()
+        """
+        Constructs a scene
+        """
+        self.data = dict()
         self._set_defaults()
 
     def _set_defaults(self):

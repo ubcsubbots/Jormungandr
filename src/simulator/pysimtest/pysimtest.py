@@ -13,8 +13,8 @@ example of it's use
 
     class MyTestSuite(pysimtest.SimTestSuite):
 
-        @pysimtest.setup
-        def setup(self):
+        @pysimtest.forall
+        def forall(self):
             self.set_scene('gate')
             self.set_test_timout(60)
 
@@ -38,14 +38,14 @@ by sourcing pysimtest.sh and then typing 'pysimtest my_test_suite'
 name = "pysimtest"
 
 __all__ = (["SimTestSuite",
-            "setup",
+            "forall",
             "test",
             "main" ])
 
-from _pysimtest.testsuite import SimTestSuite
-from _pysimtest.testsuite import setup
-from _pysimtest.testsuite import test
-from _pysimtest.main import main
+from _pysimtest.suite import SimTestSuite
+from _pysimtest.suite import forall
+from _pysimtest.suite import test
+from _pysimtest.main  import main
 
 # Run program
 if __name__ == "__main__":

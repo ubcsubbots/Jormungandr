@@ -2,32 +2,33 @@
 #Created On: 2019-03-11
 
 """
-This module contains the functionality for creating
+This module contains the interface for creating
 simulation test suites
 """
 
 
 import decorators
 import constants
-import testcase
+import case
 
 
-def setup(func):
+
+def forall(func):
     """
-    Decorator for setup. Decorate inital setup
+    Decorator for forall. Decorate inital forall
     method with this. All methods inside decorated
     function apply globally to a test suite.
     Calling a method in a test method which has
-    already been called in the setup method will
+    already been called in the forall method will
     have no effect
 
-    :param func: setup function
+    :param func: forall method
     """
-    return decorators.setup(func)
+    return decorators.forall(func)
 
-def test(run=False):
+def test(run=True):
     """
-    Paramaterized decorator for test. Decorate all
+    Paramaterized decorator for tests. Decorate all
     test methods with this, including the run argument
     specifying if you want the test to run or not
 
@@ -50,19 +51,30 @@ class SimTestSuite(object):
         self._in_global_state = False
 
         self._tests = []
-        self._builder = testcase.SimTestBuilder()
+        self._builder = case.SimTestBuilder()
 
-    def set_scene(self, scene):
+    def forall(self):
         """
-        Sets the uwsim scene for which a test case
-        will be performed on. A scene can either be
-        'custom', referring to an empty scene, or a
-        preset scene. Currently the choices for preset
-        scenes are: 'gate'.
+        Abstract forall method. Use this to set test
+        parameters for all tests in the suite. Remember
+        to decorate this with forall decorater
+        """
+        pass
 
-        :param scene: the uwsim scene for a test case
+    def add_gate(self, x_pos, y_pos, z_pos, r_rot, p_rot, y_rot):
         """
-        self._builder.set_scene(scene, self._in_global_state)
+        Adds a gate to the simulation at the given x,y,z
+        co-ordinates with the given r,p,y rotation
+
+        ;param x_pos: gate's x position
+        ;param y_pos: gate's y position
+        ;param z_pos: gate's z position
+        ;param r_rot: gate's r rotation
+        ;param p_rot: gate's p rotation
+        ;param y_rot: gate's y rotation
+        """
+        self._builder.add_gate(x_pos, y_pos, z_pos,
+                               r_rot, p_rot, y_rot, self._in_global_state)
 
     def set_timeout(self, secs):
         """
@@ -75,7 +87,7 @@ class SimTestSuite(object):
 
     def set_vehicle_position(self, x, y, z):
         """
-        Sets the vehicles initial position
+        Sets the vehicle's initial position
 
         :param x: vehicle's x position
         :param y: vehicle's y position
@@ -85,7 +97,7 @@ class SimTestSuite(object):
 
     def set_vehicle_rotation(self, r, p, y):
         """
-        Sets the vehicles initial rotation
+        Sets the vehicle's initial rotation
 
         :param r: vehicle's r position
         :param p: vehicle's p position

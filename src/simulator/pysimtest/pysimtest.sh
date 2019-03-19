@@ -12,6 +12,10 @@ pysimtest () {
       return
   fi
 
-  python pysimtest.py $1
+  # Find pysimtest.py
+  PYSIMTEST="$(find ~ -name "pysimtest.py" -type f)"
+
+  # Run program with arg
+  python $PYSIMTEST $1
 
 }

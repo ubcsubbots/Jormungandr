@@ -1,0 +1,200 @@
+<!-- This document is the xml code for a block object -->
+<gate>
+  <object>
+    <name>vertPoleLeft</name>
+    <file>objects/gate/vertCylinder.3ds </file>
+    <position>
+      <x> 5</x>
+      <y> -1.524 </y>
+      <z> 3</z>
+    </position>
+    <orientation>
+      <r>0</r>
+      <p>0</p>
+      <y>0</y>
+    </orientation>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
+
+  <object>
+    <name>vertPoleRight</name>
+    <file>objects/gate/vertCylinder.3ds </file>
+    <position>
+      <x>  5</x>
+      <y> 1.524</y>
+      <z> 3 </z>
+    </position>
+    <orientation>
+      <r>0</r>
+      <p>0</p>
+      <y>0</y>
+    </orientation>
+    <offsetp>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
+  <object>
+    <name>horPoleBlack</name>
+    <file>objects/gate/horCylinderBlack.3ds </file>
+    <position>
+      <x>  5</x>
+      <y> -.762</y>
+      <z> 2.238 </z>
+    </position>
+    <orientation>
+      <r>1.57</r>
+      <p>0</p>
+      <y>0</y>
+    </orientation>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
+  <object>
+    <name>horPoleRed</name>
+    <file>objects/gate/horCylinderRed.3ds </file>
+    <position>
+      <x>  5</x>
+      <y> .762</y>
+      <z> 2.238 </z>
+    </position>
+    <orientation>
+      <r>1.57</r>
+      <p>0</p>
+      <y>0</y>
+    </orientation>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
+  <object>
+    <name>Centre Panel</name>
+    <file>objects/gate/centrePanel.3ds </file>
+    <position>
+      <x>  5</x>
+      <y> 0 </y>
+      <z> 2.390 </z>
+    </position>
+    <orientation>
+      <r>0</r>
+      <p>0</p>
+      <y>3.14</y>
+    </orientation>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
+  <object>
+    <name>Centre Panel</name>
+    <file>objects/gate/centrePanel.3ds </file>
+    <position>
+      <x>  5</x>
+      <y> 0 </y>
+      <z> 2.390 </z>
+    </position>
+    <orientation>
+      <r>0</r>
+      <p>0</p>
+      <y>3.14</y>
+    </orientation>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
+  <object>
+    <name>Red Banner</name>
+    <file>objects/gate/banner.3ds </file>
+    <position>
+      <x>  5</x>
+      <y> 1.22 </y>
+      <z> 2.847 </z>
+    </position>
+    <orientation>
+      <r>1.57</r>
+      <p>0</p>
+      <y>0</y>
+    </orientation>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
+</gate>

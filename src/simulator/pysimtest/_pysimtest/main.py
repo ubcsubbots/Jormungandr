@@ -18,12 +18,10 @@ def check_valid_arg(args):
 
     :param args: sys argv
     """
-    if not (len(args) == 2):
-        print("Error: missing test suite name")
-        exit(1)
+    if not len(args) == 2:
+        sys.exit("Error: invalid arguments, needs a python module")
     if not args[1].endswith(".py"):
-        print("Error: needs a python (.py) file")
-        exit(1)
+        sys.exit("Error: needs a python (.py) file")
 
 def find_target(target):
     """
@@ -41,9 +39,10 @@ def find_target(target):
     for root, dirs, files in os.walk(src):
         if target in files:
             matches.append(os.path.join(root, target))
-    if len(matches) > 1 or len(matches) == 0 :
-        print("Error: problem with test suite name")
-        exit(1)
+    if len(matches) > 1:
+        sys.exit("Error: multiple modules found")
+    if len(matches) == 0 :
+        sys.exit("Error: cannot find module")
     return matches[0]
 
 def main(args):
