@@ -6,7 +6,7 @@ This module provides the funcitonality for
 running the uwsim simulation
 """
 
-import xml.etree.ElementTree as elemtree
+import xml.etree.ElementTree as xmltree
 import subprocess
 import os
 import signal
@@ -27,13 +27,14 @@ class SimRunner:
                          os.path.dirname(
                          os.path.abspath(__file__)))
         # Group process id's
-        self._launch_pgid  = None
-        self._uwsim_pgid   = None
+        self._launch_pgid   = None
+        self._dynamics_pgid = None
+        self._uwsim_pgid    = None
 
     def setup(self):
         """
         Starts any initial processes needed
-        to setup the uwsim simulation
+        to setup the simulation environment
         """
         self._launch_vehicle_ai()
 
@@ -42,9 +43,7 @@ class SimRunner:
         Kills any processes created by the
         simulation if they are still running
         """
-        if self._uwsim_pgid is not None:
-            os.killpg(os.getpgid(self._uwsim_pgid), signal.SIGTERM)
-            self._uwsim_pgid = None
+        self.stop_simulation()
         if self._launch_pgid is not None:
             os.killpg(os.getpgid(self._launch_pgid), signal.SIGTERM)
             self._launch_pgid = None
@@ -54,29 +53,35 @@ class SimRunner:
         Configures the out.xml file based on the given
         vehicle, scene and objects
 
+        This
+
         :param test: the test to configure the simulation with
         """
+        if (test.is_dynamic):
+            self._launch_dynamics()
+
         scene_nodes     = self._configure_scene(test.scene)
         vehicle_nodes   = self._configure_vehicle(test.vehicle)
         object_nodes    = self._configure_objects(test.objects)
         interface_nodes = self._configure_interfaces()
 
-        in_tree         = elemtree.parse(self._lib_path +
-                                         "/uwsim/scenes/xml/in.xml")
-        in_root         = in_tree.getroot()
-        nodes = scene_nodes + vehicle_nodes + object_nodes + interface_nodes
+        tree  = xmltree.parse(self._lib_path +
+                              "/uwsim/scenes/xml/in.xml")
+        root  = tree.getroot()
+        nodes = (scene_nodes + vehicle_nodes +
+                 object_nodes + interface_nodes)
         for node in nodes:
-            # Insert node at end of in root to maintain UWsim doctype order
-            in_root.insert(len(list(in_root)),node)
+            # Insert node at end of tree to maintain UWsim doctype order
+            root.insert(len(list(root)),node)
         header = ("<?xml version=\"1.0\" ?>\n" +
                   "<!DOCTYPE UWSimScene SYSTEM \"UWSimScene.dtd\" >\n")
         with open(self._lib_path + "/uwsim/scenes/xml/out.xml", 'wb') as file:
             file.write(header)
-            in_tree.write(file)
+            tree.write(file)
 
     def run_simulation(self, timeout):
         """
-        Executes the uwsim simulation process
+        Runs the uwsim simulation process
         in a subprocess. The simulation is stopped
         when the timeout length passes
 
@@ -95,9 +100,13 @@ class SimRunner:
 
     def stop_simulation(self):
         """
-        Stops the current execution of the
-        simulation if it is still running
+        Stops the current execution of the simulation
+        if it is still running, alongside the dynamics
+        if they are running as well
         """
+        if self._dynamics_pgid is not None:
+            os.killpg(os.getpgid(self._dynamics_pgid), signal.SIGTERM)
+            self._dynamics_pgid = None
         if self._uwsim_pgid is not None:
             os.killpg(os.getpgid(self._uwsim_pgid), signal.SIGTERM)
             self._uwsim_pgid = None
@@ -106,80 +115,101 @@ class SimRunner:
         """
         Launches ros simulator ai in subprocess.
         """
-        cmd = ["roslaunch", "simulator", "simulator_ai_launch.launch"]
+        cmd = ["roslaunch", "simulator", "simulator_ai.launch"]
         proc = subprocess.Popen(cmd,
                                 stdout=constants.DEVNULL,
                                 stderr=subprocess.PIPE,
                                 preexec_fn=os.setsid)
         self._launch_pgid = proc.pid
 
+    def _launch_dynamics(self):
+        """
+        Launches dynamics in subprocess
+        """
+        print("DYNAMICS LAUNCHED! (not really though)")
+        pass #TODO
+
     def _configure_vehicle(self, vehicle):
         """
-        Configures all xml nodes found in vehicle.xml
-        and returns them in a list
+        Configures the nodes in the vehicle.xml tree
+        and returns them
+
         :param vehicle: the vehicle
         """
-        vehicle_tree = elemtree.parse(self._lib_path +
+        vehicle_tree = xmltree.parse(self._lib_path +
                                       "/uwsim/scenes/xml/vehicle.xml")
         vehicle_root = vehicle_tree.getroot()
-        for elem in vehicle.data:
-            target  = tuple(elem.split(","))
-            t_root  = vehicle_root.find(target[0])
-            t_node  = t_root.find(target[1])
-            t_val   = t_node.find(target[2])
-            t_val.text = str(vehicle.data[elem])
+        self._configure_data(vehicle_root, vehicle.data)
         nodes = list(vehicle_root)
         return nodes
 
     def _configure_scene(self, scene):
         """
-        Configures all xml nodes found in scene.xml
-        and returns them in a list
+        Configures the nodes in the scene.xml tree
+        and returns them
 
         :param scene: the scene
         """
-        scene_tree = elemtree.parse(self._lib_path +
+        scene_tree = xmltree.parse(self._lib_path +
                                     "/uwsim/scenes/xml/scene.xml")
         scene_root = scene_tree.getroot()
-        for elem in scene.data:
-            target  = tuple(elem.split(","))
-            t_root  = scene_root.find(target[0])
-            t_node  = t_root.find(target[1])
-            t_val   = t_node.find(target[2])
-            t_val.text = str(scene.data[elem])
+        self._configure_data(scene_root, scene.data)
         nodes = list(scene_root)
         return nodes
 
     def _configure_objects(self, objects):
         """
-        For all objects, configures their xml nodes and
-        adds them to the main objects xml root. Then returns
-        all nodes in the main objects xml root
+        Configures every object's xml tree in the given list
+        of objects and returns them
 
         :param objects: the list of objects
         """
-        objects_tree = elemtree.parse(self._lib_path +
-                                      "/uwsim/scenes/xml/objects.xml")
-        objects_root = objects_tree.getroot()
+        nodes = []
         for object in objects:
-            name = object.name
-            object_tree = elemtree.parse(self._lib_path +
-                                        "/uwsim/scenes/xml/" + name + ".xml")
+            object_tree = xmltree.parse(self._lib_path +
+                                        "/uwsim/scenes/xml/object.xml")
             object_root = object_tree.getroot()
-            # TODO: Do stuff here to alter the object tree
-            for child in list(object_tree.getroot()):
-                objects_root.append(child)
-        nodes = list(objects_root)
+            self._configure_data(object_root, object.data)
+            nodes.extend(list(object_root))
         return nodes
 
     def _configure_interfaces(self):
         """
-        Configures interface nodes and returns
-        them in a list
+        Configures the nodes in the interfaces.xml tree
+        and returns them
         """
-        interface_tree = elemtree.parse(self._lib_path +
+        interface_tree = xmltree.parse(self._lib_path +
                                       "/uwsim/scenes/xml/interfaces.xml")
         interface_root = interface_tree.getroot()
-        #TODO: add option to add dynamic sim interfaces
+        #TODO: add options to change interfaces
         nodes = list(interface_root)
         return nodes
+
+    def _configure_data(self, root, data):
+        """
+        A helper function which configures an xml tree starting
+        at the given root with the given data
+
+        :param tree: the xml tree
+        :param data: dictionary of data
+        """
+        # TODO: make this work for paths with possible collisions
+        for elem in data:
+            path = list(elem.split(","))
+            val  = data[elem]
+            self._traverse_and_insert(root, path, val)
+
+    def _traverse_and_insert(self, root, path, val):
+        """
+        A helper function which traverses an xml tree, starting
+        from the root and following the path until it ends. Then,
+        inserts the val into whatever node the path ended on
+
+        :param root: start of traversal
+        :param path: the list of nodes the traversal visits
+        :param val: the value to be inserted at end of path
+        """
+        target = root
+        for node in path:
+            target = target.find(node)
+        target.text = str(val)

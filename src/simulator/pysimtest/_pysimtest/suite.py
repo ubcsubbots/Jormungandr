@@ -8,7 +8,7 @@ simulation test suites
 
 
 import decorators
-import constants
+import constants as const
 import case
 
 
@@ -61,6 +61,44 @@ class SimTestSuite(object):
         """
         pass
 
+    def use_dynamics(self, is_dynamic):
+        """
+        If is_dynamic is True, uses dynamics
+        for the test, else does not use dynamics
+
+        :param is_dynamic: if test is dynamic or not
+        """
+        self._builder.use_dynamics(is_dynamic, self._in_global_state)
+
+    def add_pool(self):
+        """
+        Adds a pool to the simulation
+        """
+        self._builder.add_object("pool", const.POOL_MODEL,
+                                 0, 0, 0, 0, 0, 0,
+                                 self._in_global_state)
+
+    def add_seafloor(self):
+        """
+        Adds the seafloor to the simulation
+        """
+        self._builder.add_object("seafloor", const.SEAFLOOR_MODEL,
+                                 0, 0, 0, 0, 0, 0,
+                                 self._in_global_state)
+    def add_pole(self, x, y, z):
+        """
+        Adds a pole to the simulation at the given x,y,z
+        co-ordinates
+
+        ;param x_pos: pole's x position
+        ;param y_pos: pole's y position
+        ;param z_pos: pole's z position
+        """
+        self._builder.add_object("pole", const.POLE_MODEL,
+                                  x ,y, z,
+                                  0, 0, 0,
+                                  self._in_global_state)
+
     def add_gate(self, x_pos, y_pos, z_pos, r_rot, p_rot, y_rot):
         """
         Adds a gate to the simulation at the given x,y,z
@@ -73,17 +111,44 @@ class SimTestSuite(object):
         ;param p_rot: gate's p rotation
         ;param y_rot: gate's y rotation
         """
-        self._builder.add_gate(x_pos, y_pos, z_pos,
-                               r_rot, p_rot, y_rot, self._in_global_state)
+        self._builder.add_object("gate", const.GATE_MODEL,
+                                 x_pos, y_pos, z_pos,
+                                 r_rot, p_rot, y_rot,
+                                 self._in_global_state)
+
+    def add_path_marker(self, x_pos, y_pos, z_pos, r_rot, p_rot, y_rot):
+        """
+        Adds a path marker to the simulation at the given x,y,z
+        co-ordinates with the given r,p,y rotation
+
+        ;param x_pos: path marker's x position
+        ;param y_pos: path marker's y position
+        ;param z_pos: path marker's z position
+        ;param r_rot: path marker's r rotation
+        ;param p_rot: path marker's p rotation
+        ;param y_rot: path marker's y rotation
+        """
+        self._builder.add_object("marker", const.MARKER_MODEL,
+                                 x_pos, y_pos, z_pos,
+                                 r_rot, p_rot, y_rot,
+                                 self._in_global_state)
 
     def set_timeout(self, secs):
         """
         Sets the test timeout length of a test case,
-        default is 2 minutes
+        default is 1 minutes
 
         :param secs: timeout length in seconds
         """
         self._builder.set_timeout(secs, self._in_global_state)
+
+    def set_wave_scale(self, scale):
+        """
+        Sets the wave scale for the simulation, default
+        is 7. Note that scale is the exponent on the actual
+        scale (i.e the actual scale is 1e-7)
+        """
+        self._builder.set_wave_scale(scale, self._in_global_state)
 
     def set_vehicle_position(self, x, y, z):
         """
@@ -119,3 +184,6 @@ class SimTestSuite(object):
 
     def _add_test(self):
         self._tests.append(self._builder.get_result())
+
+    # Tell loader that forall is a forall method
+    forall.is_forall = True

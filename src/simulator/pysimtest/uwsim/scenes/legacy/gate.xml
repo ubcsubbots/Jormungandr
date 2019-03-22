@@ -1,4 +1,4 @@
-<!-- This document is the xml code for a block object -->
+<!-- This document is the xml code for a gate object -->
 <gate>
   <object>
     <name>vertPoleLeft</name>

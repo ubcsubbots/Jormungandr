@@ -1,5 +1,5 @@
-<!-- This document is the xml code for the uwsim vehicle -->
-<vehicle>
+<!-- This document is the xml tree for the uwsim vehicle -->
+<root>
   <vehicle>
     <name>girona500</name>
     <file>robot/GIRONA500/g500ARM5.urdf</file>
@@ -35,8 +35,6 @@
         <p>3.1415</p>
         <y>1.57 </y>
       </orientation>
-
-
     </virtualCamera>
     <virtualCamera>
       <name>bowtech2</name>
@@ -70,7 +68,6 @@
         <y>0</y>
       </orientation>
     </rangeSensor>
-
     <imu>
       <name>imu</name>
       <relativeTo>base_link</relativeTo>
@@ -86,7 +83,6 @@
       </orientation>
       <std>0.00000001</std>
     </imu>
-
     <pressureSensor>
       <name>pressureSensor</name>
       <relativeTo>base_link</relativeTo>
@@ -102,7 +98,6 @@
       </orientation>
       <std>0.02</std>
     </pressureSensor>
-
     <gpsSensor>
       <name>GPSSensor</name>
       <relativeTo>base_link</relativeTo>
@@ -118,7 +113,6 @@
       </orientation>
       <std>0.00005</std>
     </gpsSensor>
-
     <dvlSensor>
       <name>DVLSensor</name>
       <relativeTo>base_link</relativeTo>
@@ -134,7 +128,6 @@
       </orientation>
       <std>0.0015</std>
     </dvlSensor>
-
     <virtualRangeImage>
       <name>rangeImage</name>
       <relativeTo>part0</relativeTo>
@@ -159,9 +152,7 @@
         <n>0.8</n>
         <k>0</k>
       </parameters>
-
     </virtualRangeImage>
-
     <multibeamSensor>
       <name>multibeam</name>
       <relativeTo>part0</relativeTo>
@@ -180,7 +171,6 @@
       <angleIncr>0.1</angleIncr>
       <range>10</range>
     </multibeamSensor>
-
     <simulatedDevices>
       <echo>
         <name>g500_echo1</name>
@@ -191,7 +181,6 @@
       <name>g500_echo2</name>
       <info>Echo example 2</info>
     </echo>
-
     <ForceSensor>
       <name>ForceG500</name>
       <target>base_link</target>
@@ -207,4 +196,4 @@
       </offsetr>
     </ForceSensor>
   </vehicle>
-</vehicle>
+</root>

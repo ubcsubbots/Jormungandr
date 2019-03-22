@@ -10,6 +10,7 @@ executing them
 
 import imp
 import inspect
+import sys
 
 import constants as const
 import runner
@@ -65,7 +66,8 @@ class SimTestLoader:
         """
         Searches for a forall method in the
         given suite, if it finds it, and it
-        has been properly decorated, calls it
+        has been properly decorated, calls it,
+        else exits program
 
         :param suite: the test suite object
         """
@@ -81,9 +83,10 @@ class SimTestLoader:
 
     def _call_tests(self, suite):
         """
-        Searches for all test methods in the
-        given suite and sorts them by test num, then,
-        if a test is properly decorated, calls it
+        Searches for all test methods set to run in the
+        given suite and checks if they are properly
+        decorated. If they are, sorts them by test
+        num and calls them, else exits program
 
         :param suite: the test suite object
         """
@@ -91,13 +94,15 @@ class SimTestLoader:
         for attr in dir(suite):
             obj = getattr(suite, attr)
             if callable(obj) and attr.startswith("test"):
-                tests.append(obj)
+                if hasattr(obj.im_func, "is_test"):
+                    if hasattr(obj.im_func, "run"):
+                        tests.append(obj)
+                else:
+                    sys.exit("Error: undecorated test")
         tests.sort(key=lambda test : test.im_func.num)
         for test in tests:
-            if hasattr(test.im_func, "is_test"):
-                test()
-            else:
-                sys.exit("Error: undecorated test")
+            test()
+
 
     def _get_module(self, path):
         """
@@ -111,8 +116,7 @@ class SimTestLoader:
 
     def _get_suites(self, module):
         """
-        Returns objects of all
-        test suites in the module
+        Returns objects of all test suites in the module
 
         :param module: target module object
         """
@@ -122,7 +126,6 @@ class SimTestLoader:
             if inspect.isclass(obj):
                 if issubclass(obj, suite.SimTestSuite):
                     suites.append(obj)
-
         # Returns instances of the suites
         return [suite() for suite in suites]
 
@@ -143,7 +146,9 @@ class SimTestLoader:
 
     def _execute_tests(self, tests):
         """
-        Runs the simulation for each test
+        Executes all test cases. Stops the simulation if it
+        receives a KeyboardInterrupt at anytime during the
+        execution of a test case
 
         :param tests: the test cases
         """

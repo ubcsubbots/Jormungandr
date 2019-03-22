@@ -1,5 +1,5 @@
-<!-- This document is the xml code for the uwsim rosInterfaces block -->
-<interfaces>
+<!-- This document is the xml tree for the uwsim rosInterfaces block -->
+<root>
   <rosInterfaces>
     <ROSOdomToPAT>
       <topic> /dataNavigator </topic>
@@ -93,4 +93,4 @@
       <rate>100</rate>
     </ForceSensorROS>
   </rosInterfaces>
-</interfaces>
+</root>

@@ -22,4 +22,4 @@ class Scene:
         self._set_defaults()
 
     def _set_defaults(self):
-        pass
+        self.data[const.SCENE_WAVE_SCALE] = const.DEFAULT_WAVE_SCALE

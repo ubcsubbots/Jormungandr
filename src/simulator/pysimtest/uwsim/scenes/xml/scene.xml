@@ -1,13 +1,12 @@
-<!-- This document is the xml code for the uwsim  scene -->
-<scene>
-  
+<!-- This document is the xml tree for the uwsim  scene -->
+<root>
   <oceanState>
     <windx> 0.04 </windx>
     <windy> 0.04 </windy>
     <windSpeed> 12 </windSpeed>
     <depth> 1000 </depth>
     <reflectionDamping> 0.35 </reflectionDamping>
-    <waveScale> 1e-7 </waveScale>
+    <waveScale> 1e-7   </waveScale>
     <isNotChoppy> 0 </isNotChoppy>
     <choppyFactor> 2.5 </choppyFactor>
     <crestFoamHeight> 2.2 </crestFoamHeight>
@@ -31,7 +30,6 @@
       <b> 0.005 </b>
     </attenuation>
   </oceanState>
-
   <simParams>
     <disableShaders> 0 </disableShaders>
     <resw> 800 </resw>
@@ -51,7 +49,6 @@
       <target>girona500</target>
     </showTrajectory>
   </simParams>
-
   <camera>
     <freeMotion> 1 </freeMotion>
     <objectToTrack>girona500/base_link</objectToTrack>
@@ -70,5 +67,4 @@
       <z>0 </z>
     </lookAt>
   </camera>
-
-</scene>
+</root>

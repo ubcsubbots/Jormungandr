@@ -1,12 +1,12 @@
-<!-- This document is the xml code for uwsim objects, with a defualt pool objetc-->
-<objects>
+<!-- This document is the xml tree for an abstract object -->
+<root>
   <object>
-    <name>pool</name>
-    <file>terrain/QualTask/pool.3ds </file>
+    <name>name_will_be_inserted_here</name>
+    <file>model_file_will_be_inserted_here</file>
     <position>
-      <x> 0 </x>
-      <y> 0 </y>
-      <z> 0 </z>
+      <x> 5</x>
+      <y> -1.524 </y>
+      <z> 3</z>
     </position>
     <orientation>
       <r>0</r>
@@ -28,4 +28,4 @@
       <collisionShapeType> trimesh </collisionShapeType>
     </physics>
   </object>
-</objects>
+</root>
