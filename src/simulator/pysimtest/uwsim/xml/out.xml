@@ -277,6 +277,11 @@
       <p>0</p>
       <y>0</y>
     </orientation>
+    <scaleFactor>
+      <x> 1 </x>
+      <y> 1 </y>
+      <z> 1 </z>
+    </scaleFactor>
     <offsetp>
       <x>-0</x>
       <y>-0</y>
@@ -305,6 +310,11 @@
       <p>0</p>
       <y>0</y>
     </orientation>
+    <scaleFactor>
+      <x> 1 </x>
+      <y> 1 </y>
+      <z> 1 </z>
+    </scaleFactor>
     <offsetp>
       <x>-0</x>
       <y>-0</y>
