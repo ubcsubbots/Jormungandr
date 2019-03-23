@@ -24,8 +24,7 @@ TEST(TestSuite, testCase1) {
 
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
-
-    linesToFollow.frontLine.middleOfMarker
+    
 
     // TestUtils::drawLineToFollow(image,linesToFollow);
 }
