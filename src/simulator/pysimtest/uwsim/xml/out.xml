@@ -298,6 +298,39 @@
     </physics>
   </object>
 <object>
+    <name>marker</name>
+    <file>objects/pathmarker/Path_Marker.3ds</file>
+    <position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </position>
+    <orientation>
+      <r>0</r>
+      <p>0</p>
+      <y>0</y>
+    </orientation>
+    <scaleFactor>
+      <x> 1 </x>
+      <y> 1 </y>
+      <z> 1 </z>
+    </scaleFactor>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
+<object>
     <name>seafloor</name>
     <file>terrain/seafloor/terrain_noship.ive</file>
     <position>

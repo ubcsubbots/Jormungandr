@@ -1,10 +1,11 @@
 #Created By: Logan Fillo
 #Created On: 2019-03-14
 
-# see README.md
+# See README.md
 
 name = "pysimtest"
 
+# Public interface
 __all__ = (["SimTestSuite",
             "forall",
             "test",])

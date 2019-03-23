@@ -44,7 +44,7 @@ class TestRunner:
 
     def test_configure_data(self):
         tree = xmltree.parse(lib_path +
-                            "/uwsim/scenes/xml/vehicle.xml")
+                            "/uwsim/xml/vehicle.xml")
         root = tree.getroot()
         data  = dict()
         data[const.VEHICLE_X_POS] = 100

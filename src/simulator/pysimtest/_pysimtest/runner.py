@@ -66,7 +66,7 @@ class SimRunner:
         interface_nodes = self._configure_interfaces()
 
         tree  = xmltree.parse(self._lib_path +
-                              "/uwsim/scenes/xml/in.xml")
+                              "/uwsim/xml/in.xml")
         root  = tree.getroot()
         nodes = (scene_nodes + vehicle_nodes +
                  object_nodes + interface_nodes)
@@ -75,7 +75,7 @@ class SimRunner:
             root.insert(len(list(root)),node)
         header = ("<?xml version=\"1.0\" ?>\n" +
                   "<!DOCTYPE UWSimScene SYSTEM \"UWSimScene.dtd\" >\n")
-        with open(self._lib_path + "/uwsim/scenes/xml/out.xml", 'wb') as file:
+        with open(self._lib_path + "/uwsim/xml/out.xml", 'wb') as file:
             file.write(header)
             tree.write(file)
 
@@ -89,7 +89,7 @@ class SimRunner:
         """
         cmd = ["rosrun", "uwsim", "uwsim_binary", "--dataPath",
                 self._lib_path + "/uwsim/data", "--configfile",
-                self._lib_path + "/uwsim/scenes/xml/out.xml"]
+                self._lib_path + "/uwsim/xml/out.xml"]
         proc = subprocess.Popen(cmd,
                                 stdout=constants.DEVNULL,
                                 stderr=constants.DEVNULL,
@@ -137,7 +137,7 @@ class SimRunner:
         :param vehicle: the vehicle
         """
         vehicle_tree = xmltree.parse(self._lib_path +
-                                      "/uwsim/scenes/xml/vehicle.xml")
+                                      "/uwsim/xml/vehicle.xml")
         vehicle_root = vehicle_tree.getroot()
         self._configure_data(vehicle_root, vehicle.data)
         nodes = list(vehicle_root)
@@ -151,7 +151,7 @@ class SimRunner:
         :param scene: the scene
         """
         scene_tree = xmltree.parse(self._lib_path +
-                                    "/uwsim/scenes/xml/scene.xml")
+                                    "/uwsim/xml/scene.xml")
         scene_root = scene_tree.getroot()
         self._configure_data(scene_root, scene.data)
         nodes = list(scene_root)
@@ -167,7 +167,7 @@ class SimRunner:
         nodes = []
         for object in objects:
             object_tree = xmltree.parse(self._lib_path +
-                                        "/uwsim/scenes/xml/object.xml")
+                                        "/uwsim/xml/object.xml")
             object_root = object_tree.getroot()
             self._configure_data(object_root, object.data)
             nodes.extend(list(object_root))
@@ -179,7 +179,7 @@ class SimRunner:
         and returns them
         """
         interface_tree = xmltree.parse(self._lib_path +
-                                      "/uwsim/scenes/xml/interfaces.xml")
+                                      "/uwsim/xml/interfaces.xml")
         interface_root = interface_tree.getroot()
         #TODO: add options to change interfaces
         nodes = list(interface_root)
