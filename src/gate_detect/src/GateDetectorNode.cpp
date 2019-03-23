@@ -20,10 +20,7 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     int cannyLow, houghLinesThreshold, houghLinesMinLength, poleMax,
     lowVertThresh, lowHorThresh, houghLinesMaxLineGap;
     double interpolationConstant1, interpolationConstant2;
-    displayDetectedGate_ = true;
 
-    nh.getParam("/gate_detect_node/width", width_);
-    nh.getParam("/gate_detect_node/height", height_);
     nh.getParam("/gate_detect_node/cannyLow", cannyLow);
     nh.getParam("/gate_detect_node/houghLinesThreshold", houghLinesThreshold);
     nh.getParam("/gate_detect_node/houghLinesMinLength", houghLinesMinLength);
@@ -74,14 +71,15 @@ const sensor_msgs::ImageConstPtr& msg) {
     cv::Mat image = (cv_ptr->image);
 
     Gate gate =
-    gateDetector_.initialize(image); // output Gate instead of gateCoordinates
-    if (displayDetectedGate_)
+    gateDetector_.initialize(image); //outputs structure of lines which compose the gate
+    if (displayDetectedGate_) // debug image containing detected lines is output here if parameter is true
         publishGateImage(
-        gate, image); // here we can output a debug image if a flag is set
+        gate, image);
 
-    // here we interpolate distance with another function/set of functions
+    // these functions interpolate distance/angles
     GateCoordinates gateCoordinates =
     defaultGateCoordinates(); // initializes everything to zeroes
+
 
     if (gate.leftDetected) {
         gateCoordinates.detectedLeftPole = true;
@@ -91,7 +89,7 @@ const sensor_msgs::ImageConstPtr& msg) {
         gateCoordinates.angleLeftPole =
         interpolator_.getVertAngle(gate.leftPole.getVertMid(),
                                    leftWidth,
-                                   width_,
+                                   image.cols,
                                    gateCoordinates.distanceLeftPole);
     }
     if (gate.rightDetected) {
@@ -102,7 +100,7 @@ const sensor_msgs::ImageConstPtr& msg) {
         gateCoordinates.angleRightPole =
         interpolator_.getVertAngle(gate.rightPole.getVertMid(),
                                    rightWidth,
-                                   width_,
+                                   image.cols,
                                    gateCoordinates.distanceRightPole);
     }
     if (gate.topDetected) {
@@ -113,7 +111,7 @@ const sensor_msgs::ImageConstPtr& msg) {
         gateCoordinates.angleTopPole =
         interpolator_.getHorAngle(gate.topPole.getHorMid(),
                                   topWidth,
-                                  height_,
+                                  image.rows,
                                   gateCoordinates.distanceTopPole);
     }
     publishGateDetectMsg(gateCoordinates);
@@ -158,9 +156,9 @@ void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
 void GateDetectorNode::publishGateImage(Gate gate, cv::Mat image) {
     cv::Mat colourMat;
 
-    cv::cvtColor(image, colourMat, CV_GRAY2BGR);
+    cv::cvtColor(image, colourMat, CV_GRAY2BGR);//converts to BGR so colors can be drawn on image
 
-    colourMat = TestUtils::drawGate(colourMat, gate);
+    colourMat = TestUtils::drawGate(colourMat, gate);//draws detected lines on image
 
     cv_bridge::CvImage out_msg;
     out_msg.header =

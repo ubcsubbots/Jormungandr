@@ -19,8 +19,7 @@
         <param name="interpolationConstant2" value="-.92791" type="double" />
         <param name="lowVertThresh" value="150" type="int" />
         <param name="lowHorThresh" value="150" type="int" />
-        <param name="width" value="500" type="int" />
-        <param name="height" value="360" type="int" />
+	<param name="displayDetectedGate" value="true" type="bool" />
     </node>
 
 </launch>

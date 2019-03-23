@@ -236,7 +236,6 @@ Gate GateDetector::getGate(std::vector<Pole> vertPoles,
     Gate gate;
 
     // If theres no vertical poles, check for horizontal pole and put in struct
-    // struct
     if (vertPoles.empty()) {
         if (!horPoles.empty()) {
             gate.topPole = *std::min_element(
