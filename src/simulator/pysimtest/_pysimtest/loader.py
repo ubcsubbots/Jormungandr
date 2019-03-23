@@ -103,22 +103,6 @@ class SimTestLoader:
         for test in tests:
             test()
 
-<<<<<<< HEAD
-=======
-    def _execute_test(self, test):
-        """
-        Executes the test
-
-        :param test: the test case
-        """
-        print("---------------------------")
-        print("Name:    " + test.name)
-        print("Timeout:  " + str(test.test_args[const.TIMEOUT]))
-        print("Scene:   " + test.test_args[const.SCENE])
-        self._runner.run_simulation(test.test_args[const.TIMEOUT],
-                                    test.test_args[const.SCENE],
-                                    test)
->>>>>>> e5eedcd037316604eda51835537c9fe2326a1490
 
     def _get_module(self, path):
         """

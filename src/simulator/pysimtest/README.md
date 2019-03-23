@@ -53,11 +53,7 @@ There are two ways to run a test suite, for both, make sure you have `roscore` r
 - 1.  Navigate to `Jormungandr/src/simulator/pysimtest` and execute the following on the command line: `python pysimtest.py my_test_module.py`
 - 2. Source the shell script `pysimtest.sh` found in `Jormungandr/src/simulator/pysimtest`, or add it to your `.bashrc`, and enter the command `pysimtest my_test_module.py`. This option works from any directory.
 
-<<<<<<< Updated upstream
 Once you run your test suite, the terminal will notify you which test in which suite is currently running. To stop a test and continue onto the next one, you can enter `Ctrl`+`C` into the terminal. For troubleshooting, make sure `roscore` is running and try closing the current terminal and use a new one.
-=======
-Once you run your test suite, the terminal will notify you which test in which suite is currently running. To stop a test and continue onto the next one, you can enter `Ctrl`+`C` into the terminal. The best option for troubleshooting is to close your current terminal and open a new one.
->>>>>>> Stashed changes
 
 ## Code Documentation
 

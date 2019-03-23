@@ -78,7 +78,6 @@
     </lookAt>
   </camera>
   <!--start of vehicle parameters-->
-<<<<<<< HEAD:src/simulator/pysimtest/uwsim/xml/legacy/out.xml
   <vehicle>
     <name>girona500</name>
     <file>robot/GIRONA500/g500ARM5.urdf</file>
@@ -277,10 +276,6 @@
       </offsetr>
     </ForceSensor>
   </vehicle>
-=======
-  &vehicle;
-
->>>>>>> e5eedcd037316604eda51835537c9fe2326a1490:src/simulator/pysimtest/uwsim/scenes/out.xml
   <object>
     <name>pool</name>
     <file>terrain/QualTask/pool.3ds </file>

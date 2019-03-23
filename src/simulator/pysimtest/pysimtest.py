@@ -5,11 +5,7 @@
 
 name = "pysimtest"
 
-<<<<<<< Updated upstream
 # Public interface
-=======
-# public interface
->>>>>>> Stashed changes
 __all__ = (["SimTestSuite",
             "forall",
             "test",])
