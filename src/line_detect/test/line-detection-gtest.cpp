@@ -25,7 +25,7 @@ TEST(TestSuite, testCase1) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    // TestUtils::drawLineToFollow(image,linesToFollow);
+     TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
 }
 
 TEST(TestSuite, testCase2) {
@@ -43,7 +43,7 @@ TEST(TestSuite, testCase2) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    // TestUtils::drawLineToFollow(image,linesToFollow);
+     TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
 }
 
 TEST(TestSuite, testCase3) {
@@ -61,7 +61,8 @@ TEST(TestSuite, testCase3) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    // TestUtils::drawLineToFollow(image,linesToFollow);
+     TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
+
 }
 
 TEST(TestSuite, testCase4) {
@@ -79,7 +80,8 @@ TEST(TestSuite, testCase4) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    // TestUtils::drawLineToFollow(image,linesToFollow);
+    TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
+
 }
 
 TEST(TestSuite, testCase5) {
@@ -97,7 +99,7 @@ TEST(TestSuite, testCase5) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    // TestUtils::drawLineToFollow(image,linesToFollow);
+    TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
 }
 
 TEST(TestSuite, testCase6) {
@@ -115,7 +117,7 @@ TEST(TestSuite, testCase6) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    // TestUtils::drawLineToFollow(image,linesToFollow);
+    TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
 }
 
 TEST(TestSuite, testCase7) {
@@ -133,7 +135,7 @@ TEST(TestSuite, testCase7) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    // TestUtils::drawLineToFollow(image,linesToFollow);
+     TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
 }
 
 TEST(TestSuite, testCase8) {
@@ -151,8 +153,69 @@ TEST(TestSuite, testCase8) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
-    // TestUtils::drawLineToFollow(image,linesToFollow);
+     TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
 }
+
+//Actual test images from competition
+
+TEST(TestSuite, testCase9) {
+    Mat image;
+
+    image = imread("test_images/left0015.jpg",
+                   CV_LOAD_IMAGE_COLOR); // Read the file
+
+    if (image.empty()) // Check for invalid input
+    {
+        cout << "Could not open or find the image" << std::endl;
+        FAIL();
+    }
+
+    LineDetector lineDetector;
+    LinesToFollow linesToFollow = lineDetector.initialize(image);
+
+     TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);    
+
+}
+
+TEST(TestSuite, testCase10) {
+    Mat image;
+
+    image = imread("test_images/left0021.jpg",
+                   CV_LOAD_IMAGE_COLOR); // Read the file
+
+    if (image.empty()) // Check for invalid input
+    {
+        cout << "Could not open or find the image" << std::endl;
+        FAIL();
+    }
+
+    LineDetector lineDetector;
+    LinesToFollow linesToFollow = lineDetector.initialize(image);
+
+    TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
+
+}
+
+TEST(TestSuite, testCase11) {
+    Mat image;
+
+    image = imread("test_images/left0028.jpg",
+                   CV_LOAD_IMAGE_COLOR); // Read the file
+
+    if (image.empty()) // Check for invalid input
+    {
+        cout << "Could not open or find the image" << std::endl;
+        FAIL();
+    }
+
+    LineDetector lineDetector;
+    LinesToFollow linesToFollow = lineDetector.initialize(image);
+
+     TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
+}
+
+
+
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
