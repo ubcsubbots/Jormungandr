@@ -112,6 +112,9 @@ echo "================================================================"
 echo "Staging Virtual Environment and installing python packages."
 echo "================================================================"
 
-virtualenv subbots_python
+#Check if virtual environment is already created
+if [ ! -d $CURR_DIR/subbots_python ]; then
+    virtualenv subbots_python
+fi
 source $CURR_DIR/subbots_python/bin/activate
 pip install -r $CURR_DIR/requirements.txt

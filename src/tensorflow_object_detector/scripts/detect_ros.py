@@ -32,28 +32,29 @@ from object_detection.utils import visualization_utils as vis_util
 # SET FRACTION OF GPU YOU WANT TO USE HERE
 GPU_FRACTION = 0.4
 
+
 ######### Set model here ############
-MODEL_NAME =  'ssd_mobilenet_v1_coco_11_06_2017'
-DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
-MODEL_FILE = MODEL_NAME + '.tar.gz'
+#MODEL_NAME =  'ssd_mobilenet_v1_coco_11_06_2017'
+#DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
+#MODEL_FILE = MODEL_NAME + '.tar.gz'
 # By default models are stored in data/models/
-MODEL_PATH = os.path.join(os.path.dirname(sys.path[0]),'data','models' , MODEL_NAME)
+MODEL_PATH = os.path.join('/home','da-cam','Object-Detection-Training','model_1')
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
 PATH_TO_CKPT = MODEL_PATH + '/frozen_inference_graph.pb'
 ######### Set the label map file here ###########
-LABEL_NAME = 'mscoco_label_map.pbtxt'
+LABEL_NAME = 'label_map.pbtxt'
 # By default label maps are stored in data/labels/
-PATH_TO_LABELS = os.path.join(os.path.dirname(sys.path[0]),'data','labels', LABEL_NAME)
+PATH_TO_LABELS = os.path.join('/home','da-cam','Object-Detection-Training','data', LABEL_NAME)
 ######### Set the number of classes here #########
-NUM_CLASSES = 90
+NUM_CLASSES = 1
 
-opener = urllib.request.URLopener()
-opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
-tar_file = tarfile.open(MODEL_FILE)
-for file in tar_file.getmembers():
-  file_name = os.path.basename(file.name)
-  if 'frozen_inference_graph.pb' in file_name:
-    tar_file.extract(file, os.path.join(os.path.dirname(sys.path[0]),'data','models'))
+#opener = urllib.request.URLopener()
+#opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
+#tar_file = tarfile.open(MODEL_FILE)
+#for file in tar_file.getmembers():
+#  file_name = os.path.basename(file.name)
+#  if 'frozen_inference_graph.pb' in file_name:
+#    tar_file.extract(file, os.path.join(os.path.dirname(sys.path[0]),'data','models'))
 
 
 
