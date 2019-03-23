@@ -78,7 +78,7 @@ void TestUtils::DisplayGateCoordinates(cv::Mat mat,
 }
 
 cv::Mat TestUtils::drawGate(cv::Mat image, Gate gate) {
-    cv::line(image,//draws the left pole on the image
+    cv::line(image, // draws the left pole on the image
              cv::Point(gate.leftPole.getMiddleLine()[0],
                        gate.leftPole.getMiddleLine()[1]),
              cv::Point(gate.leftPole.getMiddleLine()[2],
@@ -86,7 +86,7 @@ cv::Mat TestUtils::drawGate(cv::Mat image, Gate gate) {
              cv::Scalar(0, 0, 255),
              3,
              CV_AA);
-    cv::line(image,//draws the right pole on the image
+    cv::line(image, // draws the right pole on the image
              cv::Point(gate.rightPole.getMiddleLine()[0],
                        gate.rightPole.getMiddleLine()[1]),
              cv::Point(gate.rightPole.getMiddleLine()[2],
@@ -95,7 +95,7 @@ cv::Mat TestUtils::drawGate(cv::Mat image, Gate gate) {
              3,
              CV_AA);
     cv::line(
-    image,//draws the top pole on the image
+    image, // draws the top pole on the image
     cv::Point(gate.topPole.getMiddleLine()[0], gate.topPole.getMiddleLine()[1]),
     cv::Point(gate.topPole.getMiddleLine()[2], gate.topPole.getMiddleLine()[3]),
     cv::Scalar(0, 0, 255),

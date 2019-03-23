@@ -70,16 +70,15 @@ const sensor_msgs::ImageConstPtr& msg) {
 
     cv::Mat image = (cv_ptr->image);
 
-    Gate gate =
-    gateDetector_.initialize(image); //outputs structure of lines which compose the gate
-    if (displayDetectedGate_) // debug image containing detected lines is output here if parameter is true
-        publishGateImage(
-        gate, image);
+    Gate gate = gateDetector_.initialize(
+    image); // outputs structure of lines which compose the gate
+    if (displayDetectedGate_) // debug image containing detected lines is output
+                              // here if parameter is true
+        publishGateImage(gate, image);
 
     // these functions interpolate distance/angles
     GateCoordinates gateCoordinates =
     defaultGateCoordinates(); // initializes everything to zeroes
-
 
     if (gate.leftDetected) {
         gateCoordinates.detectedLeftPole = true;
@@ -156,9 +155,13 @@ void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
 void GateDetectorNode::publishGateImage(Gate gate, cv::Mat image) {
     cv::Mat colourMat;
 
-    cv::cvtColor(image, colourMat, CV_GRAY2BGR);//converts to BGR so colors can be drawn on image
+    cv::cvtColor(
+    image,
+    colourMat,
+    CV_GRAY2BGR); // converts to BGR so colors can be drawn on image
 
-    colourMat = TestUtils::drawGate(colourMat, gate);//draws detected lines on image
+    colourMat =
+    TestUtils::drawGate(colourMat, gate); // draws detected lines on image
 
     cv_bridge::CvImage out_msg;
     out_msg.header =
