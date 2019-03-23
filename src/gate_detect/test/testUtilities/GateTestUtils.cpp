@@ -44,6 +44,8 @@ void TestUtils::DisplayGateCoordinates(cv::Mat mat,
              _interpolationConstant1)) /
      (.3048))));
 
+    cv::Mat mat1;
+
     topPole =
     (int) ((mat.rows / 2) -
            ((sin(gateCoordinates.distanceTopPole) *
@@ -75,45 +77,30 @@ void TestUtils::DisplayGateCoordinates(cv::Mat mat,
     cv::waitKey(0);
 }
 
-cv::Mat TestUtils::drawGate(cv::Mat image, GateCoordinates gateCoordinates) {
-    int leftPole, rightPole, topPole;
-
-    leftPole = (int) ((image.cols / 2) -
-                      ((sin(gateCoordinates.distanceLeftPole) *
-                        gateCoordinates.angleLeftPole *
-                        ((gateCoordinates.angleLeftPole - 5.134) / -0.002673)) /
-                       (.3048 / 4)));
-
-    rightPole = (int) ((
-    (image.cols / 2) -
-    ((sin(gateCoordinates.distanceRightPole) * gateCoordinates.angleRightPole *
-      4.0 * ((gateCoordinates.angleRightPole - 5.134) / -0.002673)) /
-     (.3048))));
-
-    topPole = (int) ((image.rows / 2) -
-                     ((sin(gateCoordinates.distanceTopPole) *
-                       gateCoordinates.angleTopPole * 4.0 *
-                       ((gateCoordinates.angleTopPole - 5.134) / -0.002673)) /
-                      (.3048)));
-
+cv::Mat TestUtils::drawGate(cv::Mat image, Gate gate) {
     cv::line(image,
-             cv::Point(leftPole, 0),
-             cv::Point(leftPole, image.rows),
+             cv::Point(gate.leftPole.getMiddleLine()[0],
+                       gate.leftPole.getMiddleLine()[1]),
+             cv::Point(gate.leftPole.getMiddleLine()[2],
+                       gate.leftPole.getMiddleLine()[3]),
              cv::Scalar(0, 0, 255),
              3,
              CV_AA);
     cv::line(image,
-             cv::Point(rightPole, 0),
-             cv::Point(rightPole, image.rows),
+             cv::Point(gate.rightPole.getMiddleLine()[0],
+                       gate.rightPole.getMiddleLine()[1]),
+             cv::Point(gate.rightPole.getMiddleLine()[2],
+                       gate.rightPole.getMiddleLine()[3]),
              cv::Scalar(0, 0, 255),
              3,
              CV_AA);
-    cv::line(image,
-             cv::Point(0, topPole),
-             cv::Point(image.cols, topPole),
-             cv::Scalar(0, 0, 255),
-             3,
-             CV_AA);
+    cv::line(
+    image,
+    cv::Point(gate.topPole.getMiddleLine()[0], gate.topPole.getMiddleLine()[1]),
+    cv::Point(gate.topPole.getMiddleLine()[2], gate.topPole.getMiddleLine()[3]),
+    cv::Scalar(0, 0, 255),
+    3,
+    CV_AA);
 
     return image;
 }

@@ -25,7 +25,9 @@ TEST(TestSuite, testCase1) {
     LineDetector lineDetector;
     LinesToFollow linesToFollow = lineDetector.initialize(image);
 
+
      TestUtils::drawLineToFollow(image, lineDetector, linesToFollow);
+
 }
 
 TEST(TestSuite, testCase2) {

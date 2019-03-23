@@ -20,7 +20,7 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     int cannyLow, houghLinesThreshold, houghLinesMinLength, poleMax,
     lowVertThresh, lowHorThresh, houghLinesMaxLineGap;
     double interpolationConstant1, interpolationConstant2;
-    displayDetectedGate_ = false;
+    displayDetectedGate_ = true;
 
     nh.getParam("/gate_detect_node/width", width_);
     nh.getParam("/gate_detect_node/height", height_);
@@ -42,10 +42,11 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
                                  houghLinesMinLength,
                                  houghLinesMaxLineGap,
                                  poleMax,
-                                 interpolationConstant1,
-                                 interpolationConstant2,
                                  lowVertThresh,
                                  lowHorThresh);
+
+    interpolator_ =
+    Interpolator(interpolationConstant1, interpolationConstant2);
 
     subscriber_ = it.subscribe(
     subscribeTopic, 2, &GateDetectorNode::subscriberCallBack, this);
@@ -72,17 +73,50 @@ const sensor_msgs::ImageConstPtr& msg) {
 
     cv::Mat image = (cv_ptr->image);
 
-    lineImg = cv::Mat(image,
-                      cv::Rect((image.cols / 2) - (width_ / 2),
-                               (image.rows / 2) - (height_ / 2),
-                               width_,
-                               height_));
+    Gate gate =
+    gateDetector_.initialize(image); // output Gate instead of gateCoordinates
+    if (displayDetectedGate_)
+        publishGateImage(
+        gate, image); // here we can output a debug image if a flag is set
 
-    GateCoordinates gateCoordinates = gateDetector_.initialize(image);
+    // here we interpolate distance with another function/set of functions
+    GateCoordinates gateCoordinates =
+    defaultGateCoordinates(); // initializes everything to zeroes
 
+    if (gate.leftDetected) {
+        gateCoordinates.detectedLeftPole = true;
+        int leftWidth                    = gate.leftPole.getVertWidth();
+        gateCoordinates.distanceLeftPole =
+        interpolator_.getVertDistance(leftWidth);
+        gateCoordinates.angleLeftPole =
+        interpolator_.getVertAngle(gate.leftPole.getVertMid(),
+                                   leftWidth,
+                                   width_,
+                                   gateCoordinates.distanceLeftPole);
+    }
+    if (gate.rightDetected) {
+        gateCoordinates.detectedRightPole = true;
+        int rightWidth                    = gate.rightPole.getVertWidth();
+        gateCoordinates.distanceRightPole =
+        interpolator_.getVertDistance(rightWidth);
+        gateCoordinates.angleRightPole =
+        interpolator_.getVertAngle(gate.rightPole.getVertMid(),
+                                   rightWidth,
+                                   width_,
+                                   gateCoordinates.distanceRightPole);
+    }
+    if (gate.topDetected) {
+        gateCoordinates.detectedTopPole = true;
+        int topWidth                    = gate.topPole.getHorWidth();
+        gateCoordinates.distanceTopPole =
+        interpolator_.getHorDistance(topWidth);
+        gateCoordinates.angleTopPole =
+        interpolator_.getHorAngle(gate.topPole.getHorMid(),
+                                  topWidth,
+                                  height_,
+                                  gateCoordinates.distanceTopPole);
+    }
     publishGateDetectMsg(gateCoordinates);
-
-    if (displayDetectedGate_) publishGateImage(gateCoordinates);
 }
 
 void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
@@ -121,19 +155,18 @@ void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
     publisher1_.publish(msg);
 }
 
-void GateDetectorNode::publishGateImage(GateCoordinates gateCoordinates) {
+void GateDetectorNode::publishGateImage(Gate gate, cv::Mat image) {
     cv::Mat colourMat;
 
-    cv::cvtColor(lineImg, colourMat, CV_GRAY2BGR);
+    cv::cvtColor(image, colourMat, CV_GRAY2BGR);
 
-    colourMat = TestUtils::drawGate(colourMat, gateCoordinates);
+    colourMat = TestUtils::drawGate(colourMat, gate);
 
     cv_bridge::CvImage out_msg;
     out_msg.header =
     std_msgs::Header(); // Same timestamp and tf frame as input image
     out_msg.encoding = sensor_msgs::image_encodings::BGR8; // Or whatever
     out_msg.image    = colourMat;                          // Your cv::Mat
-
     publisher2_.publish(out_msg.toImageMsg());
 }
 
