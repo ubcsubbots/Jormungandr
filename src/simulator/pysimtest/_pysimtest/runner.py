@@ -48,7 +48,11 @@ class SimRunner:
             os.killpg(os.getpgid(self._launch_pgid), signal.SIGTERM)
             self._launch_pgid = None
 
+<<<<<<< HEAD
     def configure_simulation(self,test):
+=======
+    def run_simulation(self, timeout, scene, test):
+>>>>>>> e5eedcd037316604eda51835537c9fe2326a1490
         """
         Configures the out.xml file based on the given
         vehicle, scene and objects
@@ -87,6 +91,7 @@ class SimRunner:
 
         :param timeout: the simulation timeout length
         """
+<<<<<<< HEAD
         cmd = ["rosrun", "uwsim", "uwsim_binary", "--dataPath",
                 self._lib_path + "/uwsim/data", "--configfile",
                 self._lib_path + "/uwsim/xml/out.xml"]
@@ -213,3 +218,8 @@ class SimRunner:
         for node in path:
             target = target.find(node)
         target.text = str(val)
+=======
+        self._process.configure_scene(scene, test)
+        self._process.configure_timeout(timeout)
+        self._process.run_simulation()
+>>>>>>> e5eedcd037316604eda51835537c9fe2326a1490
