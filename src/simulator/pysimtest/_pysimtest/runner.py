@@ -1,4 +1,4 @@
-#Created By: Logan Fillo
+#Created By: Owen Guo
 #Created On: 2019-03-11
 
 """
@@ -55,9 +55,8 @@ class SimRunner:
 >>>>>>> e5eedcd037316604eda51835537c9fe2326a1490
         """
         Configures the out.xml file based on the given
-        vehicle, scene and objects
-
-        This
+        vehicle, scene and objects, launches dynamics
+        if neccesary
 
         :param test: the test to configure the simulation with
         """
@@ -120,7 +119,7 @@ class SimRunner:
         """
         Launches ros simulator ai in subprocess.
         """
-        cmd = ["roslaunch", "simulator", "simulator_ai.launch"]
+        cmd  = ["roslaunch", "simulator", "simulator_ai.launch"]
         proc = subprocess.Popen(cmd,
                                 stdout=constants.DEVNULL,
                                 stderr=subprocess.PIPE,
@@ -131,8 +130,12 @@ class SimRunner:
         """
         Launches dynamics in subprocess
         """
-        print("DYNAMICS LAUNCHED! (not really though)")
-        pass #TODO
+        cmd  = ["roslaunch", "simulator", "simulator_dynamics.launch"]
+        proc = subprocess .Popen(cmd,
+                                 stdout=constants.DEVNULL,
+                                 stderr=subprocess.PIPE,
+                                 preexec_fn=os.setsid)
+        self._dynamics_pgid = proc.pid
 
     def _configure_vehicle(self, vehicle):
         """

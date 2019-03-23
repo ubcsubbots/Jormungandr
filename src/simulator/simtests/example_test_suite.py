@@ -14,7 +14,7 @@ class ExampleTestSuite(pysimtest.SimTestSuite):
         self.add_pole(0, -1, 7)
         self.add_path_marker(0,0,0,0,0,0)
         self.add_seafloor()
-        self.set_timeout(180)
+        self.set_timeout(120)
 
     @pysimtest.test(run=True)
     def test_example_one(self):

@@ -19,6 +19,9 @@ OBJECT_Z_POS          = "object,position,z"
 OBJECT_R_ROT          = "object,orientation,r"
 OBJECT_P_ROT          = "object,orientation,p"
 OBJECT_Y_ROT          = "object,orientation,y"
+OBJECT_X_SCALE        = "object,scaleFactor,x"
+OBJECT_Y_SCALE        = "object,scaleFactor,y"
+OBJECT_Z_SCALE        = "object,scaleFactor,z"
 
 VEHICLE_X_POS         = "vehicle,position,x"
 VEHICLE_Y_POS         = "vehicle,position,y"
@@ -31,7 +34,7 @@ SCENE_WAVE_SCALE      = "oceanState,waveScale"
 
 # Object model paths
 POLE_MODEL            = "objects/gate/vertCylinder.3ds"
-GATE_MODEL            = "" #TODO
+GATE_MODEL            = "objects/dice/6-dice.3ds" #TODO
 MARKER_MODEL          = "objects/pathmarker/Path_Marker.3ds"
 POOL_MODEL            = "terrain/QualTask/pool.3ds"
 SEAFLOOR_MODEL        = "terrain/seafloor/terrain_noship.ive"
