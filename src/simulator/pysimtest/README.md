@@ -70,6 +70,7 @@ Once you run your test suite, the terminal will notify you which test in which s
 - `SimTestSuite.add_pole(x, y, z)`: Spawns a pole in the simulation at the position x,y,z.
 - `SimTestSuite.add_gate(x_pos, y_pos, z_pos, r_rot, p_rot, y_rot)`: Spawns a gate in the simulation at the position x,y,z with orientation r,p,y (in radians).
 - `SimTestSuite.add_path_marker(x_pos, y_pos, z_pos, r_rot, p_rot, y_rot)`: Spawns a path marker in the simulation at the position x,y,z with orientation r,p,y (in radians).
+- `SimTestSuite.add_dice(x_pos, y_pos, z_pos, r_rot, p_rot, y_rot)`: Spawns a dice in the simulation at the position x,y,z with orientation r,p,y (in radians).
 - `SimTestSuite.set_wave_scale(scale)`: Sets the wave scale for the simulation. Note that the actual scale factor is of the form 1x10^-(scale), and that the default value is 1x10^-7. As such, calling this function with a value of less than 7 will increase the waves' height.
 - `SimTestSuite.set_timeout(secs)`: Sets the timeout length for a test case.  After the timeout length passes, the next test, if any, will run. The default value is 60 seconds.
 - `SimTestSuite.set_vehicle_position(x, y, z)`: Sets the vehicle's initial position to be x,y,z.
