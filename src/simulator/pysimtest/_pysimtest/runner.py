@@ -34,7 +34,7 @@ class SimRunner:
     def setup(self):
         """
         Starts any initial processes needed
-        to setup the simulation environment
+        to setup the testing environment
         """
         self._launch_vehicle_ai()
 

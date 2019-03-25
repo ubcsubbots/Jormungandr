@@ -34,8 +34,9 @@ SCENE_WAVE_SCALE      = "oceanState,waveScale"
 
 # Object model paths
 POLE_MODEL            = "objects/gate/vertCylinder.3ds"
-GATE_MODEL            = "objects/dice/6-dice.3ds" #TODO
-MARKER_MODEL          = "objects/pathmarker/Path_Marker.3ds"
+GATE_MODEL            = "objects/gate/gate_combined.3ds"
+MARKER_MODEL          = "objects/pathmarker/path_marker_scaled.3ds"
+DICE_MODEL            = "objects/dice/dice.3ds"
 POOL_MODEL            = "terrain/QualTask/pool.3ds"
 SEAFLOOR_MODEL        = "terrain/seafloor/terrain_noship.ive"
 

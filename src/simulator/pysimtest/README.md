@@ -1,3 +1,4 @@
+
 # Pysimtest
 Pysimtest is a uwsim simulation testing framework, based on the Java JUnit as well as the python unittest testing frameworks.
 
@@ -10,6 +11,7 @@ Pysimtest provides a pythonic solution for simple modular testing of ai algorith
 - [Code Documentation](#code-documentation)
   - [Decorators](#decorators)
   - [Functions](#functions)
+- [Behind The Scenes](#behind-the-scenes)
 
 
 ## Example
@@ -62,7 +64,7 @@ Once you run your test suite, the terminal will notify you which test in which s
 - `@pysimtest.test(run=True)`: Wrap all test methods with this decorator. Use the `run` parameter to specifiy if you want the test to run or not
 
 ### Functions
-- `SimTestSuite.use_dynamics(is_dynamic)`: Used to toggle the dynamics on and off. The dynamics are defaulted to off.
+- `SimTestSuite.use_dynamics(is_dynamic)`: Used to toggle the dynamics on and off. The dynamics are defaulted to off (NOTE: not yet implemented).
 - `SimTestSuite.add_pool()`: Spawns a large pool in the simulation.
 - `SimTestSuite.add_seafloor()`: Spawns the seafloor in the simulation.
 - `SimTestSuite.add_pole(x, y, z)`: Spawns a pole in the simulation at the position x,y,z.
@@ -72,3 +74,6 @@ Once you run your test suite, the terminal will notify you which test in which s
 - `SimTestSuite.set_timeout(secs)`: Sets the timeout length for a test case.  After the timeout length passes, the next test, if any, will run. The default value is 60 seconds.
 - `SimTestSuite.set_vehicle_position(x, y, z)`: Sets the vehicle's initial position to be x,y,z.
 - `SimTestSuite.set_vehicle_rotation(r, p, y)`: Sets the vehicle's initial orientation to by r,p,y (in radians).
+
+### Behind the Scenes
+Pysimtest's internal framework is largely based upon python's unittest library. When you run `pysimtest.py`, the main program is run, which has two stages, loading and executing. The loader searches for the python module that the main program was given as an argument, and once it finds it, it collects instances of all classes in the module that extend `pysimtest.SimTestSuite`. Then, for each test suite instance, the loader searches among the instance's methods for a `forall` method. If it finds it, and it has been properly decorated, it calls it, which uses the decorator to internally sets the 'global' parameters for the test suite. Once it has done this, the loader searches for all methods that start with the string 'test', and if they are properly decorated, it calls them. The `test` decorator uses a builder to set up the objects needed for a test case before the user's test method is called, and sets their global parameters, if any.   The test method then appropriately sets the parameters for the newly built test case, and at the end, the decorator configures the test case and adds it to the test suite's collection of test cases. After this has been done for all test suites, they have been properly loaded, and can now be executed. The loader uses the runner to execute tests in each suite. It first tells the runner to launch the simulation ai, then, for every test suite, it loops over the suite's test cases and sends its data to the runner. The runner configures the xml document which describes the uwsim scene with the given data, and then executes the uwsim program with this xml document.  

@@ -12,7 +12,6 @@ class ExampleTestSuite(pysimtest.SimTestSuite):
     @pysimtest.forall
     def forall(self):
         self.add_pole(0, -1, 7)
-        self.add_path_marker(0,0,0,0,0,0)
         self.add_seafloor()
         self.set_timeout(120)
 

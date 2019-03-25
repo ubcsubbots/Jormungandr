@@ -68,6 +68,7 @@ class SimTestSuite(object):
 
         :param is_dynamic: if test is dynamic or not
         """
+        # NOTE: this has not been implemented yet
         self._builder.use_dynamics(is_dynamic, self._in_global_state)
 
     def add_pool(self):
@@ -129,6 +130,23 @@ class SimTestSuite(object):
         ;param y_rot: path marker's y rotation
         """
         self._builder.add_object("marker", const.MARKER_MODEL,
+                                 x_pos, y_pos, z_pos,
+                                 r_rot, p_rot, y_rot,
+                                 self._in_global_state)
+
+    def add_dice(self, x_pos, y_pos, z_pos, r_rot, p_rot, y_rot):
+        """
+        Adds a dice to the simulation at the given x,y,z
+        co-ordinates with the given r,p,y rotation
+
+        ;param x_pos: dice's x position
+        ;param y_pos: dice's y position
+        ;param z_pos: dice's z position
+        ;param r_rot: dice's r rotation
+        ;param p_rot: dice's p rotation
+        ;param y_rot: dice's y rotation
+        """
+        self._builder.add_object("dice", const.DICE_MODEL,
                                  x_pos, y_pos, z_pos,
                                  r_rot, p_rot, y_rot,
                                  self._in_global_state)
