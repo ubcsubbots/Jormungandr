@@ -50,8 +50,6 @@ void GateDetector::setParams(int cannyLow,
                              int houghLinesMinLength,
                              int houghLinesMaxLineGap,
                              int poleMax,
-                             float interpolationConstant1,
-                             float interpolationConstant2,
                              int lowVertThresh,
                              int lowHorThresh) {
     cannyLow_ = cannyLow;
@@ -68,11 +66,6 @@ void GateDetector::setParams(int cannyLow,
 
     lowHorThresh_ = lowHorThresh;
 
-    VertInterpolationConstant1_ = HorInterpolationConstant1_ =
-    interpolationConstant1;
-
-    VertInterpolationConstant2_ = HorInterpolationConstant2_ =
-    interpolationConstant2;
 }
 
 Gate GateDetector::initialize(const cv::Mat matin) {

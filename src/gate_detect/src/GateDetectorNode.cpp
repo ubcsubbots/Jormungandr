@@ -119,35 +119,17 @@ const sensor_msgs::ImageConstPtr& msg) {
 void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
     gate_detect::GateDetectMsg msg;
 
-    if (gateCoordinates.detectedLeftPole == 0.0) {
-        msg.detectedLeftPole = 0;
-        msg.angleLeftPole    = 0;
-        msg.distanceLeftPole = 0;
-    } else {
-        msg.detectedLeftPole = 1;
-        msg.angleLeftPole    = gateCoordinates.angleLeftPole;
-        msg.distanceLeftPole = gateCoordinates.distanceLeftPole;
-    }
-    if (gateCoordinates.angleRightPole == 0.0) {
-        msg.detectedRightPole = 0;
-        msg.angleRightPole    = 0;
-        msg.distanceRightPole = 0;
+    msg.detectedLeftPole = gateCoordinates.detectedLeftPole;
+    msg.angleLeftPole    = gateCoordinates.angleLeftPole;
+    msg.distanceLeftPole = gateCoordinates.distanceLeftPole;
 
-    } else {
-        msg.detectedRightPole = 1;
-        msg.angleRightPole    = gateCoordinates.angleRightPole;
-        msg.distanceRightPole = gateCoordinates.distanceRightPole;
-    }
-    if (gateCoordinates.detectedTopPole == 0.0) {
-        msg.detectedTopPole = 0;
-        msg.angleTopPole    = 0;
-        msg.distanceTopPole = 0;
+    msg.detectedRightPole = gateCoordinates.detectedRightPole;
+    msg.angleRightPole    = gateCoordinates.angleRightPole;
+    msg.distanceRightPole = gateCoordinates.distanceRightPole;
 
-    } else {
-        msg.detectedTopPole = 1;
-        msg.angleTopPole    = gateCoordinates.angleTopPole;
-        msg.distanceTopPole = gateCoordinates.distanceTopPole;
-    }
+    msg.detectedTopPole = gateCoordinates.detectedTopPole;
+    msg.angleTopPole    = gateCoordinates.angleTopPole;
+    msg.distanceTopPole = gateCoordinates.distanceTopPole;
 
     publisher1_.publish(msg);
 }
@@ -185,8 +167,6 @@ const gate_detect::gatedetectConfig& config, uint32_t level) {
                             config.houghLinesMinLength,
                             config.houghLinesMaxLineGap,
                             config.poleMax,
-                            config.interpolationConstant1,
-                            config.interpolationConstant2,
                             config.lowVertThresh,
                             config.lowHorThresh);
 }

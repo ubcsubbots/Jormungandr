@@ -9,7 +9,6 @@
 #define PROJECT_GATE_H
 
 #include "Gate.h"
-#include "Interpolator.h"
 #include "Pole.h"
 #include <iostream>
 #include <opencv2/highgui.hpp>
@@ -98,16 +97,12 @@ class GateDetector {
      * @param houghLinesMinLength
      * @param houghLinesMaxLineGap
      * @param poleMax
-     * @param verticalInterpolationConstance
-     * @param horizontalInterpolationConstance
      */
     void setParams(int cannyLow,
                    int houghLinesThreshold,
                    int houghLinesMinLength,
                    int houghLinesMaxLineGap,
                    int poleMax,
-                   float interpolationConstant1,
-                   float interpolationConstant2,
                    int lowVertThresh,
                    int LowHorThresh);
 
@@ -156,19 +151,6 @@ class GateDetector {
     * in the same line.
     */
     int houghLinesThreshold_, houghLinesMinLength_, houghLinesMaxLineGap_;
-
-    /**
-     * Constants defining relationship
-     * between pixel width and distance
-     * gathered from calibration
-     *  y = m * x + b
-     *
-     *  y = Distance from pole
-     *
-     *  x = pixel width of pole
-     */
-    double VertInterpolationConstant2_, HorInterpolationConstant2_,
-    VertInterpolationConstant1_, HorInterpolationConstant1_;
 
     /**
      * Function to filter through vector of cv::Vector4i objects and filter out
