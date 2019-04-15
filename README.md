@@ -178,3 +178,8 @@ A1: This could be due to the `setup.bash` file not being sources. The `setup.bas
 
   1. Run `source Jormunganrd/external_pkg/setup.bash` 
   2. `rosrun usb_cam usb_cam_node`
+
+### Saving images with the image imageview and imagesaver utility
+  
+  1. Run `rosrun image_view image_saver image:=[topic] _save_all_image:=false` where `[topic]` is the topic name and `_save_all_image:=false` prevents images from a stream of images saving simulteniously.
+  2. On another terminal, run `rosservice call /image_saver[_1552163404980126240]/save` where `/image_saver[_1552163404980126240]/save` is the ros topic which captures the image, (note: the name varies everytime you open run the node). It can be found using the tab auto complete after typing `/image_saver` or from the ros topic list.
