@@ -15,8 +15,6 @@ class ExampleSuite(suite.SimTestSuite):
 
     @suite.test(run=True)
     def func(self):
-        self.use_dynamics(True)
-        self.use_dynamics(False)
         self.add_pool()
         self.add_seafloor()
         self.add_pole(0,0,0)

@@ -24,7 +24,6 @@ class TestRunner:
     def test_setup(self):
         sim_runner  = runner.SimRunner()
         sim_runner.setup()
-        #TODO: assert that launch vehicle ai is running
         sim_runner.exit()
 
     def test_all_processes_and_exit(self):
@@ -33,14 +32,12 @@ class TestRunner:
         sim_runner._launch_dynamics()
         sim_runner.run_simulation(10)
         sim_runner.exit()
-        #TODO: assert that all processes are stopped
 
     def test_stop_simulation(self):
         sim_runner = runner.SimRunner()
         sim_runner._launch_dynamics()
         sim_runner.run_simulation(10)
         sim_runner.stop_simulation()
-        #TODO: assert that dynamics and sim were stopped but not ai
 
     def test_configure_data(self):
         tree = xmltree.parse(lib_path +

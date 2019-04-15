@@ -61,16 +61,6 @@ class SimTestSuite(object):
         """
         pass
 
-    def use_dynamics(self, is_dynamic):
-        """
-        If is_dynamic is True, uses dynamics
-        for the test, else does not use dynamics
-
-        :param is_dynamic: if test is dynamic or not
-        """
-        # NOTE: this has not been implemented yet
-        self._builder.use_dynamics(is_dynamic, self._in_global_state)
-
     def add_pool(self):
         """
         Adds a pool to the simulation
@@ -187,15 +177,6 @@ class SimTestSuite(object):
         :param y: vehicle's y position
         """
         self._builder.set_vehicle_rotation(r ,p ,y, self._in_global_state)
-
-    def assert_passes_gate(self, should_pass):
-        """
-        Determines whether or not a gate test passes
-
-        :param should_pass: a boolean value of whether the gate
-                            test is expected to pass or not
-        """
-        pass #TODO
 
     def _new_test(self, test_name):
         self._builder.build_test_case(test_name)

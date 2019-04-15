@@ -126,8 +126,6 @@ class SimRunner:
         """
         Launches dynamics in subprocess
         """
-        #TODO: figure out if this can be a seperate node or
-        #      if you need to relaunch the ai
         pass
 
     def _configure_vehicle(self, vehicle):
@@ -182,7 +180,6 @@ class SimRunner:
         interface_tree = xmltree.parse(self._lib_path +
                                       "/uwsim/xml/interfaces.xml")
         interface_root = interface_tree.getroot()
-        #TODO: add options to change interfaces
         nodes = list(interface_root)
         return nodes
 
@@ -194,7 +191,6 @@ class SimRunner:
         :param tree: the xml tree
         :param data: dictionary of data
         """
-        # TODO: make this work for paths with possible collisions
         for elem in data:
             path = list(elem.split(","))
             val  = data[elem]

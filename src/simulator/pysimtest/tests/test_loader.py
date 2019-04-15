@@ -86,8 +86,3 @@ class TestLoader:
         run_time = end-start
         print(run_time)
         assert run_time > 10 and run_time < 20
-
-
-
-
-    # TODO TEST EXECUTE

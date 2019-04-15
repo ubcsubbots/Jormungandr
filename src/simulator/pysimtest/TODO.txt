@@ -1,9 +1,0 @@
-TODO list for pysimtest (not in any specified order)
-
-1. Make shell script more robust to handle case when it finds multiple pysimtest.py files (unlikely)
-
-2. Make the traverse and insert function in runner be able to handle  path collisions
-
-3. Implement dynamics launch feature
-
-4. Add all the different dice models needed for the competition and make all of them creatable from one function
