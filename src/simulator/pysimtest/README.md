@@ -41,7 +41,6 @@ class ExampleTestSuite(pysimtest.SimTestSuite):
 
     @pysimtest.test(run=True)
     def test_example_two(self):
-        self.use_dynamics(True)
         self.set_wave_scale(5)
         self.set_vehicle_position(2,-5,5)
 
@@ -64,7 +63,6 @@ Once you run your test suite, the terminal will notify you which test in which s
 - `@pysimtest.test(run=True)`: Wrap all test methods with this decorator. Use the `run` parameter to specifiy if you want the test to run or not
 
 ### Functions
-- `SimTestSuite.use_dynamics(is_dynamic)`: Used to toggle the dynamics on and off. The dynamics are defaulted to off (NOTE: not yet implemented).
 - `SimTestSuite.add_pool()`: Spawns a large pool in the simulation.
 - `SimTestSuite.add_seafloor()`: Spawns the seafloor in the simulation.
 - `SimTestSuite.add_pole(x, y, z)`: Spawns a pole in the simulation at the position x,y,z.

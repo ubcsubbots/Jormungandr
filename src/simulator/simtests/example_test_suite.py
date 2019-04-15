@@ -23,6 +23,5 @@ class ExampleTestSuite(pysimtest.SimTestSuite):
 
     @pysimtest.test(run=True)
     def test_example_two(self):
-        self.use_dynamics(True)
         self.set_wave_scale(5)
         self.set_vehicle_position(2,-5,5)

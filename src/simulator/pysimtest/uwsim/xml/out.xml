@@ -7,7 +7,7 @@
     <windSpeed> 12 </windSpeed>
     <depth> 1000 </depth>
     <reflectionDamping> 0.35 </reflectionDamping>
-    <waveScale>1e-07</waveScale>
+    <waveScale>1e-05</waveScale>
     <isNotChoppy> 0 </isNotChoppy>
     <choppyFactor> 2.5 </choppyFactor>
     <crestFoamHeight> 2.2 </crestFoamHeight>
@@ -79,9 +79,9 @@
       <joint>0.3 </joint>
     </jointValues>
     <position>
-      <x>0</x>
-      <y>0</y>
-      <z>0</z>
+      <x>2</x>
+      <y>-5</y>
+      <z>5</z>
     </position>
     <orientation>
       <r>0</r>
@@ -264,6 +264,72 @@
       </offsetr>
     </ForceSensor>
   </vehicle>
+<object>
+    <name>pole</name>
+    <file>objects/gate/vertCylinder.3ds</file>
+    <position>
+      <x>0</x>
+      <y>-1</y>
+      <z>7</z>
+    </position>
+    <orientation>
+      <r>0</r>
+      <p>0</p>
+      <y>0</y>
+    </orientation>
+    <scaleFactor>
+      <x> 1 </x>
+      <y> 1 </y>
+      <z> 1 </z>
+    </scaleFactor>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
+<object>
+    <name>seafloor</name>
+    <file>terrain/seafloor/terrain_noship.ive</file>
+    <position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </position>
+    <orientation>
+      <r>0</r>
+      <p>0</p>
+      <y>0</y>
+    </orientation>
+    <scaleFactor>
+      <x> 1 </x>
+      <y> 1 </y>
+      <z> 1 </z>
+    </scaleFactor>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
 <rosInterfaces>
     <ROSOdomToPAT>
       <topic> /dataNavigator </topic>
