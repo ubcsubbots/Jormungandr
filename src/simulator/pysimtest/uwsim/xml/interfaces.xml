@@ -1,0 +1,96 @@
+<!-- This document is the xml tree for the uwsim rosInterfaces block -->
+<root>
+  <rosInterfaces>
+    <ROSOdomToPAT>
+      <topic> /dataNavigator </topic>
+      <vehicleName> girona500 </vehicleName>
+    </ROSOdomToPAT>
+    <WorldToROSTF>
+      <rootName> world </rootName>
+      <enableObjects> 1 </enableObjects>
+      <rate>10</rate>
+    </WorldToROSTF>
+    <ArmToROSJointState>
+  <topic>/uwsim/joint_state</topic>
+  <vehicleName> girona500 </vehicleName>
+    </ArmToROSJointState>
+    <ROSJointStateToArm>
+  <topic>/uwsim/joint_state_command</topic>
+  <vehicleName> girona500 </vehicleName>
+    </ROSJointStateToArm>
+    <VirtualCameraToROSImage>
+      <cameraName>bowtech1</cameraName>
+      <imageTopic> /uwsim/camera1 </imageTopic>
+      <infoTopic> /uwsim/camera1_info </infoTopic>
+    </VirtualCameraToROSImage>
+    <VirtualCameraToROSImage>
+      <cameraName>bowtech2</cameraName>
+      <imageTopic> /uwsim/camera2 </imageTopic>
+      <infoTopic> /uwsim/camera2_info </infoTopic>
+    </VirtualCameraToROSImage>
+    <ROSTwistToPAT>
+      <topic> /g500/twist</topic>
+      <vehicleName> girona500 </vehicleName>
+    </ROSTwistToPAT>
+    <RangeSensorToROSRange>
+      <name>sonar</name>
+      <topic> /uwsim/g500/range </topic>
+      <rate>10</rate>
+    </RangeSensorToROSRange>
+    <ROSPoseToPAT>
+      <topic> /g500/pose</topic>
+      <vehicleName> girona500 </vehicleName>
+    </ROSPoseToPAT>
+    <ImuToROSImu>
+      <name>imu</name>
+      <topic>g500/imu</topic>
+      <rate>20</rate>
+    </ImuToROSImu>
+    <PressureSensorToROS>
+      <name>pressureSensor</name>
+      <topic>g500/pressure</topic>
+      <rate>5</rate>
+    </PressureSensorToROS>
+    <GPSSensorToROS>
+      <name>GPSSensor</name>
+      <topic>g500/gps</topic>
+      <rate>1</rate>
+    </GPSSensorToROS>
+    <DVLSensorToROS>
+      <name>DVLSensor</name>
+      <topic>g500/dvl</topic>
+      <rate>5</rate>
+    </DVLSensorToROS>
+    <RangeImageSensorToROSImage>
+      <cameraName>rangeImage</cameraName>
+      <imageTopic> /uwsim/rangecamera </imageTopic>
+      <infoTopic> /uwsim/rangecamera_info </infoTopic>
+    </RangeImageSensorToROSImage>
+    <multibeamSensorToLaserScan>
+      <name>multibeam</name>
+      <topic>g500/multibeam</topic>
+    </multibeamSensorToLaserScan>
+    <SimulatedDeviceROS>
+      <echoROS>
+        <name>g500_echo1</name>
+        <topic>g500/echo1</topic>
+        <rate>1</rate>
+      </echoROS>
+    </SimulatedDeviceROS>
+    <contactSensorToROS>
+      <name>girona500</name>
+      <topic>g500/contactSensor</topic>
+      <rate> 100 </rate>
+    </contactSensorToROS>
+    <echoROS>
+      <name>g500_echo2</name>
+      <topic>g500/echo2</topic>
+      <rate>1</rate>
+    </echoROS>
+    <ForceSensorROS>
+      <name>ForceG500</name>
+      <topic>g500/ForceSensor</topic>
+      <rate>100</rate>
+    </ForceSensorROS>
+  </rosInterfaces>
+</root>
