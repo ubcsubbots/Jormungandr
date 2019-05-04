@@ -27,7 +27,7 @@ class GateDetectorNode {
   private:
     image_transport::Subscriber subscriber_;
     image_transport::Publisher publisher2_;
-    ros::Publisher publisher1_;
+    ros::Publisher gate_msg_publisher_;
     std::string subscribeTopic;
     std::string publishTopic;
     GateDetector gateDetector_;

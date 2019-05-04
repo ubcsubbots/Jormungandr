@@ -128,7 +128,7 @@ class GateDetector {
     */
     int cannyLow_;
 
-    // Maximum separation for two lines to be called a pole
+    // Maximum pixel separation for two lines to be called a pole
     int poleMax_;
 
     // Input image Parameters

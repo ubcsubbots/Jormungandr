@@ -228,14 +228,13 @@ Gate GateDetector::getGate(std::vector<Pole> vertPoles,
                            std::vector<Pole> horPoles) {
     Gate gate;
 
-    // If theres no vertical poles, check for horizontal pole and put in struct
+    // If there's no vertical poles, check for horizontal pole and put in struct
     if (vertPoles.empty()) {
         if (!horPoles.empty()) {
             gate.topPole = *std::min_element(
             horPoles.begin(), horPoles.end(), [](Pole lhs, Pole rhs) {
                 return lhs.getHorMid() > rhs.getHorMid(); // changed from vert
-                                                          // to hor, might need
-                                                          // testing
+                // to hor, might need testing
             });
 
             gate.topDetected = true;
@@ -286,34 +285,25 @@ Gate GateDetector::getGate(std::vector<Pole> vertPoles,
             });
 
             if (gate.leftPole.getVertMid() > gate.topPole.getVertMid()) {
-                gate.leftDetected = false;
-
+                gate.leftDetected  = false;
                 gate.rightDetected = true;
-
-                gate.topDetected = true;
-
+                gate.topDetected   = true;
             }
 
             else if (gate.rightPole.getVertMid() < gate.topPole.getVertMid()) {
-                gate.leftDetected = true;
-
+                gate.leftDetected  = true;
                 gate.rightDetected = false;
-
-                gate.topDetected = true;
-
+                gate.topDetected   = true;
             }
 
             else {
-                gate.leftDetected = true;
-
+                gate.leftDetected  = true;
                 gate.rightDetected = true;
-
-                gate.topDetected = true;
+                gate.topDetected   = true;
             }
 
         } else {
-            gate.leftDetected = true;
-
+            gate.leftDetected  = true;
             gate.rightDetected = true;
         }
     }

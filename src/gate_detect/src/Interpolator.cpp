@@ -1,6 +1,9 @@
-//
-// Created by cam on 09/03/19.
-//
+/*
+ * Created By: Cameron Newton
+ * Created On: March 16th, 2019
+ * Description: Interpolator class to calculate distance and angle of Pole from
+ * position and width of Pole in image
+ */
 
 #include "../include/Interpolator.h"
 
@@ -25,21 +28,20 @@ float Interpolator::getHorDistance(int pixel_width) {
            pow(pixel_width, interpolation_constant2_);
 }
 
-float Interpolator::getVertAngle(int vertical_mid,
-                                 int vert_width,
-                                 int width_of_image,
+float Interpolator::getVertAngle(int x_coord_of_vertical_pole,
+                                 int pixel_width_of_pole,
+                                 int pixel_width_of_image,
                                  float vertical_distance) {
-    return asin(
-    ((((width_of_image / 2) - vertical_mid) * (.3048 / 4)) / vert_width) /
-    vertical_distance);
+    return asin(((((pixel_width_of_image / 2) - x_coord_of_vertical_pole)) /
+                 pixel_width_of_pole) /
+                vertical_distance);
 }
 
-float Interpolator::getHorAngle(int pixel_height_of_image,
-                                int horizontal_middle,
-                                int horizontal_width,
+float Interpolator::getHorAngle(int y_coord_of_horizontal_pole,
+                                int pixel_height_of_pole,
+                                int pixel_height_of_image,
                                 float horizontal_distance) {
-    return asin(
-    ((((pixel_height_of_image / 2) - horizontal_middle) * (.3048 / 4)) /
-     horizontal_width) /
-    horizontal_distance);
+    return asin(((((y_coord_of_horizontal_pole / 2) - pixel_height_of_pole)) /
+                 pixel_height_of_image) /
+                horizontal_distance);
 }

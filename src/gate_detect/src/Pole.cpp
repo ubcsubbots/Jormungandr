@@ -37,5 +37,3 @@ cv::Vec4i Pole::getMiddleLine() {
                      (side1_[2] + side2_[2]) / 2,
                      (side1_[3] + side2_[3]) / 2);
 }
-
-

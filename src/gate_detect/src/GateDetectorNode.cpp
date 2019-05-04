@@ -21,6 +21,7 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     lowVertThresh, lowHorThresh, houghLinesMaxLineGap;
     double interpolationConstant1, interpolationConstant2;
 
+    // Refer to Gate_Detector.h for parameter descriptions
     nh.getParam("/gate_detect_node/cannyLow", cannyLow);
     nh.getParam("/gate_detect_node/houghLinesThreshold", houghLinesThreshold);
     nh.getParam("/gate_detect_node/houghLinesMinLength", houghLinesMinLength);
@@ -51,7 +52,8 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     f = boost::bind(&GateDetectorNode::reconfigCallBack, this, _1, _2);
     server.setCallback(f);
 
-    publisher1_ = nh_.advertise<gate_detect::GateDetectMsg>(publishTopic, 10);
+    gate_msg_publisher_ =
+    nh_.advertise<gate_detect::GateDetectMsg>(publishTopic, 10);
     publisher2_ = it.advertise("gate_image_output", 100);
 
     ros::spin();
@@ -131,7 +133,7 @@ void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
     msg.angleTopPole    = gateCoordinates.angleTopPole;
     msg.distanceTopPole = gateCoordinates.distanceTopPole;
 
-    publisher1_.publish(msg);
+    gate_msg_publisher_.publish(msg);
 }
 
 void GateDetectorNode::publishGateImage(Gate gate, cv::Mat image) {
