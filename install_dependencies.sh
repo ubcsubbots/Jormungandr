@@ -115,3 +115,4 @@ echo "================================================================"
 virtualenv subbots_python
 source $CURR_DIR/subbots_python/bin/activate
 pip install -r $CURR_DIR/requirements.txt
+pip install --extra-index-url https://developer.download.nvidia.com/compute/redist/jp33 tensorflow-gpu
