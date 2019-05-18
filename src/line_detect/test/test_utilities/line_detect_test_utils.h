@@ -11,7 +11,8 @@
 
 class TestUtils {
   public:
-    static void drawLineToFollow(cv::Mat mat_in, LinesToFollow linesToFollow);
+    static cv::Mat drawLineToFollow(cv::Mat mat_in, LineDetector lineDetector, LinesToFollow linesToFollow);
+
 };
 
 #endif // PROJECT_TESTUTILS_H

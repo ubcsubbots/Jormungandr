@@ -14,7 +14,7 @@
 
 /**
 *      Struct representing a marker on the bottom of the pool
-*          width:   width of marker, used to interpolate distance from marker,
+*          width:   width of , used to interpolate distance from marker,
 * -1 if not seen
 *          slope:   slope of marker seen, -1 if not seen
 *          middleOfMarker:   vector representing middle of marker, -1 if not
@@ -59,15 +59,9 @@ static LinesToFollow defaultLinesToFollow() {
     return linesToFollow;
 }
 
-
-
 class LineDetector {
   public:
     LineDetector();
-
-    //temp want to see all the lines detected
-    std::vector<cv::Vec4i> detectedLines;
-
 
     LinesToFollow initialize(const cv::Mat mat_in);
 

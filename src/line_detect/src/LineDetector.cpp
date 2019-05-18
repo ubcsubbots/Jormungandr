@@ -30,7 +30,7 @@ LinesToFollow LineDetector::initialize(const cv::Mat mat_in) {
     LinesToFollow linesToFollow = defaultLinesToFollow();
 
     // Detect lines in image
-    std::vector<cv::Vec4i> detectedLines;
+    //std::vector<cv::Vec4i> detectedLines;
     cv::HoughLinesP(dst,
                     detectedLines,
                     1,

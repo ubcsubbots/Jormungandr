@@ -15,6 +15,11 @@ LineDetectorNode::LineDetectorNode(int argc, char** argv) {
 
     subscribeTopic_ = "camera_output";
     publishTopic_   = "line_detect_output";
+    publishTopicTestImage = "test_image_line_detect";
+
+    displayDetectedLine_ = true;
+
+    nh.getParam("/line_detect_node/displayDetectedLine", displayDetectedLine_);
 
     subscriber_ = it.subscribe(
     subscribeTopic_, 2, &LineDetectorNode::subscriberCallBack, this);
@@ -23,6 +28,9 @@ LineDetectorNode::LineDetectorNode(int argc, char** argv) {
 
     line_msg_publisher =
     nh_.advertise<line_detect::LineDetectMsg>(publishTopic_, 10);
+    line_detected_publish_ = it.advertise("line_debug_image",100);
+
+    test_image_publisher2_     = it.advertise(publishTopicTestImage, 1);
 
     ros::spin();
 }
@@ -38,9 +46,11 @@ const sensor_msgs::ImageConstPtr& msg) {
         return;
     }
 
-    lineImg = cv_ptr->image;
+    LinesToFollowImage_ = cv_ptr->image;
 
-    LinesToFollow linesToFollow = lineDetector_.initialize(lineImg);
+    LinesToFollow linesToFollow = lineDetector_.initialize(LinesToFollowImage_);
+    if(displayDetectedLine_)
+        publishLineImage(LinesToFollowImage_, lineDetector_, linesToFollow );
 
     publishLineDetectMsg(linesToFollow);
 }
@@ -67,4 +77,19 @@ void LineDetectorNode::publishLineDetectMsg(const LinesToFollow linesToFollow) {
     msg.angleToParallelRearMarker = linesToFollow.rearLine.slope;
 
     line_msg_publisher.publish(msg);
+}
+
+void LineDetectorNode::publishLineImage( cv::Mat  linesToFollowImage, LineDetector lineDetector, LinesToFollow linesToFollow){
+    //cv::Mat Lines;
+
+    //cv::cvtColor(linesToFollowImage, linesToFollowImage, CV_GRAY2BGR);
+
+    linesToFollowImage = TestUtils::drawLineToFollow(linesToFollowImage, lineDetector, linesToFollow);
+
+    cv_bridge::CvImage out_msg;
+    out_msg.header =
+            std_msgs::Header(); // Same timestamp and tf frame as input image
+    out_msg.encoding = sensor_msgs::image_encodings::BGR8; // Or whatever
+    out_msg.image    = linesToFollowImage;                          // Your cv::Mat
+    test_image_publisher2_.publish(out_msg.toImageMsg());
 }

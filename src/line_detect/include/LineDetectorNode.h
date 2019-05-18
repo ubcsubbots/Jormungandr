@@ -16,18 +16,26 @@
 #include <opencv2/highgui.hpp>
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
+#include "../test/test_utilities/line_detect_test_utils.h"
 
 class LineDetectorNode {
   public:
     LineDetectorNode(int argc, char** argv);
 
+
   private:
     image_transport::Subscriber subscriber_;
+
+    image_transport::Publisher test_image_publisher2_;
+
     ros::Publisher line_msg_publisher;
+    image_transport::Publisher line_detected_publish_;
     std::string subscribeTopic_;
     std::string publishTopic_;
-    cv::Mat lineImg;
+    std::string publishTopicTestImage;
+    cv::Mat LinesToFollowImage_;
     LineDetector lineDetector_;
+    bool displayDetectedLine_;
 
     /**
      * Image callback function
@@ -41,6 +49,12 @@ class LineDetectorNode {
      *
      */
     void publishLineDetectMsg(const LinesToFollow linesToFollow);
+
+    /**
+     * publish lines seen by node and image of the lines
+     */
+    void publishLineImage( cv::Mat  linesToFollowImage, LineDetector lineDetector, LinesToFollow linesToFollow);
+
 };
 
 #endif // LINE_DETECT_LINEDETECT_H
