@@ -1,6 +1,6 @@
 /*
  * Created By: Cameron Newton
- * Created On: June 16th, 2018
+ * Created On: June 16th, 2018//
  * Description: Utilities to aid in debugging GateDetector module
  */
 

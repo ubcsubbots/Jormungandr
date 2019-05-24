@@ -44,7 +44,9 @@ add_executable(line_detect_node
         src/line_detect_node.cpp
 		src/LineDetector.cpp
 		include/LineDetectorNode.h
-		include/LineDetector.h)
+		include/LineDetector.h
+		test/test_utilities/line_detect_test_utils.cpp
+		test/test_utilities/line_detect_test_utils.h)
 
 target_link_libraries(line_detect_node
 		${catkin_LIBRARIES}
