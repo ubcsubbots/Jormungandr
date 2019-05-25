@@ -80,7 +80,7 @@ declare -a new_shell_config_lines=(
 
 # Add all of our new shell config options to all the shell
 # config files, but only if they don't already have them
-for file_name in "${SHELL_CONFIG_FILES[@]}";
+for file_name in "${SHELL_CONFIG_FILES[@]}"; 
 do
     echo "Setting up $file_name"
     for line in "${new_shell_config_lines[@]}";
