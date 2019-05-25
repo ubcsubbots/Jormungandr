@@ -112,6 +112,6 @@ echo "================================================================"
 echo "Staging Virtual Environment and installing python packages."
 echo "================================================================"
 
-virtualenv subbots_python
+virtualenv subbots_python 
 source $CURR_DIR/subbots_python/bin/activate
 pip install -r $CURR_DIR/requirements.txt
