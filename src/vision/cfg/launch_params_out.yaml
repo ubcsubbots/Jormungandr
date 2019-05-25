@@ -1,6 +1,12 @@
+#Int defining high threshold for Hue in hsv filter
 h_high: 318
+#Int defining low threshold for Hue in hsv filter
 h_low: 247
+#Int defining high threshold for Saturation in hsv filter
 s_high: 191
+#Int defining low threshold for Saturation in hsv filter
 s_low: 244
+#Int defining high threshold for Value in hsv filter
 v_high: 197
+#Int defining low threshold for Value in hsv filter
 v_low: 185

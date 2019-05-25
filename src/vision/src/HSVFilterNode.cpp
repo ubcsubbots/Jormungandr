@@ -9,17 +9,17 @@
 /*
  * This overrides the default method. Upon killing the program
  * Run custom code to update the dynamic simulation parameter values into the
- * wroking yaml file.
+ * working yaml file.
  */
 void mySigintHandler(int sig) {
-    std::cout << "\nUpdating the yaml files... preparing for shutdown.\n"
+    std::cout << "\nUpdating the yaml files... preparing for shutdown."
               << std::endl;
     std::string path = ros::package::getPath("vision");
 
     // Create the terminal call to run the python executable
     std::string path_to_script    = path + "/cfg/yamlEditor.py ";
     std::string path_to_yaml_file = path + "/cfg/rqt_params_out.yaml \"";
-    std::string path_to_out_file  = path + "/cfg/launch_params_out.yaml\"";
+    std::string path_to_out_file  = path + "/cfg/reformatted_launch_parameters.yaml\"";
     std::string command =
     "python " + path_to_script + path_to_yaml_file + path_to_out_file;
 
@@ -70,16 +70,9 @@ HSVFilterNode::HSVFilterNode(int argc, char** argv, std::string node_name) {
         dynamic_reconfigure::Server<vision::hsvfilterConfig>::CallbackType f;
         f = boost::bind(&HSVFilterNode::dynamicreconfigCallback, this, _1, _2);
         server.setCallback(f);
-    } else {
-        // If the Dynamic Reconfigure is not desired, then set all the
-        // parameters in the server back to the original values
-        // Not needed but looks better
-        nh.setParam("/" + node_name + "/h_high", h_high);
-        nh.setParam("/" + node_name + "/h_low", h_low);
-        nh.setParam("/" + node_name + "/v_high", v_high);
-        nh.setParam("/" + node_name + "/v_low", v_low);
-        nh.setParam("/" + node_name + "/s_high", s_high);
-        nh.setParam("/" + node_name + "/s_low", s_low);
+
+        // If we are in Dynamic Reconfigure mode, call custom SIGINT handler
+        signal(SIGINT, mySigintHandler);
     }
 
     int refresh_rate = 1;

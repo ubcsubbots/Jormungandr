@@ -26,7 +26,6 @@ class HSVFilterNode {
 
   public:
     HSVFilterNode(int argc, char** argv, std::string node_name);
-    // void mySigintHandler(int sig);
   private:
     /**
      * Callback function for when a new image is received
@@ -48,6 +47,7 @@ class HSVFilterNode {
      */
     void dynamicreconfigCallback(const vision::hsvfilterConfig& config,
                                  uint32_t level);
+
 };
 
 #endif // VISION_HSV_H
