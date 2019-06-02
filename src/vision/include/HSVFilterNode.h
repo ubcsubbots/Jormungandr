@@ -13,8 +13,10 @@
 #include <image_transport/image_transport.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <ros/package.h>
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
+#include <signal.h>
 #include <vision/hsvfilterConfig.h>
 
 class HSVFilterNode {
@@ -24,7 +26,6 @@ class HSVFilterNode {
 
   public:
     HSVFilterNode(int argc, char** argv, std::string node_name);
-
   private:
     /**
      * Callback function for when a new image is received

@@ -5,6 +5,7 @@
  */
 
 #include <HSVFilter.h>
+#include <iostream>
 
 HSVFilter::HSVFilter(int hue_lower,
                      int hue_upper,
@@ -33,7 +34,6 @@ HSVFilter::HSVFilter() {
 void HSVFilter::apply(const cv::Mat& original, cv::Mat& filtered) {
     cv::Mat input_hsv;
     cv::cvtColor(original, input_hsv, cv::COLOR_BGR2HSV, 0);
-
     cv::Scalar lower_bound(hue_lower_, sat_lower_, val_lower_);
     cv::Scalar upper_bound(hue_upper_, sat_upper_, val_upper_);
 

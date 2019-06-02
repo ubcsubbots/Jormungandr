@@ -7,12 +7,10 @@
 #include <HSVFilterNode.h>
 
 int main(int argc, char** argv) {
-    // Setup your ROS node
-    std::string node_name = "filter";
-
-    // Create an instance of your class
+    //     Create an instance of your class
+    std::string node_name = "hsv_filter_node";
     HSVFilterNode filter(argc, argv, node_name);
-
-    // Once the node stops, return 0
+    //     Once the node stops, return 0
     return 0;
 }
+

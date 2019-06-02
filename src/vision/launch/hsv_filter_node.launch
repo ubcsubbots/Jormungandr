@@ -1,10 +1,7 @@
 <launch>
+    <arg name="is_dyn_recon" default="0"/>
     <node name="hsv_filter_node" pkg="vision" type="hsv_filter_node" output="screen">
-        <param name="h_low" value="5" type="int" />
-        <param name="s_low" value="230" type="int" />
-        <param name="v_low" value="230" type="int" />
-        <param name="h_high" value="15" type="int" />
-        <param name="s_high" value="255" type="int" />
-        <param name="v_high" value="255" type="int" />
+           <rosparam command="load" file="$(find vision)/cfg/launch_params_out.yaml" />
+           <param name="is_dyn_recon" value="$(arg is_dyn_recon)" type="bool" />
     </node>
 </launch>
