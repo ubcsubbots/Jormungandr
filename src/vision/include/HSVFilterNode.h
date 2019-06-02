@@ -47,7 +47,6 @@ class HSVFilterNode {
      */
     void dynamicreconfigCallback(const vision::hsvfilterConfig& config,
                                  uint32_t level);
-
 };
 
 #endif // VISION_HSV_H

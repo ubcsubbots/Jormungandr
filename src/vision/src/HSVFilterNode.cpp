@@ -19,7 +19,8 @@ void mySigintHandler(int sig) {
     // Create the terminal call to run the python executable
     std::string path_to_script    = path + "/cfg/yamlEditor.py ";
     std::string path_to_yaml_file = path + "/cfg/rqt_params_out.yaml \"";
-    std::string path_to_out_file  = path + "/cfg/reformatted_launch_parameters.yaml\"";
+    std::string path_to_out_file =
+    path + "/cfg/reformatted_launch_parameters.yaml\"";
     std::string command =
     "python " + path_to_script + path_to_yaml_file + path_to_out_file;
 
