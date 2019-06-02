@@ -8,6 +8,7 @@
 #ifndef PROJECT_GATE_H
 #define PROJECT_GATE_H
 
+#include "Gate.h"
 #include "Pole.h"
 #include <iostream>
 #include <opencv2/highgui.hpp>
@@ -38,13 +39,13 @@
 *
 */
 struct GateCoordinates {
-    float detectedLeftPole;
+    bool detectedLeftPole;
     float angleLeftPole;
     float distanceLeftPole;
-    float detectedRightPole;
+    bool detectedRightPole;
     float angleRightPole;
     float distanceRightPole;
-    float detectedTopPole;
+    bool detectedTopPole;
     float angleTopPole;
     float distanceTopPole;
 };
@@ -54,13 +55,13 @@ static GateCoordinates defaultGateCoordinates() {
 
     gateCoordinates.distanceTopPole   = 0.0f;
     gateCoordinates.angleTopPole      = 0.0f;
-    gateCoordinates.detectedTopPole   = 0.0f;
-    gateCoordinates.detectedLeftPole  = 0.0f;
+    gateCoordinates.detectedTopPole   = false;
+    gateCoordinates.detectedLeftPole  = false;
     gateCoordinates.angleLeftPole     = 0.0f;
     gateCoordinates.distanceLeftPole  = 0.0f;
     gateCoordinates.distanceRightPole = 0.0f;
     gateCoordinates.angleRightPole    = 0.0f;
-    gateCoordinates.detectedRightPole = 0.0f;
+    gateCoordinates.detectedRightPole = false;
 
     return gateCoordinates;
 }
@@ -72,8 +73,6 @@ class GateDetector {
                  int houghLinesMinLength,
                  int houghLinesMaxLineGap,
                  int poleMax,
-                 double verticalInterpolationConstant,
-                 double horizontalInterpolationConstanct,
                  int lowVertThresh,
                  int lowHorThresh);
 
@@ -88,7 +87,7 @@ class GateDetector {
      * getGateCoordinates
      * comment)
      */
-    GateCoordinates initialize(const cv::Mat mat_in);
+    Gate initialize(const cv::Mat mat_in);
 
     /**
      * Function that sets the parameters of the Gate Detector
@@ -98,16 +97,12 @@ class GateDetector {
      * @param houghLinesMinLength
      * @param houghLinesMaxLineGap
      * @param poleMax
-     * @param verticalInterpolationConstance
-     * @param horizontalInterpolationConstance
      */
     void setParams(int cannyLow,
                    int houghLinesThreshold,
                    int houghLinesMinLength,
                    int houghLinesMaxLineGap,
                    int poleMax,
-                   float interpolationConstant1,
-                   float interpolationConstant2,
                    int lowVertThresh,
                    int LowHorThresh);
 
@@ -117,7 +112,7 @@ class GateDetector {
     // Vertical or horizontal
     int lowVertThresh_, lowHorThresh_;
 
-    /*
+    /**
     * Canny( detected_edges, detected_edges, cannyLow_, lowThreshold*ratio,
     * kernel_size );
     *
@@ -133,13 +128,13 @@ class GateDetector {
     */
     int cannyLow_;
 
-    // Maximum separation for two lines to be called a pole
+    // Maximum pixel separation for two lines to be called a pole
     int poleMax_;
 
     // Input image Parameters
     int imagePixelWidth_, imagePixelHeight_;
 
-    /*
+    /**
     * HoughLinesP(dst,detectedLines,rho,theta,houghLinesThreshold_,houghLinesMinLength_,houghLinesMaxLineGap_)
     * dst: Output of the edge detector. It should be a grayscale image (although
     * in fact it is a binary one)
@@ -156,19 +151,6 @@ class GateDetector {
     * in the same line.
     */
     int houghLinesThreshold_, houghLinesMinLength_, houghLinesMaxLineGap_;
-
-    /*
-     * Constants defining relationship
-     * between pixel width and distance
-     * gathered from calibration
-     *  y = m * x + b
-     *
-     *  y = Distance from pole
-     *
-     *  x = pixel width of pole
-     */
-    double VertInterpolationConstant2_, HorInterpolationConstant2_,
-    VertInterpolationConstant1_, HorInterpolationConstant1_;
 
     /**
      * Function to filter through vector of cv::Vector4i objects and filter out
@@ -245,8 +227,7 @@ class GateDetector {
      *  @return vector of parameters of detected gate
      *
      */
-    GateCoordinates getGateCoordinates(std::vector<Pole> vertPoles,
-                                       std::vector<Pole> horPoles);
+    Gate getGate(std::vector<Pole> vertPoles, std::vector<Pole> horPoles);
 };
 
 #endif // PROJECT_GATE_H

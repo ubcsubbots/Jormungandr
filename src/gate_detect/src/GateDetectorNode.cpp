@@ -20,10 +20,8 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     int cannyLow, houghLinesThreshold, houghLinesMinLength, poleMax,
     lowVertThresh, lowHorThresh, houghLinesMaxLineGap;
     double interpolationConstant1, interpolationConstant2;
-    displayDetectedGate_ = false;
 
-    nh.getParam("/gate_detect_node/width", width_);
-    nh.getParam("/gate_detect_node/height", height_);
+    // Refer to Gate_Detector.h for parameter descriptions
     nh.getParam("/gate_detect_node/cannyLow", cannyLow);
     nh.getParam("/gate_detect_node/houghLinesThreshold", houghLinesThreshold);
     nh.getParam("/gate_detect_node/houghLinesMinLength", houghLinesMinLength);
@@ -42,10 +40,11 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
                                  houghLinesMinLength,
                                  houghLinesMaxLineGap,
                                  poleMax,
-                                 interpolationConstant1,
-                                 interpolationConstant2,
                                  lowVertThresh,
                                  lowHorThresh);
+
+    interpolator_ =
+    Interpolator(interpolationConstant1, interpolationConstant2);
 
     subscriber_ = it.subscribe(
     subscribeTopic, 2, &GateDetectorNode::subscriberCallBack, this);
@@ -53,7 +52,8 @@ GateDetectorNode::GateDetectorNode(int argc, char** argv) {
     f = boost::bind(&GateDetectorNode::reconfigCallBack, this, _1, _2);
     server.setCallback(f);
 
-    publisher1_ = nh_.advertise<gate_detect::GateDetectMsg>(publishTopic, 10);
+    gate_msg_publisher_ =
+    nh_.advertise<gate_detect::GateDetectMsg>(publishTopic, 10);
     publisher2_ = it.advertise("gate_image_output", 100);
 
     ros::spin();
@@ -72,68 +72,86 @@ const sensor_msgs::ImageConstPtr& msg) {
 
     cv::Mat image = (cv_ptr->image);
 
-    lineImg = cv::Mat(image,
-                      cv::Rect((image.cols / 2) - (width_ / 2),
-                               (image.rows / 2) - (height_ / 2),
-                               width_,
-                               height_));
+    Gate gate = gateDetector_.initialize(
+    image); // outputs structure of lines which compose the gate
+    if (displayDetectedGate_) // debug image containing detected lines is output
+                              // here if parameter is true
+        publishGateImage(gate, image);
 
-    GateCoordinates gateCoordinates = gateDetector_.initialize(image);
+    // these functions interpolate distance/angles
+    GateCoordinates gateCoordinates =
+    defaultGateCoordinates(); // initializes everything to zeroes
 
+    if (gate.leftDetected) {
+        gateCoordinates.detectedLeftPole = true;
+        int leftWidth                    = gate.leftPole.getVertWidth();
+        gateCoordinates.distanceLeftPole =
+        interpolator_.getVertDistance(leftWidth);
+        gateCoordinates.angleLeftPole =
+        interpolator_.getVertAngle(gate.leftPole.getVertMid(),
+                                   leftWidth,
+                                   image.cols,
+                                   gateCoordinates.distanceLeftPole);
+    }
+    if (gate.rightDetected) {
+        gateCoordinates.detectedRightPole = true;
+        int rightWidth                    = gate.rightPole.getVertWidth();
+        gateCoordinates.distanceRightPole =
+        interpolator_.getVertDistance(rightWidth);
+        gateCoordinates.angleRightPole =
+        interpolator_.getVertAngle(gate.rightPole.getVertMid(),
+                                   rightWidth,
+                                   image.cols,
+                                   gateCoordinates.distanceRightPole);
+    }
+    if (gate.topDetected) {
+        gateCoordinates.detectedTopPole = true;
+        int topWidth                    = gate.topPole.getHorWidth();
+        gateCoordinates.distanceTopPole =
+        interpolator_.getHorDistance(topWidth);
+        gateCoordinates.angleTopPole =
+        interpolator_.getHorAngle(gate.topPole.getHorMid(),
+                                  topWidth,
+                                  image.rows,
+                                  gateCoordinates.distanceTopPole);
+    }
     publishGateDetectMsg(gateCoordinates);
-
-    if (displayDetectedGate_) publishGateImage(gateCoordinates);
 }
 
 void GateDetectorNode::publishGateDetectMsg(GateCoordinates gateCoordinates) {
     gate_detect::GateDetectMsg msg;
 
-    if (gateCoordinates.detectedLeftPole == 0.0) {
-        msg.detectedLeftPole = 0;
-        msg.angleLeftPole    = 0;
-        msg.distanceLeftPole = 0;
-    } else {
-        msg.detectedLeftPole = 1;
-        msg.angleLeftPole    = gateCoordinates.angleLeftPole;
-        msg.distanceLeftPole = gateCoordinates.distanceLeftPole;
-    }
-    if (gateCoordinates.angleRightPole == 0.0) {
-        msg.detectedRightPole = 0;
-        msg.angleRightPole    = 0;
-        msg.distanceRightPole = 0;
+    msg.detectedLeftPole = gateCoordinates.detectedLeftPole;
+    msg.angleLeftPole    = gateCoordinates.angleLeftPole;
+    msg.distanceLeftPole = gateCoordinates.distanceLeftPole;
 
-    } else {
-        msg.detectedRightPole = 1;
-        msg.angleRightPole    = gateCoordinates.angleRightPole;
-        msg.distanceRightPole = gateCoordinates.distanceRightPole;
-    }
-    if (gateCoordinates.detectedTopPole == 0.0) {
-        msg.detectedTopPole = 0;
-        msg.angleTopPole    = 0;
-        msg.distanceTopPole = 0;
+    msg.detectedRightPole = gateCoordinates.detectedRightPole;
+    msg.angleRightPole    = gateCoordinates.angleRightPole;
+    msg.distanceRightPole = gateCoordinates.distanceRightPole;
 
-    } else {
-        msg.detectedTopPole = 1;
-        msg.angleTopPole    = gateCoordinates.angleTopPole;
-        msg.distanceTopPole = gateCoordinates.distanceTopPole;
-    }
+    msg.detectedTopPole = gateCoordinates.detectedTopPole;
+    msg.angleTopPole    = gateCoordinates.angleTopPole;
+    msg.distanceTopPole = gateCoordinates.distanceTopPole;
 
-    publisher1_.publish(msg);
+    gate_msg_publisher_.publish(msg);
 }
 
-void GateDetectorNode::publishGateImage(GateCoordinates gateCoordinates) {
+void GateDetectorNode::publishGateImage(Gate gate, cv::Mat image) {
     cv::Mat colourMat;
 
-    cv::cvtColor(lineImg, colourMat, CV_GRAY2BGR);
+    cv::cvtColor(
+    image,
+    colourMat,
+    CV_GRAY2BGR); // converts to BGR so colors can be drawn on image
 
-    colourMat = TestUtils::drawGate(colourMat, gateCoordinates);
+    colourMat =
+    TestUtils::drawGate(colourMat, gate); // draws detected lines on image
 
     cv_bridge::CvImage out_msg;
     out_msg.header =
     std_msgs::Header(); // Same timestamp and tf frame as input image
     out_msg.encoding = sensor_msgs::image_encodings::BGR8; // Or whatever
     out_msg.image    = colourMat;                          // Your cv::Mat
-
     publisher2_.publish(out_msg.toImageMsg());
 }
 
@@ -151,8 +169,6 @@ const gate_detect::gatedetectConfig& config, uint32_t level) {
                             config.houghLinesMinLength,
                             config.houghLinesMaxLineGap,
                             config.poleMax,
-                            config.interpolationConstant1,
-                            config.interpolationConstant2,
                             config.lowVertThresh,
                             config.lowHorThresh);
 }

@@ -10,6 +10,7 @@
 
 #include "GateDetector.h"
 #include "GateTestUtils.h"
+#include "Interpolator.h"
 #include <cv_bridge/cv_bridge.h>
 #include <dynamic_reconfigure/server.h>
 #include <gate_detect/GateDetectMsg.h>
@@ -26,12 +27,11 @@ class GateDetectorNode {
   private:
     image_transport::Subscriber subscriber_;
     image_transport::Publisher publisher2_;
-    ros::Publisher publisher1_;
+    ros::Publisher gate_msg_publisher_;
     std::string subscribeTopic;
     std::string publishTopic;
-    cv::Mat lineImg;
     GateDetector gateDetector_;
-    int width_, height_;
+    Interpolator interpolator_;
     bool displayDetectedGate_;
 
     /**
@@ -108,7 +108,7 @@ class GateDetectorNode {
      *
      *          distanceTopPole:    Distance to top pole, 0 if not seen
      */
-    void publishGateImage(GateCoordinates gateCoordinates);
+    void publishGateImage(Gate gate, cv::Mat image);
 };
 
 #endif // GATE_DETECT_GATEDETECT_H

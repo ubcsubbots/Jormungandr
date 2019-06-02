@@ -30,7 +30,7 @@ class TestUtils {
      * @param imgHeight
      * @return
      */
-    static cv::Mat drawGate(cv::Mat image, GateCoordinates gateCoordinates);
+    static cv::Mat drawGate(cv::Mat image, Gate gate);
 };
 
 #endif // PROJECT_TESTUTILS_H

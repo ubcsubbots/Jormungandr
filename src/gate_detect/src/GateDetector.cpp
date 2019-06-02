@@ -12,8 +12,6 @@ GateDetector::GateDetector(int cannyLow,
                            int houghLinesMinLength,
                            int houghLinesMaxLineGap,
                            int poleMax,
-                           double interpolationConstant1,
-                           double interpolationConstant2,
                            int lowVertThresh,
                            int lowHorThresh) {
     cannyLow_ = cannyLow;
@@ -29,12 +27,6 @@ GateDetector::GateDetector(int cannyLow,
     lowVertThresh_ = lowVertThresh;
 
     lowHorThresh_ = lowHorThresh;
-
-    VertInterpolationConstant1_ = HorInterpolationConstant1_ =
-    interpolationConstant1;
-
-    VertInterpolationConstant2_ = HorInterpolationConstant2_ =
-    interpolationConstant2;
 }
 
 GateDetector::GateDetector() {
@@ -51,10 +43,6 @@ GateDetector::GateDetector() {
     lowVertThresh_ = 100;
 
     lowHorThresh_ = 200;
-
-    VertInterpolationConstant2_ = HorInterpolationConstant2_ = 81.88;
-
-    VertInterpolationConstant1_ = HorInterpolationConstant1_ = -.92791;
 }
 
 void GateDetector::setParams(int cannyLow,
@@ -62,8 +50,6 @@ void GateDetector::setParams(int cannyLow,
                              int houghLinesMinLength,
                              int houghLinesMaxLineGap,
                              int poleMax,
-                             float interpolationConstant1,
-                             float interpolationConstant2,
                              int lowVertThresh,
                              int lowHorThresh) {
     cannyLow_ = cannyLow;
@@ -80,27 +66,16 @@ void GateDetector::setParams(int cannyLow,
 
     lowHorThresh_ = lowHorThresh;
 
-    VertInterpolationConstant1_ = HorInterpolationConstant1_ =
-    interpolationConstant1;
-
-    VertInterpolationConstant2_ = HorInterpolationConstant2_ =
-    interpolationConstant2;
 }
 
-GateCoordinates GateDetector::initialize(const cv::Mat matin) {
+Gate GateDetector::initialize(const cv::Mat matin) {
     imagePixelWidth_ = matin.cols;
 
     imagePixelHeight_ = matin.rows;
 
-    GateCoordinates gateCoordinates = defaultGateCoordinates();
-
-    cv::Mat blur;
-
-    cv::blur(matin, blur, cv::Size(7, 7));
-
     cv::Mat dst;
 
-    cv::Canny(blur, dst, cannyLow_, cannyLow_ * 3, 3);
+    cv::Canny(matin, dst, cannyLow_, cannyLow_ * 3, 3);
 
     std::vector<cv::Vec4i> detectedLines;
 
@@ -111,8 +86,9 @@ GateCoordinates GateDetector::initialize(const cv::Mat matin) {
                     houghLinesThreshold_,
                     houghLinesMinLength_,
                     houghLinesMaxLineGap_);
+    Gate gate = Gate();
 
-    if (detectedLines.empty()) return gateCoordinates;
+    if (detectedLines.empty()) return gate;
 
     std::vector<cv::Vec4i> vertLines = filterVertLines(detectedLines);
 
@@ -122,9 +98,9 @@ GateCoordinates GateDetector::initialize(const cv::Mat matin) {
 
     std::vector<Pole> horPoles = findHorPoles(horLines);
 
-    gateCoordinates = getGateCoordinates(vertPoles, horPoles);
+    gate = getGate(vertPoles, horPoles);
 
-    return gateCoordinates;
+    return gate;
 }
 
 std::vector<cv::Vec4i>
@@ -171,10 +147,7 @@ GateDetector::findVertPoles(std::vector<cv::Vec4i> vertLines) {
     // Pole vector and return them
     else if ((vertLines.size() == 2) &&
              (abs(vertLines.at(0)[0] - vertLines.at(1)[0]) < poleMax_)) {
-        verticalPoles.push_back(Pole(vertLines.at(0),
-                                     vertLines.at(1),
-                                     (float) VertInterpolationConstant1_,
-                                     (float) VertInterpolationConstant2_));
+        verticalPoles.push_back(Pole(vertLines.at(0), vertLines.at(1)));
 
         return verticalPoles;
     }
@@ -187,10 +160,7 @@ GateDetector::findVertPoles(std::vector<cv::Vec4i> vertLines) {
                 line2 = vertLines.erase(line2);
 
             } else if (abs((*line1)[0] - (*line2)[0]) < poleMax_) {
-                Pole verticalPole = Pole(*line1,
-                                         *line2,
-                                         (float) HorInterpolationConstant1_,
-                                         (float) HorInterpolationConstant2_);
+                Pole verticalPole = Pole(*line1, *line2);
 
                 verticalPoles.push_back(verticalPole);
 
@@ -215,10 +185,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
     // Pole vector and return them
     else if ((horLines.size() == 2) &&
              (abs(horLines.at(0)[0] - horLines.at(1)[0]) < poleMax_)) {
-        horizontalPoles.push_back(Pole(horLines.at(0),
-                                       horLines.at(1),
-                                       (float) VertInterpolationConstant1_,
-                                       (float) VertInterpolationConstant2_));
+        horizontalPoles.push_back(Pole(horLines.at(0), horLines.at(1)));
 
         return horizontalPoles;
     }
@@ -227,10 +194,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
     std::vector<cv::Vec4i>::iterator line2;
 
     if (horLines.size() == 2) {
-        Pole verticalPole = Pole(*(horLines.begin()),
-                                 *(horLines.begin()++),
-                                 (float) HorInterpolationConstant1_,
-                                 (float) HorInterpolationConstant2_);
+        Pole verticalPole = Pole(*(horLines.begin()), *(horLines.begin()++));
 
         horizontalPoles.push_back(verticalPole);
 
@@ -245,10 +209,7 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
                 line2 = horLines.erase(line2);
 
             } else if (abs((*line1)[1] - (*line2)[1]) < poleMax_) {
-                Pole verticalPole = Pole(*line1,
-                                         *line2,
-                                         (float) HorInterpolationConstant1_,
-                                         (float) HorInterpolationConstant2_);
+                Pole verticalPole = Pole(*line1, *line2);
 
                 horizontalPoles.push_back(verticalPole);
 
@@ -263,140 +224,89 @@ std::vector<Pole> GateDetector::findHorPoles(std::vector<cv::Vec4i> horLines) {
     return horizontalPoles;
 }
 
-GateCoordinates GateDetector::getGateCoordinates(std::vector<Pole> vertPoles,
-                                                 std::vector<Pole> horPoles) {
-    GateCoordinates gateCoordinates = defaultGateCoordinates();
+Gate GateDetector::getGate(std::vector<Pole> vertPoles,
+                           std::vector<Pole> horPoles) {
+    Gate gate;
 
-    // If theres no vertical poles, check for horizontal pole and to struct
+    // If there's no vertical poles, check for horizontal pole and put in struct
     if (vertPoles.empty()) {
         if (!horPoles.empty()) {
-            Pole topPole = *std::min_element(
+            gate.topPole = *std::min_element(
             horPoles.begin(), horPoles.end(), [](Pole lhs, Pole rhs) {
-                return lhs.getVertMid() > rhs.getVertMid();
+                return lhs.getHorMid() > rhs.getHorMid(); // changed from vert
+                // to hor, might need testing
             });
 
-            gateCoordinates.detectedTopPole = 1;
-            gateCoordinates.angleTopPole =
-            topPole.getHorAngle(imagePixelHeight_);
-            gateCoordinates.distanceTopPole = topPole.getHorDistance();
+            gate.topDetected = true;
         }
     }
     // If theres one pole, check for horizontal poles and determine which
     // vertical pole it is
     else if (vertPoles.size() == 1) {
         if (horPoles.empty()) {
-            Pole pole = *vertPoles.begin();
+            gate.leftPole     = *vertPoles.begin();
+            gate.leftDetected = true;
 
-            gateCoordinates.detectedLeftPole = 1;
-            gateCoordinates.angleLeftPole = pole.getVertAngle(imagePixelWidth_);
-            gateCoordinates.distanceLeftPole = pole.getVertDistance();
+        }
 
-        } else {
+        else {
             Pole vertPole = *vertPoles.begin();
-            Pole horPole  = *horPoles.begin();
+            gate.topPole     = *horPoles.begin();
+            gate.topDetected = true;
 
-            gateCoordinates.detectedTopPole = 1;
-            gateCoordinates.angleTopPole =
-            horPole.getHorAngle(imagePixelHeight_);
-            gateCoordinates.distanceTopPole = horPole.getHorDistance();
+            if (gate.topPole.getVertMid() > vertPole.getVertMid()) {
+                gate.leftPole     = vertPole;
+                gate.leftDetected = true;
+            }
 
-            if (horPole.getVertMid() > vertPole.getVertMid()) {
-                gateCoordinates.detectedLeftPole = 1;
-                gateCoordinates.angleLeftPole =
-                vertPole.getVertAngle(imagePixelWidth_);
-                gateCoordinates.distanceLeftPole = vertPole.getVertDistance();
-
-            } else {
-                gateCoordinates.detectedRightPole = 1;
-                gateCoordinates.angleRightPole    = vertPole.getVertDistance();
-                gateCoordinates.distanceRightPole =
-                vertPole.getVertAngle(imagePixelWidth_);
+            else {
+                gate.rightPole     = vertPole;
+                gate.rightDetected = true;
             }
         }
     }
     // Find pole furthest to left and furthest to right, determine which pole is
     // which and return the struct that is most likely to define the gate
     else {
-        Pole leftPole = *std::min_element(
+        gate.leftPole = *std::min_element(
         vertPoles.begin(), vertPoles.end(), [](Pole lhs, Pole rhs) {
             return lhs.getVertMid() < rhs.getVertMid();
         });
 
-        Pole rightPole = *std::min_element(
+        gate.rightPole = *std::min_element(
         vertPoles.begin(), vertPoles.end(), [](Pole lhs, Pole rhs) {
             return lhs.getVertMid() > rhs.getVertMid();
         });
 
         if (!horPoles.empty()) {
-            Pole topPole = *std::min_element(
+            gate.topPole = *std::min_element(
             horPoles.begin(), horPoles.end(), [](Pole lhs, Pole rhs) {
                 return lhs.getHorMid() < rhs.getHorMid();
             });
 
-            if (leftPole.getVertMid() > topPole.getVertMid()) {
-                gateCoordinates.detectedLeftPole = 0;
-                gateCoordinates.angleLeftPole    = 0;
-                gateCoordinates.distanceLeftPole = 0;
+            if (gate.leftPole.getVertMid() > gate.topPole.getVertMid()) {
+                gate.leftDetected  = false;
+                gate.rightDetected = true;
+                gate.topDetected   = true;
+            }
 
-                gateCoordinates.detectedRightPole = 1;
-                gateCoordinates.angleRightPole =
-                rightPole.getVertAngle(imagePixelWidth_);
-                gateCoordinates.distanceRightPole = rightPole.getVertDistance();
+            else if (gate.rightPole.getVertMid() < gate.topPole.getVertMid()) {
+                gate.leftDetected  = true;
+                gate.rightDetected = false;
+                gate.topDetected   = true;
+            }
 
-                gateCoordinates.detectedTopPole = 1;
-                gateCoordinates.angleTopPole =
-                topPole.getHorAngle(imagePixelHeight_);
-                gateCoordinates.distanceTopPole = topPole.getHorDistance();
-
-            } else if (rightPole.getVertMid() < topPole.getVertMid()) {
-                gateCoordinates.detectedLeftPole = 1;
-                gateCoordinates.angleLeftPole =
-                leftPole.getVertAngle(imagePixelWidth_);
-                gateCoordinates.distanceLeftPole = leftPole.getVertDistance();
-
-                gateCoordinates.detectedRightPole = 0;
-                gateCoordinates.angleRightPole    = 0;
-                gateCoordinates.distanceRightPole = 0;
-
-                gateCoordinates.detectedTopPole = 1;
-                gateCoordinates.angleTopPole =
-                topPole.getHorAngle(imagePixelHeight_);
-                gateCoordinates.distanceTopPole = topPole.getHorDistance();
-            } else {
-                gateCoordinates.detectedLeftPole = 1;
-                gateCoordinates.angleLeftPole =
-                leftPole.getVertAngle(imagePixelWidth_);
-                gateCoordinates.distanceLeftPole = leftPole.getVertDistance();
-
-                gateCoordinates.detectedRightPole = 1;
-                gateCoordinates.angleRightPole =
-                rightPole.getVertAngle(imagePixelWidth_);
-                gateCoordinates.distanceRightPole = rightPole.getVertDistance();
-
-                gateCoordinates.detectedTopPole = 1;
-                gateCoordinates.angleTopPole =
-                topPole.getHorAngle(imagePixelHeight_);
-                gateCoordinates.distanceTopPole = topPole.getHorDistance();
+            else {
+                gate.leftDetected  = true;
+                gate.rightDetected = true;
+                gate.topDetected   = true;
             }
 
         } else {
-            gateCoordinates.detectedLeftPole = 1;
-            gateCoordinates.angleLeftPole =
-            leftPole.getVertAngle(imagePixelWidth_);
-            gateCoordinates.distanceLeftPole = leftPole.getVertDistance();
-
-            gateCoordinates.detectedRightPole = 1;
-            gateCoordinates.angleRightPole =
-            rightPole.getVertAngle(imagePixelWidth_);
-            gateCoordinates.distanceRightPole = rightPole.getVertDistance();
+            gate.leftDetected  = true;
+            gate.rightDetected = true;
         }
     }
 
-    if (gateCoordinates.distanceTopPole > 15) {
-        gateCoordinates.detectedTopPole = 0;
-        gateCoordinates.distanceTopPole = 0;
-        gateCoordinates.angleTopPole    = 0;
-    }
-
-    return gateCoordinates;
+    return gate;
 }
