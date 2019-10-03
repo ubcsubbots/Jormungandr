@@ -46,7 +46,7 @@ echo "================================================================"
 sudo apt-get install ros-melodic-rosserial -y
 
 # Install all required dependencies to build this repo
-rosdep install --from-paths src --os=ubuntu:trusty --ignore-src --rosdistro kinetic -y
+rosdep install --from-paths src --os=ubuntu:trusty --ignore-src --rosdistro melodic -y
 catkin_make install -DCATKIN_WHITELIST_PACKAGES=""
 
 echo "================================================================"
