@@ -17,6 +17,8 @@ echo "================================================================"
 echo "Installing Project Dependent ROS packages."
 echo "================================================================"
 
+sudo apt-get install python-rosinstall -y
+
 # Update Rosdeps
 rosdep update
 
@@ -32,18 +34,20 @@ rosinstall external_pkg .rosinstall
 rosinstall .
 
 # Install dependecies for external packages
-rosdep install --from-paths external_pkg --ignore-src --rosdistro kinetic -y
+rosdep install --from-paths external_pkg/vision_msgs --ignore-src --rosdistro melodic -y
 
 # Build external packages
-catkin_make --source external_pkg
+catkin_make --source external_pkg/ --only-pkg-with-deps vision_msgs
 
 echo "================================================================"
 echo "Installing ROS dependencies..."
 echo "================================================================"
 
+sudo apt-get install ros-melodic-rosserial -y
+
 # Install all required dependencies to build this repo
-rosdep install --from-paths src --ignore-src --rosdistro kinetic -y
-catkin_make install
+rosdep install --from-paths src --os=ubuntu:trusty --ignore-src --rosdistro kinetic -y
+catkin_make install -DCATKIN_WHITELIST_PACKAGES=""
 
 echo "================================================================"
 echo "Finished installing ROS dependencies."
@@ -56,9 +60,8 @@ echo "================================================================"
 sudo apt-get install -y\
     clang-format\
     python-rosinstall\
-    virtualenv
-
-sudo easy_install pip
+    virtualenv\
+    python-pip
 
 echo "================================================================"
 echo "Setup .bashrc"

@@ -13,4 +13,4 @@
     version: kinetic-devel}
 - git: {local-name: external_pkg/video_stream, uri: 'https://github.com/ros-drivers/video_stream_opencv.git',
     version: 1.1.5}
-- setup-file: {local-name: /opt/ros/kinetic/setup.sh}
+- setup-file: {local-name: /opt/ros/melodic/setup.sh}
