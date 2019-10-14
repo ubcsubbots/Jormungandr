@@ -1,0 +1,21 @@
+robot:
+  controllers:
+    sensors:
+      imu_sensor:
+        type: imu_sensor_controller/ImuSensorController
+        publish_rate: 10
+      depth_sensor:
+        type: sensor_controllers/DepthStateController
+        publish_rate: 10
+    thrusters:
+      type: thruster_controllers/MultiThrusterController
+      num_thrusters: 6
+      names:
+        - thruster_one
+        - thruster_two
+        - thruster_three
+        - thruster_four
+        - thruster_five
+        - thruster_six
+      topics: {imu: imu_sensor, depth: depth_sensor, decision: decision_node/output}
+      pid: {p: 10.0, i: 0.0, d: 1.0}

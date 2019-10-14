@@ -1,0 +1,11 @@
+<launch>
+    <rosparam file="$(find controls)/config/controllers.yaml" command="load"/>
+    <node name="control_node" 
+            pkg="controls" type="control_node" output="screen"/>
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/"
+        args="
+            /robot/controllers/sensors/depth_sensor
+            /robot/controllers/sensors/imu_sensor
+            /robot/controllers/thrusters
+        "/>
+</launch>
