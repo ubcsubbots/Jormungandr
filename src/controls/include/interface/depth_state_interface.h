@@ -30,6 +30,7 @@ public:
   }
 
   std::string getName() const {return name_;}
+  void setState(double state) {assert(state_); *state_ = state;}
   double getState() const {assert(state_); return *state_;}
 
   double* getStatePtr() {return state_;}

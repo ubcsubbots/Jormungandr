@@ -62,7 +62,7 @@ namespace thruster_controllers {
         decision_cmd_struct_ = *(decision_cmd_.readFromRT());
         depth_state_val_ = *(depth_state_.readFromRT());
         // TODO: Thruster update algorithm
-        ROS_INFO("Multi Thruster Controller Updated");
+        // ROS_INFO("Multi Thruster Controller Updated");
     }
 
     void MultiThrusterController::starting(const ros::Time& time) 
@@ -82,42 +82,29 @@ namespace thruster_controllers {
         depth_sub_.shutdown();
     }
 
-    void MultiThrusterController::setFromRealtime(MultiThrusterController::ImuData data) 
-    {
-        imu_data_struct_ = data;
-        imu_data_.writeFromNonRT(imu_data_struct_);
-    } 
-
-    void MultiThrusterController::setFromRealtime(MultiThrusterController::DecisionCmd data)
-    {
-        decision_cmd_struct_ = data;
-        decision_cmd_.writeFromNonRT(decision_cmd_struct_);
-    }
-
-    void MultiThrusterController::setFromRealtime(double data)
-    {
-        depth_state_val_ = data;
-        depth_state_.writeFromNonRT(depth_state_val_);
-    }
-
     void MultiThrusterController::decisionCB(const nav_msgs::Odometry::ConstPtr& msg) 
     {   
         // ROS_INFO("Got decision message");
         DecisionCmd cmd;
-        setFromRealtime(cmd);
+        // TODO: fill cmd with msg
+        decision_cmd_struct_ = cmd;
+        decision_cmd_.writeFromNonRT(decision_cmd_struct_);
     }
 
     void MultiThrusterController::imuCB(const sensor_msgs::Imu::ConstPtr& msg)
     {
         // ROS_INFO("Got imu message");
         ImuData data;
-        setFromRealtime(data);
+        // TODO: fill data with msg
+        imu_data_struct_ = data;
+        imu_data_.writeFromNonRT(imu_data_struct_);
     }
 
     void MultiThrusterController::depthCB(const std_msgs::Float64::ConstPtr& msg) 
     {
         // ROS_INFO("Got depth message");
-        setFromRealtime(msg->data);
+        depth_state_val_ = msg->data;
+        depth_state_.writeFromNonRT(depth_state_val_);
     }
 
 } // namespace thruster_controllers

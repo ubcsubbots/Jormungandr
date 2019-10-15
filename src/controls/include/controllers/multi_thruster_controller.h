@@ -101,11 +101,6 @@ namespace thruster_controllers
 
     private:
 
-        // Overloaded realtime data setters used by message callbacks
-        void setFromRealtime(DecisionCmd data);
-        void setFromRealtime(ImuData data);
-        void setFromRealtime(double data);
-
         // Subscriber callbacks
         void decisionCB(const nav_msgs::Odometry::ConstPtr& msg);
         void imuCB(const sensor_msgs::Imu::ConstPtr& msg);

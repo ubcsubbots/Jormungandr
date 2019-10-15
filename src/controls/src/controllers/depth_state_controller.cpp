@@ -19,7 +19,8 @@ namespace sensor_controllers
         std::string name = robot->getNames()[0];
         depth_sensor_ = robot->getHandle(name);
 
-        realtime_pub_.reset(new realtime_tools::RealtimePublisher<std_msgs::Float64>(root_nh, name, 4));
+        realtime_pub_.reset(
+            new realtime_tools::RealtimePublisher<std_msgs::Float64>(root_nh, name, 4));
         realtime_pub_->msg_.data = 0.0;
 
         ROS_INFO("Depth State Controller Initialized");
@@ -35,7 +36,7 @@ namespace sensor_controllers
                 realtime_pub_->unlockAndPublish();
             }
         }
-        ROS_INFO("Depth State Controller Updated");
+        // ROS_INFO("Depth State Controller Updated");
     }
 
     void DepthStateController::starting(const ros::Time& time) {
