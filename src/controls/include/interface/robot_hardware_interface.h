@@ -1,3 +1,9 @@
+/*
+ * Created By: Logan Fillo
+ * Created On: October 19 2019
+ * Description: Hardware interface header
+ */
+
 #ifndef ROS_CONTROL__ROBOT_HARDWARE_INTERFACE_H
 #define ROS_CONTROL__ROBOT_HARDWARE_INTERFACE_H
 

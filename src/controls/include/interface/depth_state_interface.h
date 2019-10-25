@@ -1,3 +1,9 @@
+/*
+ * Created By: Logan Fillo
+ * Created On: October 19 2019
+ * Description: Depth state interface
+ */
+
 #ifndef HARDWARE_INTERFACE_DEPTH_STATE_INTERFACE_H
 #define HARDWARE_INTERFACE_DEPTH_STATE_INTERFACE_H
 

@@ -1,3 +1,9 @@
+/*
+ * Created By: Logan Fillo
+ * Created On: October 19 2019
+ * Description: thruster command interface
+ */
+
 #ifndef HARDWARE_INTERFACE_THRUSTER_COMMAND_INTERFACE_H
 #define HARDWARE_INTERFACE_THRUSTER_COMMAND_INTERFACE_H
 

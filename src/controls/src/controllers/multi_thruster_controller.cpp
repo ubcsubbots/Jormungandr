@@ -1,3 +1,9 @@
+/*
+ * Created By: Logan Fillo
+ * Created On: October 19 2019
+ * Description: Multi thruster controller
+ */
+
 #include <controllers/multi_thruster_controller.h>
 #include <pluginlib/class_list_macros.hpp>
 

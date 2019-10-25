@@ -1,3 +1,9 @@
+/*
+ * Created By: Logan Fillo
+ * Created On: October 19 2019
+ * Description: Control node 
+ */
+
 #include <interface/robot_hardware_interface.h>
 #include <controller_manager/controller_manager.h>
 #include <ros/ros.h>

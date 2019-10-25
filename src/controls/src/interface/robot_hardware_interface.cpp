@@ -1,3 +1,9 @@
+/*
+ * Created By: Logan Fillo
+ * Created On: October 19 2019
+ * Description: Hardware interface
+ */
+
 #include <interface/robot_hardware_interface.h>
 
 RobotHardwareInterface::RobotHardwareInterface(int argc, char** argv, std::string node_name)

@@ -1,3 +1,9 @@
+/*
+ * Created By: Logan Fillo
+ * Created On: October 19 2019
+ * Description: Depth state controller header
+ */
+
 #ifndef SENSOR_CONTROLLERS__DEPTH_STATE_CONTROLLER_H
 #define SENSOR_CONTROLLERS__DEPTH_STATE_CONTROLLER_H
 

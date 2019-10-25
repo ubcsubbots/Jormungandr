@@ -1,3 +1,9 @@
+/*
+ * Created By: Logan Fillo
+ * Created On: October 19 2019
+ * Description: Multi thruster controller header
+ */
+
 #ifndef THRUSTER_CONTROLLERS__MULTI_THRUSTER_CONTROLLER_H
 #define THRUSTER_CONTROLLERS__MULTI_THRUSTER_CONTROLLER_H
 

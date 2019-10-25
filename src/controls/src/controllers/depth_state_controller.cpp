@@ -1,3 +1,9 @@
+/*
+ * Created By: Logan Fillo
+ * Created On: October 19 2019
+ * Description: Depth state controller
+ */
+
 #include <controllers/depth_state_controller.h>
 #include <pluginlib/class_list_macros.hpp>
 
