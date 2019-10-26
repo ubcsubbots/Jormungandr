@@ -7,12 +7,13 @@
 #ifndef THRUSTER_CONTROLLERS__MULTI_THRUSTER_CONTROLLER_H
 #define THRUSTER_CONTROLLERS__MULTI_THRUSTER_CONTROLLER_H
 
+#include <realtime_tools/realtime_buffer.h>
+#include <DataStructs.h>
 #include <controller_interface/controller.h>
 #include <control_toolbox/pid.h>
 #include <nav_msgs/Odometry.h>
 #include <sensor_msgs/Imu.h>
 #include <std_msgs/Float64.h>
-#include <realtime_tools/realtime_buffer.h>
 #include <interface/thruster_command_interface.h>
 
 namespace thruster_controllers
@@ -39,14 +40,6 @@ namespace thruster_controllers
     class MultiThrusterController: public controller_interface::Controller<hardware_interface::ThrusterCommandInterface>
     {
     public:
-        
-        /**
-         * Struct to store Imu data for use by the realtime buffer 
-         */
-        struct ImuData
-        {
-            /* Imu data params*/
-        };
 
         /**
          * Struct to store Decision command for use by the realtime buffer 
@@ -126,15 +119,15 @@ namespace thruster_controllers
         ros::Subscriber depth_sub_;
         static const int msg_queue_ = 10; 
 
-        // Realtime buffer to recieve callbacks
+        // Realtime buffers to recieve messages in realtime
         realtime_tools::RealtimeBuffer<DecisionCmd> decision_cmd_;
         realtime_tools::RealtimeBuffer<ImuData> imu_data_ ;
-        realtime_tools::RealtimeBuffer<float>  depth_state_;
+        realtime_tools::RealtimeBuffer<DepthSensorData>  depth_sensor_data_;
 
-        // Memory allocated for buffer
+        // Memory allocated for subscriber messages
         DecisionCmd decision_cmd_struct_;
         ImuData imu_data_struct_;
-        float depth_state_val_;
+        DepthSensorData depth_sensor_data_struct_;
           
     };
     

@@ -51,12 +51,15 @@ namespace thruster_controllers {
             return false;
         }
 
-        decision_sub_ = root_nh.subscribe<nav_msgs::Odometry>(topics["decision"], msg_queue_, 
-                                                            &MultiThrusterController::decisionCB, this);
-        imu_sub_ = root_nh.subscribe<sensor_msgs::Imu>(topics["imu"], msg_queue_, 
-                                                            &MultiThrusterController::imuCB, this);
-        depth_sub_ = root_nh.subscribe<std_msgs::Float64>(topics["depth"], msg_queue_, 
-                                                            &MultiThrusterController::depthCB, this);
+        decision_sub_ = root_nh.subscribe<nav_msgs::Odometry>(
+            topics["decision"], msg_queue_, 
+            &MultiThrusterController::decisionCB, this);
+        imu_sub_ = root_nh.subscribe<sensor_msgs::Imu>(
+            topics["imu"], msg_queue_, 
+            &MultiThrusterController::imuCB, this);
+        depth_sub_ = root_nh.subscribe<std_msgs::Float64>(
+            topics["depth"], msg_queue_, 
+            &MultiThrusterController::depthCB, this);
 
         ROS_INFO("Multi Thruster Controller Initialized");
         return true;
@@ -66,7 +69,7 @@ namespace thruster_controllers {
     {   
         imu_data_struct_ = *(imu_data_.readFromRT());
         decision_cmd_struct_ = *(decision_cmd_.readFromRT());
-        depth_state_val_ = *(depth_state_.readFromRT());
+        depth_sensor_data_struct_ = *(depth_sensor_data_.readFromRT());
         // TODO: Thruster update algorithm
         // ROS_INFO("Multi Thruster Controller Updated");
     }
@@ -76,7 +79,7 @@ namespace thruster_controllers {
         // TODO: Initialize structs and val
         imu_data_.initRT(imu_data_struct_);
         decision_cmd_.initRT(decision_cmd_struct_);
-        depth_state_.initRT(depth_state_val_);
+        depth_sensor_data_.initRT(depth_sensor_data_struct_);
 
         pid_controller_.reset();
     }
@@ -109,8 +112,10 @@ namespace thruster_controllers {
     void MultiThrusterController::depthCB(const std_msgs::Float64::ConstPtr& msg) 
     {
         // ROS_INFO("Got depth message");
-        depth_state_val_ = msg->data;
-        depth_state_.writeFromNonRT(depth_state_val_);
+        DepthSensorData data;
+        // TODO: fill data with msg
+        depth_sensor_data_struct_ = data;
+        depth_sensor_data_.writeFromNonRT(depth_sensor_data_struct_);
     }
 
 } // namespace thruster_controllers

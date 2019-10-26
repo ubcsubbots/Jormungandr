@@ -25,7 +25,7 @@ namespace sensor_controllers
     * 
     * Publish to
     * 
-    * - @b /${name of the handle defined in hardware interface} (std_msgs::Float64)
+    * - @b /${name of the handle this controller uses} (std_msgs::Float64)
     */
     class DepthStateController : public controller_interface::Controller<hardware_interface::DepthStateInterface>
     {

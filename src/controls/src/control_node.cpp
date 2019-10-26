@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     RobotHardwareInterface robot(argc, argv, node_name);
     controller_manager::ControllerManager cm(&robot);
 
-    // Setup threading model for callbacks outside of this thread
+    // Setup threading model so callbacks are executed on seperate thread
     // Argument of 0 to spinner means it uses num of cores the ros host has
     ros::AsyncSpinner spinner(0);
     spinner.start();
