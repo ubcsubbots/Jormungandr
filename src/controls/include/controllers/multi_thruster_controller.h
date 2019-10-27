@@ -8,7 +8,7 @@
 #define THRUSTER_CONTROLLERS__MULTI_THRUSTER_CONTROLLER_H
 
 #include <realtime_tools/realtime_buffer.h>
-#include <DataStructs.h>
+#include <types/data_types.h>
 #include <controller_interface/controller.h>
 #include <control_toolbox/pid.h>
 #include <nav_msgs/Odometry.h>

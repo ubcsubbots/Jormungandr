@@ -12,15 +12,11 @@
 #include <hardware_interface/robot_hw.h>
 #include <interface/thruster_command_interface.h>
 #include <interface/depth_state_interface.h>
-#include <drivers/ImuDriver.h>
-#include <drivers/ThrustersDriver.h>
-#include <drivers/DepthSensorDriver.h>
-#include <DataStructs.h>
+#include <types/data_types.h>
 #include <realtime_tools/realtime_publisher.h>
 #include <realtime_tools/realtime_buffer.h>
 #include <boost/shared_ptr.hpp>
-#include <controls/MultiThrusterCommand.h>
-#include <controls/DepthSensorState.h>
+#include <controls/DriversMsg.h>
 #include <sensor_msgs/Imu.h>
 
 class RobotHardwareInterface:  public hardware_interface::RobotHW
@@ -60,37 +56,29 @@ protected:
      */
     void initDriverCommunication(); 
 
-    // Subscriber callbacks 
-    void imuCB(const sensor_msgs::Imu::ConstPtr& msg);
-    void multiThrusterCB(const controls::MultiThrusterCommand::ConstPtr& msg);
-    void depthSensorCB(const controls::DepthSensorState::ConstPtr& msg);
+    // Subscriber callback
+    void driversCB(const controls::DriversMsg::ConstPtr& msg);
 
     // Provided interfaces
     hardware_interface::ImuSensorInterface imu_sensor_interface_;
     hardware_interface::ThrusterCommandInterface thrusters_interface_;
     hardware_interface::DepthStateInterface depth_state_interface_;
 
-    // Driver Subscribers
-    ros::Subscriber imu_driver_sub_;
-    ros::Subscriber multi_thruster_driver_sub_;
-    ros::Subscriber depth_sensor_driver_sub_;
+    // Driver Subscriber
+    ros::Subscriber drivers_sub_;
 
     ros::NodeHandle nh_;
     const static int msg_queue_ = 10;
 
-    // Realtime publishers to send messagses t drivers in realtime
-    typedef boost::shared_ptr<realtime_tools::RealtimePublisher<controls::MultiThrusterCommand> > RtPublisherPtr;
-    RtPublisherPtr multi_thruster_driver_pub_;
+    // Realtime publishers to send messagses to drivers in realtime
+    typedef boost::shared_ptr<realtime_tools::RealtimePublisher<controls::DriversMsg> > RtPublisherPtr;
+    RtPublisherPtr drivers_pub_;
 
-    // Realtime buffers to recieve messages from drivers in realtime
-    realtime_tools::RealtimeBuffer<ImuData> imu_driver_;
-    realtime_tools::RealtimeBuffer<MultiThrusterData> multi_thruster_driver_ ;
-    realtime_tools::RealtimeBuffer<DepthSensorData>  depth_sensor_driver_;
+    // Realtime buffer to recieve messages from drivers in realtime
+    realtime_tools::RealtimeBuffer<DriversData> drivers_;
 
     // Memory allocated for subscriber messages
-    ImuData imu_driver_struct_;
-    MultiThrusterData multi_thruster_driver_struct_;
-    DepthSensorData depth_sensor_driver_struct_;
+    DriversData drivers_struct_;
 
     // Shared memory
     double thruster_cmd_[6];

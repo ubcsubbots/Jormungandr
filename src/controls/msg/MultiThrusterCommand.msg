@@ -1,8 +1,0 @@
-# MultiThrusterCommand.h
-
-float64 thruster_one_command
-float64 thruster_two_command
-float64 thruster_three_command
-float64 thruster_four_command
-float64 thruster_five_command
-float64 thruster_six_command

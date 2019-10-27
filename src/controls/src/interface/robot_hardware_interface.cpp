@@ -16,20 +16,17 @@ RobotHardwareInterface::~RobotHardwareInterface() {}
 
 void RobotHardwareInterface::read()
 {
-    imu_driver_struct_= *(imu_driver_.readFromRT());
-    multi_thruster_driver_struct_ = *(multi_thruster_driver_.readFromRT());
-    depth_sensor_driver_struct_ = *(depth_sensor_driver_.readFromRT());
+    drivers_struct_= *(drivers_.readFromRT());
     // TODO: store the data from structs into the hardware interface's shared memory
-    
 }
 
 void RobotHardwareInterface::write()
 {
-    controls::MultiThrusterCommand msg;
+    controls::DriversMsg msg;
     // TODO: store thruster commands from shared memory into msg
-    if (multi_thruster_driver_pub_ && multi_thruster_driver_pub_->trylock()){
-            multi_thruster_driver_pub_->msg_ = msg;
-            multi_thruster_driver_pub_->unlockAndPublish();
+    if (drivers_pub_ && drivers_pub_->trylock()){
+            drivers_pub_->msg_ = msg;
+            drivers_pub_->unlockAndPublish();
     }
 }
 
@@ -77,52 +74,23 @@ void RobotHardwareInterface::initControllerInterfaces()
 
 void RobotHardwareInterface::initDriverCommunication() 
 {
-    imu_driver_.initRT(imu_driver_struct_);
-    multi_thruster_driver_.initRT(multi_thruster_driver_struct_);
-    depth_sensor_driver_.initRT(depth_sensor_driver_struct_);
+    drivers_.initRT(drivers_struct_);
 
-    imu_driver_sub_ = nh_.subscribe<sensor_msgs::Imu>(
-        "driver/imu/output", msg_queue_,
-        &RobotHardwareInterface::imuCB, this);
+    drivers_sub_ = nh_.subscribe<controls::DriversMsg>(
+        "/driver/output", msg_queue_,
+        &RobotHardwareInterface::driversCB, this);
 
-    multi_thruster_driver_sub_ = nh_.subscribe<controls::MultiThrusterCommand>(
-        "driver/multi_thruster/ouput", msg_queue_,
-        &RobotHardwareInterface::multiThrusterCB, this);
-
-    depth_sensor_driver_sub_ = nh_.subscribe<controls::DepthSensorState>(
-        "driver/depth_sensor/ouput", msg_queue_,
-        &RobotHardwareInterface::depthSensorCB, this);
-
-    multi_thruster_driver_pub_.reset(
-        new realtime_tools::RealtimePublisher<controls::MultiThrusterCommand>(nh_,
-            "driver/multi_thruster/input", 4));
+    drivers_pub_.reset(
+        new realtime_tools::RealtimePublisher<controls::DriversMsg>(nh_,
+            "/driver/input", 4));
 }
 
-void RobotHardwareInterface::imuCB(const sensor_msgs::Imu::ConstPtr& msg) 
+void RobotHardwareInterface::driversCB(const controls::DriversMsg::ConstPtr& msg) 
 {
-    // ROS_INFO("Got imu driver message");
-    ImuData data;
+    ROS_INFO("Got drivers message");
+    DriversData data;
     // TODO: fill data with msg
-    imu_driver_struct_= data;
-    imu_driver_.writeFromNonRT(imu_driver_struct_);
-}
-
-void RobotHardwareInterface::multiThrusterCB(const controls::MultiThrusterCommand::ConstPtr& msg) 
-{   
-    // ROS_INFO("Got multi thruster driver message");
-    MultiThrusterData data;
-    // TODO: fill data with msg
-    multi_thruster_driver_struct_ = data;
-    multi_thruster_driver_.writeFromNonRT(multi_thruster_driver_struct_);
-}
-
-void RobotHardwareInterface::depthSensorCB(const controls::DepthSensorState::ConstPtr& msg) 
-{
-    // ROS_INFO("Got depth sensor message");
-    DepthSensorData data;
-    // TODO: fill data with msg
-    depth_sensor_driver_struct_ = data;
-    depth_sensor_driver_.writeFromNonRT(depth_sensor_driver_struct_);
-
+    drivers_struct_= data;
+    drivers_.writeFromNonRT(drivers_struct_);
 }
 

@@ -57,8 +57,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
     FILES
-    MultiThrusterCommand.msg
-    DepthSensorState.msg
+    MultiThrusterMsg.msg
+    DepthSensorMsg.msg
+    DriversMsg.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -79,6 +80,8 @@ add_message_files(
 generate_messages(
     DEPENDENCIES
     std_msgs  # Or other packages containing msgs
+    sensor_msgs
+    controls
 )
 
 ################################################
@@ -149,9 +152,6 @@ add_library(subbots_controllers_lib
 add_executable(control_node 
   src/control_node.cpp 
   src/interface/robot_hardware_interface.cpp
-  src/drivers/ImuDriver.cpp
-  src/drivers/ThrustersDriver.cpp
-  src/drivers/DepthSensorDriver.cpp
 )
 
 ## Rename C++ executable without prefix

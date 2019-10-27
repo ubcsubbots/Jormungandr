@@ -1,0 +1,8 @@
+# MultiThrusterMsg.h
+
+float32 thruster_one_command
+float32 thruster_two_command
+float32 thruster_three_command
+float32 thruster_four_command
+float32 thruster_five_command
+float32 thruster_six_command
