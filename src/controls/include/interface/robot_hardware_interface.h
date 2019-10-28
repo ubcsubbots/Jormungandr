@@ -10,7 +10,7 @@
 #include <ros/ros.h>
 #include <hardware_interface/imu_sensor_interface.h>
 #include <hardware_interface/robot_hw.h>
-#include <interface/thruster_command_interface.h>
+#include <interface/thruster_array_interface.h>
 #include <interface/depth_state_interface.h>
 #include <types/data_types.h>
 #include <realtime_tools/realtime_publisher.h>
@@ -60,17 +60,15 @@ protected:
     void driversCB(const controls::DriversMsg::ConstPtr& msg);
 
     // Provided interfaces
-    hardware_interface::ImuSensorInterface imu_sensor_interface_;
-    hardware_interface::ThrusterCommandInterface thrusters_interface_;
-    hardware_interface::DepthStateInterface depth_state_interface_;
-
-    // Driver Subscriber
-    ros::Subscriber drivers_sub_;
+    hardware_interface::ThrusterArrayInterface thruster_array_interface_;
 
     ros::NodeHandle nh_;
     const static int msg_queue_ = 10;
 
-    // Realtime publishers to send messagses to drivers in realtime
+    // Driver Subscriber
+    ros::Subscriber drivers_sub_;
+
+    // Realtime publishers to send messages to drivers in realtime
     typedef boost::shared_ptr<realtime_tools::RealtimePublisher<controls::DriversMsg> > RtPublisherPtr;
     RtPublisherPtr drivers_pub_;
 
@@ -81,14 +79,9 @@ protected:
     DriversData drivers_struct_;
 
     // Shared memory
-    double thruster_cmd_[6];
-    double imu_orientation_;
-    double imu_orientation_covariance_;
-    double imu_angular_velocity_;
-    double imu_angular_velocity_covariance_;
-    double imu_linear_acceleration_;
-    double imu_linear_acceleration_covariance_; 
-    double depth_;  
+    ThrusterArrayData thruster_array_;
+    ImuSensorData imu_sensor_;
+    DepthSensorData depth_sensor_;
 }; 
 
 #endif //ROS_CONTROL__ROBOT_HARDWARE_INTERFACE_H

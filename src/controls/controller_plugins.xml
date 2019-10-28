@@ -1,6 +1,6 @@
 <library path="lib/libsubbots_controllers_lib">
-    <class name="thruster_controllers/MultiThrusterController"
-            type="thruster_controllers::MultiThrusterController"
+    <class name="thruster_controllers/ThrusterArrayController"
+            type="thruster_controllers::ThrusterArrayController"
             base_class_type="controller_interface::ControllerBase"
     />
     <class name="sensor_controllers/DepthStateController"

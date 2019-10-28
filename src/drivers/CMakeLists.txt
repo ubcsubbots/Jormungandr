@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(controls)
+project(drivers)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,17 +8,9 @@ project(controls)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  control_toolbox
-  controller_manager
-  controller_interface
-  hardware_interface
-  pluginlib
-  roscpp
-  nav_msgs
-  sensor_msgs
+  rosserial_arduino
+  rosserial_client
   std_msgs
-  message_generation
-  realtime_tools
 )
 
 ## System dependencies are found with CMake's conventions
@@ -55,13 +47,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-    FILES
-    ImuSensorMsg.msg
-    ThrusterArrayMsg.msg
-    DepthSensorMsg.msg
-    DriversMsg.msg
-)
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -78,12 +68,10 @@ add_message_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-    DEPENDENCIES
-    std_msgs  # Or other packages containing msgs
-    sensor_msgs
-    controls
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -115,9 +103,9 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-   INCLUDE_DIRS include
-   LIBRARIES controls
-   CATKIN_DEPENDS controller_interface hardware_interface pluginlib roscpp message_runtime
+#  INCLUDE_DIRS include
+#  LIBRARIES drivers
+#  CATKIN_DEPENDS rosserial_arduino rosserial_client std_msgs
 #  DEPENDS system_lib
 )
 
@@ -125,21 +113,30 @@ catkin_package(
 ## Build ##
 ###########
 
+rosserial_generate_ros_lib(
+  PACKAGE rosserial_arduino
+  SCRIPT make_libraries.py
+)
+
+rosserial_configure_client(
+  DIRECTORY firmware
+  TOOLCHAIN_FILE ${ROSSERIAL_ARDUINO_TOOLCHAIN}
+)
+
+rosserial_add_client_target(firmware arduino ALL)
+rosserial_add_client_target(firmware arduino-upload)
+
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-    ${catkin_INCLUDE_DIRS}
-    ./include
+# include
+  ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/test_package.cpp
+#   src/${PROJECT_NAME}/drivers.cpp
 # )
-add_library(subbots_controllers_lib 
-  src/controllers/thruster_array_controller.cpp
-  src/controllers/depth_state_controller.cpp
-)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -149,11 +146,7 @@ add_library(subbots_controllers_lib
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/test_package_node.cpp)
-add_executable(control_node 
-  src/control_node.cpp 
-  src/interface/robot_hardware_interface.cpp
-)
+# add_executable(${PROJECT_NAME}_node src/drivers_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -169,8 +162,6 @@ add_executable(control_node
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(control_node ${catkin_LIBRARIES})
-target_link_libraries(subbots_controllers_lib ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -212,21 +203,10 @@ target_link_libraries(subbots_controllers_lib ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_test_package.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_drivers.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
-catkin_add_gtest(thruster_array_controller_test 
-  src/controllers/thruster_array_controller.cpp
-  test/thruster_array_controller_test.cpp
-)
-catkin_add_gtest(depth_state_controller_test 
-  src/controllers/depth_state_controller.cpp
-  test/depth_state_controller_test.cpp
-)
-
-target_link_libraries(thruster_array_controller_test ${catkin_LIBRARIES})
-target_link_libraries(depth_state_controller_test ${catkin_LIBRARIES})
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

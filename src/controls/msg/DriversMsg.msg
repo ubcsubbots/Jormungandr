@@ -1,4 +1,5 @@
 # DriversMsg.h
 
+ImuSensorMsg imu_sensor
 DepthSensorMsg depth_sensor
-MultiThrusterMsg multi_thruster
+ThrusterArrayMsg thruster_array

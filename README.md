@@ -21,6 +21,7 @@ Main Software Repository for Subbots
   - [Running UWSim](#to-run-uwsim)
   - [Running Phidget IMU](#running-phidget)
   - [Running Camera Driver](#cammera-driver)
+- [Arduino Drivers](#arduino-drivers)
 
 
 ## Setup 
@@ -183,3 +184,23 @@ A1: This could be due to the `setup.bash` file not being sources. The `setup.bas
   
   1. Run `rosrun image_view image_saver image:=[topic] _save_all_image:=false` where `[topic]` is the topic name and `_save_all_image:=false` prevents images from a stream of images saving simulteniously.
   2. On another terminal, run `rosservice call /image_saver[_1552163404980126240]/save` where `/image_saver[_1552163404980126240]/save` is the ros topic which captures the image, (note: the name varies everytime you open run the node). It can be found using the tab auto complete after typing `/image_saver` or from the ros topic list.
+
+## Arduino Drivers
+
+# Build and Upload to Arduino
+
+Note that the main sketch file is /drivers/firmware/src/Sketch.cpp
+
+1. Make sure that the PORT field in /drivers/firmware/CMakeLists.txt is the correct port the Arduino is connected to (i.e should be something like /dev/ttyACM0, you can check the port through the Arduino IDE)
+
+2. Run: `catkin_make drivers_firmware_arduino && catkin_make drivers_firmware_arduino-upload`
+
+3. The latest state of the sketch should now be upload to the Arduino
+
+# Run rosserial node on Arduino
+
+1. Run: `roslaunch drivers drivers.launch arduino_port:=<The port the Arduino is connected to (i.e /dev/ttyACM0)>`
+
+2. To check to make sure the node launched correctly, you can run `rostopic echo /drivers/output` and see if you are recieving messages from the Arduino
+
+

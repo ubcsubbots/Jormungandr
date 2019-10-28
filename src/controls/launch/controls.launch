@@ -1,11 +1,15 @@
 <launch>
+    <!-- Controllers config  -->
     <rosparam file="$(find controls)/config/controllers.yaml" command="load"/>
+
+    <!-- Control loop node -->
     <node name="control_node" 
             pkg="controls" type="control_node" output="screen"/>
+
+    <!-- Controller manager node (from ros_control) -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/"
         args="
-            /robot/controllers/sensors/depth_sensor
-            /robot/controllers/sensors/imu_sensor
-            /robot/controllers/thrusters
+            /robot/controllers/thruster_array
         "/>
+
 </launch>

@@ -1,11 +1,11 @@
 /*
  * Created By: Logan Fillo
  * Created On: October 19 2019
- * Description: Multi thruster controller header
+ * Description: Thruster array controller header
  */
 
-#ifndef THRUSTER_CONTROLLERS__MULTI_THRUSTER_CONTROLLER_H
-#define THRUSTER_CONTROLLERS__MULTI_THRUSTER_CONTROLLER_H
+#ifndef THRUSTER_CONTROLLERS__THRUSTER_ARRAY_CONTROLLER_H
+#define THRUSTER_CONTROLLERS__THRUSTER_ARRAY_CONTROLLER_H
 
 #include <realtime_tools/realtime_buffer.h>
 #include <types/data_types.h>
@@ -14,30 +14,28 @@
 #include <nav_msgs/Odometry.h>
 #include <sensor_msgs/Imu.h>
 #include <std_msgs/Float64.h>
-#include <interface/thruster_command_interface.h>
+#include <pluginlib/class_list_macros.hpp>
+#include <interface/thruster_array_interface.h>
 
 namespace thruster_controllers
 {
     /**
-    * @class thruster_controllers::MultiThrusterController
+    * @class thruster_controllers::ThrusterArrayController
     * 
-    * Controls output of multiple thrusters using a pid loop.
+    * Controls output of a thruster array using a pid loop.
     * 
-    * @param type Must be "thruster_controllers/MultiThrusterController"
+    * @param type Must be "thruster_controllers/ThrusterArrayController"
     * @param num_thrusters Number of thrusters to control
     * @param names A list of the names of the thrusters (must be length of num_thrusters)
     * @param topics A map of topics which this controller needs 
-    * @param pid The gains for the pid cotnroller
+    * @param pid The gains for the pid controller
     * 
     * Subscribes to:
     * 
-    * - @b topics.decision (nav_msgs::Odometry): the navigation state to achieve
+    * - @b topics.decision (nav_msgs::Odometry): the navigation decision command
     * 
-    * - @b topics.imu (sensor_msgs::Imu): the imu state
-    * 
-    * - @b topics.depth (std_msgs::Float64): the depth state
     */
-    class MultiThrusterController: public controller_interface::Controller<hardware_interface::ThrusterCommandInterface>
+    class ThrusterArrayController: public controller_interface::Controller<hardware_interface::ThrusterArrayInterface>
     {
     public:
 
@@ -46,22 +44,21 @@ namespace thruster_controllers
          */
         struct DecisionCmd
         {
-            /* Decision command params */
+            //TODO: Decision command params 
         };
         
-        MultiThrusterController();
-        ~MultiThrusterController();
+        ThrusterArrayController();
+        ~ThrusterArrayController();
 
         /**
          * Initializes the thrusters controller, makes sure the correct thruster configuration
-         * is found in the thrusters command interface. Also sets up subscribers to decision 
-         * output, imu sensor, and depth sensor.
+         * is found in the thrusters command interface. Also sets up subscribers.
          * 
          * @param robot Pointer to the thruster command interface to be used by this controller
          * @param root_nh Nodehandle in the root namespace
          * @param controller_nh Nodehandle in the namespace of where the controller should be configured
          */
-        bool init(hardware_interface::ThrusterCommandInterface *robot, 
+        bool init(hardware_interface::ThrusterArrayInterface *robot, 
                   ros::NodeHandle &root_nh, ros::NodeHandle &controller_nh);
 
         /**
@@ -100,37 +97,29 @@ namespace thruster_controllers
 
     private:
 
-        // Subscriber callbacks
+        // Subscriber callback
         void decisionCB(const nav_msgs::Odometry::ConstPtr& msg);
-        void imuCB(const sensor_msgs::Imu::ConstPtr& msg);
-        void depthCB(const std_msgs::Float64::ConstPtr& msg);
 
         // Hardware interface components
         int num_thrusters_;
         std::vector<std::string> thruster_names_;
-        std::map<std::string, hardware_interface::ThrusterHandle> thruster_handles_;
+        hardware_interface::ThrusterArrayHandle thruster_array_handle_;
 
         // Internal PID controller
         control_toolbox::Pid pid_controller_; 
 
         // Subscribers
         ros::Subscriber decision_sub_;
-        ros::Subscriber imu_sub_;
-        ros::Subscriber depth_sub_;
         static const int msg_queue_ = 10; 
 
-        // Realtime buffers to recieve messages in realtime
+        // Realtime buffer to recieve messages in realtime
         realtime_tools::RealtimeBuffer<DecisionCmd> decision_cmd_;
-        realtime_tools::RealtimeBuffer<ImuData> imu_data_ ;
-        realtime_tools::RealtimeBuffer<DepthSensorData>  depth_sensor_data_;
 
         // Memory allocated for subscriber messages
         DecisionCmd decision_cmd_struct_;
-        ImuData imu_data_struct_;
-        DepthSensorData depth_sensor_data_struct_;
           
     };
     
 } // namespace thruster_controllers
 
-#endif // THRUSTER_CONTROLLERS__MULTI_THRUSTER_CONTROLLER_H
+#endif // THRUSTER_CONTROLLERS__THRUSTER_ARRAY_CONTROLLER_H

@@ -10,7 +10,7 @@
 /**
  * Struct to store Imu data
  */
-struct ImuData
+struct ImuSensorData
 {
     // TODO: store required data here
 };
@@ -24,18 +24,21 @@ struct DepthSensorData
 };
 
 /**
- * Struct to store Thrusters data
+ * Struct to store Thruster array data
  */
-struct MultiThrusterData
+struct ThrusterArrayData
 {
     // TODO: store required data here
 };
 
+/**
+ * Struct to store data related to the drivers
+ */
 struct DriversData
 {
-    ImuData imu_data;
+    ImuSensorData imu_data;
     DepthSensorData depth_sensor_data;
-    MultiThrusterData multi_thruster_data;
+    ThrusterArrayData thruster_array_data;
 };
 
 #endif //DATA__TYPES
