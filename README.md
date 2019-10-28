@@ -187,7 +187,7 @@ A1: This could be due to the `setup.bash` file not being sources. The `setup.bas
 
 ## Arduino Drivers
 
-# Build and Upload to Arduino
+## Build and Upload to Arduino
 
 Note that the main sketch file is /drivers/firmware/src/Sketch.cpp
 
@@ -197,7 +197,7 @@ Note that the main sketch file is /drivers/firmware/src/Sketch.cpp
 
 3. The latest state of the sketch should now be upload to the Arduino
 
-# Run rosserial node on Arduino
+## Run rosserial node on Arduino
 
 1. Run: `roslaunch drivers drivers.launch arduino_port:=<The port the Arduino is connected to (i.e /dev/ttyACM0)>`
 
