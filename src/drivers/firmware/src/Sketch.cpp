@@ -4,6 +4,8 @@
  * Description: Main Arduino sketch
  */
 
+#include <Arduino.h>
+#include <Wire.h>
 #include <ros.h>
 #include <ArduinoHardware.h>
 #include <controls/DriversMsg.h>
@@ -11,8 +13,6 @@
 #include "../include/ThrusterArrayDriver.h"
 #include "../include/DepthSensorDriver.h"
 #include "../include/ImuDriver.h"
-
-#include <Arduino.h>
 
 /* Messages */
 controls::DriversMsg output_msg_;
@@ -42,29 +42,36 @@ void driversCB(const controls::DriversMsg& msg)
 /**
  * Setup method run once on Arduino
  * 
- * Initalizes ROS node handle and all drivers 
+ * Starts I2C bus as master, initalizes ROS node handle and all drivers
  */
 void setup() 
 {
+    Wire.begin();
+
     nh_.initNode();
     nh_.advertise( drivers_pub_ );
     nh_.subscribe( drivers_sub_ );
+
     imu_driver_.init();
     multi_thruster_driver_.init();
     depth_sensor_driver_.init();
+
+    nh_.loginfo("setup");
 }
 
 /**
  * Loop method run continously on Arduino
  * 
- * Updates all drivers and spins for callbacks, then sleeps
+ * Updates all drivers, publishes output message and spins for callbacks, then sleeps
  */
 void loop()
 {
     imu_driver_.update( &output_msg_, &input_msg_ );
     depth_sensor_driver_.update( &output_msg_, &input_msg_ );
     multi_thruster_driver_.update( &output_msg_, &input_msg_ );
+
     drivers_pub_.publish ( &output_msg_ );
     nh_.spinOnce();
+
     delay(1000);
 }

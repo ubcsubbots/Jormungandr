@@ -7,8 +7,6 @@
 #ifndef DRIVERS__DRIVER_H
 #define DRIVERS__DRIVER_H
 
-#include <Arduino.h>
-#include <ros.h>
 #include <controls/DriversMsg.h>
 
 namespace arduino_drivers

@@ -46,8 +46,21 @@ namespace thruster_controllers {
 
     void ThrusterArrayController::update(const ros::Time& time, const ros::Duration& period) 
     {   
-        decision_cmd_struct_ = *(decision_cmd_.readFromRT());
-        // TODO: Thruster update algorithm
+        // Get latest decision command
+        decision_cmd_struct_ = *( decision_cmd_.readFromRT() );
+
+        // // Get the desired thruster commands based on latest decision command recieved and sensor states
+        // ThrusterArrayData desired_commands = calculateDesiredCommands();
+
+        // // Calculate error for each thrusters command
+        // ThrusterArrayData command_errors = calculateCommandErrors( desired_commands );
+
+        // // Use PID controllers to get actual commands for thruster array
+        // ThrusterArrayData actual_commands = calculateActualCommands( command_errors, period );
+
+        // // Send the actual commands to the handle to be used in the hardware interface
+        // thruster_array_handle_.commandThrusterArray( actual_commands );
+
         // ROS_INFO("Multi Thruster Controller Updated");
     }
 
