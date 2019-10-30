@@ -19,6 +19,7 @@ namespace arduino_drivers
 
         void init();
         void update(controls::DriversMsg* output_msg, const controls::DriversMsg* input_msg);
+        
     };
 
 } // namespace arduino_drivers

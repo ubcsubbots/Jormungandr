@@ -6,10 +6,10 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include <Servo.h>
 #include <ros.h>
 #include <ArduinoHardware.h>
-#include <controls/DriversMsg.h>
-
+#include "../lib/MS5837/MS5837.h"
 #include "../include/ThrusterArrayDriver.h"
 #include "../include/DepthSensorDriver.h"
 #include "../include/ImuDriver.h"
@@ -20,7 +20,7 @@ controls::DriversMsg input_msg_;
 
 /* ROS variables setup */
 void driversCB(const controls::DriversMsg& msg);
-ros::NodeHandle_<ArduinoHardware, 2, 2, 80, 105> nh_; // Custom nodehandle config
+ros::NodeHandle_<ArduinoHardware, 1, 1, 80, 105> nh_; // Custom nodehandle config   
 ros::Subscriber<controls::DriversMsg> drivers_sub_("/driver/input", &driversCB);
 ros::Publisher drivers_pub_("/driver/output", &output_msg_ );
 
@@ -55,8 +55,6 @@ void setup()
     imu_driver_.init();
     multi_thruster_driver_.init();
     depth_sensor_driver_.init();
-
-    nh_.loginfo("setup");
 }
 
 /**
