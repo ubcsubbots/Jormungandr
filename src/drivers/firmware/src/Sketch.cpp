@@ -21,8 +21,8 @@ controls::DriversMsg input_msg_;
 /* ROS variables setup */
 void driversCB(const controls::DriversMsg& msg);
 ros::NodeHandle_<ArduinoHardware, 1, 1, 80, 105> nh_; // Custom nodehandle config   
-ros::Subscriber<controls::DriversMsg> drivers_sub_("/driver/input", &driversCB);
-ros::Publisher drivers_pub_("/driver/output", &output_msg_ );
+ros::Subscriber<controls::DriversMsg> drivers_sub_("/driver_node/input", &driversCB);
+ros::Publisher drivers_pub_("/driver_node/output", &output_msg_ );
 
 /* Drivers */
 arduino_drivers::ImuDriver imu_driver_;
@@ -47,7 +47,7 @@ void driversCB(const controls::DriversMsg& msg)
 void setup() 
 {
     Wire.begin();
-
+    
     nh_.initNode();
     nh_.advertise( drivers_pub_ );
     nh_.subscribe( drivers_sub_ );

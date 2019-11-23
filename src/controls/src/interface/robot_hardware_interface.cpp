@@ -48,12 +48,12 @@ void RobotHardwareInterface::initDriverCommunication()
     drivers_.initRT(drivers_struct_);
 
     drivers_sub_ = nh_.subscribe<controls::DriversMsg>(
-        "/driver/output", msg_queue_,
+        "/driver_node/output", msg_queue_,
         &RobotHardwareInterface::driversCB, this);
 
     drivers_pub_.reset(
         new realtime_tools::RealtimePublisher<controls::DriversMsg>(nh_,
-            "/driver/input", 4));
+            "/driver_node/input", 4));
 }
 
 void RobotHardwareInterface::driversCB(const controls::DriversMsg::ConstPtr& msg) 

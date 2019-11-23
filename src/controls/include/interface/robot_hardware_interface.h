@@ -8,16 +8,13 @@
 #define ROS_CONTROL__ROBOT_HARDWARE_INTERFACE_H
 
 #include <ros/ros.h>
-#include <hardware_interface/imu_sensor_interface.h>
 #include <hardware_interface/robot_hw.h>
 #include <interface/thruster_array_interface.h>
-#include <interface/depth_state_interface.h>
 #include <types/data_types.h>
 #include <realtime_tools/realtime_publisher.h>
 #include <realtime_tools/realtime_buffer.h>
 #include <boost/shared_ptr.hpp>
 #include <controls/DriversMsg.h>
-#include <sensor_msgs/Imu.h>
 
 class RobotHardwareInterface:  public hardware_interface::RobotHW
 {  

@@ -13,4 +13,16 @@
     version: kinetic-devel}
 - git: {local-name: external_pkg/video_stream, uri: 'https://github.com/ros-drivers/video_stream_opencv.git',
     version: 1.1.5}
+- git: {local-name: external_pkg/ros_control, uri: 'https://github.com/ros-controls/ros_control.git',
+    version: kinetic-devel}
+- git: {local-name: external_pkg/ros_controllers, uri: 'https://github.com/ros-controls/ros_controllers.git',
+    version: kinetic-devel}
+- git: {local-name: external_pkg/realtime_tools, uri: 'https://github.com/ros-controls/realtime_tools.git',
+    version: kinetic-devel}
+- git: {local-name: external_pkg/control_toolbox, uri: 'https://github.com/ros-controls/control_toolbox.git',
+    version: kinetic-devel}
+- git: {local-name: external_pkg/control_msgs, uri: 'https://github.com/ros-controls/control_msgs.git',
+    version: kinetic-devel}
+- git: {local-name: external_pkg/rosserial, uri: 'https://github.com/ros-drivers/rosserial.git',
+    version: jade-devel}
 - setup-file: {local-name: /opt/ros/kinetic/setup.sh}

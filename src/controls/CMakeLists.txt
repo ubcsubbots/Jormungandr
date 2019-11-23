@@ -136,9 +136,9 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/test_package.cpp
 # )
-add_library(subbots_controllers_lib 
+add_library(subbots_controllers_lib  
   src/controllers/thruster_array_controller.cpp
-  src/controllers/depth_state_controller.cpp
+ 
 )
 
 ## Add cmake target dependencies of the library
@@ -220,13 +220,9 @@ catkin_add_gtest(thruster_array_controller_test
   src/controllers/thruster_array_controller.cpp
   test/thruster_array_controller_test.cpp
 )
-catkin_add_gtest(depth_state_controller_test 
-  src/controllers/depth_state_controller.cpp
-  test/depth_state_controller_test.cpp
-)
+ 
 
 target_link_libraries(thruster_array_controller_test ${catkin_LIBRARIES})
-target_link_libraries(depth_state_controller_test ${catkin_LIBRARIES})
-
+ 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

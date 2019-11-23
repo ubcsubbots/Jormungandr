@@ -3,8 +3,4 @@
             type="thruster_controllers::ThrusterArrayController"
             base_class_type="controller_interface::ControllerBase"
     />
-    <class name="sensor_controllers/DepthStateController"
-            type="sensor_controllers::DepthStateController"
-            base_class_type="controller_interface::ControllerBase"
-    />
 </library>
