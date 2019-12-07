@@ -30,23 +30,22 @@ namespace arduino_drivers
         servo5.writeMicroseconds(1500+25, 1); 
         servo6.writeMicroseconds(1500+25, 1); 
 
-        // delay to allow the ESC to recognize the stopped signal
+        // Delay to allow the ESCs to recognize the stopped signal
         delay(10000); 
 
     }
     void ThrusterArrayDriver::update(controls::DriversMsg* output_msg, const controls::DriversMsg* input_msg) 
     {
-        int fudge_factor=25;
-        int signal = 1600 + fudge_factor;
-        bool invert=1;
+        int fudge_factor = 25;
+        bool invert = 1;
 
         // Send signal to ESC.
-        servo1.writeMicroseconds(signal,invert); 
-        servo2.writeMicroseconds(signal,invert); 
-        servo3.writeMicroseconds(signal,invert); 
-        servo4.writeMicroseconds(signal,invert); 
-        servo5.writeMicroseconds(signal,invert); 
-        servo6.writeMicroseconds(signal,invert); 
+        servo1.writeMicroseconds(input_msg->thruster_array.thruster_one_command + fudge_factor, invert); 
+        servo2.writeMicroseconds(input_msg->thruster_array.thruster_two_command + fudge_factor, invert); 
+        servo3.writeMicroseconds(input_msg->thruster_array.thruster_three_command + fudge_factor, invert); 
+        servo4.writeMicroseconds(input_msg->thruster_array.thruster_four_command + fudge_factor, invert); 
+        servo5.writeMicroseconds(input_msg->thruster_array.thruster_five_command + fudge_factor, invert); 
+        servo6.writeMicroseconds(input_msg->thruster_array.thruster_six_command + fudge_factor, invert); 
 
     }
     

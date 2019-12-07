@@ -18,11 +18,17 @@ namespace arduino_drivers
             delay(5000);
         }
 
+        sensor.setModel(MS5837::MS5837_30BA);
+        sensor.setFluidDensity(997); // kg/m^3 (freshwater, 1029 for seawater)
+
     }
     void DepthSensorDriver::update(controls::DriversMsg* output_msg, const controls::DriversMsg* input_msg) 
     {
+        // Read the latest sensor value
         sensor.read();
-        float depth = sensor.depth();
+
+        // Add the latest depth to teh drivers output message
+        output_msg->depth_sensor.depth = sensor.depth();
     }
     
 } // namespace robot_driver

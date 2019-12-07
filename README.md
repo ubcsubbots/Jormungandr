@@ -203,7 +203,7 @@ Note that the main sketch file is /drivers/firmware/src/Sketch.cpp
 
 2. To check to make sure the node launched correctly, you can run `rostopic echo /drivers/output` and see if you are recieving messages from the Arduino
 
-### A note on Arduino Libraries
+### A note on Arduino libraries
 
-To compile and upload without using the Arduino IDE, added or modified Arduino libraries need to be placed in /usr/share/arduino/libraries/ instead of the typical ~/Arduino/libraries
+To compile and upload without using the Arduino IDE, added or modified Arduino libraries need to be placed in /usr/share/arduino/libraries/ instead of the typical ~/Arduino/libraries. See ./src/drivers/firmware/lib/ for the required libraries to be added to /usr/share/arduino/libraries/.
 
