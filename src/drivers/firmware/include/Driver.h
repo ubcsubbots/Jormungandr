@@ -8,6 +8,7 @@
 #define DRIVERS__DRIVER_H
 
 #include <controls/DriversMsg.h>
+#include <Arduino.h>
 
 namespace arduino_drivers
 {

@@ -8,6 +8,7 @@
 #define DRIVERS__DEPTH_SENSOR_DRIVER_H
 
 #include "Driver.h"
+#include <MS5837.h>
 
 namespace arduino_drivers
 {
@@ -19,6 +20,8 @@ namespace arduino_drivers
 
         void init();
         void update(controls::DriversMsg* output_msg, const controls::DriversMsg* input_msg);
+
+        MS5837 sensor;
        
     };
     

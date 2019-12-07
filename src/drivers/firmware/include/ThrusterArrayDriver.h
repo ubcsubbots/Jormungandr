@@ -8,6 +8,7 @@
 #define DRIVERS__THRSTERS_DRIVER_H
 
 #include "Driver.h"
+#include <Servo.h>
 
 namespace arduino_drivers
 {
@@ -19,6 +20,22 @@ namespace arduino_drivers
 
         void init();
         void update(controls::DriversMsg* output_msg, const controls::DriversMsg* input_msg);
+
+        // Servo objects
+        Servo servo1;
+        Servo servo2;
+        Servo servo3;
+        Servo servo4;
+        Servo servo5;
+        Servo servo6;
+
+        // Servo pins
+        static const char servoPin1 = 9;
+        static const char servoPin2 = 8;
+        static const char servoPin3 = 7;
+        static const char servoPin4 = 6;
+        static const char servoPin5 = 5;
+        static const char servoPin6 = 4;
         
     };
 
