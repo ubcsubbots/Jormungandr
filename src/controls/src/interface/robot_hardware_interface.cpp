@@ -16,17 +16,19 @@ RobotHardwareInterface::~RobotHardwareInterface() {}
 
 void RobotHardwareInterface::read()
 {
-    drivers_struct_= *(drivers_.readFromRT());
-    // TODO: store the data from structs into the hardware interface's shared memory
+    thruster_array_struct_= *(thruster_array_.readFromRT());
+    depth_sensor_struct_= *(depth_sensor_.readFromRT());
+    imu_sensor_struct_= *(imu_sensor_.readFromRT());
+
 }
 
 void RobotHardwareInterface::write()
 {
     controls::DriversMsg msg;
     // TODO: store thruster commands from shared memory into msg
-    if (drivers_pub_ && drivers_pub_->trylock()){
-            drivers_pub_->msg_ = msg;
-            drivers_pub_->unlockAndPublish();
+    if (arduino_drivers_pub_ && arduino_drivers_pub_->trylock()){
+            arduino_drivers_pub_->msg_ = msg;
+            arduino_drivers_pub_->unlockAndPublish();
     }
 }
 
@@ -34,9 +36,9 @@ void RobotHardwareInterface::initControllerInterfaces()
 {
     // Declare and register shared memory handler for thruster array controller
     hardware_interface::ThrusterArrayHandle thruster_array_handle("thruster_array", 
-        &thruster_array_,
-        &imu_sensor_,
-        &depth_sensor_);
+        &thruster_array_struct_,
+        &imu_sensor_struct_,
+        &depth_sensor_struct_);
     thruster_array_interface_.registerHandle(thruster_array_handle);
 
     // Register thruster array interface so it can be used by thruster array controller
@@ -45,23 +47,48 @@ void RobotHardwareInterface::initControllerInterfaces()
 
 void RobotHardwareInterface::initDriverCommunication() 
 {
-    drivers_.initRT(drivers_struct_);
+    thruster_array_.initRT(thruster_array_struct_);
+    depth_sensor_.initRT(depth_sensor_struct_);
 
-    drivers_sub_ = nh_.subscribe<controls::DriversMsg>(
-        "/driver_node/output", msg_queue_,
-        &RobotHardwareInterface::driversCB, this);
+    arduino_drivers_sub_ = nh_.subscribe<controls::DriversMsg>(
+        "/arduino_drivers_node/output", msg_queue_,
+        &RobotHardwareInterface::arduinoDriversCB, this);
 
-    drivers_pub_.reset(
+    arduino_drivers_pub_.reset(
         new realtime_tools::RealtimePublisher<controls::DriversMsg>(nh_,
-            "/driver_node/input", 4));
+            "/arduino_drivers_node/input", 4));
+    
+    imu_driver_sub_ = nh_.subscribe<sensor_msgs::Imu>(
+        "/imu/data", msg_queue_,
+        &RobotHardwareInterface::imuDriverCB, this);
 }
 
-void RobotHardwareInterface::driversCB(const controls::DriversMsg::ConstPtr& msg) 
+void RobotHardwareInterface::arduinoDriversCB(const controls::DriversMsg::ConstPtr& msg) 
 {
-    ROS_INFO("Got drivers message");
-    DriversData data;
-    // TODO: fill data with msg
-    drivers_struct_= data;
-    drivers_.writeFromNonRT(drivers_struct_);
+    ROS_INFO("Got Arduino drivers message");
+
+    depth_sensor_struct_.depth = msg->depth_sensor.depth;
+
+    thruster_array_struct_.thruster_one_command = msg->thruster_array.thruster_one_command;
+    thruster_array_struct_.thruster_two_command = msg->thruster_array.thruster_two_command;
+    thruster_array_struct_.thruster_three_command = msg->thruster_array.thruster_three_command;
+    thruster_array_struct_.thruster_four_command = msg->thruster_array.thruster_four_command;
+    thruster_array_struct_.thruster_five_command = msg->thruster_array.thruster_five_command;
+    thruster_array_struct_.thruster_six_command = msg->thruster_array.thruster_six_command;
+
+    // ROS_INFO("Depth: %f", depth_sensor_struct_.depth);
+
+    thruster_array_.writeFromNonRT(thruster_array_struct_);
+    depth_sensor_.writeFromNonRT(depth_sensor_struct_);
+}
+
+void RobotHardwareInterface::imuDriverCB(const sensor_msgs::Imu::ConstPtr& msg)
+{
+    ROS_INFO("Got IMU drivers message");
+
+    // TODO: fill imu struct here
+
+    imu_sensor_.writeFromNonRT(imu_sensor_struct_);
+
 }
 

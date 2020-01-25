@@ -19,8 +19,8 @@ controls::DriversMsg input_msg_;
 /* ROS variables setup */
 void driversCB(const controls::DriversMsg& msg);
 ros::NodeHandle_<ArduinoHardware, 1, 1, 80, 105> nh_; // Custom nodehandle config   
-ros::Subscriber<controls::DriversMsg> drivers_sub_("/driver_node/input", &driversCB);
-ros::Publisher drivers_pub_("/driver_node/output", &output_msg_ );
+ros::Subscriber<controls::DriversMsg> drivers_sub_("/arduino_drivers_node/input", &driversCB);
+ros::Publisher drivers_pub_("/arduino_drivers_node/output", &output_msg_ );
 
 /* Drivers */
 arduino_drivers::ThrusterArrayDriver multi_thruster_driver_;
@@ -50,7 +50,9 @@ void setup()
     nh_.subscribe( drivers_sub_ );
 
     multi_thruster_driver_.init();
-    depth_sensor_driver_.init();
+
+    // NOTE: this loops forever when depth sensor is not conencted properly!
+    // depth_sensor_driver_.init(); 
 }
 
 /**
@@ -60,8 +62,8 @@ void setup()
  */
 void loop()
 {
-    depth_sensor_driver_.update( &output_msg_, &input_msg_ );
     multi_thruster_driver_.update( &output_msg_, &input_msg_ );
+    // depth_sensor_driver_.update( &output_msg_, &input_msg_ );
 
     drivers_pub_.publish ( &output_msg_ );
     nh_.spinOnce();

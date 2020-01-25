@@ -31,7 +31,7 @@ namespace arduino_drivers
         servo6.writeMicroseconds(1500+25, 1); 
 
         // Delay to allow the ESCs to recognize the stopped signal
-        delay(10000); 
+        delay(7000); 
 
     }
     void ThrusterArrayDriver::update(controls::DriversMsg* output_msg, const controls::DriversMsg* input_msg) 

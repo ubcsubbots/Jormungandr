@@ -15,6 +15,7 @@
 #include <realtime_tools/realtime_buffer.h>
 #include <boost/shared_ptr.hpp>
 #include <controls/DriversMsg.h>
+#include <sensor_msgs/Imu.h>
 
 class RobotHardwareInterface:  public hardware_interface::RobotHW
 {  
@@ -53,8 +54,9 @@ protected:
      */
     void initDriverCommunication(); 
 
-    // Subscriber callback
-    void driversCB(const controls::DriversMsg::ConstPtr& msg);
+    // Subscriber callbacks
+    void arduinoDriversCB(const controls::DriversMsg::ConstPtr& msg);
+    void imuDriverCB(const sensor_msgs::Imu::ConstPtr& msg);
 
     // Provided interfaces
     hardware_interface::ThrusterArrayInterface thruster_array_interface_;
@@ -62,23 +64,23 @@ protected:
     ros::NodeHandle nh_;
     const static int msg_queue_ = 10;
 
-    // Driver Subscriber
-    ros::Subscriber drivers_sub_;
+    // Driver Subscribers
+    ros::Subscriber arduino_drivers_sub_;
+    ros::Subscriber imu_driver_sub_;
 
     // Realtime publishers to send messages to drivers in realtime
     typedef boost::shared_ptr<realtime_tools::RealtimePublisher<controls::DriversMsg> > RtPublisherPtr;
-    RtPublisherPtr drivers_pub_;
+    RtPublisherPtr arduino_drivers_pub_;
 
     // Realtime buffer to recieve messages from drivers in realtime
-    realtime_tools::RealtimeBuffer<DriversData> drivers_;
-
-    // Memory allocated for subscriber messages
-    DriversData drivers_struct_;
+    realtime_tools::RealtimeBuffer<ThrusterArrayData> thruster_array_;
+    realtime_tools::RealtimeBuffer<DepthSensorData> depth_sensor_;
+    realtime_tools::RealtimeBuffer<ImuSensorData> imu_sensor_;
 
     // Shared memory
-    ThrusterArrayData thruster_array_;
-    ImuSensorData imu_sensor_;
-    DepthSensorData depth_sensor_;
+    ThrusterArrayData thruster_array_struct_;
+    ImuSensorData imu_sensor_struct_;
+    DepthSensorData depth_sensor_struct_;
 }; 
 
 #endif //ROS_CONTROL__ROBOT_HARDWARE_INTERFACE_H

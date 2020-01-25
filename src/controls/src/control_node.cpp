@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
 
     // Define timing data
     ros::Time prev_time = ros::Time::now();
-    ros::Rate rate(2.0);
+    ros::Rate rate(1.0);
 
     while (ros::ok())
     {

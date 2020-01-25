@@ -12,9 +12,9 @@ namespace arduino_drivers
     DepthSensorDriver::~DepthSensorDriver() {}
 
     void DepthSensorDriver::init() 
-    {
+    {   
         while (!sensor.init()) 
-        {
+        {   
             delay(5000);
         }
 

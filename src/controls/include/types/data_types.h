@@ -8,11 +8,11 @@
 #define DATA__TYPES
 
 /**
- * Struct to store Imu data
+ * Struct to store IMU data
  */
 struct ImuSensorData
 {
-    // TODO: store required data here
+
 };
 
 /**
@@ -20,7 +20,7 @@ struct ImuSensorData
  */
 struct DepthSensorData
 {
-    // TODO: store required data here
+    float depth;
 };
 
 /**
@@ -28,15 +28,19 @@ struct DepthSensorData
  */
 struct ThrusterArrayData
 {
-    // TODO: store required data here
+    float thruster_one_command;
+    float thruster_two_command;
+    float thruster_three_command;
+    float thruster_four_command;
+    float thruster_five_command;
+    float thruster_six_command;
 };
 
 /**
  * Struct to store data related to the drivers
  */
-struct DriversData
+struct ArduinoDriversData
 {
-    ImuSensorData imu_data;
     DepthSensorData depth_sensor_data;
     ThrusterArrayData thruster_array_data;
 };
