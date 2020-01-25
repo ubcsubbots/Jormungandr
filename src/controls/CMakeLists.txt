@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   hardware_interface
   pluginlib
   roscpp
+  rospy
   nav_msgs
   sensor_msgs
   std_msgs
@@ -116,7 +117,7 @@ generate_messages(
 catkin_package(
    INCLUDE_DIRS include
    LIBRARIES controls
-   CATKIN_DEPENDS controller_interface hardware_interface pluginlib roscpp message_runtime
+   CATKIN_DEPENDS  message_runtime controller_interface hardware_interface pluginlib roscpp
 #  DEPENDS system_lib
 )
 
