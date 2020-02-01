@@ -1,0 +1,4 @@
+<launch>
+    <node name="visual_odometry_node" pkg="visual_odometry" type="visual_odometry_node" output="screen">
+    </node>
+</launch>
