@@ -51,9 +51,9 @@
   <build_depend>package="roscpp"</build_depend>
   
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>opencv3</build_depend>
-  <build_export_depend>opencv3</build_export_depend>
-  <exec_depend>opencv3</exec_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_export_depend>cv_bridge</build_export_depend>
+  <exec_depend>cv_bridge</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

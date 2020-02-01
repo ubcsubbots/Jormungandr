@@ -79,9 +79,9 @@
       <joint>0.3 </joint>
     </jointValues>
     <position>
-      <x>0</x>
+      <x>4</x>
       <y>0</y>
-      <z>0</z>
+      <z>5</z>
     </position>
     <orientation>
       <r>0</r>
@@ -264,6 +264,72 @@
       </offsetr>
     </ForceSensor>
   </vehicle>
+<object>
+    <name>seafloor</name>
+    <file>terrain/seafloor/terrain_noship.ive</file>
+    <position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </position>
+    <orientation>
+      <r>0</r>
+      <p>0</p>
+      <y>0</y>
+    </orientation>
+    <scaleFactor>
+      <x> 1 </x>
+      <y> 1 </y>
+      <z> 1 </z>
+    </scaleFactor>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
+<object>
+    <name>gate</name>
+    <file>objects/gate/gate_combined.3ds</file>
+    <position>
+      <x>10</x>
+      <y>0</y>
+      <z>6</z>
+    </position>
+    <orientation>
+      <r>0</r>
+      <p>0</p>
+      <y>1.57</y>
+    </orientation>
+    <scaleFactor>
+      <x> 1 </x>
+      <y> 1 </y>
+      <z> 1 </z>
+    </scaleFactor>
+    <offsetp>
+      <x>-0</x>
+      <y>-0</y>
+      <z>0</z>
+    </offsetp>
+    <offsetr>
+      <x> 3.14</x>
+      <y> 0</y>
+      <z> 0 </z>
+    </offsetr>
+    <physics>
+      <mass> 0 </mass>
+      <collisionShapeType> trimesh </collisionShapeType>
+    </physics>
+  </object>
 <rosInterfaces>
     <ROSOdomToPAT>
       <topic> /dataNavigator </topic>
