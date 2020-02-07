@@ -43,7 +43,7 @@ void OpticalFlowNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image
 
     Mat next_frame = cv_ptr->image;
 
-    vector<Point2f> next_points;
+    vector<Point2f> next_points, flow_points;
 
     goodFeaturesToTrack(next_frame, next_points, MAX_CORNERS, DBL_MIN, 1, Mat(), 3, false, 0.04);
 
@@ -55,15 +55,19 @@ void OpticalFlowNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image
 
     vector<uchar> status;
     vector<float> err;
-    TermCriteria criteria = TermCriteria((TermCriteria::COUNT) + (TermCriteria::EPS), 500, DBL_MAX);
-    calcOpticalFlowPyrLK(prev_frame, next_frame, prev_points[0], next_points, status, err, Size(40,40), 3, criteria);
+    TermCriteria criteria = TermCriteria((TermCriteria::COUNT) + (TermCriteria::EPS), 500, 1);
+    //TermCriteria criteria = TermCriteria(TermCriteria::COUNT, 500, DBL_MAX);
+
+    flow_points = next_points; //gets modified by optical flow function so make a copy
+    //if you don't make a copy it'll only track features existing in the first frame; might be some middle ground here
+    calcOpticalFlowPyrLK(prev_frame, next_frame, prev_points[0], flow_points, status, err, Size(40,40), 3, criteria);
 
     Mat img;
     cvtColor(next_frame,img,CV_GRAY2BGR);
     Mat feature_mask = Mat::zeros(img.size(), img.type());
-    for (int i = 0; i < next_points.size(); i++){
-        circle(feature_mask, next_points[i], 5, Scalar(0,0,255), 1);
-        line(feature_mask, next_points[i], prev_points[0][i], Scalar(0,0,255), 2);
+    for (int i = 0; i < flow_points.size(); i++){
+        circle(feature_mask, flow_points[i], 5, Scalar(0,0,255), 1);
+        line(feature_mask, flow_points[i], prev_points[0][i], Scalar(0,0,255), 2);
     }
     add(img,feature_mask,img);
 
@@ -74,7 +78,7 @@ void OpticalFlowNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image
     for (int i = 4; i > 0; i--){
         prev_points[i] = prev_points[i-1];
     }
-    prev_points[0] = next_points;
+    prev_points[0] = next_points; //points before optical flow function
 /*
     //epipolar check + ransac
     //p3p
