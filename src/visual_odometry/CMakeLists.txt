@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(visual-odometry)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -18,6 +18,9 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(OpenCV REQUIRED)
+#find_package(Eigen3 REQUIRED NO_MODULE)
+#find_package(opengv REQUIRED)
+#find_package(g2o REQUIRED)
 
 generate_dynamic_reconfigure_options(
 

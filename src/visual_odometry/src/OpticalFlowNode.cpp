@@ -43,12 +43,11 @@ void OpticalFlowNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image
 
     Mat next_frame = cv_ptr->image;
 
-    vector<Point2f> next_points, flow_points;
-
-    goodFeaturesToTrack(next_frame, next_points, MAX_CORNERS, DBL_MIN, 1, Mat(), 3, false, 0.04);
+    vector<Point2f> next_points, flow_points, lost_points;
 
     if (need_init){
-        prev_frame=next_frame;
+        goodFeaturesToTrack(next_frame, next_points, MAX_CORNERS, KLT_QUALITY, KLT_MIN_DIST, Mat(), 3, false, 0.04);
+        prev_frame[0]=next_frame;
         prev_points[0]=next_points;
         need_init = false;
     }
@@ -58,9 +57,28 @@ void OpticalFlowNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image
     TermCriteria criteria = TermCriteria((TermCriteria::COUNT) + (TermCriteria::EPS), 500, 1);
     //TermCriteria criteria = TermCriteria(TermCriteria::COUNT, 500, DBL_MAX);
 
-    flow_points = next_points; //gets modified by optical flow function so make a copy
+    //gets modified by optical flow function so make a copy
     //if you don't make a copy it'll only track features existing in the first frame; might be some middle ground here
-    calcOpticalFlowPyrLK(prev_frame, next_frame, prev_points[0], flow_points, status, err, Size(40,40), 3, criteria);
+    calcOpticalFlowPyrLK(prev_frame[0], next_frame, prev_points[0], flow_points, status, err, Size(40,40), 3, criteria);
+
+    //get number of persistent features
+    uint16_t sum = 0;
+    for (uint16_t i = 0; i < status.size(); i++){
+        sum = sum + status[i];
+        if (status[i]==0) {
+            lost_points.push_back(prev_points[0][i]);
+        }
+    }
+
+    //make this calculate only for each keyframe
+    Mat E, R, t, mask;
+    E = findEssentialMat(flow_points,prev_points[0], camera_matrix, RANSAC, 0.999,1.0,mask);
+    recoverPose(E, flow_points, prev_points[0], camera_matrix, R, t, mask);
+
+    if (sum<RETRACK_THRESH){
+        //only find features when enough are lost
+        goodFeaturesToTrack(next_frame, next_points, MAX_CORNERS, KLT_QUALITY, KLT_MIN_DIST, Mat(), 3, false, 0.04);
+    }
 
     Mat img;
     cvtColor(next_frame,img,CV_GRAY2BGR);
@@ -74,17 +92,36 @@ void OpticalFlowNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image
     imshow("Optical Flow", img);
     waitKey(3);
 
-    prev_frame = next_frame.clone();
     for (int i = 4; i > 0; i--){
         prev_points[i] = prev_points[i-1];
+        prev_frame[i] = prev_frame[i-1];
     }
-    prev_points[0] = next_points; //points before optical flow function
-/*
+    prev_frame[0] = next_frame.clone();
+    if (sum < RETRACK_THRESH){
+        //if tracked features drops below threshold, retrack
+        prev_points[0] = next_points;
+        ROS_INFO("%d features remaining. Retracking",sum);
+    } else {
+        prev_points[0] = flow_points; //points before optical flow function
+    }
+    /*
+    bearingVectors_t bearingVectors1;
+    bearingVectors_t bearingVectors2;
+
+    relative_pose::CentralRelativeAdapter adapter(bearingVectors1,bearingVectors2);
+    sac::Ransac<sac_problems::relative_pose::CentralRelativePoseSacProblem> ransac;
+    std::shared_ptr<sac_problems::relative_pose::CentralRelativePoseSacProblem>
+            relposeproblem_ptr(
+            new sac_problems::relative_pose::CentralRelativePoseSacProblem(
+            adapter,
+            sac_problems::relative_pose::CentralRelativePoseSacProblem::NISTER ) );
+    */
+
     //epipolar check + ransac
     //p3p
     //map
     //triangulation
-*/
+
     publishTracking(next_frame);//placeholder
 }
 
