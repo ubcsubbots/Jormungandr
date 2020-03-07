@@ -23,7 +23,8 @@
 
 #define MAX_CORNERS 500
 #define RANSAC_ITERATIONS 3000
-#define RETRACK_THRESH 250
+#define RETRACK_THRESH 75
+#define KEYFRAME_THRESH 10
 #define KLT_QUALITY 0.01
 #define KLT_MIN_DIST 20
 #define STORED_FRAMES 5
@@ -37,9 +38,11 @@ using namespace cv;
 class OpticalFlowNode {
     image_transport::Subscriber subscriber_;
     image_transport::Publisher publisher_;
-    Mat prev_frame[5]; //Stores last image
-    vector<Point2f> prev_points[5]; //Stores features from last five frames
-    vector<Point2f> prev_lost[5]; //Stores lost features
+    Mat prev_frame[STORED_FRAMES]; //Stores last image
+    Mat prev_keyframe[STORED_KEYFRAMES];
+    vector<Point2f> prev_keypoints[STORED_KEYFRAMES];
+    vector<Point2f> prev_points[STORED_FRAMES]; //Stores features from last five frames
+    vector<Point2f> prev_lost[STORED_FRAMES]; //Stores lost features
     bool need_init;
     Mat camera_matrix = (Mat_<double>(3,3) << 243.63,0,404.45,0,327.26,203.98,0,0,1);
 
