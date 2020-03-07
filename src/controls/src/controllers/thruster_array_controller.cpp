@@ -15,19 +15,7 @@ namespace thruster_controllers {
     bool ThrusterArrayController::init(hardware_interface::ThrusterArrayInterface *robot, 
         ros::NodeHandle &root_nh, ros::NodeHandle &controller_nh)
     {   
-        if (!controller_nh.getParam("names", thruster_names_))
-        {
-            ROS_ERROR("Couldn't retrieve thruster array name param");
-            return false;
-        }
-
         thruster_array_handle_ = robot->getHandle("thruster_array");
-
-        if (!pid_controller_.init(ros::NodeHandle(controller_nh, "pid")))
-        {
-            ROS_ERROR("Could not init PID controller for thruster array");
-            return false;
-        }
 
         std::map<std::string,std::string> topics;  
         if (!controller_nh.getParam("topics", topics))
@@ -49,19 +37,21 @@ namespace thruster_controllers {
         // Get latest decision command
         decision_cmd_struct_ = *( decision_cmd_.readFromRT() );
 
+        // Read state data from shared interface
+        ImuSensorData imu_data = *(thruster_array_handle_.getImuSensor());
+        DepthSensorData depth_data = *(thruster_array_handle_.getDepthSensor());
+
         // Call the step function of the MATLAB Simulink generated controller
         // using the latest state information, and call thruster_array_handle.commandThrusterArray(signals)
         // where signals is the output of the controller stored in ThrusterArrayData
 
-        // ROS_INFO("Multi Thruster Controller Updated");
+        // ROS_INFO("Thruster Array Controller Updated");
     }
 
     void ThrusterArrayController::starting(const ros::Time& time) 
     {
         // TODO: Initialize decision command struct
         decision_cmd_.initRT(decision_cmd_struct_);
-
-        pid_controller_.reset();
     }
 
     void ThrusterArrayController::stopping(const ros::Time& time) 

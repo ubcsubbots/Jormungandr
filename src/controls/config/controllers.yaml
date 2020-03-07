@@ -2,12 +2,4 @@ robot:
   controllers:
     thruster_array:
       type: thruster_controllers/ThrusterArrayController
-      names:
-        - thruster_one
-        - thruster_two
-        - thruster_three
-        - thruster_four
-        - thruster_five
-        - thruster_six
       topics: {decision: decision_node/output}
-      pid: {p: 10.0, i: 0.0, d: 1.0}

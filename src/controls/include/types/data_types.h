@@ -12,6 +12,20 @@
  */
 struct ImuSensorData
 {
+    // Linear velocities
+    float x_accel;
+    float y_accel;
+    float z_accel;
+
+    // Angular velocities
+    float x_ang_vel;
+    float y_ang_vel;
+    float z_ang_vel;
+
+    // Euler angles
+    float phi;
+    float theta;
+    float psi;
 
 };
 

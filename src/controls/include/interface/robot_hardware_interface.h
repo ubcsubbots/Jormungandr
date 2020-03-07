@@ -16,6 +16,8 @@
 #include <boost/shared_ptr.hpp>
 #include <controls/ArduinoDriversMsg.h>
 #include <sensor_msgs/Imu.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf/tf.h>
 
 class RobotHardwareInterface:  public hardware_interface::RobotHW
 {  

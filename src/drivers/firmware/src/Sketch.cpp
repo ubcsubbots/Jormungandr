@@ -19,8 +19,8 @@ controls::ArduinoDriversMsg input_msg_;
 /* ROS variables setup */
 void driversCB(const controls::ArduinoDriversMsg& msg);
 ros::NodeHandle_<ArduinoHardware, 1, 1, 80, 105> nh_; // Custom nodehandle config   
-ros::Subscriber<controls::ArduinoDriversMsg> drivers_sub_("/arduino_drivers_node/input", &driversCB);
-ros::Publisher drivers_pub_("/arduino_drivers_node/output", &output_msg_ );
+ros::Subscriber<controls::ArduinoDriversMsg> drivers_sub_("/arduino_node/input", &driversCB);
+ros::Publisher drivers_pub_("/arduino_node/output", &output_msg_ );
 
 /* Drivers */
 arduino_drivers::ThrusterArrayDriver multi_thruster_driver_;

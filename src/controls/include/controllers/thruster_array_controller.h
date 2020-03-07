@@ -10,10 +10,8 @@
 #include <realtime_tools/realtime_buffer.h>
 #include <types/data_types.h>
 #include <controller_interface/controller.h>
-#include <control_toolbox/pid.h>
 #include <nav_msgs/Odometry.h>
 #include <sensor_msgs/Imu.h>
-#include <std_msgs/Float64.h>
 #include <pluginlib/class_list_macros.hpp>
 #include <interface/thruster_array_interface.h>
 
@@ -101,12 +99,7 @@ namespace thruster_controllers
         void decisionCB(const nav_msgs::Odometry::ConstPtr& msg);
 
         // Hardware interface components
-        int num_thrusters_;
-        std::vector<std::string> thruster_names_;
         hardware_interface::ThrusterArrayHandle thruster_array_handle_;
-
-        // Internal PID controller
-        control_toolbox::Pid pid_controller_; 
 
         // Subscribers
         ros::Subscriber decision_sub_;
