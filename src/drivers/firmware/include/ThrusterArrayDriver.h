@@ -19,7 +19,7 @@ namespace arduino_drivers
         ~ThrusterArrayDriver ();
 
         void init();
-        void update(controls::DriversMsg* output_msg, const controls::DriversMsg* input_msg);
+        void update(controls::ArduinoDriversMsg* output_msg, const controls::ArduinoDriversMsg* input_msg);
 
         // Servo objects
         Servo servo1;

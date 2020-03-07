@@ -34,7 +34,7 @@ namespace arduino_drivers
         delay(7000); 
 
     }
-    void ThrusterArrayDriver::update(controls::DriversMsg* output_msg, const controls::DriversMsg* input_msg) 
+    void ThrusterArrayDriver::update(controls::ArduinoDriversMsg* output_msg, const controls::ArduinoDriversMsg* input_msg) 
     {
         int fudge_factor = 25;
         bool invert = 1;

@@ -24,7 +24,7 @@ void RobotHardwareInterface::read()
 
 void RobotHardwareInterface::write()
 {
-    controls::DriversMsg msg;
+    controls::ArduinoDriversMsg msg;
     // TODO: store thruster commands from shared memory into msg
     if (arduino_drivers_pub_ && arduino_drivers_pub_->trylock()){
             arduino_drivers_pub_->msg_ = msg;
@@ -50,12 +50,12 @@ void RobotHardwareInterface::initDriverCommunication()
     thruster_array_.initRT(thruster_array_struct_);
     depth_sensor_.initRT(depth_sensor_struct_);
 
-    arduino_drivers_sub_ = nh_.subscribe<controls::DriversMsg>(
+    arduino_drivers_sub_ = nh_.subscribe<controls::ArduinoDriversMsg>(
         "/arduino_drivers_node/output", msg_queue_,
         &RobotHardwareInterface::arduinoDriversCB, this);
 
     arduino_drivers_pub_.reset(
-        new realtime_tools::RealtimePublisher<controls::DriversMsg>(nh_,
+        new realtime_tools::RealtimePublisher<controls::ArduinoDriversMsg>(nh_,
             "/arduino_drivers_node/input", 4));
     
     imu_driver_sub_ = nh_.subscribe<sensor_msgs::Imu>(
@@ -63,7 +63,7 @@ void RobotHardwareInterface::initDriverCommunication()
         &RobotHardwareInterface::imuDriverCB, this);
 }
 
-void RobotHardwareInterface::arduinoDriversCB(const controls::DriversMsg::ConstPtr& msg) 
+void RobotHardwareInterface::arduinoDriversCB(const controls::ArduinoDriversMsg::ConstPtr& msg) 
 {
     ROS_INFO("Got Arduino drivers message");
 

@@ -49,17 +49,9 @@ namespace thruster_controllers {
         // Get latest decision command
         decision_cmd_struct_ = *( decision_cmd_.readFromRT() );
 
-        // // Get the desired thruster commands based on latest decision command recieved and sensor states
-        // ThrusterArrayData desired_commands = calculateDesiredCommands();
-
-        // // Calculate error for each thrusters command
-        // ThrusterArrayData command_errors = calculateCommandErrors( desired_commands );
-
-        // // Use PID controllers to get actual commands for thruster array
-        // ThrusterArrayData actual_commands = calculateActualCommands( command_errors, period );
-
-        // // Send the actual commands to the handle to be used in the hardware interface
-        // thruster_array_handle_.commandThrusterArray( actual_commands );
+        // Call the step function of the MATLAB Simulink generated controller
+        // using the latest state information, and call thruster_array_handle.commandThrusterArray(signals)
+        // where signals is the output of the controller stored in ThrusterArrayData
 
         // ROS_INFO("Multi Thruster Controller Updated");
     }
