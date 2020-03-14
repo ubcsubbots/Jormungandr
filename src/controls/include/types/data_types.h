@@ -51,7 +51,7 @@ struct ThrusterArrayData
 };
 
 /**
- * Struct to store data related to the drivers
+ * Struct to store data related to the  arduino drivers
  */
 struct ArduinoDriversData
 {

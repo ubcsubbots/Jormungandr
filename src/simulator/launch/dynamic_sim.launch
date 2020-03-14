@@ -1,0 +1,12 @@
+<launch>
+        <arg name="namespace" default="g500"/>
+
+        <rosparam file="$(find simulator)/config/dynamics.yaml" command="load"/>
+
+        <arg name="input_topic" default="/$(arg namespace)/thrusters_input" />
+        <arg name="thrusters_topic" default="/g500/thrusters_input" />
+        <arg name="output_topic" default="/$(arg namespace)/pose" />
+
+	<node name="keyboard_command" pkg="simulator" type="keyboard.py" args="$(arg thrusters_topic)" output="screen" respawn="false"/>
+        <node name="dynamics_$(arg namespace)" pkg="simulator" type="dynamics.py" args="$(arg namespace) $(arg input_topic) $(arg output_topic)" output="screen" respawn="false"/>
+</launch>
