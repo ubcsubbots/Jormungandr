@@ -28,8 +28,8 @@
 #ifndef thrust_allocation_COMMON_INCLUDES_
 # define thrust_allocation_COMMON_INCLUDES_
 #include "rtwtypes.h"
-#include "rtw_continuous.h"
-#include "rtw_solver.h"
+// #include "rtw_continuous.h"
+// #include "rtw_solver.h"
 #endif                                 // thrust_allocation_COMMON_INCLUDES_
 
 #include <stddef.h>

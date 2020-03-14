@@ -1,0 +1,45 @@
+<launch>
+<!-- 
+    This launch file is responsible for launching the entire entire system
+    (High and Low Level AI/Control, and Serial Communication With Arduino)
+-->  
+
+    <!-- TODO: Start Camera Here -->
+    <!-- <group>
+        <node pkg="usb_cam" type="usb_cam_node" name="cam_node0">
+            <param name="video_device" value="/dev/video1" />
+            <param name="camera_name" value="camera1" />
+            <param name="image_width" value="1920" />
+            <param name="image_height" value="1080" />
+        </node>
+    </group>
+    <group>
+        <node pkg="usb_cam" type="usb_cam_node" name="cam_node1">
+            <param name="video_device" value="/dev/video0" />
+            <param name="camera_name" value="camera0" />
+            <param name="image_width" value="1920" />
+            <param name="image_height" value="1080" />
+        </node>
+    </group> -->
+   
+    <!-- <node ns="cam_node1" name="proc1" pkg="image_proc" type="image_proc" output="screen">
+    </node>
+    <node ns="cam_node0" name="proc0" pkg="image_proc" type="image_proc" output="screen">
+    </node> -->
+
+    <!-- Drivers -->
+    <include file="$(find drivers)/launch/arduino_drivers.launch" />
+    <include file="$(find drivers)/launch/imu_driver.launch"/>
+
+    <!-- Controls -->
+    <include file="$(find controls)/launch/controls.launch"/>
+
+    <!-- High Level AI -->
+    <include file="$(find decision)/launch/decision_node.launch"/>
+    <include file="$(find worldstate)/launch/worldstate_node.launch"/>
+    <include file="$(find gate_detect)/launch/gate_detect.launch"/>
+
+    <!-- HSV Filters for Various Components -->
+    <include file="$(find vision)/launch/gate_detect_filter.launch"/>    
+
+</launch>

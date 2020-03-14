@@ -1,4 +1,5 @@
 <launch>
+    <arg name="arduino_port" default="/dev/ttyACM0"/>
     <!-- rosserial node for communication with Arduino -->
     <node name="serial_node"  pkg="rosserial_python" type="serial_node.py">
         <!-- param example: arduino_port:=/dev/ttyACM0 -->

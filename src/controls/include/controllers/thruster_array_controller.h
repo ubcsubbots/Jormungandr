@@ -14,6 +14,7 @@
 #include <sensor_msgs/Imu.h>
 #include <pluginlib/class_list_macros.hpp>
 #include <interface/thruster_array_interface.h>
+#include <simulink/control_system.h>
 
 namespace thruster_controllers
 {
@@ -42,7 +43,12 @@ namespace thruster_controllers
          */
         struct DecisionCmd
         {
-            //TODO: Decision command params 
+            float x;
+            float y;
+            float z;
+            float phi;
+            float theta;
+            float psi;
         };
         
         ThrusterArrayController();
@@ -63,11 +69,7 @@ namespace thruster_controllers
          * Called by the controller manager when it is time to update the controllers from the
          * realtime control loop. 
          * 
-         * Calculates the command to be sent to each thruster using the current and previous 
-         * decision command, imu state, and depth state. Uses the internal pid controller to 
-         * determine the actual command sent to the thrusters with the calcuated error. Once
-         * each command is finalized, uses each thruster's handle to send the command to the
-         * hardware interface.
+         * Calculates the command to be sent to each thruster using the simulink control system
          * 
          * @param time The time when this update execution is called
          * @param period The amount of time since the update was last executed
@@ -110,6 +112,13 @@ namespace thruster_controllers
 
         // Memory allocated for subscriber messages
         DecisionCmd decision_cmd_struct_;
+
+        // Generated simulink controller object
+        control_system2ModelClass control_system_Obj;
+
+        // Time to start trajectory
+        bool startTraj;
+        ros::Time startTime ;
           
     };
     

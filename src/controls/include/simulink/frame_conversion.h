@@ -26,8 +26,8 @@
 #ifndef frame_conversion_COMMON_INCLUDES_
 # define frame_conversion_COMMON_INCLUDES_
 #include "rtwtypes.h"
-#include "rtw_continuous.h"
-#include "rtw_solver.h"
+// #include "rtw_continuous.h"
+// #include "rtw_solver.h"
 #endif                                 // frame_conversion_COMMON_INCLUDES_
 
 #include <stddef.h>

@@ -27,8 +27,8 @@
 #ifndef controller_COMMON_INCLUDES_
 # define controller_COMMON_INCLUDES_
 #include "rtwtypes.h"
-#include "rtw_continuous.h"
-#include "rtw_solver.h"
+// #include "rtw_continuous.h"
+// #include "rtw_solver.h"
 #endif                                 // controller_COMMON_INCLUDES_
 
 // Child system includes
