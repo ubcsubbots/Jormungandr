@@ -35,28 +35,28 @@ try:
             ##print "Got character", repr(c)
 	    if c=='w':
 		thrusters[0]=thrusters[1]=0.4
-	    elif c=='s':
+		elif c=='s':
 		thrusters[0]=thrusters[1]=-0.4
-	    elif c=='a':
+		elif c=='a':
 		thrusters[4]=0.4
-	    elif c=='d':
+		elif c=='d':
 		thrusters[4]=-0.4
-	    elif c==' ':
+		elif c==' ':
 		reset()
-	    elif c=='\x1b':
+		elif c=='\x1b':
 		c2= sys.stdin.read(1)
 		c2= sys.stdin.read(1)
-	        if c2=='A':
-		    thrusters[2]=thrusters[3]=0.4
-	        elif c2=='B':
-		    thrusters[2]=thrusters[3]=-0.4
-	        elif c2=='C':
-		    thrusters[0]=-0.4
-		    thrusters[1]=0.4
-	        elif c2=='D':
-		    thrusters[0]=0.4
-		    thrusters[1]=-0.4
-	    else:
+			if c2=='A':
+				thrusters[2]=thrusters[3]=0.4
+			elif c2=='B':
+				thrusters[2]=thrusters[3]=-0.4
+			elif c2=='C':
+				thrusters[0]=-0.4
+				thrusters[1]=0.4
+			elif c2=='D':
+				thrusters[0]=0.4
+				thrusters[1]=-0.4
+		else:
 		print 'wrong key pressed'
 	    while c!='':
 	        c = sys.stdin.read(1)
