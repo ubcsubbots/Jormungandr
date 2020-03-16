@@ -195,13 +195,13 @@ Note that the main sketch file is /drivers/firmware/src/Sketch.cpp
 
 2. Run: `catkin_make drivers_firmware_arduino && catkin_make drivers_firmware_arduino-upload`
 
-3. The latest state of the sketch should now be upload to the Arduino
+3. The latest state of the sketch should now be uploaded to the Arduino
 
 ### Run rosserial node on Arduino
 
 1. Run: `roslaunch drivers drivers.launch arduino_port:=<The port the Arduino is connected to (i.e /dev/ttyACM0)>`
 
-2. To check to make sure the node launched correctly, you can run `rostopic echo /drivers/output` and see if you are recieving messages from the Arduino
+2. To check to make sure the node launched correctly, you can run `rostopic echo /arduino_node/output` and see if you are recieving messages from the Arduino (it may take a few seconds before it starts outputing messages)
 
 ### A note on Arduino libraries
 
