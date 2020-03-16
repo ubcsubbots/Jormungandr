@@ -58,7 +58,8 @@
   <build_depend>sensor_msgs</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>realtime_tools</build_depend>
-  <build_depend>message_generation</build_depend>
+  <build_depend>drivers</build_depend>
+  <build_depend>localization</build_depend>
 
   <build_export_depend>controller_interface</build_export_depend>
   <build_export_depend>hardware_interface</build_export_depend>
@@ -67,7 +68,6 @@
   <build_export_depend>control_toolbox</build_export_depend>
   <build_export_depend>nav_msgs</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
-  <build_export_depend>sensor_msgs</build_export_depend>
   <build_export_depend>realtime_tools</build_export_depend>
 
   <exec_depend>controller_interface</exec_depend>
@@ -77,10 +77,10 @@
   <exec_depend>control_toolbox</exec_depend>
   <exec_depend>nav_msgs</exec_depend>
   <exec_depend>std_msgs</exec_depend>
-  <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>realtime_tools</exec_depend>
-  <exec_depend>message_runtime</exec_depend>
-
+  <exec_depend>drivers</exec_depend>
+  
+  
   <test_depend>rosunit</test_depend>
 
   <!-- The export tag contains other, unspecified, tags -->

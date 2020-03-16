@@ -8,48 +8,35 @@
 #define THRUSTER_CONTROLLERS__THRUSTER_ARRAY_CONTROLLER_H
 
 #include <realtime_tools/realtime_buffer.h>
-#include <types/data_types.h>
+#include <AUVState.h>
+#include<ThrusterArrayCommand.h>
 #include <controller_interface/controller.h>
 #include <nav_msgs/Odometry.h>
 #include <sensor_msgs/Imu.h>
 #include <pluginlib/class_list_macros.hpp>
 #include <interface/thruster_array_interface.h>
 #include <simulink/control_system.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf/tf.h>
 
 namespace thruster_controllers
 {
     /**
     * @class thruster_controllers::ThrusterArrayController
     * 
-    * Controls output of a thruster array using a pid loop.
+    * Controls output of a thruster array using a control system
     * 
     * @param type Must be "thruster_controllers/ThrusterArrayController"
-    * @param num_thrusters Number of thrusters to control
-    * @param names A list of the names of the thrusters (must be length of num_thrusters)
     * @param topics A map of topics which this controller needs 
-    * @param pid The gains for the pid controller
     * 
     * Subscribes to:
     * 
-    * - @b topics.decision (nav_msgs::Odometry): the navigation decision command
+    * - topics.decision (nav_msgs::Odometry): the navigation decision command
     * 
     */
     class ThrusterArrayController: public controller_interface::Controller<hardware_interface::ThrusterArrayInterface>
     {
     public:
-
-        /**
-         * Struct to store Decision command for use by the realtime buffer 
-         */
-        struct DecisionCmd
-        {
-            float x;
-            float y;
-            float z;
-            float phi;
-            float theta;
-            float psi;
-        };
         
         ThrusterArrayController();
         ~ThrusterArrayController();
@@ -99,26 +86,24 @@ namespace thruster_controllers
 
         // Subscriber callback
         void decisionCB(const nav_msgs::Odometry::ConstPtr& msg);
+        ros::Subscriber decision_sub_;
+        static const int msg_queue_ = 10; 
 
         // Hardware interface components
         hardware_interface::ThrusterArrayHandle thruster_array_handle_;
 
-        // Subscribers
-        ros::Subscriber decision_sub_;
-        static const int msg_queue_ = 10; 
-
         // Realtime buffer to recieve messages in realtime
-        realtime_tools::RealtimeBuffer<DecisionCmd> decision_cmd_;
+        realtime_tools::RealtimeBuffer<AUVState> desired_state_;
 
-        // Memory allocated for subscriber messages
-        DecisionCmd decision_cmd_struct_;
+        // Memory allocated for subscriber messages buffer
+        AUVState desired_state_struct_;
 
         // Generated simulink controller object
         control_system2ModelClass control_system_Obj;
 
-        // Time to start trajectory
-        bool startTraj;
-        ros::Time startTime ;
+        // Trajectory timing
+        bool newTrajectory;
+        ros::Time trajectoryStartTime ;
           
     };
     

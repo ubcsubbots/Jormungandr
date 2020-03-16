@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
         robot.write();
 
         // Sleep for the leftover time in an iteration of control loop
-        ROS_INFO("Control loop executed in %f seconds ", (ros::Time::now()-time).toSec());
+        // ROS_INFO("Control loop executed in %f seconds ", (ros::Time::now()-time).toSec());
         rate.sleep();
     }
 

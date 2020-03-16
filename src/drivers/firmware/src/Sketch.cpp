@@ -13,13 +13,13 @@
 #include "../include/DepthSensorDriver.h"
 
 /* Messages */
-controls::ArduinoDriversMsg output_msg_;
-controls::ArduinoDriversMsg input_msg_;
+drivers::ArduinoDrivers output_msg_;
+drivers::ArduinoDrivers input_msg_;
 
 /* ROS variables setup */
-void driversCB(const controls::ArduinoDriversMsg& msg);
+void driversCB(const drivers::ArduinoDrivers& msg);
 ros::NodeHandle_<ArduinoHardware, 1, 1, 80, 105> nh_; // Custom nodehandle config   
-ros::Subscriber<controls::ArduinoDriversMsg> drivers_sub_("/arduino_node/input", &driversCB);
+ros::Subscriber<drivers::ArduinoDrivers> drivers_sub_("/arduino_node/input", &driversCB);
 ros::Publisher drivers_pub_("/arduino_node/output", &output_msg_ );
 
 /* Drivers */
@@ -31,7 +31,7 @@ arduino_drivers::DepthSensorDriver depth_sensor_driver_;
  * 
  * @param msg The message containg input for the drivers
  */
-void driversCB(const controls::ArduinoDriversMsg& msg)
+void driversCB(const drivers::ArduinoDrivers& msg)
 { 
     input_msg_ = msg;
 }

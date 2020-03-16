@@ -34,6 +34,9 @@
     <!-- Controls -->
     <include file="$(find controls)/launch/controls.launch"/>
 
+    <!-- Localization -->
+    <include file="$(find localization)/launch/dead_reckoning.launch"/>
+
     <!-- High Level AI -->
     <include file="$(find decision)/launch/decision_node.launch"/>
     <include file="$(find worldstate)/launch/worldstate_node.launch"/>

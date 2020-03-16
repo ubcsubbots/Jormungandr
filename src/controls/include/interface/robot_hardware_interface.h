@@ -10,12 +10,12 @@
 #include <ros/ros.h>
 #include <hardware_interface/robot_hw.h>
 #include <interface/thruster_array_interface.h>
-#include <types/data_types.h>
+#include <AUVState.h>
+#include<ThrusterArrayCommand.h>
 #include <realtime_tools/realtime_publisher.h>
 #include <realtime_tools/realtime_buffer.h>
 #include <boost/shared_ptr.hpp>
-#include <controls/ArduinoDriversMsg.h>
-#include <sensor_msgs/Imu.h>
+#include <drivers/ArduinoDrivers.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf/tf.h>
 
@@ -56,33 +56,23 @@ protected:
      */
     void initDriverCommunication(); 
 
-    // Subscriber callbacks
-    void arduinoDriversCB(const controls::ArduinoDriversMsg::ConstPtr& msg);
-    void imuDriverCB(const sensor_msgs::Imu::ConstPtr& msg);
-
     // Provided interfaces
     hardware_interface::ThrusterArrayInterface thruster_array_interface_;
 
     ros::NodeHandle nh_;
     const static int msg_queue_ = 10;
 
-    // Driver Subscribers
-    ros::Subscriber arduino_drivers_sub_;
-    ros::Subscriber imu_driver_sub_;
-
     // Realtime publishers to send messages to drivers in realtime
-    typedef boost::shared_ptr<realtime_tools::RealtimePublisher<controls::ArduinoDriversMsg> > RtPublisherPtr;
+    typedef boost::shared_ptr<realtime_tools::RealtimePublisher<drivers::ArduinoDrivers> > RtPublisherPtr;
     RtPublisherPtr arduino_drivers_pub_;
 
-    // Realtime buffer to recieve messages from drivers in realtime
-    realtime_tools::RealtimeBuffer<ThrusterArrayData> thruster_array_;
-    realtime_tools::RealtimeBuffer<DepthSensorData> depth_sensor_;
-    realtime_tools::RealtimeBuffer<ImuSensorData> imu_sensor_;
+    // Realtime buffer to recieve messages in realtime
+    realtime_tools::RealtimeBuffer<AUVState> auv_state_;
+    realtime_tools::RealtimeBuffer<ThrusterArrayCommand> thruster_array_;
 
     // Shared memory
-    ThrusterArrayData thruster_array_struct_;
-    ImuSensorData imu_sensor_struct_;
-    DepthSensorData depth_sensor_struct_;
+    AUVState auv_state_struct_;
+    ThrusterArrayCommand thruster_array_struct_;
 }; 
 
 #endif //ROS_CONTROL__ROBOT_HARDWARE_INTERFACE_H

@@ -1,0 +1,3 @@
+<launch>
+    <node name="dead_reckoning" pkg="localization" type="dead_reckoning_node" output="screen"/>
+</launch>
