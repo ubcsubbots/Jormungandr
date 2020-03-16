@@ -23,7 +23,7 @@ void RobotHardwareInterface::read()
 
 void RobotHardwareInterface::write()
 {
-    drivers::ArduinoDrivers msg;
+    drivers_msgs::ArduinoDrivers msg;
 
     msg.thruster_array.thruster_one_command = thruster_array_struct_.thruster_one_command;
     msg.thruster_array.thruster_two_command = thruster_array_struct_.thruster_two_command;
@@ -61,7 +61,7 @@ void RobotHardwareInterface::initDriverCommunication()
     auv_state_.initRT(auv_state_struct_);
 
     arduino_drivers_pub_.reset(
-        new realtime_tools::RealtimePublisher<drivers::ArduinoDrivers>(nh_,
+        new realtime_tools::RealtimePublisher<drivers_msgs::ArduinoDrivers>(nh_,
             "/arduino_node/input", 4));
 }
 

@@ -2,7 +2,7 @@
 
 DeadReckoningNode::DeadReckoningNode(int argc, char** argv)
 {   
-    std::string arduino_drivers_topic = "/arduino_drivers/output";
+    std::string arduino_drivers_topic = "/arduino_node/output";
     std::string imu_driver_topic = "/imu/data";
     
     arduino_drivers_sub = nh.subscribe(arduino_drivers_topic, queue_size, 
@@ -12,16 +12,16 @@ DeadReckoningNode::DeadReckoningNode(int argc, char** argv)
                                 &DeadReckoningNode::imuDriverCallback, this);
 }
 
-void DeadReckoningNode::arduinoDriversCallback(const drivers::ArduinoDrivers::ConstPtr& msg) 
+void DeadReckoningNode::arduinoDriversCallback(const drivers_msgs::ArduinoDrivers::ConstPtr& msg) 
 {
-    // ROS_INFO("Got Arduino drivers message");  
+    ROS_INFO("Got Arduino drivers message");  
     float depth = msg->depth_sensor.depth;
 
 }
 
 void DeadReckoningNode::imuDriverCallback(const sensor_msgs::Imu::ConstPtr& msg)
 {
-    // ROS_INFO("Got IMU driver message");
+    ROS_INFO("Got IMU driver message");
 
     // Convert quat orientation to euler angles (phi theta psi)
     tf::Quaternion quat( msg->orientation.x, 

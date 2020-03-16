@@ -22,7 +22,7 @@ namespace arduino_drivers
         sensor.setFluidDensity(997); // kg/m^3 (freshwater, 1029 for seawater)
 
     }
-    void DepthSensorDriver::update(controls::ArduinoDriversMsg* output_msg, const controls::ArduinoDriversMsg* input_msg) 
+    void DepthSensorDriver::update(drivers_msgs::ArduinoDrivers* output_msg, const drivers_msgs::ArduinoDrivers* input_msg) 
     {
         // Read the latest sensor value
         sensor.read();

@@ -7,7 +7,7 @@
 #ifndef DRIVERS__DRIVER_H
 #define DRIVERS__DRIVER_H
 
-#include <drivers/ArduinoDrivers.h>
+#include <drivers_msgs/ArduinoDrivers.h>
 #include <Arduino.h>
 
 namespace arduino_drivers
@@ -38,7 +38,7 @@ namespace arduino_drivers
          * @param output_msg The message to be published as output
          * @param input_msgs_ The message recieved as input
          */
-        virtual void update(controls::ArduinoDrivers* output_msg, const controls::ArduinoDrivers* input_msg) = 0;
+        virtual void update(drivers_msgs::ArduinoDrivers* output_msg, const drivers_msgs::ArduinoDrivers* input_msg) = 0;
 
     };
     

@@ -15,7 +15,7 @@
 #include <realtime_tools/realtime_publisher.h>
 #include <realtime_tools/realtime_buffer.h>
 #include <boost/shared_ptr.hpp>
-#include <drivers/ArduinoDrivers.h>
+#include <drivers_msgs/ArduinoDrivers.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf/tf.h>
 
@@ -63,7 +63,7 @@ protected:
     const static int msg_queue_ = 10;
 
     // Realtime publishers to send messages to drivers in realtime
-    typedef boost::shared_ptr<realtime_tools::RealtimePublisher<drivers::ArduinoDrivers> > RtPublisherPtr;
+    typedef boost::shared_ptr<realtime_tools::RealtimePublisher<drivers_msgs::ArduinoDrivers> > RtPublisherPtr;
     RtPublisherPtr arduino_drivers_pub_;
 
     // Realtime buffer to recieve messages in realtime

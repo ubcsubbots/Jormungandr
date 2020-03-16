@@ -10,7 +10,7 @@
 
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
-#include <drivers/ArduinoDrivers.h>
+#include <drivers_msgs/ArduinoDrivers.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf/tf.h>
 #include <AUVState.h>
@@ -28,7 +28,7 @@ class DeadReckoningNode {
      *
      * @param msg the Arduino drivers message received in the callback
      */
-    void arduinoDriversCallback(const drivers::ArduinoDrivers::ConstPtr& msg);
+    void arduinoDriversCallback(const drivers_msgs::ArduinoDrivers::ConstPtr& msg);
 
     /**
      * Callback function for when an IMU message is recieved

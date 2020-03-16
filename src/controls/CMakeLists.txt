@@ -18,7 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   nav_msgs
   std_msgs
   realtime_tools
-  drivers
+  drivers_msgs
   localization
 )
 

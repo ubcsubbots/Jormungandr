@@ -19,7 +19,7 @@ namespace arduino_drivers
         ~DepthSensorDriver ();
 
         void init();
-        void update(controls::ArduinoDriversMsg* output_msg, const controls::ArduinoDriversMsg* input_msg);
+        void update(drivers_msgs::ArduinoDrivers* output_msg, const drivers_msgs::ArduinoDrivers* input_msg);
 
         MS5837 sensor;
        

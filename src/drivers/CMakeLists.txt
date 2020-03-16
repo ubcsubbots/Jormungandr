@@ -11,7 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   rosserial_arduino
   rosserial_client
   std_msgs
-  message_generation
+  drivers_msgs
 )
 
 ################################################
@@ -38,20 +38,6 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
-## Generate messages in the 'msg' folder
-add_message_files(
-    FILES
-    ArduinoDrivers.msg
-    ThrusterArray.msg
-    DepthSensor.msg
-)
-
-## Generate added messages and services with any dependencies listed here
-generate_messages(
-    DEPENDENCIES
-    std_msgs  # Or other packages containing msgs
-)
-
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -63,7 +49,7 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #   INCLUDE_DIRS include/
-   CATKIN_DEPENDS  message_runtime
+#  CATKIN_DEPENDS 
 #   LIBRARIES drivers
 #  DEPENDS system_lib
 )
@@ -73,19 +59,19 @@ catkin_package(
 ## Build ##
 ###########
 
+
+
 rosserial_generate_ros_lib(
   PACKAGE rosserial_arduino
   SCRIPT make_libraries.py
 )
-
-add_dependencies(${PROJECT_NAME}_ros_lib ${PROJECT_NAME}_generate_messages_cpp)
 
 rosserial_configure_client(
   DIRECTORY firmware
   TOOLCHAIN_FILE ${ROSSERIAL_ARDUINO_TOOLCHAIN}
 )
 
-rosserial_add_client_target(firmware arduino )
+rosserial_add_client_target(firmware arduino ALL)
 rosserial_add_client_target(firmware arduino-upload)
 
 
@@ -104,4 +90,4 @@ include_directories(
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_drivers.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()d
+# endif()
