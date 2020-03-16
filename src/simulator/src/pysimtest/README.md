@@ -52,8 +52,8 @@ To create a valid simulation test suite using pysimtest, you must adhere to cert
 
 ## Running Test Suites
 There are two ways to run a test suite, for both, make sure you have `roscore` running.
-- 1.  Navigate to `Jormungandr/src/simulator/pysimtest` and execute the following on the command line: `python pysimtest.py my_test_module.py`
-- 2. Source the shell script `pysimtest.sh` found in `Jormungandr/src/simulator/pysimtest`, or add it to your `.bashrc`, and enter the command `pysimtest my_test_module.py`. This option works from any directory.
+- 1.  Navigate to `Jormungandr/src/simulator/src/pysimtest` and execute the following on the command line: `python pysimtest.py my_test_module.py`
+- 2. Source the shell script `pysimtest.sh` found in `Jormungandr/src/simulator/src/pysimtest`, or add it to your `.bashrc`, and enter the command `pysimtest my_test_module.py`. This option works from any directory.
 
 Once you run your test suite, the terminal will notify you which test in which suite is currently running. To stop a test and continue onto the next one, you can enter `Ctrl`+`C` into the terminal. For troubleshooting, make sure `roscore` is running and try closing the current terminal and use a new one.
 
