@@ -7,55 +7,62 @@
 #!/usr/bin/env python
 import rospy
 from geometry_msgs.msg import Pose
+import tf
+
 
 
 def main():
 
-    msg = Pose()
     publisher = rospy.Publisher("/decision/output", Pose)
     rospy.init_node('keyboard_control', anonymous=True)
     while not rospy.is_shutdown():
-
-        print("X coordinate")
-        x = None
-        while x is None:
-            x = input()
-            if x == "quit":
-                break
+        msg = Pose()
+        x = True
+        while x = True:
+            print("Enter [x,y,z,phi,theta,psi] with no spaces, such as [5,2,1,0,0,3.14]")
+            inputStr = input()
+            split = inputStr.split(",")
+            if (len(split) != 6):
+                continue
             try:
-                msg.position.x = int(x)
+                msg.position.x = int(split[0])
             except ValueError:
-                x = None
-        if x == "quit":
-            continue
-
-        print("Y coordinate")
-        y = None
-        while y is None:
-            y = input()
-            if y == "quit":
-                break
+                print("X Integer conversion error")
+                continue
             try:
-                msg.position.x = int(y)
+                msg.position.y = int(split[1])
             except ValueError:
-                x = None
-        if y == "quit":
-            continue
-
-        print("Z coordinate")
-        z = None
-        while z is None:
-            z = input()
-            if z == "quit":
-                break
+                print("Y Integer conversion error")
+                continue
             try:
-                msg.position.z = int(z)
+                msg.position.z = int(split[2])
             except ValueError:
-                z = None
-        if z == "quit":
-            continue
+                print("Z Integer conversion error")
+                continue
+            try:
+                roll = int(split[3])
+            except ValueError:
+                print("Phi Integer conversion error")
+                continue
+            try:
+                pitch = int(split[4])
+            except ValueError:
+                print("Pitch Integer conversion error")
+                continue
+            try:
+                yaw = int(split[5])
+            except ValueError:
+                print("Yaw Integer conversion error")
+                continue
+            quaternion = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
+            msg.orientation.x = quaternion[0]
+            msg.orientation.y = quaternion[1]
+            msg.orientation.z = quaternion[2]
+            msg.orientation.w = quaternion[3]
 
+            x = False
         publisher.publish(msg)
+        print("Message published")
 
 
 if __name__ == '__main__':
