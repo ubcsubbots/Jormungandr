@@ -22,7 +22,7 @@ OpticalFlowNode::OpticalFlowNode(int argc, char** argv, std::string node_name) {
             subscribeTopic, refresh_rate, &OpticalFlowNode::subscriberCallBack, this);
 
     int queue_size = 1;
-    publisher_     = it.advertise(publishTopic, queue_size);
+    publisher_       = nh.advertise<geometry_msgs::Transform>(publishTopic, queue_size);
 
     ROS_INFO("Starting Node");
 
@@ -106,6 +106,7 @@ void OpticalFlowNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image
             solvePnPRansac(points3D, prev_keypoints[0], camera_matrix, {}, R_vec1, t_vec1, true, RANSAC_ITERATIONS);
             solvePnPRansac(points3D, curr_points, camera_matrix, {}, R_vec2, t_vec2, true, RANSAC_ITERATIONS);
             //TODO: Publish pose
+            publishTracking(R,t);
 
             for (int i = STORED_KEYFRAMES-1; i > 0; i--){
                 prev_keypoints[i] = prev_keypoints[i-1];
@@ -113,9 +114,7 @@ void OpticalFlowNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image
             }
             prev_keyframe[0] = curr_frame.clone();
             prev_keypoints[0] = curr_points;
-            
         }
-
     }
     //make this calculate only for each keyframe
 
@@ -137,12 +136,15 @@ void OpticalFlowNode::subscriberCallBack(const sensor_msgs::ImageConstPtr& image
     }
     prev_frame[0] = curr_frame.clone();
     prev_points[0] = curr_points;
-
-    //publishTracking(curr_frame);//placeholder
 }
 
-void OpticalFlowNode::publishTracking(const cv::Mat& filtered_image) {
-    publisher_.publish(
-            cv_bridge::CvImage(std_msgs::Header(), "mono8", filtered_image)
-                    .toImageMsg());
+void OpticalFlowNode::publishTracking(const cv::Mat& Rot, const cv::Mat& trans) {
+    geometry_msgs::Vector3 translation;
+    geometry_msgs::Quaternion rotation;
+    geometry_msgs::Transform pose_update;
+    //TODO: 3x3 rotation matrix to Quaternion form
+    //TODO: 1x3 translation to Vector3 form
+    pose_update.translation = translation;
+    pose_update.rotation = rotation;
+    publisher_.publish(pose_update);
 }

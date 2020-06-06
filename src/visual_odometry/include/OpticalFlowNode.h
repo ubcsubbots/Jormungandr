@@ -17,6 +17,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
+#include <geometry_msgs/Transform.h>
 //#include <opengv/relative_pose/CentralRelativeAdapter.hpp>
 //#include <opengv/sac/Ransac.hpp>
 //#include <opengv/sac_problems/relative_pose/CentralRelativePoseSacProblem.hpp>
@@ -37,7 +38,8 @@ using namespace cv;
 
 class OpticalFlowNode {
     image_transport::Subscriber subscriber_;
-    image_transport::Publisher publisher_;
+    ros::Publisher publisher_;
+    //image_transport::Publisher publisher_;
     Mat prev_frame[STORED_FRAMES]; //Stores last image
     Mat prev_keyframe[STORED_KEYFRAMES];
     vector<Point2f> prev_keypoints[STORED_KEYFRAMES];
@@ -57,11 +59,12 @@ private:
      */
     void subscriberCallBack(const sensor_msgs::ImageConstPtr& image);
     /**
-     * Publishes the filtered image
+     * Publishes the transformation matrix since last keyframe
      *
-     * @param image the image to publish
+     * @param Rot 3x3 rotation matrix
+     * @param trans 1x3 translation vector
      */
-    void publishTracking(const cv::Mat& filtered_image);
+    void publishTracking(const cv::Mat& Rot, const cv::Mat& trans);
 };
 
 #endif //VISUAL_ODOMETRY_OPTICALFLOWNODE_H
