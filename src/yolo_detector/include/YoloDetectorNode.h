@@ -51,7 +51,7 @@ class YoloDetectorNode {
     float scale = 0.00392;
     int inpWidth = 416;
     int inpHeight = 416;
-    bool swapRB = false;
+    bool swapRB = true;
     float mean = 0.5;
     std::vector<std::string> classes;
 };

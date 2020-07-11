@@ -31,7 +31,7 @@ YoloDetectorNode::YoloDetectorNode(int argc, char** argv, std::string node_name)
     int queue_size = 1;
     publisher_     = it.advertise(publishTopic, queue_size);
     std::cout<<boost::filesystem::current_path()<<std::endl;
-    cv::Mat frame = cv::imread("../../../../yolo_detector/cfg/person.jpg");
+    cv::Mat frame = cv::imread("../../../../yolo_detector/cfg/dog.jpg");
 
     cv::String model = "../../../../yolo_detector/cfg/yolov2.weights";
     cv::String config = "../../../../yolo_detector/cfg/yolov2.cfg";
@@ -77,9 +77,11 @@ void YoloDetectorNode::preprocess(const Mat& frame, Net& net, Size inpSize, floa
 {
     static Mat blob;
     // Create a 4D blob from a frame.
-    if (inpSize.width <= 0) inpSize.width = frame.cols;
-    if (inpSize.height <= 0) inpSize.height = frame.rows;
-    blob = blobFromImage(frame,1.0,inpSize,mean,swapRB,false);
+    //if (inpSize.width <= 0) inpSize.width = frame.cols;
+    //if (inpSize.height <= 0) inpSize.height = frame.rows;
+    inpSize.width = inpWidth;
+    inpSize.height = inpHeight;
+    blob = blobFromImage(frame,(1.0/255.0),inpSize,mean,swapRB,false);
 
     // Run a model.
     net.setInput(blob,"");
