@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
         dynamic_reconfigure
         rospy
+        message_generation
 )
 
 find_package(OpenCV REQUIRED)
@@ -31,13 +32,22 @@ generate_dynamic_reconfigure_options(
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
+add_message_files(
+        FILES
+        YoloOut.msg
+        YoloOutArray.msg
+)
+generate_messages(
+        DEPENDENCIES
+        std_msgs
+        yolo_detector
+)
 catkin_package(
    INCLUDE_DIRS include
 #  LIBRARIES vision
-#  CATKIN_DEPENDS cv_bridge image_transport roscpp sensor_msgs std_msgs
+   CATKIN_DEPENDS cv_bridge image_transport roscpp sensor_msgs std_msgs message_runtime
 #  DEPENDS system_lib
 )
-
 ###########
 ## Build ##
 ###########
@@ -72,3 +82,5 @@ add_executable(yolo_detector_node
 target_link_libraries(yolo_detector_node
         ${catkin_LIBRARIES}
         ${OpenCV_LIBS})
+
+add_dependencies(yolo_detector_node yolo_detector_generate_messages_cpp)

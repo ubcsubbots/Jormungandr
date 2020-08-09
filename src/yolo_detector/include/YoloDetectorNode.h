@@ -18,7 +18,7 @@
 
 class YoloDetectorNode {
     image_transport::Subscriber subscriber_;
-    image_transport::Publisher publisher_;
+    ros::Publisher publisher_;
 
   public:
     YoloDetectorNode(int argc, char** argv, std::string node_name);
@@ -35,12 +35,13 @@ class YoloDetectorNode {
      *
      * @param image the image to publish
      */
-    void publishDetected(const cv::Mat& filtered_image);
+    void publishDetected(std::vector<int> & classIds, std::vector<float> & confidences, std::vector<cv::Rect> & boxes);
 
     void preprocess(const cv::Mat& frame, cv::dnn::Net& net, cv::Size inpSize, float scale,
                     const cv::Scalar& mean, bool swapRB);
 
-    void postprocess(cv::Mat& frame, const std::vector<cv::Mat>& outs, cv::dnn::Net& net);
+    void postprocess(std::vector<int> & classIds, std::vector<float> & confidences, std::vector<cv::Rect> & boxes,
+                     cv::Mat & frame, const std::vector<cv::Mat>& outs, cv::dnn::Net& net);
 
     void drawPred(int classId, float conf, int left, int top, int right, int bottom, cv::Mat& frame);
 

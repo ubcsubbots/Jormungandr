@@ -11,8 +11,13 @@
 #include <opencv2/core/core.hpp>
 #include <boost/filesystem.hpp>
 
+#include <yolo_detector/YoloOut.h>
+#include <yolo_detector/YoloOutArray.h>
+
 using namespace cv;
 using namespace dnn;
+
+#define VISUALIZE 1
 
 YoloDetectorNode::YoloDetectorNode(int argc, char** argv, std::string node_name) {
     // Setup NodeHandles
@@ -22,29 +27,21 @@ YoloDetectorNode::YoloDetectorNode(int argc, char** argv, std::string node_name)
     image_transport::ImageTransport it(nh);
 
     std::string subscribeTopic = "/camera/image_raw";
-    std::string publishTopic   = "/vision/output";
+    std::string publishTopic   = "/yolo_detector/output";
 
     int refresh_rate = 1;
     subscriber_      = it.subscribe(
     subscribeTopic, refresh_rate, &YoloDetectorNode::subscriberCallBack, this);
 
     int queue_size = 1;
-    publisher_     = it.advertise(publishTopic, queue_size);
+    publisher_     = nh.advertise<yolo_detector::YoloOutArray>(publishTopic, queue_size);
+
     std::cout<<boost::filesystem::current_path()<<std::endl;
     cv::Mat frame = cv::imread("../../../../yolo_detector/cfg/dog.jpg");
 
     cv::String model = "../../../../yolo_detector/cfg/yolov2.weights";
     cv::String config = "../../../../yolo_detector/cfg/yolov2.cfg";
     yolo_net = cv::dnn::readNetFromDarknet(config,model);
-
-    preprocess(frame, yolo_net, Size(inpWidth, inpHeight), scale, mean, swapRB);
-    std::vector<cv::String> outNames = yolo_net.getLayerNames();
-    std::vector<Mat> outs;
-    yolo_net.forward(outs,outNames);
-    postprocess(frame, outs, yolo_net);
-
-    cv::imshow("test",frame);
-    cv::waitKey(0);
 
     // Start up ros. This will continue to run until the node is killed
     ros::spin();
@@ -55,19 +52,52 @@ const sensor_msgs::ImageConstPtr& image) {
     cv_bridge::CvImagePtr cv_ptr;
     try {
         cv_ptr = cv_bridge::toCvCopy(image, sensor_msgs::image_encodings::BGR8);
+        preprocess(cv_ptr->image, yolo_net, Size(inpWidth, inpHeight), scale, mean, swapRB);
+        std::vector<cv::String> outNames = yolo_net.getLayerNames();;
+        std::vector<cv::Mat> outs;
+        yolo_net.forward(outs,outNames);
+
+        std::vector<int> classIds;
+        std::vector<float> confidences;
+        std::vector<Rect> boxes;
+        postprocess(classIds,confidences,boxes,cv_ptr->image, outs,yolo_net);
+
+        publishDetected(classIds, confidences, boxes);
+
+        if (VISUALIZE){
+            cv::Mat frame = cv_ptr->image;
+            for (size_t idx = 0; idx < boxes.size(); ++idx)
+            {
+                Rect box = boxes[idx];
+                drawPred(classIds[idx], confidences[idx], box.x, box.y,
+                         box.x + box.width, box.y + box.height, frame);
+            }
+            cv::imshow("test",frame);
+            cv::waitKey(0);
+        }
     } catch (cv_bridge::Exception& e) {
         ROS_ERROR("cv_bridge exception: %s", e.what());
         return;
     }
-
-    //do stuff
-    //publishFilteredImage(filtered);
 }
 
-void YoloDetectorNode::publishDetected(const cv::Mat& filtered_image) {
-    publisher_.publish(
-    cv_bridge::CvImage(std_msgs::Header(), "mono8", filtered_image)
-    .toImageMsg());
+void YoloDetectorNode::publishDetected(std::vector<int> & classIds, std::vector<float> & confidences, std::vector<cv::Rect> & boxes) {
+    //publisher_.publish(
+    //cv_bridge::CvImage(std_msgs::Header(), "mono8", filtered_image)
+    //.toImageMsg());
+    yolo_detector::YoloOutArray outs;
+    for (size_t i = 0; i<boxes.size(); i++){
+        yolo_detector::YoloOut out;
+        out.class_id = classIds[i];
+        out.confidence = confidences[i];
+        out.x = boxes[i].x;
+        out.y = boxes[i].y;
+        out.height = boxes[i].height;
+        out.width = boxes[i].width;
+        outs.outs.push_back(out);
+    }
+    outs.header.stamp = ros::Time::now();
+    publisher_.publish(outs);
 }
 
 
@@ -93,14 +123,12 @@ void YoloDetectorNode::preprocess(const Mat& frame, Net& net, Size inpSize, floa
     }
 }
 
-void YoloDetectorNode::postprocess(cv::Mat& frame, const std::vector<Mat>& outs, Net& net)
+void YoloDetectorNode::postprocess(std::vector<int> & classIds, std::vector<float> & confidences, std::vector<Rect> & boxes,
+                                   cv::Mat & frame, const std::vector<Mat>& outs, Net& net)
 {
     static std::vector<int> outLayers = net.getUnconnectedOutLayers();
     static std::string outLayerType = net.getLayer(outLayers[0])->type;
 
-    std::vector<int> classIds;
-    std::vector<float> confidences;
-    std::vector<Rect> boxes;
     if (outLayerType == "DetectionOutput")
     {
         // Network produces output blob with a shape 1x1xNx7 where N is a number of
@@ -208,13 +236,6 @@ void YoloDetectorNode::postprocess(cv::Mat& frame, const std::vector<Mat>& outs,
         boxes = nmsBoxes;
         classIds = nmsClassIds;
         confidences = nmsConfidences;
-    }
-
-    for (size_t idx = 0; idx < boxes.size(); ++idx)
-    {
-        Rect box = boxes[idx];
-        drawPred(classIds[idx], confidences[idx], box.x, box.y,
-                 box.x + box.width, box.y + box.height, frame);
     }
 }
 
